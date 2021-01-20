@@ -39,15 +39,6 @@ const typeDefs = gql`
   }
 `;
 
-const getCourses = (parent, args, context, info) => {
-  console.log("parent", parent);
-  console.log("args", args);
-  console.log("context", context);
-  console.log("info", info);
-
-  return "hola!!!";
-};
-
 const resolvers = {
   Query: {
     course: (p, arg) => {
