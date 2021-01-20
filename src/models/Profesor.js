@@ -10,10 +10,8 @@ const profesorSchema = new Schema({
     nacimiento: String,
     telefono: String,
   },
-  grados: [{ type: Schema.type.ObjectId, ref: "Grado" }],
-  alumnos: [{ type: Schema.type.ObjectId, ref: "Alumno" }],
+  grados: [{ type: Schema.Types.ObjectId, ref: "Grado" }],
+  alumnos: [{ type: Schema.Types.ObjectId, ref: "Alumno" }],
 });
 
-const Profesor = mongoose.model("Profesor", profesorSchema),
-
-export default Profesor
+export default mongoose.model("Profesor", profesorSchema);

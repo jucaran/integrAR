@@ -4,7 +4,7 @@ import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import mongoose from "mongoose";
 dotenv.config();
-const { DB_HOST, API_URL } = process.env;
+const { DB_HOST, API_URL, DB_NAME } = process.env;
 
 //GraphQL config
 import resolvers from "./resolvers/index";
@@ -19,7 +19,7 @@ import Grado from "./models/Grado";
 (async () => {
   try {
     // connection to db
-    await mongoose.connect(`mongodb://${DB_HOST}/integrar-db`, {
+    await mongoose.connect(`${DB_HOST}/${DB_NAME}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -29,6 +29,7 @@ import Grado from "./models/Grado";
       typeDefs,
       resolvers,
       context: {
+        // login
         models: {
           Alumno,
           Profesor,
