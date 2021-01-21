@@ -10,6 +10,16 @@ export default gql`
   }
 
   type Query {
-    course(id: Int!): [Course]
+    course(id: Int): [Course]
+  }
+
+  type Mutation {
+    addCourse(
+      id: Int
+      title: String
+      author: String
+      topic: String
+      url: String
+    ): Course
   }
 `;

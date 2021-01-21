@@ -28,6 +28,13 @@ export default {
       return arg.id ? courses.filter((e) => e.id === arg.id) : courses;
     },
   },
+  Mutation: {
+    addCourse: (p, args) => {
+      const newCourse = { ...args };
+      courses.push(newCourse);
+      return newCourse;
+    },
+  },
   Course: {
     title(parent, arg, context, info) {
       return parent.title;
