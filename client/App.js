@@ -21,9 +21,6 @@ const MyStack = () => {
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <View>
-        <Text>NAVBAR</Text>
-      </View>
       <NavigationContainer>
         <MyStack />
       </NavigationContainer>
