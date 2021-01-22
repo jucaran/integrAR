@@ -10,6 +10,6 @@ export default gql`
   }
 
   type Query {
-    course(id: Int!): [Course]
+    course(id: Int): [Course]
   }
 `;
