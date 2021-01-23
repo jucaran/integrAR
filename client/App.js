@@ -68,8 +68,8 @@ const App = () => {
     <ApolloProvider client={client}>
       <AuthProvider>
         <NavigationContainer>
-          {/* {user ? <MyTabs /> : <AuthStack />} */}
-          <AuthStack />
+          {user ? <AuthStack /> : <MyTabs />}
+          {/* <AuthStack /> */}
         </NavigationContainer>
       </AuthProvider>
     </ApolloProvider>
