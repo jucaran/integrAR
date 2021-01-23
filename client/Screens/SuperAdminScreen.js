@@ -1,47 +1,87 @@
 import React from "react";
-import { View, Text, TouchableOpacity, TouchableHighlight } from "react-native";
+import { Text, 
+  TouchableHighlight 
+        } from "react-native";
+import CenterView from "../../utils/CenterView";
 
-export default function SuperAdminView() {
+const SuperAdminView = ({navigation}) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hola Admin!</Text>
-      <TouchableHighlight style={styles.touchAdd} onPress>
-        <Text style={styles.touchText}>Agregar Curso</Text>
+    <CenterView>
+            <Text 
+      style={styles.title}>
+        Hola Admin!
+      </Text>
+      <TouchableHighlight
+        activeOpacity={0.8}
+        underlayColor="lightblue"
+        style={styles.touchSee}
+        onPress={() => navigation.navigate("VerCursos")}>
+          <Text style={styles.touchText}>Ver Cursos</Text>
       </TouchableHighlight>
-      <TouchableOpacity style={styles.touch} onPress>
-        <Text style={styles.touchText}>Ver Cursos</Text>
-      </TouchableOpacity>
-      <TouchableHighlight style={styles.touchAdd} onPress>
-        <Text style={styles.touchText}>Agregar Materia</Text>
+      <TouchableHighlight
+        activeOpacity={0.8}
+        underlayColor="pink"
+        style={styles.touchAdd}
+        onPress={() => navigation.navigate("AgregarCurso")}>
+          <Text style={styles.touchText}>Agregar Curso</Text>
       </TouchableHighlight>
-      <TouchableOpacity style={styles.touch} onPress>
-        <Text style={styles.touchText}>Ver Materias</Text>
-      </TouchableOpacity>
-      <TouchableHighlight style={styles.touchAdd} onPress>
-        <Text style={styles.touchText}>Agregar Profesor</Text>
+      <TouchableHighlight
+        activeOpacity={0.8}
+        underlayColor="pink"
+        style={styles.touchAdd}
+        onPress={() => navigation.navigate("AgregarMateria")}>
+          <Text style={styles.touchText}>Agregar Materia</Text>
       </TouchableHighlight>
-      <TouchableOpacity style={styles.touch} onPress>
-        <Text style={styles.touchText}>Ver Profesor</Text>
-      </TouchableOpacity>
-      <TouchableHighlight style={styles.touchAdd} onPress>
-        <Text style={styles.touchText}>Agregar Alumno</Text>
+      <TouchableHighlight
+        activeOpacity={0.8}
+        underlayColor="pink"
+        style={styles.touchAdd} 
+        onPress={() => navigation.navigate("AgregarProfesor")}>
+          <Text style={styles.touchText}>Agregar Profesor</Text>
       </TouchableHighlight>
-      <TouchableOpacity style={styles.touch} onPress>
-        <Text style={styles.touchText}>Ver Alumnos</Text>
-      </TouchableOpacity>
-    </View>
+      <TouchableHighlight 
+        activeOpacity={0.8}
+        underlayColor="pink"
+        style={styles.touchAdd} 
+        onPress={() => navigation.navigate("AgregarAlumno")}>
+          <Text style={styles.touchText}>Agregar Alumno</Text>
+      </TouchableHighlight>
+    </CenterView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  title: { 
+    fontSize: 30,
+    color: "#000000",
+    marginBottom: 25,
   },
-  title: { fontSize: 30, color: "#fff" },
-  touchAdd: {backgroundColor: "red", activeOpacity=0.6, underlayColor="#DDDDDD"},
-  touch: { margin: 10, backgroundColor: "blue", padding: 7, borderRadius: 10 },
-  touchText: { color: "white" },
+  touchSee: {
+    margin: 15, 
+    width: 150,
+    backgroundColor: "#006DEE",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 170,
+    height: 50,
+    padding: 7,
+    borderRadius: 5
+  },
+  touchAdd: {
+    margin: 10,
+    width: 170,
+    height: 50,
+    backgroundColor: "#EE0000",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 7,
+    borderRadius: 5
+  },
+  touchText: {
+    fontSize: 20,
+    color: "white"
+  },
 });
+
+
+export default SuperAdminView
