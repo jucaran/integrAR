@@ -7,44 +7,44 @@ import CenterView from "../../utils/CenterView";
 const SuperAdminView = ({navigation}) => {
   return (
     <CenterView>
-            <Text 
-      style={styles.title}>
-        Hola Admin!
+      <Text 
+        style={styles.title}>
+          HOLA ADMIN
       </Text>
       <TouchableHighlight
         activeOpacity={0.8}
         underlayColor="lightblue"
         style={styles.touchSee}
         onPress={() => navigation.navigate("VerCursos")}>
-          <Text style={styles.touchText}>Ver Cursos</Text>
+          <Text style={styles.touchText}>VER CURSOS</Text>
       </TouchableHighlight>
       <TouchableHighlight
         activeOpacity={0.8}
         underlayColor="pink"
         style={styles.touchAdd}
         onPress={() => navigation.navigate("AgregarCurso")}>
-          <Text style={styles.touchText}>Agregar Curso</Text>
+          <Text style={styles.touchText}>AGREGAR CURSO</Text>
       </TouchableHighlight>
       <TouchableHighlight
         activeOpacity={0.8}
         underlayColor="pink"
         style={styles.touchAdd}
         onPress={() => navigation.navigate("AgregarMateria")}>
-          <Text style={styles.touchText}>Agregar Materia</Text>
+          <Text style={styles.touchText}>AGREGAR MATERIA</Text>
       </TouchableHighlight>
       <TouchableHighlight
         activeOpacity={0.8}
         underlayColor="pink"
         style={styles.touchAdd} 
         onPress={() => navigation.navigate("AgregarProfesor")}>
-          <Text style={styles.touchText}>Agregar Profesor</Text>
+          <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
       </TouchableHighlight>
       <TouchableHighlight 
         activeOpacity={0.8}
         underlayColor="pink"
         style={styles.touchAdd} 
         onPress={() => navigation.navigate("AgregarAlumno")}>
-          <Text style={styles.touchText}>Agregar Alumno</Text>
+          <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
       </TouchableHighlight>
     </CenterView>
   );
@@ -52,34 +52,36 @@ const SuperAdminView = ({navigation}) => {
 
 const styles = StyleSheet.create({
   title: { 
-    fontSize: 30,
+    //fontFamily: 'roboto',
+    fontSize: 25,
     color: "#000000",
     marginBottom: 25,
   },
   touchSee: {
     margin: 15, 
-    width: 150,
+    width: 327,
     backgroundColor: "#006DEE",
     justifyContent: "center",
-    alignItems: "center",
-    width: 170,
+    alignItems: "flex-start",
     height: 50,
     padding: 7,
-    borderRadius: 5
+    borderRadius: 7
   },
   touchAdd: {
     margin: 10,
-    width: 170,
+    width: 327,
     height: 50,
     backgroundColor: "#EE0000",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     padding: 7,
-    borderRadius: 5
+    borderRadius: 7
   },
   touchText: {
-    fontSize: 20,
-    color: "white"
+    //fontFamily: 'roboto',
+    fontSize: 16,
+    color: "white",
+    marginLeft: 6
   },
 });
 

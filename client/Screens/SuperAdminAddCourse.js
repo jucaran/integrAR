@@ -21,6 +21,10 @@ const handleChange = (text, input) => {
 
 return(
   <CenterView>
+    <Text 
+        style={styles.title}>
+          AGREGAR CURSO
+      </Text>
     <View>
       <Text style={styles.description}>Año</Text>
       <TextInput
@@ -43,27 +47,30 @@ return(
       activeOpacity={0.8}
       underlayColor="lightblue"
       style={styles.button} 
-      onPress={() => navigation.navigate("AgregarMaterias")}>
-        <Text style={styles.textButton}>Agregar</Text>
+      onPress={() => navigation.navigate("AgregarMateriaPorCurso")}>
+        <Text style={styles.textButton}>AGREGAR</Text>
     </TouchableOpacity>
   </CenterView>
   )
 }
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  description: {
+  title: { 
+    //fontFamily: 'roboto',
     fontSize: 25,
     color: "#000000",
+    marginBottom: 45,
+  },
+  description: {
+    //fontFamily: 'roboto',
+    fontSize: 20,
+    color: "#000000",
     marginBottom: 2,
+    marginLeft: 2
   },
   input: {
     padding: 5,
-    width: 250,
+    width: 237,
     height: 50,
     borderColor: "#2290CD",
     borderWidth: 2,
@@ -71,17 +78,17 @@ const styles = StyleSheet.create({
   },
   button: { 
     margin: 15, 
-    width: 150,
     backgroundColor: "#006DEE",
     justifyContent: "center",
     alignItems: "center",
-    width: 170,
+    width: 237,
     height: 50,
     padding: 7,
-    borderRadius: 5
+    borderRadius: 7
   },
   textButton: {
-    fontSize: 20,
+   // fontFamily: 'roboto',
+    fontSize: 16,
     color: "white"
   }
 })
