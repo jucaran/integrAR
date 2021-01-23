@@ -5,9 +5,10 @@ import { AuthContext } from "../../contexts/AuthProvider";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LoginScreen = ({ navigation }) => {
-  const [inputs, setInputs] = useState({
-    dni: "",
-    pass: "",
+  const [inputs, setInputs] = useState({});
+  const [isFocused, setIsFocused] = useState({
+    dni: false,
+    password: false,
   });
   const { login } = useContext(AuthContext);
 
@@ -18,6 +19,20 @@ const LoginScreen = ({ navigation }) => {
     });
   };
 
+  const handleFocus = (input) => {
+    setIsFocused({
+      ...isFocused,
+      [input]: true,
+    });
+  };
+
+  const handleBlur = (input) => {
+    setIsFocused({
+      ...isFocused,
+      [input]: false,
+    });
+  };
+
   return (
     <CenterView>
       <Image
@@ -25,18 +40,30 @@ const LoginScreen = ({ navigation }) => {
         style={styles.landingImg}
       />
       <TextInput
-        style={[styles.input, styles.marginBottom]}
-        placeholder="DNI..."
+        style={[
+          styles.input,
+          { marginBottom: 30 },
+          isFocused.dni ? styles.active : null,
+        ]}
+        placeholder="DNI"
         value={inputs.dniInput}
         onChangeText={(txt) => handleChange(txt, "dni")}
+        onFocus={() => handleFocus("dni")}
+        onBlur={() => handleBlur("dni")}
       />
       <View style={{ marginBottom: 30 }}>
         <TextInput
-          style={[styles.input, { marginBottom: 5 }]}
-          placeholder="Contraseña..."
+          style={[
+            styles.input,
+            { marginBottom: 5 },
+            isFocused.password ? styles.active : null,
+          ]}
+          placeholder="Contraseña"
           value={inputs.passInput}
-          onChangeText={(txt) => handleChange(txt, "password")}
           secureTextEntry={true}
+          onChangeText={(txt) => handleChange(txt, "password")}
+          onFocus={() => handleFocus("password")}
+          onBlur={() => handleBlur("password")}
         />
         <TouchableOpacity onPress={() => navigation.navigate("ResetPass")}>
           <Text style={{ color: "#2290CD" }}>¿Olvidaste tu contraseña?</Text>
@@ -61,11 +88,11 @@ const styles = StyleSheet.create({
   input: {
     padding: 5,
     width: 300,
-    borderBottomColor: "#2290CD",
+    borderBottomColor: "#C2C2C2",
     borderBottomWidth: 2,
   },
-  marginBottom: {
-    marginBottom: 30,
+  active: {
+    borderBottomColor: "#2290CD",
   },
 });
 
