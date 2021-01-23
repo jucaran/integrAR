@@ -1,16 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
 import MyTabs from "./Screens/Tab";
 import AuthStack from "./AuthStack";
-import CenterView from "./utils/CenterView";
 
 // Apollo client
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = AsyncStorage.getItem("token");
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
 const client = new ApolloClient({
-  uri: `http://localhost:4000/graphql`,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

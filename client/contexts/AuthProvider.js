@@ -15,15 +15,15 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         login: async (user) => {
-          console.log("Log in triggered");
+          console.log("Log in triggered", user);
           //Here it should be the API call
           // const newUser = { username: "bob" };
-          try {
-            setUser(user);
-            await AsyncStorage.setItem("user", user);
-          } catch (err) {
-            console.log(err);
-          }
+          // try {
+          //   setUser(user);
+          //   await AsyncStorage.setItem("user", user);
+          // } catch (err) {
+          //   console.log(err);
+          // }
         },
         logout: async () => {
           console.log("Log out triggered");
@@ -34,8 +34,8 @@ export const AuthProvider = ({ children }) => {
             console.log(err);
           }
         },
-        resetpass: () => {
-          console.log("Reset password triggered");
+        resetpass: (email) => {
+          console.log("Reset password triggered", email);
         },
       }}
     >
