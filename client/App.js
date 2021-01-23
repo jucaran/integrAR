@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
+import CenterView from "./utils/CenterView";
+import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
   ApolloClient,
@@ -37,7 +39,7 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const { user, login } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
  // We check if the user is logged or not
@@ -46,8 +48,9 @@ const App = () => {
       try {
         token = await AsyncStorage.getItem("token");
         if (token) {
-          //here we decode the token
-          login();
+          const user = jwt.decode(token);
+          setUser(user);
+          setLoading(false);
         } else {
           setLoading(false);
         }
@@ -70,6 +73,7 @@ const App = () => {
       <AuthProvider>
         <NavigationContainer>
           {user ? <MyTabs /> : <AuthStack />}
+          {/* <AuthStack /> */}
         </NavigationContainer>
       </AuthProvider>
     </ApolloProvider>

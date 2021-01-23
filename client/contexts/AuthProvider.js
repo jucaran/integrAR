@@ -6,6 +6,7 @@ export const AuthContext = React.createContext({
   login: () => {},
   logout: () => {},
   resetpass: () => {},
+  setUser: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -37,6 +38,7 @@ export const AuthProvider = ({ children }) => {
         resetpass: (email) => {
           console.log("Reset password triggered", email);
         },
+        setUser: setUser,
       }}
     >
       {children}
