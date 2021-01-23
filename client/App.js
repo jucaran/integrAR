@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import CenterView from "./utils/CenterView";
-import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
   ApolloClient,
@@ -10,11 +9,16 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+<<<<<<< HEAD
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
 import MyTabs from "./Screens/Tab";
 import AuthStack from "./AuthStack";
 import CenterView from "./utils/CenterView";
+=======
+import { AuthProvider } from "./contexts/AuthProvider";
+import Routes from "./Routes";
+>>>>>>> f0349c7d369d45731bc87aa7a1f86e40fd2480a0
 
 // Apollo client
 const httpLink = createHttpLink({
@@ -22,9 +26,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = AsyncStorage.getItem("token");
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -39,6 +41,7 @@ const client = new ApolloClient({
 });
 
 const App = () => {
+<<<<<<< HEAD
   const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
@@ -68,13 +71,12 @@ const App = () => {
       </CenterView>
     );
 
+=======
+>>>>>>> f0349c7d369d45731bc87aa7a1f86e40fd2480a0
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <NavigationContainer>
-          {user ? <MyTabs /> : <AuthStack />}
-          {/* <AuthStack /> */}
-        </NavigationContainer>
+        <Routes />
       </AuthProvider>
     </ApolloProvider>
   );
