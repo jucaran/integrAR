@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 
-const superAdminSchema = new Schema({
+const studentSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -11,4 +11,4 @@ const superAdminSchema = new Schema({
 })
 
 // Compile model from schema
-export default model("SuperAdmin", superAdminSchema)
+export default model("Student", studentSchema)

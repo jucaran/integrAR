@@ -1,11 +1,15 @@
 import express from "express";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { connect } from "./database";
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./schemas.js";
 import resolvers from "./resolvers.js";
-import Teacher from "./models/Teacher";
 import SuperAdmin from "./models/SuperAdmin";
+import Teacher from "./models/Teacher";
+import Student from "./models/Student";
+import Grade from "./models/Grade";
+import Course from "./models/Course";
+import Subject from "./models/Subject";
 
 const app = express();
 connect();
@@ -18,9 +22,10 @@ const SERVER = new ApolloServer({
   context: {
     SuperAdmin,
     Teacher,
-    // Student,
-    // Course,
-    // Subject,
+    Student,
+    Grade,
+    Course,
+    Subject
   },
   introspection: true,
   playground: true,

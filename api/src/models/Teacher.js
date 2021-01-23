@@ -8,8 +8,8 @@ const teacherSchema = new Schema({
   lastname: String,
   email: String,
   whatsapp: String,
-  
+  students: Array
 })
 
 // Compile model from schema
-export default model("teachers", teacherSchema)
+export default model("Teacher", teacherSchema)
