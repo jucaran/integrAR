@@ -7,8 +7,8 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
-import CenterView from "./utils/CenterView";
+import { AuthProvider } from "./contexts/AuthProvider";
+import Routes from "./Routes";
 
 // Apollo client
 const httpLink = createHttpLink({
