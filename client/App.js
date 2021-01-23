@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
-import CenterView from "./utils/CenterView";
+import React from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
   ApolloClient,

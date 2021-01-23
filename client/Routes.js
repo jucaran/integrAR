@@ -4,7 +4,7 @@ import CenterView from "./utils/CenterView";
 import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
+import { AuthContext } from "./contexts/AuthProvider";
 import MyTabs from "./Screens/Tab";
 import AuthStack from "./AuthStack";
 
@@ -16,12 +16,10 @@ const Routes = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const token = await AsyncStorage.getItem("token");
-        const token = { username: "Juanca" };
+        const token = await AsyncStorage.getItem("token");
         if (token) {
-          // const user = jwt.decode(token);
-          // setUser({ username: "Prueba" });
-          console.log(setUser());
+          const tokenUser = jwt.decode(token);
+          setUser(tokenUser);
         }
         setLoading(false);
       } catch (err) {
