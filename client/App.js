@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
+import CenterView from "./utils/CenterView";
 import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
@@ -13,7 +14,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
 import MyTabs from "./Screens/Tab";
 import AuthStack from "./AuthStack";
-import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 // Apollo client
 const httpLink = createHttpLink({
