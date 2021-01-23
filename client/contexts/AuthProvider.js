@@ -34,8 +34,8 @@ export const AuthProvider = ({ children }) => {
             console.log(err);
           }
         },
-        resetpass: () => {
-          console.log("Reset password triggered");
+        resetpass: (email) => {
+          console.log("Reset password triggered", email);
         },
       }}
     >

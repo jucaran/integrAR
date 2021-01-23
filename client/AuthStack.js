@@ -1,6 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./Screens/Auth/Login";
+import ResetPassScreen from "./Screens/Auth/ResetPass";
+import MailSentScreen from "./Screens/Auth/MailSent";
 
 const Stack = createStackNavigator();
 
@@ -13,8 +15,8 @@ const AuthStack = () => {
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
-      {/* <AuthStack.Screen name="Register" component={RegisterScreen} /> */}
-      {/* <AuthStack.Screen name="ResetPass" component={ResetPassScreen} /> */}
+      <Stack.Screen name="ResetPass" component={ResetPassScreen} />
+      <Stack.Screen name="MailSent" component={MailSentScreen} />
     </Stack.Navigator>
   );
 };

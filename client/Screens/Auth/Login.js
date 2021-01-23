@@ -1,8 +1,15 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LoginScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({});
@@ -46,6 +53,7 @@ const LoginScreen = ({ navigation }) => {
           isFocused.dni ? styles.active : null,
         ]}
         placeholder="DNI"
+        keyboardType="number-pad"
         value={inputs.dniInput}
         onChangeText={(txt) => handleChange(txt, "dni")}
         onFocus={() => handleFocus("dni")}
@@ -55,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
         <TextInput
           style={[
             styles.input,
-            { marginBottom: 5 },
+            { marginBottom: 10 },
             isFocused.password ? styles.active : null,
           ]}
           placeholder="Contraseña"
