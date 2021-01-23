@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Text, 
   TextInput, 
   StyleSheet, 
-  TouchableOpacity 
+  TouchableOpacity,
+  View 
 } from "react-native";
-import CenterView from "../../utils/CenterView";
+import CenterView from "../utils/CenterView";
 
 const AddCourseScreen = ({navigation}) => {
   const [inputs, setInputs] = useState({
