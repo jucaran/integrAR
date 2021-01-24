@@ -12,7 +12,6 @@ export default gql`
 
   type Mutation {
 
-
     createSuperAdmin(input: SuperAdminInput): SuperAdmin
     editSuperAdmin(_id: ID, input: SuperAdminInput): SuperAdmin
     deleteSuperAdmin(_id: ID): SuperAdmin
@@ -38,6 +37,7 @@ export default gql`
     deleteSubject(_id: ID): Subject
   }
 
+  # ---------------------------
   type SuperAdmin {
     _id: ID
     name: String
@@ -47,7 +47,7 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    picture: String
     grades: [Grade]
     courses: [Course]
     teachers: [Teacher]
@@ -63,10 +63,15 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    picture: String
+    grades: [GradeInput]
+    courses: [CourseInput]
+    teachers: [TeacherInput]
+    subjects: [SubjectInput]
+    students: [StudentInput]
   }
   
-
+  # ---------------------------
   type Teacher {
     _id: ID
     name: String
@@ -76,7 +81,7 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    pictureure: String
     grades: [Grade]
     courses: [Course]
     subjects: [Subject]
@@ -91,10 +96,11 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    picture: String
+    subjects: [SubjectInput]
   }
 
-
+  # ---------------------------
   type Student {
     _id: ID
     name: String
@@ -104,7 +110,7 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    picture: String
     courses: [Course]
     grades: [Grade]
     teachers: [Teacher]
@@ -119,10 +125,10 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    foto: String
+    picture: String
   }
 
-
+  # ---------------------------
   type Grade {
     _id: ID
     name: String
@@ -134,7 +140,7 @@ export default gql`
     courses: [CourseInput]
   }
 
-
+  # ---------------------------
   type Course {
     _id: ID
     name: String
@@ -146,7 +152,7 @@ export default gql`
     grades: [GradeInput]
   }
 
-
+  # ---------------------------
   type Subject {
     _id: ID
     name: String
@@ -158,57 +164,3 @@ export default gql`
     teachers: [TeacherInput]
   }
 `;
-
-// type Subject {
-//   _id: ID
-//   name: String
-// }
-
-// Chile -> 1° básico a 8°básico (primaria) 6 años a 13 años
-//       -> 1° medio a 4° medio (secundaria)  14 años a 18 años
-
-// Vzla  -> 1° básico a 6°básico (primaria)   6 años 11 años
-//       -> 1° medio a 5° medio (secundaria) 12 años 16 años
-
-// (superadmin)
-// Preceptor ---> Lista de Profes (Marcos, Matias)     --->
-//           ---> Lista de Alumnos (Lis, Laura, Sixto)           || De aquí en adelante lo hace el profe
-//           ---> Lista de Cursos  (1°, -> Materias (Lenguaje,         ---> Comprensión de lectura, -> Quiz
-//                                                   Matematica        ---> Sumas, restas -> Quiz
-//                                                   )
-//           ---> Lista de Cursos  (2°, -> Materias (Lenguaje,         ---> Poesía -> Quiz
-//                                                   Matematica        ---> Fracciones -> Quiz
-//                                                   )
-//           ---> Lista de Cursos  (3°, -> Materias (Lenguaje,         ---> Poetas -> Quiz
-//                                                   Matematica        ---> Ecuaciones -> Quiz
-//                                                   )
-
-// el super admin puede ver a los profesores y los alumnos que tiene cad uno asignado
-// desde la vista del alumno, pueda ver cuales son los profesores que le asignaron
-
-// SuperAdmin Crea en orden --> Materias, Profesores, A
-
-//
-
-// 1
-// Crear todos los profesores de una
-// Crear todos los alumnos de una
-// Ir asociando en materias, colocar profesor en la materia y alumno en el curso
-
-// 2
-// Grado (1 año, 2 Año ...) ---> Cursos   -> guardarlo como x
-// Curso (1.A, 2.B) --> Alumnos, Materias
-// Materia (Lengua, Mat ...) --> Profe
-// ------------------------------------------------------------
-// Alumno --> Curso -> asignar un curso al alumno
-// Alumno (Sixto, Joaquin...) --> Grado, Curso (1°A) este se asigna, los demas por get, Materia, Profe
-
-// Fulanito1 1°A
-// Fulanito2 1°A
-// Fulanito3 1°A
-// Fulanito4 1°A
-
-// Profesor (Pedro, Maria...) --> Materias
-
-// duda, el front hace la peticion al back con axios ?
-// con forma de query? o con rutas, o como
