@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { render } from "react-dom";
 import { View, Text, StatusBar } from "react-native";
-import { Avatar } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
-const SuperAdminListCourses = () => {
+const SuperAdminListCourses = (props) => {
   const [cursos, setCursos] = useState([
-    { title: "Primer Año 1" },
-    { title: "Segundo Año 2" },
-    { title: "Tercer Año 3" },
-    { title: "Cuarto Año 4" },
-    { title: "Quinto Año 5" },
-    { title: "Sexto Año 6" },
+    { title: "Primer Año 1", id: 1 },
+    { title: "Segundo Año 2", id: 2 },
+    { title: "Tercer Año 3", id: 3 },
+    { title: "Cuarto Año 4", id: 4 },
+    { title: "Quinto Año 5", id: 5 },
+    { title: "Sexto Año 6", id: 6 },
   ]);
   return (
     <View
-      style={{ flex: 1, padding: 5, marginTop: StatusBar.currentHeight || 0 }}
+      style={{
+        flex: 1,
+        padding: 5 /*  marginTop: StatusBar.currentHeight || 0 */,
+      }}
     >
       <Text
         style={{
           fontSize: 25,
-          marginBottom: 20,
-          marginTop: 20,
+          // marginBottom: 20,
+          // marginTop: 20,
           marginLeft: 20,
         }}
       >
@@ -30,10 +31,10 @@ const SuperAdminListCourses = () => {
       </Text>
       <FlatList
         data={cursos}
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           return (
             <Card
-              key={index}
+              key={item.id}
               style={{
                 margin: 5,
                 backgroundColor: "#00aadd",
@@ -55,7 +56,7 @@ const SuperAdminListCourses = () => {
             </Card>
           );
         }}
-        keyExtractor={({ item }) => item}
+        keyExtractor={(item) => item.id.toString()}
       />
     </View>
   );

@@ -1,10 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { MyStack } from "../App";
 
-const Options = () => {
+const Options = (props) => {
   return (
     <View style={styles.container}>
       <Text>Options</Text>
+      <Button
+        title="Ir a test2"
+        onPress={() => props.navigation.navigate("Test2")}
+      />
     </View>
   );
 };
