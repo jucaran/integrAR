@@ -6,10 +6,35 @@ const teacherSchema = new Schema({
     required: true
   }, 
   lastname: String,
+  dni: Number,
   email: String,
   whatsapp: String,
-  students: Array
+  address: String,
+  birthday: String,
+  foto: String,
+  courses: [{
+    type: Schema.Types.ObjectId,
+    ref: "Course",
+    autopopulate: true
+  }],
+  grades: [{
+    type: Schema.Types.ObjectId,
+    ref: "Grade",
+    autopopulate: true
+  }],
+  subjects: [{
+    type: Schema.Types.ObjectId,
+    ref: "Subject",
+    autopopulate: true
+  }],
+  students: [{
+    type: Schema.Types.ObjectId,
+    ref: "Student",
+    autopopulate: true
+  }]
+
 })
 
-// Compile model from schema
+teacherSchema.plugin(require('mongoose-autopopulate'));
+
 export default model("Teacher", teacherSchema)

@@ -1,108 +1,163 @@
+import { gql } from "apollo-server-express";
 // SuperAdmin
-export default `
+export default gql`
   type Query {
+    superAdmin: String
     teachers: [Teacher]
     students: [Student]
     courses: [Course]
     grades: [Grade]
     subjects: [Subject]
   }
-  
 
   type Mutation {
 
-    createTeacher(input: TeacherInput) : Teacher
-    editTeacher(_id: ID, input: TeacherInput) : Teacher
-    deleteTeacher(_id: ID) : Teacher
-    
-    createStudent(input: StudentInput) : Student
-    editStudent(_id: ID, input: StudentInput) : Student
-    deleteStudent(_id: ID) : Student
 
-    createGrade(input: GradeInput) : Grade
-    editGrade(_id: ID, input: GradeInput) : Grade
-    deleteGrade(_id: ID) : Grade
+    createSuperAdmin(input: SuperAdminInput): SuperAdmin
+    editSuperAdmin(_id: ID, input: SuperAdminInput): SuperAdmin
+    deleteSuperAdmin(_id: ID): SuperAdmin
 
-    createCourse(input: CourseInput) : Course
-    editCourse(_id: ID, input: CourseInput) : Course
-    deleteCourse(_id: ID) : Course
+    createTeacher(input: TeacherInput): Teacher
+    editTeacher(_id: ID, input: TeacherInput): Teacher
+    deleteTeacher(_id: ID): Teacher
 
-    createSubject(input: SubjectInput) : Subject
-    editSubject(_id: ID, input: SubjectInput) : Subject
-    deleteSubject(_id: ID) : Subject
+    createStudent(input: StudentInput): Student
+    editStudent(_id: ID, input: StudentInput): Student
+    deleteStudent(_id: ID): Student
+
+    createGrade(input: GradeInput): Grade
+    editGrade(_id: ID, input: GradeInput): Grade
+    deleteGrade(_id: ID): Grade
+
+    createCourse(input: CourseInput): Course
+    editCourse(_id: ID, input: CourseInput): Course
+    deleteCourse(_id: ID): Course
+
+    createSubject(input: SubjectInput): Subject
+    editSubject(_id: ID, input: SubjectInput): Subject
+    deleteSubject(_id: ID): Subject
   }
+
+  type SuperAdmin {
+    _id: ID
+    name: String
+    lastname: String
+    dni: Int
+    email: String
+    whatsapp: String
+    address: String
+    birthday: String
+    foto: String
+    grades: [Grade]
+    courses: [Course]
+    teachers: [Teacher]
+    subjects: [Subject]
+    students: [Student]
+  }
+  input SuperAdminInput {
+    _id: ID
+    name: String
+    lastname: String
+    dni: Int
+    email: String
+    whatsapp: String
+    address: String
+    birthday: String
+    foto: String
+  }
+  
 
   type Teacher {
     _id: ID
     name: String
     lastname: String
+    dni: Int
     email: String
     whatsapp: String
+    address: String
+    birthday: String
+    foto: String
+    grades: [Grade]
+    courses: [Course]
+    subjects: [Subject]
     students: [Student]
   }
-
   input TeacherInput {
     _id: ID
     name: String
     lastname: String
+    dni: Int
     email: String
     whatsapp: String
+    address: String
+    birthday: String
+    foto: String
   }
+
 
   type Student {
     _id: ID
     name: String
     lastname: String
+    dni: Int
     email: String
     whatsapp: String
-    teachers : [Teacher]
+    address: String
+    birthday: String
+    foto: String
+    courses: [Course]
+    grades: [Grade]
+    teachers: [Teacher]
+    subjects: [Subject]
   }
-
   input StudentInput {
     _id: ID
     name: String
     lastname: String
+    dni: Int
     email: String
     whatsapp: String
+    address: String
+    birthday: String
+    foto: String
   }
 
-  input GradeInput {
-    _id: ID
-    name: String
-    courses: [CourseInput]
-  }
-  
+
   type Grade {
     _id: ID
     name: String
     courses: [Course]
   }
-
-  input CourseInput {
+  input GradeInput {
     _id: ID
     name: String
-    grades: [GradeInput]    
+    courses: [CourseInput]
   }
+
 
   type Course {
     _id: ID
     name: String
     grades: [Grade]
   }
-
-  input SubjectInput {
+  input CourseInput {
     _id: ID
     name: String
-    teachers: [TeacherInput]    
+    grades: [GradeInput]
   }
+
 
   type Subject {
     _id: ID
     name: String
     teachers: [Teacher]
   }
-  
-  `;
+  input SubjectInput {
+    _id: ID
+    name: String
+    teachers: [TeacherInput]
+  }
+`;
 
 // type Subject {
 //   _id: ID

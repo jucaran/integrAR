@@ -10,10 +10,24 @@ const courseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Grade",
     autopopulate: true
+  }],
+  teachers: [{
+    type: Schema.Types.ObjectId,
+    ref: "Teacher",
+    autopopulate: true
+  }],
+  subjects: [{
+    type: Schema.Types.ObjectId,
+    ref: "Subject",
+    autopopulate: true
+  }],
+  students: [{
+    type: Schema.Types.ObjectId,
+    ref: "Student",
+    autopopulate: true
   }]
 })
 
 courseSchema.plugin(require('mongoose-autopopulate'));
 
-// Compile model from schema
 export default model("Course", courseSchema)

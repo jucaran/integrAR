@@ -1,10 +1,15 @@
 export default {
   // get
+  // Falta Agregar argumento(id) para traer uno solo
   Query: {
+    superAdmin: async (parent, args, { SuperAdmin }) => {
+      return await SuperAdmin.find();
+    },
     teachers: async (parent, args, { Teacher }) => {
       return await Teacher.find();
     },
-    students: async (parent, args, ctx) => {
+    students: 
+    async (parent, args, ctx) => {
       return await ctx.Student.find();
     },
     grades: async (parent, args, ctx) => {
@@ -21,6 +26,29 @@ export default {
 
   // put, post, delete
   Mutation : {
+
+    // logUser($dni: String!, $password: String!){
+    //   logUser(dni: $dni, password: $password){
+    //   token
+    //   }
+    // }
+
+    // logUser: async ($dni= String, $password= String) => {
+    //   await logUser(dni= $dni, password= $password)
+    //   return token
+    // },
+
+
+    // PREFECTO POST, DELETE, PUT
+    createSuperAdmin: async(_, args, ctx) => {
+      return await new ctx.SuperAdmin(args.input).save();
+    },
+    editSuperAdmin: async (_, args, ctx) => {
+      return await ctx.SuperAdmin.findByIdAndUpdate(args._id, args.input, { new: true })
+    },
+    deleteSuperAdmin: async(_, args, ctx) => {
+      return await ctx.SuperAdmin.findByIdAndDelete(args._id);
+    },
 
     // PROFESORES POST, DELETE, PUT
     createTeacher: async(_, args, ctx) => {
@@ -76,16 +104,10 @@ export default {
     deleteSubject: async(_, args, ctx) => {
       return await ctx.Subject.findByIdAndDelete(args._id);
     },
+    
   }
 }
-
-
-// post
-// createTeacher(_, { input }) {
-//   input._id = teachers.length;
-//   teachers.push(input);
-//   return input;
-// }
+  
 
 
 // Sprint 1
