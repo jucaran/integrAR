@@ -39,51 +39,55 @@ const AddSubjectScreen = ({ navigation }) => {
 
   return (
     <ScrollView>
-    <CenterView>
-      <Text style={styles.title}>AGREGAR MATERIA</Text>
-      <View>
-        <Text style={styles.description}>Materia</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Materia..."
-          value={inputs.materia}
-          onChangeText={(text) => handleChange(text, "materia")}
-        />
-      </View>
-      <View>
-        <Text style={styles.description}>Agregar Profesor</Text>
-      </View>
-      <View style={styles.switchsCont}>
-      {teachers.map((teacher, i) => {
-        const [isTeacher, setisTeacher] = useState(false);
-        if (teacher){
-        return (
-          <View key={i}  style={styles.switchsCont2}>
-            <Text style={styles.switchTxt}>
-              {teacher?.Nombre + ' ' +teacher?.Apellido}
-            </Text>
-            <Switch style={styles.switch}
-              trackColor={{ false: "#767577", true: "#2290CD" }}
-              thumbColor={isTeacher ? "#8FC6E4" : "#f4f3f4"}
-              value={isTeacher}
-              onValueChange={() => inputs?.materia ? setisTeacher((prev) => !prev) : null}
-              {...isTeacher 
-              ? teacher.materias.push(inputs.materia)
-              : teacher.materias.pop(inputs.materia)}
-              />
-          </View>
-        )}
-      })} 
-      </View>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="lightblue"
-        style={styles.button}
-        onPress={() => navigation.navigate("AgregarAlumnosPorCurso")}
-      >
-        <Text style={styles.textButton}>AGREGAR</Text>
-      </TouchableHighlight>
-    </CenterView>
+      <CenterView>
+        <Text style={styles.title}>AGREGAR MATERIA</Text>
+        <View>
+          <Text style={styles.description}>Materia</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Materia..."
+            value={inputs.materia}
+            onChangeText={(text) => handleChange(text, "materia")}
+          />
+        </View>
+        <View>
+          <Text style={styles.description}>Agregar Profesor</Text>
+        </View>
+        <View style={styles.switchsCont}>
+          {teachers.map((teacher, i) => {
+            const [isTeacher, setisTeacher] = useState(false);
+            if (teacher) {
+              return (
+                <View key={i} style={styles.switchsCont2}>
+                  <Text style={styles.switchTxt}>
+                    {teacher?.Nombre + " " + teacher?.Apellido}
+                  </Text>
+                  <Switch
+                    style={styles.switch}
+                    trackColor={{ false: "#767577", true: "#2290CD" }}
+                    thumbColor={isTeacher ? "#8FC6E4" : "#f4f3f4"}
+                    value={isTeacher}
+                    onValueChange={() =>
+                      inputs?.materia ? setisTeacher((prev) => !prev) : null
+                    }
+                    {...(isTeacher
+                      ? teacher.materias.push(inputs.materia)
+                      : teacher.materias.pop(inputs.materia))}
+                  />
+                </View>
+              );
+            }
+          })}
+        </View>
+        <TouchableHighlight
+          activeOpacity={0.8}
+          underlayColor="lightblue"
+          style={styles.button}
+          onPress={() => navigation.navigate("AgregarAlumnosPorCurso")}
+        >
+          <Text style={styles.textButton}>AGREGAR</Text>
+        </TouchableHighlight>
+      </CenterView>
     </ScrollView>
   );
 };
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "#000000",
     marginBottom: 25,
-    marginTop: 25
+    marginTop: 25,
   },
   description: {
     //fontFamily: 'roboto',
@@ -137,9 +141,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   switchsCont2: {
-  margin: 3
-    
-  }
+    margin: 3,
+  },
 });
 
 export default AddSubjectScreen;

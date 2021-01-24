@@ -1,11 +1,8 @@
 import React from "react";
-import { Text, 
-  TouchableHighlight,
-  StyleSheet
-        } from "react-native";
+import { Text, TouchableHighlight, StyleSheet } from "react-native";
 import CenterView from "../utils/CenterView";
 
-const SuperAdminView = ({navigation}) => {
+const SuperAdminView = ({ navigation }) => {
   return (
     <CenterView>
       <Text 
@@ -53,10 +50,10 @@ const SuperAdminView = ({navigation}) => {
       </View>
     </CenterView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  title: { 
+  title: {
     //fontFamily: 'roboto',
     fontSize: 20,
     color: "#2290CD",
@@ -74,9 +71,8 @@ const styles = StyleSheet.create({
     //fontFamily: 'roboto',
     fontSize: 16,
     color: "white",
-    marginLeft: 6
+    marginLeft: 6,
   },
 });
 
-
-export default SuperAdminView
+export default SuperAdminView;
