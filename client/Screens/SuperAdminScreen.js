@@ -10,43 +10,47 @@ const SuperAdminView = ({navigation}) => {
     <CenterView>
       <Text 
         style={styles.title}>
-          HOLA ADMIN
+          ¿Hola Admin! Bienvenido de nuevo
       </Text>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="lightblue"
-        style={styles.touchSee}
-        onPress={() => navigation.navigate("VerCursos")}>
-          <Text style={styles.touchText}>VER CURSOS</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarCurso")}>
-          <Text style={styles.touchText}>AGREGAR CURSO</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarMateria")}>
-          <Text style={styles.touchText}>AGREGAR MATERIA</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd} 
-        onPress={() => navigation.navigate("AgregarProfesor")}>
-          <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
-      </TouchableHighlight>
-      <TouchableHighlight 
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd} 
-        onPress={() => navigation.navigate("AgregarAlumno")}>
-          <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
-      </TouchableHighlight>
+      <View>
+        <Image
+          source={require("../../assets/bro.png")}
+          style={styles.landingImg}
+        />
+        <TouchableHighlight
+          activeOpacity={0.8}
+          underlayColor="lightblue"
+          style={styles.touch}
+          onPress={() => navigation.navigate("SuperAdminListCourses")}>
+          <Text style={styles.touchText}>VER GRADOS</Text>
+         </TouchableHighlight>
+      </View>
+      <View>
+        <Image
+          source={require("../../assets/Character.png")}
+          style={styles.landingImg}
+        />
+        <TouchableHighlight
+          activeOpacity={0.8}
+          underlayColor="pink"
+          style={styles.touch}
+          onPress={() => navigation.navigate("AgregarCurso")}>
+            <Text style={styles.touchText}>VER PROFESORES</Text>
+        </TouchableHighlight>
+      </View>
+      <View>
+        <Image
+          source={require("../../assets/alumn.png")}
+          style={styles.landingImg}
+        />
+        <TouchableHighlight
+          activeOpacity={0.8}
+          underlayColor="pink"
+          style={styles.touch}
+          onPress={() => navigation.navigate("AgregarMateria")}>
+            <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+        </TouchableHighlight>
+      </View>
     </CenterView>
   );
 }
@@ -54,29 +58,17 @@ const SuperAdminView = ({navigation}) => {
 const styles = StyleSheet.create({
   title: { 
     //fontFamily: 'roboto',
-    fontSize: 25,
-    color: "#000000",
+    fontSize: 20,
+    color: "#2290CD",
     marginBottom: 25,
   },
-  touchSee: {
+  touch: {
+    //fontFamily: 'roboto',
+    fontSize: 18,
+    color: "#000000",
     margin: 15, 
-    width: 327,
-    backgroundColor: "#006DEE",
     justifyContent: "center",
     alignItems: "flex-start",
-    height: 50,
-    padding: 7,
-    borderRadius: 7
-  },
-  touchAdd: {
-    margin: 10,
-    width: 327,
-    height: 50,
-    backgroundColor: "#EE0000",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    padding: 7,
-    borderRadius: 7
   },
   touchText: {
     //fontFamily: 'roboto',
