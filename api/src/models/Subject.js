@@ -10,7 +10,26 @@ const subjectSchema = new Schema({
     ref: "Teacher",
     autopopulate: true
   }],
-  
+  class: [{
+    type: String,
+    // required: true,
+    content: [{
+        type: String,
+        // required: true,
+        homework: {
+          type: String,
+          // required: true
+        },
+        correction: {
+          type: String,
+          // required: true
+        },
+        test: {
+          type: String,
+          // required: true
+        }, 
+    }],
+  }],
 })
 
 subjectSchema.plugin(require('mongoose-autopopulate'));

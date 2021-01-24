@@ -48,36 +48,3 @@ app.set("port", PORT);
 app.listen(app.get("port"), () => {
   console.log(`Server on port ${PORT}`);
 });
-
-// INSTRUCTIONS
-// 1. Create new node proyect, npm init --yes
-// 2. Install Dependencies, npm i express graphql apollo-server-express graphql-tools mongoose
-//                          npm i babel-cli babel-core babel-preset-env -D --> Last actuallitationes of JS
-// 3. Package json define dev to run server whit babel.
-// 4. Create .babelrc to initialice babel
-// 5. Create index.js, import express and create server
-// 6. Create databes to conect with mongo db, and call in index.js
-// 7. Install dotenv
-// 8. Import apollo server
-// 9.
-// 10.
-// 11.
-// 12.
-// 13.
-// 14.
-// 15.
-// 16.
-// 17.
-// 18.
-// 19.
-// 20.
-// 21.
-// 22.
-// 23.
-// 24.
-// 25.
-// 26.
-// 27.
-// 28.
-// 29.
-// 30. Install Cors

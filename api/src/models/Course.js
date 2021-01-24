@@ -9,7 +9,7 @@ const courseSchema = new Schema({
   grade: [{
     type: Schema.Types.ObjectId,
     ref: "Grade",
-    autopopulate: true
+    autopopulate: true,
   }],
   teachers: [{
     type: Schema.Types.ObjectId,

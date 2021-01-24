@@ -10,8 +10,8 @@ const teacherSchema = new Schema({
   email: String,
   whatsapp: String,
   address: String,
-  birthday: String,
-  foto: String,
+  birthday: Date,
+  picture: String,
   courses: [{
     type: Schema.Types.ObjectId,
     ref: "Course",

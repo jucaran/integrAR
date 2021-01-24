@@ -8,8 +8,7 @@ export default {
     teachers: async (parent, args, { Teacher }) => {
       return await Teacher.find();
     },
-    students: 
-    async (parent, args, ctx) => {
+    students: async (parent, args, ctx) => {
       return await ctx.Student.find();
     },
     grades: async (parent, args, ctx) => {
@@ -27,19 +26,7 @@ export default {
   // put, post, delete
   Mutation : {
 
-    // logUser($dni: String!, $password: String!){
-    //   logUser(dni: $dni, password: $password){
-    //   token
-    //   }
-    // }
-
-    // logUser: async ($dni= String, $password= String) => {
-    //   await logUser(dni= $dni, password= $password)
-    //   return token
-    // },
-
-
-    // PREFECTO POST, DELETE, PUT
+    // PRECEPTOR POST, DELETE, PUT
     createSuperAdmin: async(_, args, ctx) => {
       return await new ctx.SuperAdmin(args.input).save();
     },
@@ -76,9 +63,10 @@ export default {
     createGrade: async(_, args, ctx) => {
       return await new ctx.Grade(args.input).save();
     },
-    editGrade: async (_, args, ctx) => {
-      return await ctx.Grade.findByIdAndUpdate(args._id, args.input, { new: true })
+    editGrade: async (parent, args, ctx) => {
+      return await ctx.Grade.findByIdAndUpdate(args._id, {$push: args.input} , { new: true })
     },
+
     deleteGrade: async(_, args, ctx) => {
       return await ctx.Grade.findByIdAndDelete(args._id);
     },
@@ -107,100 +95,3 @@ export default {
     
   }
 }
-  
-
-
-// Sprint 1
-
-// Super Admin pueda hacer el crud completo (que pueda
-// agregar profesores, editar profesores, eliminar y 
-// listar profesores) -> Listo
-
-// y que pueda agregar alumnos, editar alumnos, eliminar y
-// listar alumnos -> Listo
-
-// que pueda asociar los alumnos a los profesores -> en desarrollo
-// hacer login de superadmin -> pendiente
-
-// en el front, pantalla todos los alumnos, que cada alumno tenga 
-//  tipo un select con options de profesores, y cuando seleccione un profesor,
-// se le asigne ese profesor al alumno
-
-
-// Ejemplo
-//   
-//   Pantalla alumnos del superAdmin
-//   
-//   Ana        <select> de grados
-//                    <option> 1° 
-//                    <option> 2° 
-// 
-//   Pablo      <select> de grados
-//                    <option> Agustin Amani 
-//                    <option> Franco Etcheverri 
-//   
-
-// y que al colocar la opcion, en el back haga una consulta de
-// editStudent(_id: "idDelProfesor", input: {
-// teachers: [el profe]
-// })
-
-
-  //   Pantalla de Grados
-    
-    // Grados                               Materias            Profesor
-
-  //  -----                              ------------          --------
-
-// <button> Add
-    // |
-    // |
-    // V
-// Este boton agregará
-// un grado, por ej. 1°A
-    
-
-
-
-
-
-    
-// pantalla ppal
-// Boton Grados   <->  -Boton Materias-   1°A  grado: {lenguaje, matematica}
-
-// Boton Profes         Boton Alumnos
-
-// Crear Curso Anual
-
-// 4 campos de listas desplegaables de lo que acabas de crear
-//   --------    ------------   ----------   ---------
-  //  1°A      lengua, mat..      Pedro
-       
-  //  2°A      lengua, mat..
-
-
-// 2 grados, 2 profes, 2 alumnos por profesor, 2 materias (lengua, matematica), cada materia (unidad1, unidad2)
-
-
-
-
-
-  //   1°A      Materias 1 Año      
-  //                   -> Lenguaje      -> Pedro
-  //                   -> Matematicas   -> Pablo
-
-  //   1°B      Materias 1 Año
-  //                   -> Lenguaje      -> Pedro
-  //                   -> Matematicas   -> María
-
-  //   2°A      Materias 2 Año
-  //                   -> Lenguaje      -> Mercedes
-  //                   -> Matematicas   -> Pablo
-                    
-  //   2°B      Materias 2 Año
-  //                   -> Lenguaje      -> Mercedes
-  //                   -> Matematicas   -> Maria
-
-//  Ana -> 1°A lenguaje (Asociado el profe con sus materias)
-
-// Pre-cargar 
