@@ -9,9 +9,10 @@ const subjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Teacher",
     autopopulate: true
-  }]
+  }],
+  
 })
 
 subjectSchema.plugin(require('mongoose-autopopulate'));
-// Compile model from schema
+
 export default model("Subject", subjectSchema)

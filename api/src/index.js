@@ -1,9 +1,10 @@
 import express from "express";
-// import mongoose from "mongoose";
+import cors from "cors";
 import { connect } from "./database";
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./schemas.js";
 import resolvers from "./resolvers.js";
+import User from "./models/User"
 import SuperAdmin from "./models/SuperAdmin";
 import Teacher from "./models/Teacher";
 import Student from "./models/Student";
@@ -12,6 +13,7 @@ import Course from "./models/Course";
 import Subject from "./models/Subject";
 
 const app = express();
+app.use(cors());
 connect();
 
 const { PORT, API_URL } = process.env;
@@ -20,6 +22,7 @@ const SERVER = new ApolloServer({
   typeDefs,
   resolvers,
   context: {
+    User,
     SuperAdmin,
     Teacher,
     Student,
@@ -77,4 +80,4 @@ app.listen(app.get("port"), () => {
 // 27.
 // 28.
 // 29.
-// 30.
+// 30. Install Cors
