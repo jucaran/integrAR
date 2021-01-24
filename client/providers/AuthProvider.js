@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         login: async ({ dni, password }) => {
-          console.log("Log in triggered", dni, " ", password);
+          console.log("Log in triggered");
           console.log("DNI: ", dni);
           console.log("Password", password);
           try {

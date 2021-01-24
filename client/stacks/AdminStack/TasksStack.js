@@ -1,9 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../HomeScreen";
-import React from 'react'
+import TasksScreen from "../../screens/TasksScreen";
+import React from "react";
 
 const Stack = createStackNavigator();
-export default function HomeStack() {
+export default function TasksStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -12,9 +12,9 @@ export default function HomeStack() {
         },
         title: "integrAR",
       }}
-      initialRouteName={"HomeScreen"}
+      initialRouteName="TasksScreen"
     >
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="TasksScreen" component={TasksScreen} />
     </Stack.Navigator>
   );
 }
