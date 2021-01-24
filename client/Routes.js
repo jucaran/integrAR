@@ -4,7 +4,7 @@ import CenterView from "./utils/CenterView";
 import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthContext } from "./contexts/AuthProvider";
+import { AuthContext } from "./providers/AuthProvider";
 import MyTabs from "./Screens/Tab";
 import AuthStack from "./AuthStack";
 

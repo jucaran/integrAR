@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { AuthContext } from "../../contexts/AuthProvider";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const ResetPassScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
