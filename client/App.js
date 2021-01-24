@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
   ApolloClient,
@@ -7,10 +7,8 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { NavigationContainer } from "@react-navigation/native";
-import { AuthContext, AuthProvider } from "./contexts/AuthProvider";
-import MyTabs from "./Screens/Tab";
-import AuthStack from "./AuthStack";
+import { AuthProvider } from "./contexts/AuthProvider";
+import Routes from "./Routes";
 
 // Apollo client
 const httpLink = createHttpLink({
@@ -18,9 +16,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = AsyncStorage.getItem("token");
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -35,15 +31,10 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const { user, login } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
-
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <NavigationContainer>
-          {user ? <AuthStack /> : <MyTabs />}
-        </NavigationContainer>
+        <Routes />
       </AuthProvider>
     </ApolloProvider>
   );
