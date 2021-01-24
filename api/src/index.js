@@ -4,7 +4,7 @@ import { connect } from "./database";
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./schemas.js";
 import resolvers from "./resolvers.js";
-import User from "./models/User"
+import User from "./models/User";
 import SuperAdmin from "./models/SuperAdmin";
 import Teacher from "./models/Teacher";
 import Student from "./models/Student";
@@ -28,7 +28,7 @@ const SERVER = new ApolloServer({
     Student,
     Grade,
     Course,
-    Subject
+    Subject,
   },
   introspection: true,
   playground: true,
@@ -46,7 +46,7 @@ SERVER.applyMiddleware({
 
 app.set("port", PORT);
 app.listen(app.get("port"), () => {
-  console.log("Server on port 4000");
+  console.log(`Server on port ${PORT}`);
 });
 
 // INSTRUCTIONS
