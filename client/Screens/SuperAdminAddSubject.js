@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 //import CheckBox from '@react-native-community/checkbox';;
-import CenterView from "../../utils/CenterView";
+import CenterView from "../utils/CenterView";
 
 const AddSubjectScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({

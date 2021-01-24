@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "./providers/AuthProvider";
-import MyTabs from "./Screens/Tab";
+import MyTabs from "./tabs/AdminTabs/Tab";
 import AuthStack from "./stacks/AuthStack/AuthStack";
 
 const Routes = () => {
@@ -35,6 +35,12 @@ const Routes = () => {
         <ActivityIndicator size="large" />
       </CenterView>
     );
+
+  // ACA VOY A HACER UN SWITCH PARA DEFINIR SI ES DOCENTE, ALUMNO O ADMNI (<DecideRole />)
+  // return (
+  //   <NavigationContainer>
+  //     {user ? <DecideRole /> : <AuthStack />}
+  //   </NavigationContainer>
 
   return (
     <NavigationContainer>

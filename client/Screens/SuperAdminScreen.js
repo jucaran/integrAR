@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableHighlight, StyleSheet } from "react-native";
-import CenterView from "../../utils/CenterView";
+import CenterView from "../utils/CenterView";
 
 const SuperAdminView = ({ navigation }) => {
   return (

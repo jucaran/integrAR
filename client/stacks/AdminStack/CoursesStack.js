@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import CoursesScreen from "../CoursesScreen";
+import CoursesScreen from "../../screens/CoursesScreen";
 import React from "react";
-import SuperAdminListCourses from "../SuperAdminListCourses";
+import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
 const Stack = createStackNavigator();
 
 export default function CoursesStack() {
@@ -19,10 +19,7 @@ export default function CoursesStack() {
         name="SuperAdminListCourses"
         component={SuperAdminListCourses}
       />
-      <Stack.Screen
-        name="Courses"
-        component={CoursesScreen}
-      />
+      <Stack.Screen name="Courses" component={CoursesScreen} />
     </Stack.Navigator>
   );
 }

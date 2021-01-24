@@ -2,10 +2,10 @@ import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
-import CoursesStack from "./AdminStack/CoursesStack";
-import HomeStack from "./AdminStack/HomeStack";
-import OptionsStack from "./AdminStack/OptionsStack";
-import TasksStack from "./AdminStack/TasksStack";
+import CoursesStack from "../../stacks/AdminStack/CoursesStack";
+import HomeStack from "../../stacks/AdminStack/HomeStack";
+import OptionsStack from "../../stacks/AdminStack/OptionsStack";
+import TasksStack from "../../stacks/AdminStack/TasksStack";
 const Tab = createMaterialBottomTabNavigator();
 function MyTabs() {
   return (
