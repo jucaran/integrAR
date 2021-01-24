@@ -1,12 +1,11 @@
 import React from "react";
-import CartScreen from "./CoursesScreen";
-import HistoryScreen from "./TasksScreen";
-import HomeScreen from "./HomeScreen";
-import Options from "./OptionsScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
-
+import CoursesStack from "./Stacks/CoursesStack";
+import HomeStack from "./Stacks/HomeStack";
+import OptionsStack from "./Stacks/OptionsStack";
+import TasksStack from "./Stacks/TasksStack";
 const Tab = createMaterialBottomTabNavigator();
 function MyTabs() {
   return (
@@ -18,7 +17,7 @@ function MyTabs() {
     >
       <Tab.Screen
         name="Inicio"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -31,7 +30,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Tareas"
-        component={HistoryScreen}
+        component={TasksStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -44,7 +43,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Cursos"
-        component={CartScreen}
+        component={CoursesStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -57,7 +56,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Opciones"
-        component={Options}
+        component={OptionsStack}
         options={{
           tabBarIcon: () => {
             return (
