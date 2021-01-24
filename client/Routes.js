@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "./providers/AuthProvider";
 import MyTabs from "./Screens/Tab";
-import AuthStack from "./AuthStack";
+import AuthStack from "./stacks/AuthStack/AuthStack";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext);
