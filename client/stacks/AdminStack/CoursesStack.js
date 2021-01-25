@@ -4,6 +4,7 @@ import DegreesScreen from "../../screens/DegreesScreen";
 import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
 import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject";
+import SuperAdminListSubjects from "../../screens/SuperAdminListSubjects";
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {
@@ -26,8 +27,11 @@ export default function CoursesStack() {
         name="SuperAdminListCourses"
         component={SuperAdminListCourses}
       />
+      <Stack.Screen
+        name="SuperAdminListSubjects"
+        component={SuperAdminListSubjects}
+      />
       <Stack.Screen name="Courses" component={SuperAdminAddSubject} />
-      {/* <Stack.Screen name="Courses" component={CoursesScreen} /> */}
     </Stack.Navigator>
   );
 }

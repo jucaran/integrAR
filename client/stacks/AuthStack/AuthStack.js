@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "../../Screens/Auth/Login";
-import ResetPassScreen from "../../Screens/Auth/ResetPass";
-import MailSentScreen from "../../Screens/Auth/MailSent";
+import LoginScreen from "../../screens/Auth/Login";
+import ResetPassScreen from "../../screens/Auth/ResetPass";
+import MailSentScreen from "../../screens/Auth/MailSent";
 
 const Stack = createStackNavigator();
 

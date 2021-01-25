@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Options from "../../Screens/OptionsScreen";
+import Options from "../../screens/OptionsScreen";
 import React from "react";
-import Test2 from "../../Screens/Test2";
-// import Test from "../../Screens/Test";
+import Test2 from "../../screens/Test2";
+// import Test from "../../screens/Test";
 const Stack = createStackNavigator();
 export default function OptionsStack() {
   return (
