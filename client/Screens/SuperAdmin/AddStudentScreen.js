@@ -17,32 +17,26 @@ function AddStudentScreen({navigation}) {
 
     return ( 
         <ScrollView>
-            <View style={styles.form} >
-                <Text>Datos del Alumno</Text>
+            <View style={styles.container}>
+                <Text style={styles.title} >Datos del Alumno</Text>
 
                 <View>
-                    <TextInput placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+                    <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', value)}/>
+                    
+                    <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('photo', value)}/>
+
+                    <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
                 </View>
                 <View>
-                    <TextInput placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
-                </View>
-                <View>
-                    <TextInput placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
-                </View>
-                <View>
-                    <TextInput placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
-                </View>
-                <View>
-                    <TextInput placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', value)}/>
-                </View>
-                <View>
-                    <TextInput placeholder="Foto" onChangeText={(value) => handleChange('photo', value)}/>
-                </View>
-                <View>
-                    <TextInput placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
-                </View>
-                <View>
-                    <Button title="Agregar Alumno" onPress={() => navigation.navigate('AddTeacher')} />
+                    <Button style={styles.button} title="Agregar Alumno" onPress={() => navigation.navigate('AddTeacher')} />
                 </View>
 
             </View>
@@ -52,12 +46,26 @@ function AddStudentScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-    form: {
+    container: {
         flex: 1,
-        margin: 35,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        padding: 15,
+        marginTop: 2
+    },
+    title: {
+        fontSize: 15,
+        margin: 10
+    },
+    input: {
+        height: 25,
+        marginBottom: 20,
+        padding: 10,
+    },
+    button: {
+        backgroundColor: "skyblue"
     }
+
 })
 
 export default AddStudentScreen;
