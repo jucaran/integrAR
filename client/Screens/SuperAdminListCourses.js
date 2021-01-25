@@ -15,7 +15,9 @@ const GET_ALL_COURSES = gql`
   }
 `;
 
-const SuperAdminListCourses = (props) => {
+const SuperAdminListCourses = ({navigation, route}) => {
+  const { id } = route.params.params
+  console.log(id)
   const { data, loading, error } = useQuery(GET_ALL_COURSES);
 
   if (data) {

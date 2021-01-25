@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import Test from "../../screens/Test";
-import DegreesScreen from "../../screens/DegreesScreen";
+import GradesScreen from "../../screens/GradesScreen";
 import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
 import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject";
@@ -20,8 +20,12 @@ export default function CoursesStack() {
           fontFamily: "roboto",
         },
       }}
-      initialRouteName="SuperAdminListCourses"
+      initialRouteName="GradesScreen"
     >
+       <Stack.Screen
+        name="GradesScreen"
+        component={GradesScreen}
+      />
       <Stack.Screen
         name="SuperAdminListCourses"
         component={SuperAdminListCourses}
