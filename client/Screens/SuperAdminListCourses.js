@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { View, Text, StatusBar, TouchableHighlight } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  StatusBar,
+  TouchableHighlight,
+} from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
+import CenterView from "../utils/CenterView";
 /**
  * TODO: Acordarse de cuando hayan grades traerlos tambien o fijarse si son necesarios o no
  */
@@ -100,9 +107,9 @@ const SuperAdminListCourses = ({navigation, route}) => {
     );
   else
     return (
-      <View>
-        <Text>LOADING</Text>
-      </View>
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
     );
 };
 
