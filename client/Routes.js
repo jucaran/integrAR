@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import CenterView from "./utils/CenterView";
-// import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "./providers/AuthProvider";
@@ -16,10 +15,9 @@ const Routes = () => {
   useEffect(() => {
     (async () => {
       try {
-        const token = await AsyncStorage.getItem("token");
-        if (token) {
-          // const tokenUser = jwt.decode(token);
-          // setUser(tokenUser);
+        const storageUser = await AsyncStorage.getItem("user");
+        if (storageUser) {
+          setUser(storageUser);
         }
         setLoading(false);
       } catch (err) {
@@ -36,15 +34,9 @@ const Routes = () => {
       </CenterView>
     );
 
-  // ACA VOY A HACER UN SWITCH PARA DEFINIR SI ES DOCENTE, ALUMNO O ADMNI (<DecideRole />)
-  // return (
-  //   <NavigationContainer>
-  //     {user ? <DecideRole /> : <AuthStack />}
-  //   </NavigationContainer>
-
   return (
     <NavigationContainer>
-      {user ? <AuthStack /> : <MyTabs /> }
+      {user ? <MyTabs role={user.role} /> : <AuthStack />}
     </NavigationContainer>
   );
 };
