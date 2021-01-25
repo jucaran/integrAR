@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import CenterView from "./utils/CenterView";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "./providers/AuthProvider";
@@ -18,8 +18,8 @@ const Routes = () => {
       try {
         const token = await AsyncStorage.getItem("token");
         if (token) {
-          const tokenUser = jwt.decode(token);
-          setUser(tokenUser);
+          // const tokenUser = jwt.decode(token);
+          // setUser(tokenUser);
         }
         setLoading(false);
       } catch (err) {
