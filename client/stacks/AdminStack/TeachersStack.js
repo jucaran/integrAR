@@ -1,21 +1,21 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import TasksScreen from "../../Screens/TasksScreen";
+import SuperAdminListTeachers from "../../screens/SuperAdminListTeachers";
 import React from "react";
 
 const Stack = createStackNavigator();
-export default function TasksStack() {
+export default function TeachersStack() {
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: "#00aadd",
         },
-        headerTintColor: '#fff',
         title: "integrAR",
+        headerTintColor: '#fff',
       }}
-      initialRouteName="TasksScreen"
+      initialRouteName={"SuperAdminListTeachers"}
     >
-      <Stack.Screen name="TasksScreen" component={TasksScreen} />
+      <Stack.Screen name="SuperAdminListTeachers" component={SuperAdminListTeachers} />
     </Stack.Navigator>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { View, Text, StatusBar, TouchableHighlight } from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 /**
@@ -38,6 +38,26 @@ const SuperAdminListCourses = (props) => {
           >
             Cursos
           </Text>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
+            onPress={() =>
+              navigation.navigate("Courses", {
+                screen: "SuperAdminAddSubject",
+              })
+            }
+          >
+            <Text
+              style={{
+                fontSize: 25,
+                // marginBottom: 20,
+                // marginTop: 20,
+                marginLeft: 20,
+              }}
+            >
+              Agregar Materia
+            </Text>
+          </TouchableHighlight>
           <FlatList
             data={courses}
             renderItem={({ item: course }) => {

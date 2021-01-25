@@ -1,87 +1,119 @@
 import React from "react";
-import { Text, TouchableHighlight, StyleSheet } from "react-native";
+import {
+  Text,
+  TouchableHighlight,
+  StyleSheet,
+  View,
+  Image,
+} from "react-native";
 import CenterView from "../utils/CenterView";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 const SuperAdminView = ({ navigation }) => {
   return (
     <CenterView>
-      <Text style={styles.title}>HOLA ADMIN</Text>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="lightblue"
-        style={styles.touchSee}
-        onPress={() => navigation.navigate("VerCursos")}
-      >
-        <Text style={styles.touchText}>VER CURSOS</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarCurso")}
-      >
-        <Text style={styles.touchText}>AGREGAR CURSO</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarMateria")}
-      >
-        <Text style={styles.touchText}>AGREGAR MATERIA</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarProfesor")}
-      >
-        <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.8}
-        underlayColor="pink"
-        style={styles.touchAdd}
-        onPress={() => navigation.navigate("AgregarAlumno")}
-      >
-        <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
-      </TouchableHighlight>
+      <Text style={styles.title}>¡Hola Admin! Bienvenido</Text>
+      <View style={styles.cont}>
+        <View style={styles.courses}>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
+            style={styles.touch}
+            onPress={() =>
+              navigation.navigate("Cursos", { screen: "SuperAdminListCourses" })
+            }
+          >
+            <View style={styles.button}>
+              <Image source={require("../assets/bro.png")} style={styles.img} />
+              <Text style={styles.touchText}>VER GRADOS</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.teachers}>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
+            style={styles.touch}
+            onPress={() =>
+              navigation.navigate("Teachers", {
+                screen: "SuperAdminListTeachers",
+              })
+            }
+          >
+            <View style={styles.button}>
+              <Image
+                source={require("../assets/Character.png")}
+                style={styles.img}
+              />
+              <Text style={styles.touchText}>VER PROFESORES</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
+      <View style={styles.alumn}>
+        <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor="ligthgrey"
+          style={styles.touch}
+          onPress={() => navigation.navigate("AgregarAlumno")}
+        >
+          <View style={styles.button}>
+            <Image source={require("../assets/alumn.png")} style={styles.img} />
+            <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
     </CenterView>
   );
 };
 
 const styles = StyleSheet.create({
-  title: {
-    //fontFamily: 'roboto',
-    fontSize: 25,
-    color: "#000000",
+  cont: {
+    marginTop: 25,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  teachers: {
+    marginLeft: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  alumn: {
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 25,
   },
-  touchSee: {
-    margin: 15,
-    width: 327,
-    backgroundColor: "#006DEE",
+  courses: {
     justifyContent: "center",
-    alignItems: "flex-start",
-    height: 50,
-    padding: 7,
-    borderRadius: 7,
+    alignItems: "center",
   },
-  touchAdd: {
-    margin: 10,
-    width: 327,
-    height: 50,
-    backgroundColor: "#EE0000",
+  img: {
+    marginTop: 10,
+    width: 156,
+    height: 168,
+  },
+  title: {
+    fontFamily: "roboto",
+    fontSize: 20,
+    color: "#2290CD",
+    marginTop: 25,
+  },
+  touch: {
+    margin: 15,
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: 7,
-    borderRadius: 7,
   },
   touchText: {
-    //fontFamily: 'roboto',
-    fontSize: 16,
-    color: "white",
-    marginLeft: 6,
+    fontFamily: "roboto",
+    fontSize: 18,
+    color: "#000000",
   },
 });
 

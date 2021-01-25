@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../../Screens/HomeScreen";
+import SuperAdminScreen from "../../screens/SuperAdminScreen";
 import React from "react";
 import SuperAdminListStudents from "../../Screens/SuperAdminListStudents";
 
@@ -11,7 +12,12 @@ export default function HomeStack() {
         headerStyle: {
           backgroundColor: "#00aadd",
         },
+        headerTintColor: "#fff",
         title: "integrAR",
+        headerTitleStyle: {
+          fontSize: 20,
+          fontFamily: "roboto",
+        },
       }}
       initialRouteName={"SuperAdminListStudents"}
     >
@@ -20,6 +26,7 @@ export default function HomeStack() {
         name="SuperAdminListStudents"
         component={SuperAdminListStudents}
       />
+      <Stack.Screen name="SuperAdminScreen" component={SuperAdminScreen} />
     </Stack.Navigator>
   );
 }

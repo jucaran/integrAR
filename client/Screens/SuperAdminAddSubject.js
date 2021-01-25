@@ -29,6 +29,11 @@ const AddSubjectScreen = ({ navigation }) => {
     { Nombre: "Luis", Apellido: "Bono", materias: [] },
     { Nombre: "Sebastian", Apellido: "Rama", materias: [] },
   ];
+  let cursos= [{grado: 1, curso: "A", materias: []}, {grado: 1, curso: "B", materias: []},
+   {grado: 1, curso: "C", materias: []}, {grado: 1, curso: "D", materias: []}, {grado: 2, curso: "A", materias: []},
+   {grado: 2, curso: "B", materias: []}, {grado: 2, curso: "C", materias: []}, {grado: 2, curso: "D", materias: []}]
+
+
 
   const handleChange = (text, input) => {
     setInputs({
@@ -78,12 +83,43 @@ const AddSubjectScreen = ({ navigation }) => {
               );
             }
           })}
+          {console.log(teachers)}
+        </View>
+        <View>
+          <Text style={styles.description}>Agregar Curso</Text>
+        </View>
+        <View style={styles.switchsCont}>
+          {cursos.map((curso, i) => {
+            const [isCurso, setIsCurso] = useState(false);
+            if (curso) {
+              return (
+                <View key={i} style={styles.switchsCont2}>
+                  <Text style={styles.switchTxt}>
+                    {curso?.grado + " " + curso?.curso}
+                  </Text>
+                  <Switch
+                    style={styles.switch}
+                    trackColor={{ false: "#767577", true: "#2290CD" }}
+                    thumbColor={isCurso ? "#8FC6E4" : "#f4f3f4"}
+                    value={isCurso}
+                    onValueChange={() =>
+                      inputs?.materia ? setIsCurso((prev) => !prev) : null
+                    }
+                    {...(isCurso
+                      ? curso.materias.push(inputs.materia)
+                      : curso.materias.pop(inputs.materia))}
+                  />
+                </View>
+              );
+            }
+          })}
+          {console.log(cursos)}
         </View>
         <TouchableHighlight
           activeOpacity={0.8}
           underlayColor="lightblue"
           style={styles.button}
-          onPress={() => navigation.navigate("AgregarAlumnosPorCurso")}
+          onPress={() => navigation.navigate("")}
         >
           <Text style={styles.textButton}>AGREGAR</Text>
         </TouchableHighlight>
