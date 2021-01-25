@@ -4,14 +4,13 @@ export default gql`
   type Query {
     superAdmin: String
     teachers: [Teacher]
-    students: [Student]
+    students(order_by: String, attribute: String): [Student]
     courses: [Course]
     grades: [Grade]
     subjects: [Subject]
   }
 
   type Mutation {
-
     createSuperAdmin(input: SuperAdminInput): SuperAdmin
     editSuperAdmin(_id: ID, input: SuperAdminInput): SuperAdmin
     deleteSuperAdmin(_id: ID): SuperAdmin
@@ -70,7 +69,7 @@ export default gql`
     subjects: [SubjectInput]
     students: [StudentInput]
   }
-  
+
   # ---------------------------
   type Teacher {
     _id: ID
