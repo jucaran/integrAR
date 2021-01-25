@@ -44,7 +44,8 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {user ? <MyTabs /> : <AuthStack />}
+      {/* Carga la app antes del login */}
+      {user ? <AuthStack /> : <MyTabs />}
     </NavigationContainer>
   );
 };
