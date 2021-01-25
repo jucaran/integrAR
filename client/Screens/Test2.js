@@ -6,7 +6,11 @@ const Test2 = (props) => {
     <View style={styles.container}>
       <Button
         title="Ir a test"
-        onPress={() => props.navigation.navigate("Test")}
+        onPress={() =>
+          props.navigation.navigate("Cursos", {
+            screen: "Test",
+          })
+        }
       />
     </View>
   );
