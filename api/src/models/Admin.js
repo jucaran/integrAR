@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 
-const superAdminSchema = new Schema({
+const adminSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -39,6 +39,6 @@ const superAdminSchema = new Schema({
   }],
 })
 
-superAdminSchema.plugin(require('mongoose-autopopulate'));
+adminSchema.plugin(require('mongoose-autopopulate'));
 // Compile model from schema
-export default model("SuperAdmin", superAdminSchema)
+export default model("Admin", adminSchema)

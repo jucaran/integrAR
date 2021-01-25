@@ -1,20 +1,21 @@
 import { gql } from "apollo-server-express";
-// SuperAdmin
+
+// Admin
 export default gql`
   type Query {
-    superAdmin: String
-    teachers: [Teacher]
-    students: [Student]
-    courses: [Course]
-    grades: [Grade]
-    subjects: [Subject]
+    admin: String
+    teachers(dni: Int, _id: ID): [Teacher]
+    students(dni: Int, _id: ID): [Student]
+    courses(_id: ID): [Course]
+    grades(_id: ID): [Grade]
+    subjects(_id: ID): [Subject]
   }
 
   type Mutation {
 
-    createSuperAdmin(input: SuperAdminInput): SuperAdmin
-    editSuperAdmin(_id: ID, input: SuperAdminInput): SuperAdmin
-    deleteSuperAdmin(_id: ID): SuperAdmin
+    createAdmin(input: AdminInput): Admin
+    editAdmin(_id: ID, input: AdminInput): Admin
+    deleteAdmin(_id: ID): Admin
 
     createTeacher(input: TeacherInput): Teacher
     editTeacher(_id: ID, input: TeacherInput): Teacher
@@ -38,7 +39,7 @@ export default gql`
   }
 
   # ---------------------------
-  type SuperAdmin {
+  type Admin {
     _id: ID
     name: String
     lastname: String
@@ -54,7 +55,7 @@ export default gql`
     subjects: [Subject]
     students: [Student]
   }
-  input SuperAdminInput {
+  input AdminInput {
     _id: ID
     name: String
     lastname: String
