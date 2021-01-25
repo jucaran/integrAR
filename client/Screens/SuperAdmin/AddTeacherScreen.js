@@ -9,6 +9,7 @@ function AddTeacherScreen({navigation}) {
         email: '',
         birthdate: '',
         phone: '',
+        course: '',
         dni: ''
     })
     const handleChange = (name, value) => {
@@ -22,6 +23,8 @@ function AddTeacherScreen({navigation}) {
             
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/>
 
                     <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
 
