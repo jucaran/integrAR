@@ -18,27 +18,28 @@ function AddTeacherScreen({navigation}) {
     return ( 
         <ScrollView>
             <View style={styles.container} >
-
                 <Text style={styles.title}>Datos del Profesor</Text>
+            
+                <View>
+                    <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
 
-                <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+                    <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
 
-                <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
+                    <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
 
-                <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
+                    <TextInput style={styles.input} placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
 
-                <TextInput style={styles.input} placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
+                    <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', value)}/>
+                    
+                    <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('photo', value)}/>
 
-                <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', value)}/>
-                
-                <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('photo', value)}/>
-
-                <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
+                    <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
+                </View>
+                <View>
+                    <Button style={styles.button} title="Agregar Profesor" onPress={() => alert('Profesor agregado con exito!')} />
+                </View>
             </View>
 
-            <View>
-                <Button style={styles.button} title="Agregar Profesor" onPress={() => navigation.navigate('AddTeacherForm')} />
-            </View>
 
         </ScrollView>
     )

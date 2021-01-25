@@ -9,6 +9,7 @@ function AddStudentScreen({navigation}) {
         email: '',
         birthdate: '',
         phone: '',
+        course: '',
         dni: ''
     })
     const handleChange = (name, value) => {
@@ -23,6 +24,8 @@ function AddStudentScreen({navigation}) {
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
 
+                    <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/>
+
                     <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
 
                     <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
@@ -36,7 +39,7 @@ function AddStudentScreen({navigation}) {
                     <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
                 </View>
                 <View>
-                    <Button style={styles.button} title="Agregar Alumno" onPress={() => navigation.navigate('AddTeacher')} />
+                    <Button style={styles.button} title="Agregar Alumno" onPress={() => alert('Alumno agregado con exito!')} />
                 </View>
 
             </View>
