@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const LOG_USER = gql`
   mutation LogUser($dni: String!, $password: String!) {
@@ -39,8 +39,8 @@ export const AuthProvider = ({ children }) => {
               console.log(error);
               return false;
             }
-            const newUser = jwt.decode(data.token);
-            setUser(newUser);
+            // const newUser = jwt.decode(data.token);
+            // setUser(newUser);
             await AsyncStorage.setItem("token", data.token);
           } catch (err) {
             console.log(err);
