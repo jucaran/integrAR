@@ -30,20 +30,25 @@ export const AuthProvider = ({ children }) => {
           console.log("Log in triggered");
           console.log("DNI: ", dni);
           console.log("Password", password);
-          try {
-            await logUser({
-              variables: { dni, password },
-            });
-            if (error) {
-              console.log(error);
-              return false;
-            }
-            setUser(data.user);
-            await AsyncStorage.setItem("token", data.token);
-            await AsyncStorage.setItem("user", JSON.stringify(data.user));
-          } catch (err) {
-            console.log(err);
-          }
+          // try {
+          //   await logUser({
+          //     variables: { dni, password },
+          //   });
+          //   if (error) {
+          //     console.log(error);
+          //     return false;
+          //   }
+          // setUser(data.user);
+          setUser({ dni, name: "Preceptor de ejemplo" });
+          // await AsyncStorage.setItem("token", data.token);
+          // await AsyncStorage.setItem("user", JSON.stringify(data.user));
+          await AsyncStorage.setItem(
+            "user",
+            JSON.stringify({ dni, name: "Preceptor de ejemplo" })
+          );
+          // } catch (err) {
+          //   console.log(err);
+          // }
         },
         logout: async () => {
           console.log("Log out triggered");
