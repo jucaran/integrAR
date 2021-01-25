@@ -44,7 +44,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {user ? <MyTabs /> : <AuthStack />}
+      {user ? <AuthStack /> : <MyTabs /> }
     </NavigationContainer>
   );
 };

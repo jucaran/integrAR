@@ -17,40 +17,52 @@ const SuperAdminView = ({ navigation }) => {
       <Text style={styles.title}>¡Hola Admin! Bienvenido</Text>
       <View style={styles.cont}>
         <View style={styles.courses}>
-          <Image source={require("../assets/bro.png")} style={styles.img} />
           <TouchableHighlight
-          activeOpacity={0.6}
-          underlayColor="ligthgrey"
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
             style={styles.touch}
-            onPress={() => navigation.navigate("Cursos", {screen: "SuperAdminListCourses"})}
+            onPress={() =>
+              navigation.navigate("Cursos", { screen: "SuperAdminListCourses" })
+            }
           >
-            <Text style={styles.touchText}>VER GRADOS</Text>
+            <View style={styles.button}>
+              <Image source={require("../assets/bro.png")} style={styles.img} />
+              <Text style={styles.touchText}>VER GRADOS</Text>
+            </View>
           </TouchableHighlight>
         </View>
         <View style={styles.teachers}>
-          <Image
-            source={require("../assets/Character.png")}
-            style={styles.img}
-          />
           <TouchableHighlight
-           activeOpacity={0.6}
-           underlayColor="ligthgrey"
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
             style={styles.touch}
-            onPress={() => navigation.navigate("Teachers", {screen: "SuperAdminListTeachers"})}
+            onPress={() =>
+              navigation.navigate("Teachers", {
+                screen: "SuperAdminListTeachers",
+              })
+            }
           >
-            <Text style={styles.touchText}>VER PROFESORES</Text>
+            <View style={styles.button}>
+              <Image
+                source={require("../assets/Character.png")}
+                style={styles.img}
+              />
+              <Text style={styles.touchText}>VER PROFESORES</Text>
+            </View>
           </TouchableHighlight>
         </View>
       </View>
       <View style={styles.alumn}>
-        <Image source={require("../assets/alumn.png")} style={styles.img} />
         <TouchableHighlight
-         activeOpacity={0.6}
-         underlayColor="ligthgrey"
+          activeOpacity={0.6}
+          underlayColor="ligthgrey"
           style={styles.touch}
           onPress={() => navigation.navigate("AgregarAlumno")}
         >
-          <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+          <View style={styles.button}>
+            <Image source={require("../assets/alumn.png")} style={styles.img} />
+            <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+          </View>
         </TouchableHighlight>
       </View>
     </CenterView>
@@ -61,6 +73,10 @@ const styles = StyleSheet.create({
   cont: {
     marginTop: 25,
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
     justifyContent: "center",
     alignItems: "center",
   },

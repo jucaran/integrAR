@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, StatusBar, TouchableHighlight } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
-const SuperAdminListCourses = (props) => {
+const SuperAdminListCourses = ({navigation}) => {
   const [cursos, setCursos] = useState([
     { title: "Primer Año 1", id: 1 },
     { title: "Segundo Año 2", id: 2 },
@@ -19,6 +19,14 @@ const SuperAdminListCourses = (props) => {
         padding: 5 /*  marginTop: StatusBar.currentHeight || 0 */,
       }}
     >
+      <TouchableHighlight
+      activeOpacity={0.6}
+      underlayColor="ligthgrey"
+      onPress={() =>
+        navigation.navigate("Courses", {
+          screen: "SuperAdminAddSubject",
+        })
+      }>
       <Text
         style={{
           fontSize: 25,
@@ -27,8 +35,9 @@ const SuperAdminListCourses = (props) => {
           marginLeft: 20,
         }}
       >
-        Cursos
+        Agregar Materia
       </Text>
+      </TouchableHighlight>
       <FlatList
         data={cursos}
         renderItem={({ item }) => {
@@ -61,5 +70,7 @@ const SuperAdminListCourses = (props) => {
     </View>
   );
 };
+
+
 
 export default SuperAdminListCourses;

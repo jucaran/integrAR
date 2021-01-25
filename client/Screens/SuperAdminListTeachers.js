@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     fontFamily: "roboto",
-    color: "#000000, 60 %",
+    color: "#000000",
     marginLeft: 10,
   },
   touchText: {
