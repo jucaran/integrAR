@@ -1,52 +1,50 @@
-import dotenv from "dotenv";
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
-import mongoose from "mongoose";
-dotenv.config();
-const { DB_HOST, API_URL, DB_NAME } = process.env;
+import { connect } from "./database";
+import { ApolloServer } from "apollo-server-express";
+import typeDefs from "./schemas.js";
+import resolvers from "./resolvers.js";
+import User from "./models/User"
+import SuperAdmin from "./models/SuperAdmin";
+import Teacher from "./models/Teacher";
+import Student from "./models/Student";
+import Grade from "./models/Grade";
+import Course from "./models/Course";
+import Subject from "./models/Subject";
 
-//GraphQL config
-import resolvers from "./resolvers/index";
-import typeDefs from "./schemas/index";
+const app = express();
+app.use(cors());
+connect();
 
-//Db models
-import Alumno from "./models/Alumno";
-import Profesor from "./models/Profesor";
-import Grado from "./models/Grado";
+const { PORT, API_URL } = process.env;
 
-//We start the server once the db is connected
-(async () => {
-  try {
-    // connection to db
-    await mongoose.connect(`${DB_HOST}/${DB_NAME}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+const SERVER = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: {
+    User,
+    SuperAdmin,
+    Teacher,
+    Student,
+    Grade,
+    Course,
+    Subject
+  },
+  introspection: true,
+  playground: true,
+  playground: {
+    endpoint: `${API_URL}/graphql`,
+    settings: {
+      "editor.theme": "dark",
+    },
+  },
+});
 
-    // start the apollo server
-    const server = new ApolloServer({
-      typeDefs,
-      resolvers,
-      context: {
-        // login
-        models: {
-          Alumno,
-          Profesor,
-          Grado,
-        },
-      },
-    });
+SERVER.applyMiddleware({
+  app,
+});
 
-    // start the express server
-    const app = express();
-    app.use(cors());
-    server.applyMiddleware({ app });
-
-    app.listen({ port: 4000 }, () =>
-      console.log(`🚀 Server ready at ${API_URL}`)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-})();
+app.set("port", PORT);
+app.listen(app.get("port"), () => {
+  console.log("Server on port 4000");
+});
