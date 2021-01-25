@@ -12,6 +12,7 @@ export default function OptionsStack() {
           backgroundColor: "#00aadd",
         },
         title: "integrAR",
+        headerTintColor: '#fff',
       }}
       initialRouteName={"Options"}
     >

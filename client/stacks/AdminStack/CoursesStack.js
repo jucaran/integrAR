@@ -2,8 +2,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import CoursesScreen from "../../screens/CoursesScreen";
 import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
-const Stack = createStackNavigator();
 
+const Stack = createStackNavigator();
 export default function CoursesStack() {
   return (
     <Stack.Navigator
@@ -12,6 +12,11 @@ export default function CoursesStack() {
           backgroundColor: "#00aadd",
         },
         title: "integrAR",
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontSize: 20,
+          fontFamily: "roboto"
+        },
       }}
       initialRouteName="SuperAdminListCourses"
     >
