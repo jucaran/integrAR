@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 import CenterView from "../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -103,7 +103,7 @@ function SuperAdminListStudents() {
   else
     return (
       <CenterView>
-        <Text>LOADING</Text>
+        <ActivityIndicator size="large" />
       </CenterView>
     );
 }
