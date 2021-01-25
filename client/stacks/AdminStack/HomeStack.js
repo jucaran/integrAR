@@ -19,7 +19,7 @@ export default function HomeStack() {
           fontFamily: "roboto",
         },
       }}
-      initialRouteName={"SuperAdminListStudents"}
+      initialRouteName={"SuperAdminScreen"}
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen
