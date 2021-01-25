@@ -29,7 +29,7 @@ const SERVER = new ApolloServer({
     Student,
     Grade,
     Course,
-    Subject
+    Subject,
   },
   introspection: true,
   playground: true,
@@ -47,5 +47,5 @@ SERVER.applyMiddleware({
 
 app.set("port", PORT);
 app.listen(app.get("port"), () => {
-  console.log("Server on port 4000");
+  console.log(`Server on port ${PORT}`);
 });

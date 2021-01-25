@@ -1,8 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import Test from "../../screens/Test";
 import DegreesScreen from "../../screens/DegreesScreen";
 import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
-import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject"
+import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject";
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {
@@ -13,10 +14,10 @@ export default function CoursesStack() {
           backgroundColor: "#00aadd",
         },
         title: "integrAR",
-        headerTintColor: '#fff',
+        headerTintColor: "#fff",
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: "roboto"
+          fontFamily: "roboto",
         },
       }}
       initialRouteName="SuperAdminListCourses"
