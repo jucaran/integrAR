@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors";
 import { connect } from "./database";
 import { ApolloServer } from "apollo-server-express";
-import typeDefs from "./schemas.js";
-import resolvers from "./resolvers.js";
+import typeDefs from "./schemas/index.js";
+import resolvers from "./resolvers/index.js";
 import User from "./models/User"
-import SuperAdmin from "./models/SuperAdmin";
+import Admin from "./models/Admin";
 import Teacher from "./models/Teacher";
 import Student from "./models/Student";
 import Grade from "./models/Grade";
@@ -22,8 +22,9 @@ const SERVER = new ApolloServer({
   typeDefs,
   resolvers,
   context: {
+    // LOGIN
     User,
-    SuperAdmin,
+    Admin,
     Teacher,
     Student,
     Grade,
