@@ -36,6 +36,7 @@ const GradesScreen = ({ navigation }) => {
     return (
       <ScrollView>
         <TouchableHighlight
+          style={styles.touch}
           activeOpacity={0.6}
           underlayColor="ligthgrey"
           onPress={() =>
@@ -44,7 +45,7 @@ const GradesScreen = ({ navigation }) => {
             })
           }
         >
-          <Text style={styles.text}>Agregar Año</Text>
+          <Text style={styles.touchText}>Agregar Año</Text>
         </TouchableHighlight>
         <FlatList
           data={grades}
@@ -85,11 +86,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    fontSize: 25,
-    // marginBottom: 20,
-    // marginTop: 20,
-    marginLeft: 20,
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 16,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    margin: 5,
+    marginLeft: 12,
   },
   card: {
     margin: 5,
