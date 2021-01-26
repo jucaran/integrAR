@@ -38,7 +38,7 @@ function EditStudentScreen({navigation}) {
         picture: '',
     })
 
-    const [editStudent, { data, error }] = useMutation(EDIT_STUDENT)
+    const [editStudent, { loading, error }] = useMutation(EDIT_STUDENT)
 
     const handleChange = (name, value) => {
         setStudent({...student, [name]: value})
@@ -102,25 +102,27 @@ function EditStudentScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 15,
-        marginTop: 2
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 15,
+      marginTop: 2,
     },
     title: {
-        fontSize: 15,
-        margin: 10
+      fontSize: 15,
+      margin: 10,
     },
     input: {
-        height: 25,
-        marginBottom: 20,
-        padding: 10,
+      width: 200,
+      height: 50,
+      marginBottom: 20,
+      // padding: 10,
+      borderBottomWidth: 2,
+      borderColor: "#2290CD",
     },
     button: {
-        backgroundColor: "skyblue"
-    }
-
-})
+      backgroundColor: "skyblue",
+    },
+  });
 
 export default EditStudentScreen;

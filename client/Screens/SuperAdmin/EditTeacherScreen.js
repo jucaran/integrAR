@@ -55,7 +55,7 @@ function EditTeacherScreen({ route }) {
     setTeacher({ ...teacher, [name]: value });
   };
 
-  const [editTeacher, { data, loading, error }] = useMutation(EDIT_TEACHER);
+  const [editTeacher, { loading, error }] = useMutation(EDIT_TEACHER);
 
   const handleOnPress = async ({
     name,
