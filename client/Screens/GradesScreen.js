@@ -31,7 +31,6 @@ const GradesScreen = ({ navigation }) => {
     );
 
   if (data) {
-    console.log(data);
     const { grades } = data;
     return (
       <View>

@@ -11,7 +11,7 @@ import { AuthContext } from "../providers/AuthProvider";
 
 const SuperAdminView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  console.log(user);
+
   return (
     <CenterView>
       <Text style={styles.title}>¡Hola {user.name}! Bienvenido</Text>
