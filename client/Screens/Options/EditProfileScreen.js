@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, TextInput, StyleSheet, Button, View } from "react-native";
 import CenterView from "../../utils/CenterView";
 
-const AddCourseScreen = ({ navigation }) => {
+const AddCourseScreen = () => {
   const [inputs, setInputs] = useState({
     oldPassword: "",
     newPassword: "",
@@ -17,30 +17,35 @@ const AddCourseScreen = ({ navigation }) => {
 
   return (
     <CenterView>
-      <Text style={styles.title}>CAMBIAR CONTASEÑA</Text>
+      <Text style={styles.title}>EDITAR PERFIL</Text>
       <View>
-        <Text style={styles.description}>Vieja contaseña:</Text>
+        <Text style={styles.description}>Email:</Text>
         <TextInput
           style={styles.input}
-          textContentType="password"
-          secureTextEntry={true}
-          placeholder="Vieja contraseña..."
-          value={inputs.oldPassword}
-          onChangeText={(text) => handleChange(text, "oldPassword")}
+          placeholder="Nuevo email..."
+          value={inputs.email}
+          onChangeText={(text) => handleChange(text, "email")}
         />
       </View>
       <View>
-        <Text style={styles.description}>Nueva contraseña:</Text>
+        <Text style={styles.description}>Dirección:</Text>
         <TextInput
           style={styles.input}
-          textContentType="password"
-          secureTextEntry={true}
-          placeholder="Nueva contraseña..."
-          value={inputs.newPassword}
-          onChangeText={(text) => handleChange(text, "newPassword")}
+          placeholder="Nueva dirección..."
+          value={inputs.adress}
+          onChangeText={(text) => handleChange(text, "adress")}
         />
       </View>
-      <Button title="Cambiar contraseña" />
+      <View>
+        <Text style={styles.description}>Whatsapp:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Nueva número..."
+          value={inputs.whatsapp}
+          onChangeText={(text) => handleChange(text, "whatsapp")}
+        />
+      </View>
+      <Button title="Actualizar perfil" />
     </CenterView>
   );
 };
