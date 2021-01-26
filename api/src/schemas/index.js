@@ -3,18 +3,26 @@ import { gql } from "apollo-server-express";
 // Admin
 export default gql`
   type Query {
+    user(_id: ID): [User]
     admin: String
     teachers(dni: Int, _id: ID): [Teacher]
     students(dni: Int, _id: ID): [Student]
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID): [Subject]
+    login(dni: Int, password: String) : AuthData
   }
 
+    
   type Mutation {
     createAdmin(input: AdminInput): Admin
     editAdmin(_id: ID, input: AdminInput): Admin
     deleteAdmin(_id: ID): Admin
+    
+    # login(userInput: UserInput) : User
+    createUser(userInput: UserInput): User
+    editUser(_id: ID, input: UserInput): User
+    deleteUser(_id: ID): User
 
     createTeacher(input: TeacherInput): Teacher
     editTeacher(_id: ID, input: TeacherInput): Teacher
@@ -36,7 +44,6 @@ export default gql`
     editSubject(_id: ID, input: SubjectInput): Subject
     deleteSubject(_id: ID): Subject
   }
-
   # ---------------------------
   type Admin {
     _id: ID
@@ -48,11 +55,11 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    grades: [Grade]
     courses: [Course]
+    grades: [Grade]
     teachers: [Teacher]
-    subjects: [Subject]
     students: [Student]
+    subjects: [Subject]
   }
   input AdminInput {
     _id: ID
@@ -64,13 +71,35 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    grades: [GradeInput]
     courses: [CourseInput]
+    grades: [GradeInput]
     teachers: [TeacherInput]
-    subjects: [SubjectInput]
     students: [StudentInput]
+    subjects: [SubjectInput]
   }
 
+  # ---------------------------
+  type User {
+    _id: ID
+    dni: Int
+    name: String
+    password: String
+    email: String
+    role: String
+  }
+
+  type AuthData {
+    token: String
+    user: User
+  }
+
+  input UserInput {
+    _id: ID
+    dni: Int
+    email: String
+    password: String
+  }
+   
   # ---------------------------
   type Teacher {
     _id: ID
@@ -86,6 +115,7 @@ export default gql`
     courses: [Course]
     subjects: [Subject]
     students: [Student]
+    user: [User]
   }
   input TeacherInput {
     _id: ID
@@ -98,6 +128,8 @@ export default gql`
     birthday: String
     picture: String
     subjects: [SubjectInput]
+    user: [UserInput]
+    courses: [CourseInput]
   }
 
   # ---------------------------
@@ -115,6 +147,7 @@ export default gql`
     grades: [Grade]
     teachers: [Teacher]
     subjects: [Subject]
+    user: [User]
   }
   input StudentInput {
     _id: ID
@@ -126,6 +159,7 @@ export default gql`
     address: String
     birthday: String
     picture: String
+    user: [UserInput]
   }
 
   # ---------------------------
@@ -133,11 +167,17 @@ export default gql`
     _id: ID
     name: String
     courses: [Course]
+    grades: [Grade]
+    teachers: [Teacher]
+    subjects: [Subject]
   }
   input GradeInput {
     _id: ID
     name: String
     courses: [CourseInput]
+    teachers: [TeacherInput] 
+    subjects: [SubjectInput]
+    students: [StudentInput]
   }
 
   # ---------------------------
@@ -145,11 +185,17 @@ export default gql`
     _id: ID
     name: String
     grade: Grade
+    teachers: [Teacher]
+    subjects: [Subject]
+    students: [Student]
   }
   input CourseInput {
     _id: ID
     name: String
     grade: GradeInput
+    teachers: [TeacherInput]
+    subjects: [SubjectInput]
+    students: [StudentInput]
   }
 
   # ---------------------------
@@ -157,10 +203,12 @@ export default gql`
     _id: ID
     name: String
     teachers: [Teacher]
+    course: Course
   }
   input SubjectInput {
     _id: ID
     name: String
     teachers: [TeacherInput]
+    course: ID
   }
 `;
