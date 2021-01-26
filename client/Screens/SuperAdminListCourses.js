@@ -10,38 +10,40 @@ import {
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
-/**
- * TODO: Acordarse de cuando hayan grades traerlos tambien o fijarse si son necesarios o no
- */
+
 const GET_ALL_COURSES = gql`
-  {
-    courses {
+  query GetCoursesFromAGrade($_id: ID) {
+    grades(_id: $_id) {
       _id
       name
+      courses {
+        _id
+        name
+      }
     }
   }
 `;
 
-const SuperAdminListCourses = ({navigation, route}) => {
-  const { id } = route.params.params
-  console.log(id)
-  const { data, loading, error } = useQuery(GET_ALL_COURSES);
+const SuperAdminListCourses = ({ navigation, route }) => {
+  const { id: _id } = route.params.params;
+  const { data, loading, error } = useQuery(GET_ALL_COURSES, {
+    variables: { _id },
+  });
 
   if (data) {
-    const { courses } = data;
+    const courses = data.grades[0].courses;
+
     return (
       <ScrollView>
         <View
           style={{
             flex: 1,
-            padding: 5 /*  marginTop: StatusBar.currentHeight || 0 */,
+            padding: 5,
           }}
         >
           <Text
             style={{
               fontSize: 25,
-              // marginBottom: 20,
-              // marginTop: 20,
               marginLeft: 20,
             }}
           >
@@ -59,43 +61,48 @@ const SuperAdminListCourses = ({navigation, route}) => {
             <Text
               style={{
                 fontSize: 25,
-                // marginBottom: 20,
-                // marginTop: 20,
                 marginLeft: 20,
               }}
             >
               Agregar Materia
             </Text>
           </TouchableHighlight>
-          <FlatList
-            data={courses}
-            renderItem={({ item: course }) => {
-              return (
-                <Card
-                  key={course._id}
-                  style={{
-                    margin: 5,
-                    backgroundColor: "#00aadd",
-                    borderRadius: 10,
-                    padding: 20,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
+          {/* MAPPING ALL THE COURSES OF THE GRADE CHOOSED */}
+          {courses.length ? (
+            <FlatList
+              data={courses}
+              renderItem={({ item: { _id, name } }) => {
+                return (
+                  <Card
+                    key={_id}
                     style={{
-                      fontSize: 20,
-                      padding: 10,
+                      margin: 5,
+                      backgroundColor: "#00aadd",
+                      borderRadius: 10,
+                      padding: 20,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    {course.name}
-                  </Text>
-                </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        padding: 10,
+                      }}
+                    >
+                      {name}
+                    </Text>
+                  </Card>
+                );
+              }}
+              keyExtractor={({ _id }) => _id}
+            />
+          ) : (
+            <CenterView>
+              <Text>ERROR, NO HAY CURSOS PARA ESTE GRADO</Text>
+            </CenterView>
+          )}
         </View>
       </ScrollView>
     );
