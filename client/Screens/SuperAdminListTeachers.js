@@ -91,7 +91,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                   <View style={styles.cardcont}>
                     <View style={styles.prof}>
                       <Text style={styles.name}>
-                        {teacher.name} 
+                        {teacher.name} {teacher.lastname}
                       </Text>
                       <TouchableHighlight
                         activeOpacity={0.6}

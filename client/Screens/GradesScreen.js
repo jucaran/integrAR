@@ -25,7 +25,7 @@ const GradesScreen = ({navigation}) => {
             activeOpacity={0.6}
             underlayColor="ligthgrey"
             onPress={() =>
-              navigation.navigate("Curses", {
+              navigation.navigate("Courses", {
                 screen: "SuperAdminAddGrade",
               })
             }

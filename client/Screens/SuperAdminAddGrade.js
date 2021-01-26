@@ -7,11 +7,20 @@ import {
   View,
 } from "react-native";
 import CenterView from "../utils/CenterView";
+import { useMutation, gql } from "@apollo/client";
+
+const CREATE_GRADE = gql`
+  mutation CreateGrade( $input: GradeInput) {
+    createGrade(input: $input) {
+      name
+    }
+  }
+`;
 
 const AddCourseScreen = ({ navigation }) => {
+  const [createGrade, { data, error }] = useMutation(CREATE_GRADE);
   const [inputs, setInputs] = useState({
-    grado: "",
-    curso: "",
+    grade: "",
   });
 
   const handleChange = (text, input) => {
@@ -19,21 +28,36 @@ const AddCourseScreen = ({ navigation }) => {
       ...inputs,
       [input]: text,
     });
-  };
+  }
+
+  const handleSubmit = async (name) => {
+    try { 
+      console.log(name)
+      await createGrade({
+      variables: { input: { name } },
+    })}
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+  
+  }  
+  
 
   return (
     <CenterView>
-      <Text style={styles.title}>AGREGAR CURSO</Text>
+      <Text style={styles.title}>AGREGAR AÑO</Text>
       <View>
         <Text style={styles.description}>Año</Text>
         <TextInput
           style={styles.input}
           placeholder="Año..."
-          value={inputs.gradoInput}
-          onChangeText={(text) => handleChange(text, "grado")}
+          value={inputs.gradeInput}
+          onChangeText={(text) => handleChange(text, "grade")}
         />
+        {console.log(inputs)}
       </View>
-      <View>
+      {/* <View>
         <Text style={styles.description}>Curso</Text>
         <TextInput
           style={styles.input}
@@ -41,12 +65,12 @@ const AddCourseScreen = ({ navigation }) => {
           value={inputs.cursoInput}
           onChangeText={(text) => handleChange(text, "curso")}
         />
-      </View>
+      </View> */}
       <TouchableOpacity
         activeOpacity={0.8}
         underlayColor="lightblue"
         style={styles.button}
-        onPress={() => navigation.navigate("AgregarMateriaPorCurso")}
+        onPress={()=>handleSubmit(inputs.grade)}
       >
         <Text style={styles.textButton}>AGREGAR</Text>
       </TouchableOpacity>
