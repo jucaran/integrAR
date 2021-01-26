@@ -7,16 +7,14 @@ import {
   Image,
 } from "react-native";
 import CenterView from "../utils/CenterView";
-import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext } from "../providers/AuthProvider";
-
-const Stack = createStackNavigator();
 
 const SuperAdminView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <CenterView>
-      <Text style={styles.title}>¡Hola {user.name} Bienvenido</Text>
+      <Text style={styles.title}>¡Hola {user.name}! Bienvenido</Text>
       <View style={styles.cont}>
         <View style={styles.courses}>
           <TouchableHighlight
