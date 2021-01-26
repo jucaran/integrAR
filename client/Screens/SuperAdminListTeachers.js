@@ -51,82 +51,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
   if (data) {
     const { teachers, courses, subjects } = data;
     return (
-<<<<<<< HEAD
-      <ScrollView>
-        <CenterView>
-        <View style={styles.principal}>
-          <View style={styles.touch}>
-            <TouchableHighlight
-              activeOpacity={0.6}
-              underlayColor="ligthgrey"
-              onPress={() =>
-                navigation.navigate("", { screen: "SuperAdminAddTeacher" })
-              }
-            >
-              <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
-            </TouchableHighlight>
-          </View>
-          <FlatList
-            data={teachers}
-            renderItem={({ item: teacher }) => {
-              return (
-                <Card key={teacher._id} style={styles.card}>
-                  <View style={styles.cardcont}>
-                    <View style={styles.prof}>
-                      <Text style={styles.name}>
-                        {teacher.name} {teacher.lastname}
-                      </Text>
-                      <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() =>
-                          navigation.navigate("", {
-                            screen: "SuperAdminEditTeacher",
-                          })
-                        }
-                      >
-                        <Image
-                          source={require("../assets/edit.png")}
-                          style={styles.img}
-                        />
-                      </TouchableHighlight>
-                      <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() =>
-                          navigation.navigate("", {
-                            screen: "SuperAdminDeleteTeacher",
-                          })
-                        }
-                      >
-                        <Image
-                          source={require("../assets/x.png")}
-                          style={styles.img}
-                        />
-                      </TouchableHighlight>
-                    </View>
-                    <View style={styles.desc}>
-                      {teacher.subjects?.length > 0 ? (
-                        teacher.subjects.map((subject, i) => {
-                          return (
-                            <Text key={i} style={styles.description}>
-                              {subject}
-                            </Text>
-                          );
-                        })
-                      ) : (
-                        <></>
-                      )}
-                    </View>
-                    <View style={styles.desc}>
-                      {teacher.courses?.length > 0 ? (
-                        teacher.courses.map((course, i) => {
-                          return (
-                            <Text key={i} style={styles.description}>
-                              {course}
-                            </Text>
-                          );
-=======
+      <CenterView>
       <View style={styles.principal}>
         <View style={styles.touch}>
           <TouchableHighlight
@@ -155,7 +80,6 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       onPress={() =>
                         navigation.navigate("", {
                           screen: "SuperAdminEditTeacher",
->>>>>>> f68796c77a71c4afdb31e2608e179e0ff9892854
                         })
                       }
                     >
@@ -194,21 +118,6 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       />
                     </TouchableHighlight>
                   </View>
-<<<<<<< HEAD
-                </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
-        </View>
-        </CenterView>
-      </ScrollView>
-    );
-  } else if (error)
-    return (
-      <View>
-        <Text>ERROR</Text>
-=======
                   <View style={styles.desc}>
                     {teacher.subjects?.length > 0 ? (
                       teacher.subjects.map((subject, i) => {
@@ -241,8 +150,8 @@ const SuperAdminListTeachers = ({ navigation }) => {
           }}
           keyExtractor={({ _id }) => _id}
         />
->>>>>>> f68796c77a71c4afdb31e2608e179e0ff9892854
       </View>
+      </CenterView>
     );
   } else if (error || mutationData.error)
     return (
