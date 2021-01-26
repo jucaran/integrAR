@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 
-const ADD_TEACHER = gql`
-    mutation AddTeacher(
+
+//Falta mandarle el ID para que funque
+const EDIT_TEACHER = gql`
+    mutation EditTeacher(
         $dni: Int!, 
         $name: String!,
         $email: String!, 
@@ -11,7 +13,7 @@ const ADD_TEACHER = gql`
         $picture: String, 
         $address: String,
         ) {
-     createTeacher(input: {
+     editTeacher(input: {
         dni: $dni, 
         name: $name,
         email: $email, 
@@ -24,7 +26,7 @@ const ADD_TEACHER = gql`
 }
 `;
 
-function AddTeacherScreen({}) {
+function EditTeacherScreen() {
     const [teacher, setTeacher] = useState({
         picture: '',
         name: '',
@@ -40,11 +42,12 @@ function AddTeacherScreen({}) {
         setTeacher({...teacher, [name]: value})
     }
 
-    const [createTeacher, { data, error }] = useMutation(ADD_TEACHER);
+    const [editTeacher, { data, error }] = useMutation(EDIT_TEACHER);
 
     const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
         try {
             dni = parseInt(dni);
+            //Falta mandarle el ID para que funque
             await createTeacher({
                 variables: {
                     name,
@@ -59,7 +62,7 @@ function AddTeacherScreen({}) {
                 console.log(error)
                 return false;
             }
-            return alert(`El profesor ${name} fue agregado exitosamente!`);
+            return alert(`El profesor ${name} fue actualizado exitosamente!`);
         } catch (err) {
             console.error('soy el catch', err);
         }
@@ -120,4 +123,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default AddTeacherScreen;
+export default EditTeacherScreen;

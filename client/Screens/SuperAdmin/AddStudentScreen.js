@@ -1,19 +1,68 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
+import { useMutation, gql } from "@apollo/client";
+
+const ADD_STUDENT = gql`
+    mutation AddStudent(
+        $dni: Int!, 
+        $name: String!,
+        $email: String!, 
+        $whatsapp: String!,
+        $picture: String, 
+        $address: String,
+        ) {
+     createStudent(input: {
+        dni: $dni, 
+        name: $name,
+        email: $email, 
+        whatsapp: $whatsapp,
+        picture: $picture, 
+        address: $address,
+     }) {
+         name
+     }   
+}
+`;
 
 function AddStudentScreen({navigation}) {
     const [student, setStudent] = useState({
-        photo: '',
         name: '',
-        address: '',
+        dni: '',
         email: '',
-        birthdate: '',
-        phone: '',
+        whatsapp: '',
         course: '',
-        dni: ''
+        address: '',
+        birthday: '',
+        picture: '',
     })
+
+    const [createStudent, { data, error }] = useMutation(ADD_STUDENT)
+
     const handleChange = (name, value) => {
         setStudent({...student, [name]: value})
+    }
+
+    const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
+        try {
+            dni = parseInt(dni);
+            await createStudent({
+                variables: {
+                    name,
+                    dni,
+                    email,
+                    whatsapp,
+                    address,
+                    picture
+                },
+            })
+            if(error) {
+                console.log(error)
+                return false;
+            }
+            return alert(`El alumno ${name} fue agregado exitosamente!`);
+        } catch (err) {
+            console.error('soy el catch', err);
+        }
     }
 
     return ( 
@@ -24,22 +73,22 @@ function AddStudentScreen({navigation}) {
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
 
-                    <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/>
+                    {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
 
                     <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)}/>
 
-                    <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('phone', value)}/>
+                    <TextInput style={styles.input} placeholder="Telefono" onChangeText={(value) => handleChange('whatsapp', value)}/>
 
                     <TextInput style={styles.input} placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
 
-                    <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', value)}/>
+                    {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
                     
-                    <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('photo', value)}/>
+                    <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('picture', value)}/>
 
                     <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
                 </View>
                 <View>
-                    <Button style={styles.button} title="Agregar Alumno" onPress={() => alert('Alumno agregado con exito!')} />
+                    <Button style={styles.button} title="Agregar Alumno" onPress={() => handleOnPress(student)} />
                 </View>
 
             </View>

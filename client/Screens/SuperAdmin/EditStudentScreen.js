@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 
-const ADD_TEACHER = gql`
-    mutation AddTeacher(
+//Falta hacer la query para traer la info del alumno a editar
+
+const EDIT_STUDENT = gql`
+    mutation AddStudent(
         $dni: Int!, 
         $name: String!,
         $email: String!, 
@@ -11,7 +13,7 @@ const ADD_TEACHER = gql`
         $picture: String, 
         $address: String,
         ) {
-     createTeacher(input: {
+     editStudent( input: {
         dni: $dni, 
         name: $name,
         email: $email, 
@@ -24,28 +26,29 @@ const ADD_TEACHER = gql`
 }
 `;
 
-function AddTeacherScreen({}) {
-    const [teacher, setTeacher] = useState({
-        picture: '',
+function EditStudentScreen({navigation}) {
+    const [student, setStudent] = useState({
         name: '',
-        address: '',
+        dni: '',
         email: '',
-        birthdate: '',
         whatsapp: '',
         course: '',
-        dni: ''
+        address: '',
+        birthday: '',
+        picture: '',
     })
 
-    const handleChange = (name, value) => {
-        setTeacher({...teacher, [name]: value})
-    }
+    const [editStudent, { data, error }] = useMutation(EDIT_STUDENT)
 
-    const [createTeacher, { data, error }] = useMutation(ADD_TEACHER);
+    const handleChange = (name, value) => {
+        setStudent({...student, [name]: value})
+    }
 
     const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
         try {
             dni = parseInt(dni);
-            await createTeacher({
+            // falta agregar el ID para que funque
+            await editStudent({
                 variables: {
                     name,
                     dni,
@@ -59,7 +62,7 @@ function AddTeacherScreen({}) {
                 console.log(error)
                 return false;
             }
-            return alert(`El profesor ${name} fue agregado exitosamente!`);
+            return alert(`El alumno ${name} fue actualizado exitosamente!`);
         } catch (err) {
             console.error('soy el catch', err);
         }
@@ -67,9 +70,9 @@ function AddTeacherScreen({}) {
 
     return ( 
         <ScrollView>
-            <View style={styles.container} >
-                <Text style={styles.title}>Datos del Profesor</Text>
-            
+            <View style={styles.container}>
+                <Text style={styles.title} >Datos del Alumno</Text>
+
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
 
@@ -81,17 +84,17 @@ function AddTeacherScreen({}) {
 
                     <TextInput style={styles.input} placeholder="Direccion" onChangeText={(value) => handleChange('address', value)}/>
 
-                    {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', valuepicture */}
+                    {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
                     
                     <TextInput style={styles.input} placeholder="Foto" onChangeText={(value) => handleChange('picture', value)}/>
 
                     <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
                 </View>
                 <View>
-                    <Button style={styles.button} title="Agregar Profesor" onPress={() => handleOnPress(teacher)} />
+                    <Button style={styles.button} title="Agregar Alumno" onPress={() => handleOnPress(student)} />
                 </View>
-            </View>
 
+            </View>
 
         </ScrollView>
     )
@@ -120,4 +123,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default AddTeacherScreen;
+export default EditStudentScreen;
