@@ -11,7 +11,7 @@ import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
 
-const GET_ALL_COURSES = gql`
+export const GET_ALL_COURSES = gql`
   query GetCoursesFromAGrade($_id: ID) {
     grades(_id: $_id) {
       _id
@@ -31,7 +31,15 @@ const SuperAdminListCourses = ({ navigation, route }) => {
   });
   const arrCour = [];
 
+  if (loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
+    );
+
   if (data) {
+    console.log(data);
     const courses = data.grades[0].courses;
 
     return (
@@ -92,12 +100,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
       <View>
         <Text>ERROR</Text>
       </View>
-    );
-  else
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" />
-      </CenterView>
     );
 };
 
