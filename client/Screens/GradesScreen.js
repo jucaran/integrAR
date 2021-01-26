@@ -1,10 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  ActivityIndicator,
+  FlatList,
+  ScrollView
+} from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
+import CenterView from "../utils/CenterView";
 
-const GET_ALL_GRADES = gql`
+export const GET_ALL_GRADES = gql`
   {
     grades {
       _id
@@ -13,59 +21,60 @@ const GET_ALL_GRADES = gql`
   }
 `;
 
-const GradesScreen = ({navigation}) => {
+const GradesScreen = ({ navigation }) => {
   const { data, loading, error } = useQuery(GET_ALL_GRADES);
+
+  if (loading)
+    return (
+      <CenterView>
+        <ActivityIndicator />
+      </CenterView>
+    );
 
   if (data) {
     const { grades } = data;
     return (
       <ScrollView>
-        <View>
-          <TouchableHighlight
-            activeOpacity={0.6}
-            underlayColor="ligthgrey"
-            onPress={() =>
-              navigation.navigate("Curses", {
-                screen: "SuperAdminAddGrade",
-              })
-            }
-          >
-            <Text style={styles.text}>Agregar Año</Text>
-          </TouchableHighlight>
-          <FlatList
-            data={grades}
-            renderItem={({ item: grade }) => {
-              return (
+        <TouchableHighlight
+          style={styles.touch}
+          activeOpacity={0.6}
+          underlayColor="ligthgrey"
+          onPress={() =>
+            navigation.navigate("Courses", {
+              screen: "SuperAdminAddGrade",
+            })
+          }
+        >
+          <Text style={styles.touchText}>Agregar Año</Text>
+        </TouchableHighlight>
+        <FlatList
+          data={grades}
+          renderItem={({ item: grade }) => {
+            return (
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor="ligthgrey"
+                onPress={() =>
+                  navigation.navigate("SuperAdminListCourses", {
+                    screen: "SuperAdminListCourses",
+                    params: { id: grade._id },
+                  })
+                }
+              >
                 <Card key={grade._id} style={styles.card}>
-                  <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="ligthgrey"
-                    onPress={() =>
-                      navigation.navigate("SuperAdminListCourses", {
-                        screen: "SuperAdminListCourses",  params: { id: grade._id }
-                      })
-                    }
-                  >
-                    <Text style={styles.cardText}>{grade.name}</Text>
-                  </TouchableHighlight>
+                  <Text style={styles.cardText}>{grade.name}</Text>
                 </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
-        </View>
+              </TouchableHighlight>
+            );
+          }}
+          keyExtractor={({ _id }) => _id}
+        />
       </ScrollView>
     );
   } else if (error)
     return (
       <View>
-        <Text>ERROR</Text>
-      </View>
-    );
-  else
-    return (
-      <View>
-        <Text>LOADING</Text>
+        <Text>{JSON.stringify(error)}</Text>
       </View>
     );
 };
@@ -77,11 +86,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    fontSize: 25,
-    // marginBottom: 20,
-    // marginTop: 20,
-    marginLeft: 20,
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 16,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    margin: 5,
+    marginLeft: 12,
   },
   card: {
     margin: 5,

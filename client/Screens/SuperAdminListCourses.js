@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   View,
   Text,
-  StatusBar,
+  StyleSheet,
   TouchableHighlight,
 } from "react-native";
 import { Card } from "react-native-paper";
@@ -29,80 +29,61 @@ const SuperAdminListCourses = ({ navigation, route }) => {
   const { data, loading, error } = useQuery(GET_ALL_COURSES, {
     variables: { _id },
   });
+  const arrCour = [];
 
   if (data) {
     const courses = data.grades[0].courses;
 
     return (
       <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            padding: 5,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              marginLeft: 20,
-            }}
-          >
-            Cursos
-          </Text>
+        <View style={styles.cont}>
           <TouchableHighlight
             activeOpacity={0.6}
+            style={styles.touch}
             underlayColor="ligthgrey"
             onPress={() =>
-              navigation.navigate("Courses", {
-                screen: "SuperAdminAddSubject",
+              navigation.navigate("SuperAdminAddCourse", {
+                screen: "SuperAdminAddCourse",
+                params: id,
               })
             }
           >
-            <Text
-              style={{
-                fontSize: 25,
-                marginLeft: 20,
-              }}
-            >
-              Agregar Materia
-            </Text>
+            <Text style={styles.touchText}>Agregar Curso</Text>
           </TouchableHighlight>
-          {/* MAPPING ALL THE COURSES OF THE GRADE CHOOSED */}
-          {courses.length ? (
-            <FlatList
-              data={courses}
-              renderItem={({ item: { _id, name } }) => {
+          {courses.forEach((course) => {
+            if (course.grade?._id === id) arrCour.push(course._id);
+          })}
+          {console.log(arrCour)}
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
+            style={styles.touch}
+            onPress={() =>
+              navigation.navigate("SuperAdminAddSubject", {
+                screen: "SuperAdminAddSubject",
+                params: arrCour,
+              })
+            }
+          >
+            <Text style={styles.touchText}>Agregar Materia</Text>
+          </TouchableHighlight>
+          <FlatList
+            data={courses}
+            renderItem={(item) => {
+              if (item.item.grade?._id === id) {
                 return (
-                  <Card
-                    key={_id}
-                    style={{
-                      margin: 5,
-                      backgroundColor: "#00aadd",
-                      borderRadius: 10,
-                      padding: 20,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        padding: 10,
-                      }}
-                    >
-                      {name}
-                    </Text>
+                  <Card key={item.item._id} style={styles.card}>
+                    <Text style={styles.cardText}>{item.item.name}</Text>
                   </Card>
                 );
-              }}
-              keyExtractor={({ _id }) => _id}
-            />
-          ) : (
-            <CenterView>
-              <Text>ERROR, NO HAY CURSOS PARA ESTE GRADO</Text>
-            </CenterView>
-          )}
+                //  keyExtractor={({ item._id }) => item._id}
+              }
+              // else {
+              //   return(<CenterView>
+              //     <Text>No hay cursos agregados para este grado</Text>
+              //   </CenterView>)}
+            }}
+          />
         </View>
       </ScrollView>
     );
@@ -119,5 +100,43 @@ const SuperAdminListCourses = ({ navigation, route }) => {
       </CenterView>
     );
 };
+
+const styles = StyleSheet.create({
+  cont: {
+    flex: 1,
+    padding: 5,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  touchText: {
+    marginTop: 5,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 16,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    marginLeft: 12,
+  },
+  card: {
+    margin: 5,
+    backgroundColor: "#00aadd",
+    borderRadius: 10,
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardText: {
+    fontSize: 20,
+    padding: 10,
+  },
+});
 
 export default SuperAdminListCourses;

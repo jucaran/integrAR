@@ -3,8 +3,10 @@ import Test from "../../screens/Test";
 import GradesScreen from "../../screens/GradesScreen";
 import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
-import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject";
+import SuperAdminAddGrade from "../../screens/SuperAdminAddGrade";
 import SuperAdminListSubjects from "../../screens/SuperAdminListSubjects";
+import SuperAdminAddCourse from "../../screens/SuperAdminAddCourse";
+import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject"
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {
@@ -18,15 +20,12 @@ export default function CoursesStack() {
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: "roboto",
+          // fontFamily: "roboto",
         },
       }}
       initialRouteName="GradesScreen"
     >
-       <Stack.Screen
-        name="GradesScreen"
-        component={GradesScreen}
-      />
+      <Stack.Screen name="GradesScreen" component={GradesScreen} />
       <Stack.Screen
         name="SuperAdminListCourses"
         component={SuperAdminListCourses}
@@ -35,7 +34,12 @@ export default function CoursesStack() {
         name="SuperAdminListSubjects"
         component={SuperAdminListSubjects}
       />
-      <Stack.Screen name="Courses" component={SuperAdminAddSubject} />
+      <Stack.Screen name="Courses" component={SuperAdminAddGrade} />
+      <Stack.Screen name="SuperAdminAddCourse" component={SuperAdminAddCourse} />
+      <Stack.Screen
+        name="SuperAdminAddSubject"
+        component={SuperAdminAddSubject}
+      />
     </Stack.Navigator>
   );
 }

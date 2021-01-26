@@ -39,13 +39,11 @@ export const AuthProvider = ({ children }) => {
           //     return false;
           //   }
           // setUser(data.user);
-          setUser({ dni, name: "Preceptor de ejemplo" });
+          const userEj = { dni, name: "Preceptor", role: "admin" };
+          setUser(userEj);
+          await AsyncStorage.setItem("user", JSON.stringify(userEj));
           // await AsyncStorage.setItem("token", data.token);
           // await AsyncStorage.setItem("user", JSON.stringify(data.user));
-          await AsyncStorage.setItem(
-            "user",
-            JSON.stringify({ dni, name: "Preceptor de ejemplo" })
-          );
           // } catch (err) {
           //   console.log(err);
           // }

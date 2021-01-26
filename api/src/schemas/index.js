@@ -12,7 +12,6 @@ export default gql`
   }
 
   type Mutation {
-
     createAdmin(input: AdminInput): Admin
     editAdmin(_id: ID, input: AdminInput): Admin
     deleteAdmin(_id: ID): Admin
@@ -145,12 +144,12 @@ export default gql`
   type Course {
     _id: ID
     name: String
-    grades: [Grade]
+    grade: Grade
   }
   input CourseInput {
     _id: ID
     name: String
-    grades: [GradeInput]
+    grade: GradeInput
   }
 
   # ---------------------------

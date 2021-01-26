@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Text,
   TouchableHighlight,
@@ -7,14 +7,14 @@ import {
   Image,
 } from "react-native";
 import CenterView from "../utils/CenterView";
-import { createStackNavigator } from "@react-navigation/stack";
-
-const Stack = createStackNavigator();
+import { AuthContext } from "../providers/AuthProvider";
 
 const SuperAdminView = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+
   return (
     <CenterView>
-      <Text style={styles.title}>¡Hola Admin! Bienvenido</Text>
+      <Text style={styles.title}>¡Hola {user.name}! Bienvenido</Text>
       <View style={styles.cont}>
         <View style={styles.courses}>
           <TouchableHighlight
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     height: 168,
   },
   title: {
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 20,
     color: "#2290CD",
     marginTop: 25,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   touchText: {
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 18,
     color: "#000000",
   },
