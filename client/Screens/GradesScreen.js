@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight, ActivityIndicator } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
@@ -15,7 +15,6 @@ const GET_ALL_GRADES = gql`
 
 const GradesScreen = ({navigation}) => {
   const { data, loading, error } = useQuery(GET_ALL_GRADES);
-
   if (data) {
     const { grades } = data;
     return (
@@ -29,26 +28,28 @@ const GradesScreen = ({navigation}) => {
                 screen: "SuperAdminAddGrade",
               })
             }
-          >
+            >
             <Text style={styles.text}>Agregar Año</Text>
           </TouchableHighlight>
           <FlatList
             data={grades}
-            renderItem={({ item: grade }) => {
+            renderItem={({ item: grade  }) => {
               return (
-                <Card key={grade._id} style={styles.card}>
-                  <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="ligthgrey"
-                    onPress={() =>
+                <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor="ligthgrey"
+                onPress={() =>
                       navigation.navigate("SuperAdminListCourses", {
                         screen: "SuperAdminListCourses",  params: { id: grade._id }
                       })
                     }
-                  >
+                    >
+                    <Card key={grade._id} style={styles.card}>
                     <Text style={styles.cardText}>{grade.name}</Text>
-                  </TouchableHighlight>
-                </Card>
+                    </Card>
+                </TouchableHighlight>
+                   
+                   
               );
             }}
             keyExtractor={({ _id }) => _id}
@@ -59,13 +60,13 @@ const GradesScreen = ({navigation}) => {
   } else if (error)
     return (
       <View>
-        <Text>ERROR</Text>
+        <Text>{JSON.stringify(error)}</Text>
       </View>
     );
-  else
+  else if (loading)
     return (
       <View>
-        <Text>LOADING</Text>
+        <ActivityIndicator/>
       </View>
     );
 };

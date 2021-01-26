@@ -35,7 +35,9 @@ const AddCourseScreen = ({ navigation }) => {
       console.log(name)
       await createGrade({
       variables: { input: { name } },
-    })}
+    })
+    navigation.navigate("Cursos", { screen: "GradesScreen" })
+  }
     catch (error) {
       console.log(error);
       return false;
