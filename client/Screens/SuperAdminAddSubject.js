@@ -11,28 +11,11 @@ import { ScrollView } from "react-native-gesture-handler";
 //import CheckBox from '@react-native-community/checkbox';;
 import CenterView from "../utils/CenterView";
 
-const AddSubjectScreen = ({ navigation }) => {
+const AddSubjectScreen = ({ navigation, route }) => {
+  console.log(navigation, route)
   const [inputs, setInputs] = useState({
     materia: "",
   });
-  //const [check, setCheck] = useState(false);
-  //  const [isTeacher, setIsTeacher] = useState(Array.from({ length: teachers.length }, _ => false));
-  //  const toggleSwitch = (index) => setIsTeacher(prev => prev.map((bool, i) => i !== index ? !bool : bool));
-  let teachers = [
-    { Nombre: "Carlos", Apellido: "Fila", materias: [] },
-    { Nombre: "Ana", Apellido: "González", materias: [] },
-    { Nombre: "José", Apellido: "Rosas", materias: [] },
-    { Nombre: "Leila", Apellido: "Núñez", materias: [] },
-    { Nombre: "Franco", Apellido: "Fontana", materias: [] },
-    { Nombre: "Luisina", Apellido: "Añon", materias: [] },
-    { Nombre: "María", Apellido: "Frank", materias: [] },
-    { Nombre: "Luis", Apellido: "Bono", materias: [] },
-    { Nombre: "Sebastian", Apellido: "Rama", materias: [] },
-  ];
-  let cursos= [{grado: 1, curso: "A", materias: []}, {grado: 1, curso: "B", materias: []},
-   {grado: 1, curso: "C", materias: []}, {grado: 1, curso: "D", materias: []}, {grado: 2, curso: "A", materias: []},
-   {grado: 2, curso: "B", materias: []}, {grado: 2, curso: "C", materias: []}, {grado: 2, curso: "D", materias: []}]
-
 
 
   const handleChange = (text, input) => {
@@ -55,11 +38,11 @@ const AddSubjectScreen = ({ navigation }) => {
             onChangeText={(text) => handleChange(text, "materia")}
           />
         </View>
-        <View>
+        {/* <View>
           <Text style={styles.description}>Agregar Profesor</Text>
         </View>
         <View style={styles.switchsCont}>
-          {teachers.map((teacher, i) => {
+          {teachers?.map((teacher, i) => {
             const [isTeacher, setisTeacher] = useState(false);
             if (teacher) {
               return (
@@ -84,8 +67,8 @@ const AddSubjectScreen = ({ navigation }) => {
             }
           })}
           {console.log(teachers)}
-        </View>
-        <View>
+        </View> */}
+        {/* <View>
           <Text style={styles.description}>Agregar Curso</Text>
         </View>
         <View style={styles.switchsCont}>
@@ -114,7 +97,7 @@ const AddSubjectScreen = ({ navigation }) => {
             }
           })}
           {console.log(cursos)}
-        </View>
+        </View> */}
         <TouchableHighlight
           activeOpacity={0.8}
           underlayColor="lightblue"

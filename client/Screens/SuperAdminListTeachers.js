@@ -51,6 +51,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
   if (data) {
     const { teachers, courses, subjects } = data;
     return (
+      <View style={styles.centerView}>
       <View style={styles.principal}>
         <View style={styles.touch}>
           <TouchableHighlight
@@ -150,6 +151,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
           keyExtractor={({ _id }) => _id}
         />
       </View>
+      </View>
     );
   } else if (error || mutationData.error)
     return (
@@ -160,6 +162,11 @@ const SuperAdminListTeachers = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  centerView: {
+      flex: 1,
+      alignItems: "center",
+      backgroundColor: "white"
+  },
   principal: {
     backgroundColor: "white",
   },

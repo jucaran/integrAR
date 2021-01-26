@@ -5,13 +5,14 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
+  FlatList,
+  ScrollView
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
 
-const GET_ALL_GRADES = gql`
+export const GET_ALL_GRADES = gql`
   {
     grades {
       _id
@@ -33,8 +34,9 @@ const GradesScreen = ({ navigation }) => {
   if (data) {
     const { grades } = data;
     return (
-      <View>
+      <ScrollView>
         <TouchableHighlight
+          style={styles.touch}
           activeOpacity={0.6}
           underlayColor="ligthgrey"
           onPress={() =>
@@ -43,7 +45,7 @@ const GradesScreen = ({ navigation }) => {
             })
           }
         >
-          <Text style={styles.text}>Agregar Año</Text>
+          <Text style={styles.touchText}>Agregar Año</Text>
         </TouchableHighlight>
         <FlatList
           data={grades}
@@ -67,7 +69,7 @@ const GradesScreen = ({ navigation }) => {
           }}
           keyExtractor={({ _id }) => _id}
         />
-      </View>
+      </ScrollView>
     );
   } else if (error)
     return (
@@ -84,11 +86,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    fontSize: 25,
-    // marginBottom: 20,
-    // marginTop: 20,
-    marginLeft: 20,
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 16,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    margin: 5,
+    marginLeft: 12,
   },
   card: {
     margin: 5,
