@@ -90,9 +90,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                 <Card key={teacher._id} style={styles.card}>
                   <View style={styles.cardcont}>
                     <View style={styles.prof}>
-                      <Text style={styles.name}>
-                        {teacher.name} 
-                      </Text>
+                      <Text style={styles.name}>{teacher.name}</Text>
                       <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="ligthgrey"
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     width: 280,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     color: "#000000",
     marginLeft: 10,
     fontWeight: "bold",
@@ -210,14 +208,14 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     color: "#000000",
     marginLeft: 10,
   },
   touchText: {
     marginTop: 15,
     marginBottom: 15,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 14,
     alignItems: "flex-start",
     color: "#2290CD",

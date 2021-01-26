@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     height: 168,
   },
   title: {
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 20,
     color: "#2290CD",
     marginTop: 25,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   touchText: {
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 18,
     color: "#000000",
   },
