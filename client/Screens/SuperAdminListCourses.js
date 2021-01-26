@@ -11,7 +11,7 @@ import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
 
-const GET_ALL_COURSES = gql`
+export const GET_ALL_COURSES = gql`
   query GetCoursesFromAGrade($_id: ID) {
     grades(_id: $_id) {
       _id
@@ -30,9 +30,9 @@ const SuperAdminListCourses = ({ navigation, route }) => {
     variables: { _id },
   });
   const arrCour = [];
-
   if (data) {
     const courses = data.grades[0].courses;
+    console.log(courses)
 
     return (
       <ScrollView>
@@ -44,14 +44,14 @@ const SuperAdminListCourses = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("SuperAdminAddCourse", {
                 screen: "SuperAdminAddCourse",
-                params: id,
+                params: _id,
               })
             }
           >
             <Text style={styles.touchText}>Agregar Curso</Text>
           </TouchableHighlight>
           {courses.forEach((course) => {
-            if (course.grade?._id === id) arrCour.push(course._id);
+          arrCour.push(course._id);
           })}
           {console.log(arrCour)}
           <TouchableHighlight
@@ -67,22 +67,21 @@ const SuperAdminListCourses = ({ navigation, route }) => {
           >
             <Text style={styles.touchText}>Agregar Materia</Text>
           </TouchableHighlight>
-          <FlatList
+           <FlatList
             data={courses}
-            renderItem={(item) => {
-              if (item.item.grade?._id === id) {
-                return (
-                  <Card key={item.item._id} style={styles.card}>
-                    <Text style={styles.cardText}>{item.item.name}</Text>
-                  </Card>
-                );
-                //  keyExtractor={({ item._id }) => item._id}
-              }
-              // else {
-              //   return(<CenterView>
-              //     <Text>No hay cursos agregados para este grado</Text>
-              //   </CenterView>)}
-            }}
+            renderItem={({item}) => {
+                 return (
+                   <Card key={item._id} style={styles.card}>
+                     <Text style={styles.cardText}>{item.name}</Text>
+                   </Card>
+                 );
+                }
+                // else {
+                  //   return(<CenterView>
+                  //     <Text>No hay cursos agregados para este grado</Text>
+                  //   </CenterView>)}
+                }
+                keyExtractor={({ _id }) => _id}
           />
         </View>
       </ScrollView>

@@ -15,7 +15,7 @@ const CREATE_COURSE = gql`
     createCourse(input: $input) {
       name
       grade {
-        name
+        _id
       }
     }
   }
@@ -23,8 +23,11 @@ const CREATE_COURSE = gql`
 
 
 const AddCourseScreen = ({ navigation, route }) => {
-  const id = route.params.params
-  const [createCourse, { data, error }] = useMutation(CREATE_COURSE);
+  const _id = route.params.params
+  const [createCourse, { data, error }] = useMutation(CREATE_COURSE, {
+    variables: { _id },
+  });
+  
   const [inputs, setInputs] = useState({
     course: "",
   });
@@ -37,11 +40,10 @@ const AddCourseScreen = ({ navigation, route }) => {
   }
 
 
-  const handleSubmit = async (name, id) => {
+  const handleSubmit = async (name, _id) => {
     try { 
-      console.log(name, id)
       await createCourse({
-      variables: { input: { name, grade: {_id: id} } },
+      variables: { input: { name, grade: { _id } } },
       refetchQueries: [ { query: GET_ALL_COURSES }]
     })
     navigation.navigate("SuperAdminListCourses", { screen: "SuperAdminListCourses" })
@@ -71,7 +73,7 @@ const AddCourseScreen = ({ navigation, route }) => {
         activeOpacity={0.8}
         underlayColor="lightblue"
         style={styles.button}
-        onPress={()=>handleSubmit(inputs.course, id)}
+        onPress={()=>handleSubmit(inputs.course, _id)}
       >
         <Text style={styles.textButton}>AGREGAR</Text>
       </TouchableOpacity>
