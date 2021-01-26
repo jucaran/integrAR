@@ -7,10 +7,11 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { LOCAL_IP } from "@env";
 
 // Apollo client
 const httpLink = createHttpLink({
-  uri: "http://192.168.0.6:4000/graphql",
+  uri: `http://${LOCAL_IP}:4000/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -29,7 +30,12 @@ const client = new ApolloClient({
 });
 
 const ApolloProviderContainer = ({ children }) => {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <ApolloProvider client={client}>
+      {console.log(LOCAL_IP)}
+      {children}
+    </ApolloProvider>
+  );
 };
 
 export default ApolloProviderContainer;
