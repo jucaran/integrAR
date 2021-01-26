@@ -71,7 +71,7 @@ export default gql`
     subjects: [SubjectInput]
     students: [StudentInput]
   }
-  
+
   # ---------------------------
   type Teacher {
     _id: ID

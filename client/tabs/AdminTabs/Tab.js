@@ -1,12 +1,12 @@
 import React from "react";
-import CartScreen from "./CoursesScreen";
-import HistoryScreen from "./TasksScreen";
-import HomeScreen from "./HomeScreen";
-import Options from "./OptionsScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
-
+import CoursesStack from "../../stacks/AdminStack/CoursesStack";
+import HomeStack from "../../stacks/AdminStack/HomeStack";
+import OptionsStack from "../../stacks/AdminStack/OptionsStack";
+import TasksStack from "../../stacks/AdminStack/TasksStack";
+import TeachersStack from "../../stacks/AdminStack/TeachersStack"
 const Tab = createMaterialBottomTabNavigator();
 function MyTabs() {
   return (
@@ -18,38 +18,51 @@ function MyTabs() {
     >
       <Tab.Screen
         name="Inicio"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarIcon: () => {
             return (
               <View>
-                <Icon name={"ios-home-outline"} size={25} />
+                <Icon name={"ios-home-outline"} size={25} color={"white"}/>
               </View>
             );
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tareas"
-        component={HistoryScreen}
+        component={TasksStack}
         options={{
           tabBarIcon: () => {
             return (
               <View>
-                <Icon name={"ios-clipboard-outline"} size={25} />
+                <Icon name={"ios-clipboard-outline"} size={25} color={"white"}/>
               </View>
             );
           },
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Cursos"
-        component={CartScreen}
+        component={CoursesStack}
         options={{
           tabBarIcon: () => {
             return (
               <View>
-                <Icon name={"ios-school-outline"} size={25} />
+                <Icon name={"ios-school-outline"} size={25} color={"white"}/>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Teachers"
+        component={TeachersStack}
+        options={{
+          tabBarIcon: () => {
+            return (
+              <View>
+                <Icon name={"ios-person-outline"} size={25} color={"white"}/>
               </View>
             );
           },
@@ -57,12 +70,12 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Opciones"
-        component={Options}
+        component={OptionsStack}
         options={{
           tabBarIcon: () => {
             return (
               <View>
-                <Icon name={"ios-settings-outline"} size={25} />
+                <Icon name={"ios-settings-outline"} size={25} color={"white"}/>
               </View>
             );
           },
