@@ -30,8 +30,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
     variables: { _id },
   });
   const arrCour = [];
-<<<<<<< HEAD
-=======
 
   if (loading)
     return (
@@ -40,11 +38,10 @@ const SuperAdminListCourses = ({ navigation, route }) => {
       </CenterView>
     );
 
->>>>>>> 0e6b6042f0cdac896793f18789f9d4669d024486
   if (data) {
     console.log(data);
     const courses = data.grades[0].courses;
-    console.log(courses)
+    console.log(courses);
 
     return (
       <ScrollView>
@@ -63,7 +60,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
             <Text style={styles.touchText}>Agregar Curso</Text>
           </TouchableHighlight>
           {courses.forEach((course) => {
-          arrCour.push(course._id);
+            arrCour.push(course._id);
           })}
           {console.log(arrCour)}
           <TouchableHighlight
@@ -79,21 +76,22 @@ const SuperAdminListCourses = ({ navigation, route }) => {
           >
             <Text style={styles.touchText}>Agregar Materia</Text>
           </TouchableHighlight>
-           <FlatList
+          <FlatList
             data={courses}
-            renderItem={({item}) => {
-                 return (
-                   <Card key={item._id} style={styles.card}>
-                     <Text style={styles.cardText}>{item.name}</Text>
-                   </Card>
-                 );
-                }
-                // else {
-                  //   return(<CenterView>
-                  //     <Text>No hay cursos agregados para este grado</Text>
-                  //   </CenterView>)}
-                }
-                keyExtractor={({ _id }) => _id}
+            renderItem={
+              ({ item }) => {
+                return (
+                  <Card key={item._id} style={styles.card}>
+                    <Text style={styles.cardText}>{item.name}</Text>
+                  </Card>
+                );
+              }
+              // else {
+              //   return(<CenterView>
+              //     <Text>No hay cursos agregados para este grado</Text>
+              //   </CenterView>)}
+            }
+            keyExtractor={({ _id }) => _id}
           />
         </View>
       </ScrollView>
