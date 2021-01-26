@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     width: 280,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     color: "#000000",
     marginLeft: 10,
     fontWeight: "bold",
@@ -210,14 +210,14 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     color: "#000000",
     marginLeft: 10,
   },
   touchText: {
     marginTop: 15,
     marginBottom: 15,
-    fontFamily: "roboto",
+    // fontFamily: "roboto",
     fontSize: 14,
     alignItems: "flex-start",
     color: "#2290CD",

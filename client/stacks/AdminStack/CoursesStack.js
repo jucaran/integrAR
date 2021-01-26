@@ -18,15 +18,12 @@ export default function CoursesStack() {
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: "roboto",
+          // fontFamily: "roboto",
         },
       }}
       initialRouteName="GradesScreen"
     >
-       <Stack.Screen
-        name="GradesScreen"
-        component={GradesScreen}
-      />
+      <Stack.Screen name="GradesScreen" component={GradesScreen} />
       <Stack.Screen
         name="SuperAdminListCourses"
         component={SuperAdminListCourses}

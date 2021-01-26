@@ -16,7 +16,7 @@ export default function HomeStack() {
         title: "integrAR",
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: "roboto",
+          // fontFamily: "roboto",
         },
       }}
       initialRouteName={"SuperAdminScreen"}
