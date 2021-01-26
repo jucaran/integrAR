@@ -56,11 +56,11 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    grades: [Grade]
     courses: [Course]
+    grades: [Grade]
     teachers: [Teacher]
-    subjects: [Subject]
     students: [Student]
+    subjects: [Subject]
   }
   input AdminInput {
     _id: ID
@@ -72,24 +72,26 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    grades: [GradeInput]
     courses: [CourseInput]
+    grades: [GradeInput]
     teachers: [TeacherInput]
-    subjects: [SubjectInput]
     students: [StudentInput]
+    subjects: [SubjectInput]
   }
   
   # ---------------------------
   type User {
     _id: ID
     dni: Int
-    email: String
+    name: String
     password: String
+    email: String
+    role: String
   }
 
   type AuthData {
-    userId: ID
     token: String
+    user: User
   }
 
   input UserInput {
@@ -128,6 +130,7 @@ export default gql`
     picture: String
     subjects: [SubjectInput]
     user: [UserInput]
+    courses: [CourseInput]
   }
 
   # ---------------------------
@@ -165,23 +168,35 @@ export default gql`
     _id: ID
     name: String
     courses: [Course]
+    grades: [Grade]
+    teachers: [Teacher]
+    subjects: [Subject]
   }
   input GradeInput {
     _id: ID
     name: String
     courses: [CourseInput]
+    teachers: [TeacherInput] 
+    subjects: [SubjectInput]
+    students: [StudentInput]
   }
 
   # ---------------------------
   type Course {
     _id: ID
     name: String
-    grades: [Grade]
+    grade: Grade
+    teachers: [Teacher]
+    subjects: [Subject]
+    students: [Student]
   }
   input CourseInput {
     _id: ID
     name: String
-    grades: [GradeInput]
+    grade: GradeInput
+    teachers: [TeacherInput]
+    subjects: [SubjectInput]
+    students: [StudentInput]
   }
 
   # ---------------------------
@@ -189,10 +204,12 @@ export default gql`
     _id: ID
     name: String
     teachers: [Teacher]
+    course: Course
   }
   input SubjectInput {
     _id: ID
     name: String
     teachers: [TeacherInput]
+    course: ID
   }
 `;

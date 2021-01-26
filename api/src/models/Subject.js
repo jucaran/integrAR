@@ -5,11 +5,11 @@ const subjectSchema = new Schema({
     type: String,
     required: true
   },
-  courses: [{
+  course: {
     type: Schema.Types.ObjectId,
     ref: "Course",
     autopopulate: true
-  }],
+  },
   teacher: [{
     type: Schema.Types.ObjectId,
     ref: "Teacher",

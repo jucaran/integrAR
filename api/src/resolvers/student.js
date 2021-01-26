@@ -1,30 +1,50 @@
+import Student from "../models/Student";
+
 // Query
-export const allStudents = async (parent, args, ctx) => {
+export const allStudents = async (_, args, ctx) => {
+
   if (args._id) {
-    return await ctx.Student.find({ _id: args._id });
+    return await Student.find({ _id: args._id });
   } else if (args.dni) {
-    return await ctx.Student.find({ dni: args.dni });
+    return await Student.find({ dni: args.dni });
   } else {
-    return await ctx.Student.find();
+    return await Student.find();
   }
 }
 
 // Mutations
 export const createStudent = async (_, args, ctx) => {
-  return await new ctx.Student(args.input).save();
+  return await new Student(args.input).save();
 }
 
-export const editStudent = async (_, args, ctx, req) => {
-  if (!req.isAuth) {
-    throw new Error('Unauthenticated!');
-  }
-  return await ctx.Student.findByIdAndUpdate(
-    args._id,
-    { $push: args.input },
-    { new: true }
-  );
+export const editStudent = async (_, args, ctx) => {
+  // return await Student.findByIdAndUpdate(
+  //   args._id,
+  //   { $push: args.input },
+  //   { new: true }
+  // );
+
+  let student = await Student.findById(args._id)
+  
+  args.input.name ? (student.name = args.input.name) : null
+  args.input.lastname ? (student.lastname = args.input.lastname) : null
+  args.input.dni ? (student.dni = args.input.dni) : null
+  args.input.email ? (student.email = args.input.email) : null
+  args.input.whatsapp ? (student.whatsapp = args.input.whatsapp) : null
+  args.input.address ? (student.address = args.input.address) : null
+  args.input.birthday ? (student.birthday = args.input.birthday) : null
+  args.input.picture ? (student.picture = args.input.picture) : null
+
+  args.input.grades ? (course.grades = args.input.grades) : null
+  args.input.courses ? (course.courses = args.input.courses) : null
+  args.input.teachers ? (course.teachers = args.input.teachers) : null
+  args.input.subjects ? (course.subjects = args.input.subjects) : null
+    
+  await student.save()
+
+  return student
 }
 
 export const deleteStudent = async (_, args, ctx) => {
-  return await ctx.Student.findByIdAndDelete(args._id);
+  return await Student.findByIdAndDelete(args._id);
 }

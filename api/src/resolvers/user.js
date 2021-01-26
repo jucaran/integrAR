@@ -1,12 +1,17 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import User from "../models/User";
+import dotenv from "dotenv";
+dotenv.config();
+
+const { JWT_SECRET } = process.env;
 
 // Query
-export const allUsers = async (parent, args, { User }) => {
+export const allUsers = async (_, args, ctx) => {
   return await User.find();
 };
 
-export const createUser = async (parent, args, { User }) => {
+export const createUser = async (_, args, ctx) => {
   try {
     const existingUser = await User.findOne({ dni: args.userInput.dni });
     if (existingUser) {
@@ -22,7 +27,6 @@ export const createUser = async (parent, args, { User }) => {
 
     const result = await user.save();
 
-    // return { ...result._doc, password: null, _id: result._id };
     return {
       dni: result.dni,
       email: result.email,
@@ -34,7 +38,7 @@ export const createUser = async (parent, args, { User }) => {
   }
 };
 
-export const login = async (parent, { dni, password }, { User }) => {
+export const login = async (_, { dni, password }, ctx) => {
   const user = await User.findOne({ dni: dni });
   if (!user) {
     throw new Error("User does not exist!");
@@ -43,12 +47,24 @@ export const login = async (parent, { dni, password }, { User }) => {
   if (!isEqual) {
     throw new Error("Password is incorrect!");
   }
-  const token = jwt.sign({ userId: user.id, dni: user.dni }, "tremendosecreto");
-  return { userId: user.id, token: token };
+  const token = jwt.sign({ userId: user.id, dni: user.dni }, JWT_SECRET);
+  return { token: token, user:user };
 };
 
 export const editUser = async (_, args, ctx) => {
-  return await ctx.User.findByIdAndUpdate(
+
+  let user = await User.findById(args._id)
+
+    args.input.dni ? (user.dni = args.input.dni) : null
+    args.input.password ? (user.password = args.input.password) : null
+    args.input.email ? (user.email = args.input.email) : null
+
+    await user.save()
+
+    return user
+
+
+  return await User.findByIdAndUpdate(
     args._id,
     { $push: args.input },
     { new: true }
@@ -56,5 +72,5 @@ export const editUser = async (_, args, ctx) => {
 };
 
 export const deleteUser = async (_, args, ctx) => {
-  return await ctx.User.findByIdAndDelete(args._id);
+  return await User.findByIdAndDelete(args._id);
 };
