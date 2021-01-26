@@ -13,19 +13,20 @@ import CenterView from "../utils/CenterView";
 /**
  * TODO: Acordarse de cuando hayan grades traerlos tambien o fijarse si son necesarios o no
  */
-const GET_ALL_COURSES = gql`
+export const GET_ALL_COURSES = gql`
   {
     courses {
       _id
       name
+      grade {_id}
     }
   }
 `;
 
 const SuperAdminListCourses = ({navigation, route}) => {
   const { id } = route.params.params
-  console.log(id)
   const { data, loading, error } = useQuery(GET_ALL_COURSES);
+
 
   if (data) {
     const { courses } = data;
@@ -37,16 +38,25 @@ const SuperAdminListCourses = ({navigation, route}) => {
             padding: 5 /*  marginTop: StatusBar.currentHeight || 0 */,
           }}
         >
+         <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="ligthgrey"
+            onPress={() =>
+              navigation.navigate("SuperAdminAddCourse", {
+                screen: "SuperAdminAddCourse",
+                params: id
+              })
+            }
+          >
           <Text
             style={{
               fontSize: 25,
-              // marginBottom: 20,
-              // marginTop: 20,
               marginLeft: 20,
             }}
           >
-            Cursos
+            Agregar Curso
           </Text>
+          </TouchableHighlight>
           <TouchableHighlight
             activeOpacity={0.6}
             underlayColor="ligthgrey"
@@ -69,10 +79,12 @@ const SuperAdminListCourses = ({navigation, route}) => {
           </TouchableHighlight>
           <FlatList
             data={courses}
-            renderItem={({ item: course }) => {
+            renderItem={(item) => {
+              console.log(item.item)
+            if (item.item.grade?._id === id){
               return (
                 <Card
-                  key={course._id}
+                  key={item.item._id}
                   style={{
                     margin: 5,
                     backgroundColor: "#00aadd",
@@ -89,12 +101,14 @@ const SuperAdminListCourses = ({navigation, route}) => {
                       padding: 10,
                     }}
                   >
-                    {course.name}
+                    {item.item.name}
                   </Text>
                 </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
+              )
+             };
+            }
+          }
+          //  keyExtractor={({ item._id }) => item._id}
           />
         </View>
       </ScrollView>

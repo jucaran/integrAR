@@ -5,13 +5,14 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
+  FlatList,
+  ScrollView
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
 
-const GET_ALL_GRADES = gql`
+export const GET_ALL_GRADES = gql`
   {
     grades {
       _id
@@ -34,7 +35,7 @@ const GradesScreen = ({ navigation }) => {
     console.log(data);
     const { grades } = data;
     return (
-      <View>
+      <ScrollView>
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="ligthgrey"
@@ -68,7 +69,7 @@ const GradesScreen = ({ navigation }) => {
           }}
           keyExtractor={({ _id }) => _id}
         />
-      </View>
+      </ScrollView>
     );
   } else if (error)
     return (

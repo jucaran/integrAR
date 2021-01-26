@@ -71,6 +71,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
     const { teachers, courses, subjects } = data;
     return (
       <ScrollView>
+        <CenterView>
         <View style={styles.principal}>
           <View style={styles.touch}>
             <TouchableHighlight
@@ -155,6 +156,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
             keyExtractor={({ _id }) => _id}
           />
         </View>
+        </CenterView>
       </ScrollView>
     );
   } else if (error)

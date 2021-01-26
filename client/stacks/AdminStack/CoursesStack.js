@@ -5,6 +5,7 @@ import React from "react";
 import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
 import SuperAdminAddGrade from "../../screens/SuperAdminAddGrade";
 import SuperAdminListSubjects from "../../screens/SuperAdminListSubjects";
+import SuperAdminAddCourse from "../../screens/SuperAdminAddCourse";
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {
@@ -33,6 +34,7 @@ export default function CoursesStack() {
         component={SuperAdminListSubjects}
       />
       <Stack.Screen name="Courses" component={SuperAdminAddGrade} />
+      <Stack.Screen name="SuperAdminAddCourse" component={SuperAdminAddCourse} />
     </Stack.Navigator>
   );
 }
