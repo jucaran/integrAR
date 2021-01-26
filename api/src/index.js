@@ -11,10 +11,14 @@ import Student from "./models/Student";
 import Grade from "./models/Grade";
 import Course from "./models/Course";
 import Subject from "./models/Subject";
+import isAuth from "./middleware/is-auth"
 
 const app = express();
 app.use(cors());
 connect();
+
+app.use(isAuth);
+
 
 const { PORT, API_URL } = process.env;
 

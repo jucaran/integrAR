@@ -3,19 +3,27 @@ import { gql } from "apollo-server-express";
 // Admin
 export default gql`
   type Query {
+    user(_id: ID): [User]
     admin: String
     teachers(dni: Int, _id: ID): [Teacher]
     students(dni: Int, _id: ID): [Student]
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID): [Subject]
+    login(dni: Int, password: String) : AuthData
   }
 
+    
   type Mutation {
 
     createAdmin(input: AdminInput): Admin
     editAdmin(_id: ID, input: AdminInput): Admin
     deleteAdmin(_id: ID): Admin
+    
+    # login(userInput: UserInput) : User
+    createUser(userInput: UserInput): User
+    editUser(_id: ID, input: UserInput): User
+    deleteUser(_id: ID): User
 
     createTeacher(input: TeacherInput): Teacher
     editTeacher(_id: ID, input: TeacherInput): Teacher
@@ -37,7 +45,6 @@ export default gql`
     editSubject(_id: ID, input: SubjectInput): Subject
     deleteSubject(_id: ID): Subject
   }
-
   # ---------------------------
   type Admin {
     _id: ID
@@ -73,6 +80,26 @@ export default gql`
   }
   
   # ---------------------------
+  type User {
+    _id: ID
+    dni: Int
+    email: String
+    password: String
+  }
+
+  type AuthData {
+    userId: ID
+    token: String
+  }
+
+  input UserInput {
+    _id: ID
+    dni: Int
+    email: String
+    password: String
+  }
+   
+  # ---------------------------
   type Teacher {
     _id: ID
     name: String
@@ -87,6 +114,7 @@ export default gql`
     courses: [Course]
     subjects: [Subject]
     students: [Student]
+    user: [User]
   }
   input TeacherInput {
     _id: ID
@@ -99,6 +127,7 @@ export default gql`
     birthday: String
     picture: String
     subjects: [SubjectInput]
+    user: [UserInput]
   }
 
   # ---------------------------
@@ -116,6 +145,7 @@ export default gql`
     grades: [Grade]
     teachers: [Teacher]
     subjects: [Subject]
+    user: [User]
   }
   input StudentInput {
     _id: ID
@@ -127,6 +157,7 @@ export default gql`
     address: String
     birthday: String
     picture: String
+    user: [UserInput]
   }
 
   # ---------------------------

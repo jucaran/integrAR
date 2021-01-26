@@ -3,7 +3,7 @@ export const allGrades = async (parent, args, ctx) => {
   if (args._id) {
     return await ctx.Grade.find({ _id: args._id });
   } else {
-    return await ctx.Grade.find();
+    return await ctx.Grade.find().sort({name: 1});
   }
 }
 

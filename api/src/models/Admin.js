@@ -42,3 +42,4 @@ const adminSchema = new Schema({
 adminSchema.plugin(require('mongoose-autopopulate'));
 // Compile model from schema
 export default model("Admin", adminSchema)
+
