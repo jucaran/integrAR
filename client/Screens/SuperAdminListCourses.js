@@ -26,6 +26,7 @@ export const GET_ALL_COURSES = gql`
 const SuperAdminListCourses = ({navigation, route}) => {
   const { id } = route.params.params
   const { data, loading, error } = useQuery(GET_ALL_COURSES);
+  const arrCour = []
 
 
   if (data) {
@@ -51,13 +52,19 @@ const SuperAdminListCourses = ({navigation, route}) => {
             Agregar Curso
           </Text>
           </TouchableHighlight>
+          {
+          courses.forEach(course =>{
+            if (course.grade?._id === id) arrCour.push(course._id)}
+            )}
+            {console.log(arrCour)}
           <TouchableHighlight
             activeOpacity={0.6}
             underlayColor="ligthgrey"
             style={styles.touch}
             onPress={() =>
-              navigation.navigate("Courses", {
+              navigation.navigate("SuperAdminAddSubject", {
                 screen: "SuperAdminAddSubject",
+                params: arrCour
               })
             }
           >
