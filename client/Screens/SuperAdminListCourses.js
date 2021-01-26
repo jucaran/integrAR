@@ -30,7 +30,19 @@ const SuperAdminListCourses = ({ navigation, route }) => {
     variables: { _id },
   });
   const arrCour = [];
+<<<<<<< HEAD
+=======
+
+  if (loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
+    );
+
+>>>>>>> 0e6b6042f0cdac896793f18789f9d4669d024486
   if (data) {
+    console.log(data);
     const courses = data.grades[0].courses;
     console.log(courses)
 
@@ -91,12 +103,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
       <View>
         <Text>ERROR</Text>
       </View>
-    );
-  else
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" />
-      </CenterView>
     );
 };
 
