@@ -14,8 +14,8 @@ const httpLink = createHttpLink({
   uri: `http://${LOCAL_IP}:4000/graphql`,
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = AsyncStorage.getItem("token");
+const authLink = setContext(async (_, { headers }) => {
+  const token = await AsyncStorage.getItem("token");
   return {
     headers: {
       ...headers,

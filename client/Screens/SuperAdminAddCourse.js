@@ -67,7 +67,6 @@ const AddCourseScreen = ({ navigation, route }) => {
           value={inputs.courseInput}
           onChangeText={(text) => handleChange(text, "course")}
         />
-        {console.log(inputs)}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}

@@ -23,7 +23,6 @@ const AddCourseScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({
     grade: "",
   });
-console.log(data)
   const handleChange = (text, input) => {
     setInputs({
       ...inputs,
@@ -33,7 +32,6 @@ console.log(data)
 
   const handleSubmit = async (name) => {
     try { 
-      console.log(name)
       await createGrade({
       variables: { input: { name } },
       refetchQueries: [ { query: GET_ALL_GRADES }]
@@ -49,6 +47,7 @@ console.log(data)
   
 
   return (
+  
     <CenterView>
       <Text style={styles.title}>AGREGAR AÑO</Text>
       <View>
@@ -59,17 +58,7 @@ console.log(data)
           value={inputs.gradeInput}
           onChangeText={(text) => handleChange(text, "grade")}
         />
-        {console.log(inputs)}
       </View>
-      {/* <View>
-        <Text style={styles.description}>Curso</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Curso..."
-          value={inputs.cursoInput}
-          onChangeText={(text) => handleChange(text, "curso")}
-        />
-      </View> */}
       <TouchableOpacity
         activeOpacity={0.8}
         underlayColor="lightblue"
