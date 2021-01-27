@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import EditStudentScreen from "../../Screens/SuperAdmin/EditStudentScreen";
+import EditStudentScreen from "../../screens/SuperAdmin/EditStudentScreen";
 import SuperAdminListStudents from "../../screens/SuperAdminListStudents";
-import AddStudentScreen from "../../Screens/SuperAdmin/AddStudentScreen";
+import AddStudentScreen from "../../screens/SuperAdmin/AddStudentScreen";
 
 const Stack = createStackNavigator();
 
