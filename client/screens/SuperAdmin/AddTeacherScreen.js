@@ -6,6 +6,7 @@ const ADD_TEACHER = gql`
     mutation AddTeacher(
         $dni: Int!, 
         $name: String!,
+        $lastname: String!
         $email: String!, 
         $whatsapp: String!,
         $picture: String, 
@@ -14,6 +15,7 @@ const ADD_TEACHER = gql`
      createTeacher(input: {
         dni: $dni, 
         name: $name,
+        lastname: $lastname,
         email: $email, 
         whatsapp: $whatsapp,
         picture: $picture, 
@@ -28,6 +30,7 @@ function AddTeacherScreen({}) {
     const [teacher, setTeacher] = useState({
         picture: '',
         name: '',
+        lastname: '',
         address: '',
         email: '',
         birthdate: '',
@@ -42,12 +45,13 @@ function AddTeacherScreen({}) {
 
     const [createTeacher, { data, error }] = useMutation(ADD_TEACHER);
 
-    const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
+    const handleOnPress = async ({name, lastname, dni, email, whatsapp, address, picture}) => {
         try {
             dni = parseInt(dni);
             await createTeacher({
                 variables: {
                     name,
+                    lastname,
                     dni,
                     email,
                     whatsapp,
@@ -59,7 +63,7 @@ function AddTeacherScreen({}) {
                 console.log(error)
                 return false;
             }
-            return alert(`El profesor ${name} fue agregado exitosamente!`);
+            return alert(`El profesor ${name} ${lastname} fue agregado exitosamente!`);
         } catch (err) {
             console.error('soy el catch', err);
         }
@@ -72,6 +76,8 @@ function AddTeacherScreen({}) {
             
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Apellido" onChangeText={(value) => handleChange('lastname', value)}/>
 
                     {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
 

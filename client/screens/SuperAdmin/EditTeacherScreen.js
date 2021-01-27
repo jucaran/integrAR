@@ -17,6 +17,7 @@ const EDIT_TEACHER = gql`
     $_id: ID!
     $dni: Int
     $name: String
+    $lastname: String
     $email: String
     $whatsapp: String
     $picture: String
@@ -27,6 +28,7 @@ const EDIT_TEACHER = gql`
       input: {
         dni: $dni
         name: $name
+        lastname: $lastname
         email: $email
         whatsapp: $whatsapp
         picture: $picture
@@ -43,6 +45,7 @@ function EditTeacherScreen({ route }) {
   const [teacher, setTeacher] = useState({
     picture: "",
     name: "",
+    lastname: "",
     address: "",
     email: "",
     birthdate: "",
@@ -59,6 +62,7 @@ function EditTeacherScreen({ route }) {
 
   const handleOnPress = async ({
     name,
+    lastname,
     dni,
     email,
     whatsapp,
@@ -71,6 +75,7 @@ function EditTeacherScreen({ route }) {
         variables: {
           _id: teacherId,
           name,
+          lastname,
           dni,
           email,
           whatsapp,
@@ -82,7 +87,7 @@ function EditTeacherScreen({ route }) {
         console.log(error);
         return false;
       }
-      return alert(`El profesor ${name} fue actualizado exitosamente!`);
+      return alert(`El profesor ${name} ${lastname} fue actualizado exitosamente!`);
     } catch (err) {
       console.error("soy el catch", err);
     }
@@ -105,6 +110,12 @@ function EditTeacherScreen({ route }) {
             style={styles.input}
             placeholder="Nombre"
             onChangeText={(value) => handleChange("name", value)}
+          />
+
+<TextInput
+            style={styles.input}
+            placeholder="Apellido"
+            onChangeText={(value) => handleChange("lastname", value)}
           />
 
           {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
