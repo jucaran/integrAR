@@ -18,6 +18,10 @@ const LOG_USER = gql`
   mutation Login($dni: Int!, $password: String!) {
     login(dni: $dni, password: $password) {
       token
+      error {
+        password
+        dni
+      }
       user {
         _id
         name
@@ -31,6 +35,7 @@ const LOG_USER = gql`
 
 const LoginScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({});
+  const [inputError, setInputError] = useState(false);
   const [isFocused, setIsFocused] = useState({
     dni: false,
     password: false,
@@ -60,14 +65,17 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    console.log("SUBMITIO");
-    console.log(parseInt(inputs.dni));
-    logUser({
-      variables: {
-        dni: parseInt(inputs.dni),
-        password: inputs.password,
-      },
-    });
+    if (isNaN(inputs.dni)) {
+      //NaN
+      setInputError(true);
+    } else {
+      logUser({
+        variables: {
+          dni: parseInt(inputs.dni),
+          password: inputs.password,
+        },
+      });
+    }
   };
 
   if (loading)
@@ -77,19 +85,72 @@ const LoginScreen = ({ navigation }) => {
       </CenterView>
     );
 
-  if (data) {
+  if (data?.login?.error.password || data?.login?.error.dni) {
+    console.log(data);
+    const { error } = data.login;
+    return (
+      <CenterView>
+        <Image
+          source={require("../../assets/login_splash.png")}
+          style={styles.landingImg}
+        />
+        <Text style={{ color: "red" }}>
+          {error.dni && "No encontramos un usuario asociado a ese DNI"}
+        </Text>
+        <Text style={{ color: "red" }}>
+          {error.password && "Contraseña incorrecta"}
+        </Text>
+        <TextInput
+          style={[
+            styles.input,
+            { marginBottom: 30 },
+            isFocused.dni ? styles.active : null,
+          ]}
+          placeholder="DNI"
+          keyboardType="number-pad"
+          value={inputs.dniInput}
+          onChangeText={(txt) => handleChange(txt, "dni")}
+          onFocus={() => handleFocus("dni")}
+          onBlur={() => handleBlur("dni")}
+        />
+        <View style={{ marginBottom: 30 }}>
+          <TextInput
+            style={[
+              styles.input,
+              { marginBottom: 10 },
+              isFocused.password ? styles.active : null,
+            ]}
+            placeholder="Contraseña"
+            value={inputs.passInput}
+            secureTextEntry={true}
+            onChangeText={(txt) => handleChange(txt, "password")}
+            onFocus={() => handleFocus("password")}
+            onBlur={() => handleBlur("password")}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate("ResetPass")}>
+            <Text style={{ color: "#2290CD" }}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
+        </View>
+        <Button title="Ingresar" onPress={handleSubmit} />
+      </CenterView>
+    );
+  }
+
+  if (data?.login?.token && data?.login?.user) {
     (async () => {
       await AsyncStorage.setItem("token", data.login.token);
       await AsyncStorage.setItem("user", JSON.stringify(data.login.user));
       setUser(data.login.user);
     })();
-    // console.log(data);
   }
 
   if (error) {
-    <CenterView>
-      <Text>{JSON.stringify(error)}</Text>
-    </CenterView>;
+    return (
+      <CenterView>
+        {console.log(JSON.stringify(error))}
+        <Text>{JSON.stringify(error)}</Text>
+      </CenterView>
+    );
   }
 
   return (
@@ -98,6 +159,9 @@ const LoginScreen = ({ navigation }) => {
         source={require("../../assets/login_splash.png")}
         style={styles.landingImg}
       />
+      <Text style={{ color: "red" }}>
+        {inputError && "Por favor ingrese un DNI válido"}
+      </Text>
       <TextInput
         style={[
           styles.input,
