@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  Alert
+  Alert,
 } from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -33,7 +33,6 @@ const DELETE_COURSE = gql`
   }
 `;
 
-
 const SuperAdminListCourses = ({ navigation, route }) => {
   const { id: _id } = route.params.params;
   const { data, loading, error } = useQuery(GET_ALL_COURSES, {
@@ -52,84 +51,74 @@ const SuperAdminListCourses = ({ navigation, route }) => {
     const courses = data.grades[0].courses;
 
     return (
-        <View style={styles.cont}>
-          <TouchableHighlight
-            activeOpacity={0.6}
-            style={styles.touch}
-            underlayColor="ligthgrey"
-            onPress={() =>
-              navigation.navigate("SuperAdminAddCourse", {
-                screen: "SuperAdminAddCourse",
-                params: _id,
-              })
-            }
-          >
-            <Text style={styles.touchText}>Agregar Curso</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            activeOpacity={0.6}
-            underlayColor="ligthgrey"
-            style={styles.touch}
-            onPress={() =>
-              navigation.navigate("SuperAdminAddSubject", {
-                screen: "SuperAdminAddSubject",
-                params: arrCour,
-              })
-            }
-          >
-            <Text style={styles.touchText}>Agregar Materia</Text>
-          </TouchableHighlight>
-          <FlatList
-            data={courses}
-            renderItem={
-              ({ item }) => {
-                return (
-                  <Card key={item._id} style={styles.card}>
+      <View style={styles.cont}>
+        <TouchableHighlight
+          activeOpacity={0.6}
+          style={styles.touch}
+          underlayColor="ligthgrey"
+          onPress={() =>
+            navigation.navigate("SuperAdminAddCourse", {
+              screen: "SuperAdminAddCourse",
+              params: _id,
+            })
+          }
+        >
+          <Text style={styles.touchText}>Agregar Curso</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor="ligthgrey"
+          style={styles.touch}
+          onPress={() => navigation.navigate("SuperAdminAddSubject")}
+        >
+          <Text style={styles.touchText}>Agregar Materia</Text>
+        </TouchableHighlight>
+        <FlatList
+          data={courses}
+          renderItem={
+            ({ item }) => {
+              return (
+                <Card key={item._id} style={styles.card}>
                   <View style={styles.cardIn}>
                     <Text style={styles.cardText}>{item.name}</Text>
                     <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() =>
-                          Alert.alert(
-                            "Eliminar curso",
-                            `¿Está seguro que desea eliminar este curso ${item.name}?`,
-                            [
-                              {
-                                text: "Cancelar",
-                                style: "cancel",
-                              },
-                              {
-                                text: "OK",
-                                onPress: () =>
-                                  deleteCourse({
-                                    variables: { _id: item._id },
-                                    refetchQueries: [
-                                      { query: GET_ALL_COURSES },
-                                    ],
-                                  }),
-                              },
-                            ]
-                          )
-                        }
-                      >
-                        <Text
-                          style={styles.img}
-                        > X </Text>
-                      </TouchableHighlight>
+                      activeOpacity={0.6}
+                      underlayColor="ligthgrey"
+                      onPress={() =>
+                        Alert.alert(
+                          "Eliminar curso",
+                          `¿Está seguro que desea eliminar este curso ${item.name}?`,
+                          [
+                            {
+                              text: "Cancelar",
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () =>
+                                deleteCourse({
+                                  variables: { _id: item._id },
+                                  refetchQueries: [{ query: GET_ALL_COURSES }],
+                                }),
+                            },
+                          ]
+                        )
+                      }
+                    >
+                      <Text style={styles.img}> X </Text>
+                    </TouchableHighlight>
                   </View>
-                  </Card>
-
-                );
-              }
-              // else {
-              //   return(<CenterView>
-              //     <Text>No hay cursos agregados para este grado</Text>
-              //   </CenterView>)}
+                </Card>
+              );
             }
-            keyExtractor={({ _id }) => _id}
-          />
-        </View>
+            // else {
+            //   return(<CenterView>
+            //     <Text>No hay cursos agregados para este grado</Text>
+            //   </CenterView>)}
+          }
+          keyExtractor={({ _id }) => _id}
+        />
+      </View>
     );
   } else if (error)
     return (
@@ -174,24 +163,23 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 20,
     padding: 10,
-    color: 'white'
+    color: "white",
   },
   cardText: {
     fontSize: 20,
     padding: 10,
-    color: 'white'
+    color: "white",
   },
   img: {
-    color: 'white',
+    color: "white",
     fontSize: 15,
   },
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 344
-
-  }
+    width: 344,
+  },
 });
 
 export default SuperAdminListCourses;
