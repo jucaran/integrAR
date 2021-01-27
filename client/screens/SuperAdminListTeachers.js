@@ -5,9 +5,9 @@ import {
   StyleSheet,
   TouchableHighlight,
   Image,
-  ActivityIndicator,
   FlatList,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Card } from "react-native-paper";
 import CenterView from "../utils/CenterView";
@@ -44,7 +44,8 @@ const SuperAdminListTeachers = ({ navigation }) => {
   if (loading || mutationData.loading)
     return (
       <CenterView>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 
@@ -57,9 +58,9 @@ const SuperAdminListTeachers = ({ navigation }) => {
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="ligthgrey"
-              onPress={() =>
-                navigation.navigate("", { screen: "SuperAdminAddTeacher" })
-              }
+              onPress={() => {
+                navigation.navigate("AddTeacher");
+              }}
             >
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
             </TouchableHighlight>
@@ -67,6 +68,9 @@ const SuperAdminListTeachers = ({ navigation }) => {
           <FlatList
             data={teachers}
             renderItem={({ item: teacher }) => {
+              {
+                console.log(teacher);
+              }
               return (
                 <Card key={teacher._id} style={styles.card}>
                   <View style={styles.cardcont}>
@@ -77,11 +81,11 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="ligthgrey"
-                        onPress={() =>
+                        onPress={() => {
                           navigation.navigate("EditTeacher", {
                             teacherId: teacher._id,
-                          })
-                        }
+                          });
+                        }}
                       >
                         <Image
                           source={require("../assets/edit.png")}
@@ -125,7 +129,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         teacher.subjects.map((subject, i) => {
                           return (
                             <Text key={i} style={styles.description}>
-                              {subject}
+                              {subject.name}
                             </Text>
                           );
                         })
@@ -138,7 +142,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         teacher.courses.map((course, i) => {
                           return (
                             <Text key={i} style={styles.description}>
-                              {course}
+                              {course.name}
                             </Text>
                           );
                         })

@@ -6,27 +6,25 @@ import {
   TextInput,
   ScrollView,
   Button,
-  ActivityIndicator,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import CenterView from "../../utils/CenterView";
+import { GET_ALL_TEACHERS } from "../SuperAdminListTeachers";
 
-//Falta mandarle el ID para que funque
-const EDIT_TEACHER = gql`
-  mutation EditTeacher(
-    $_id: ID!
-    $dni: Int
-    $name: String
-    $email: String
-    $whatsapp: String
+const ADD_TEACHER = gql`
+  mutation AddTeacher(
+    $dni: Int!
+    $name: String!
+    $lastname: String!
+    $email: String!
+    $whatsapp: String!
     $picture: String
     $address: String
   ) {
-    editTeacher(
-      _id: $id
+    createTeacher(
       input: {
         dni: $dni
         name: $name
+        lastname: $lastname
         email: $email
         whatsapp: $whatsapp
         picture: $picture
@@ -38,11 +36,11 @@ const EDIT_TEACHER = gql`
   }
 `;
 
-function EditTeacherScreen({ route }) {
-  const { teacherId } = route.params;
+function AddTeacherScreen({}) {
   const [teacher, setTeacher] = useState({
     picture: "",
     name: "",
+    lastname: "",
     address: "",
     email: "",
     birthdate: "",
@@ -55,10 +53,11 @@ function EditTeacherScreen({ route }) {
     setTeacher({ ...teacher, [name]: value });
   };
 
-  const [editTeacher, { loading, error }] = useMutation(EDIT_TEACHER);
+  const [createTeacher, { data, error }] = useMutation(ADD_TEACHER);
 
   const handleOnPress = async ({
     name,
+    lastname,
     dni,
     email,
     whatsapp,
@@ -67,33 +66,29 @@ function EditTeacherScreen({ route }) {
   }) => {
     try {
       dni = parseInt(dni);
-      await editTeacher({
+      await createTeacher({
         variables: {
-          _id: teacherId,
           name,
+          lastname,
           dni,
           email,
           whatsapp,
           address,
           picture,
         },
+        refetchQueries: [{ query: GET_ALL_TEACHERS }],
       });
       if (error) {
         console.log(error);
         return false;
       }
-      return alert(`El profesor ${name} fue actualizado exitosamente!`);
+      return alert(
+        `El profesor ${name} ${lastname} fue agregado exitosamente!`
+      );
     } catch (err) {
       console.error("soy el catch", err);
     }
   };
-
-  if (loading)
-    return (
-      <CenterView>
-        <ActivityIndicator />
-      </CenterView>
-    );
 
   return (
     <ScrollView>
@@ -105,6 +100,12 @@ function EditTeacherScreen({ route }) {
             style={styles.input}
             placeholder="Nombre"
             onChangeText={(value) => handleChange("name", value)}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Apellido"
+            onChangeText={(value) => handleChange("lastname", value)}
           />
 
           {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
@@ -178,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditTeacherScreen;
+export default AddTeacherScreen;

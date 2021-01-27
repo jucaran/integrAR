@@ -37,7 +37,7 @@ const SuperAdminView = ({ navigation }) => {
             underlayColor="ligthgrey"
             style={styles.touch}
             onPress={() =>
-              navigation.navigate("Teachers", {
+              navigation.navigate("Profesores", {
                 screen: "SuperAdminListTeachers",
               })
             }
@@ -57,11 +57,13 @@ const SuperAdminView = ({ navigation }) => {
           activeOpacity={0.6}
           underlayColor="ligthgrey"
           style={styles.touch}
-          onPress={() => navigation.navigate("AgregarAlumno")}
+          onPress={() =>
+            navigation.navigate("Profesores", { screen: "ListStudents" })
+          }
         >
           <View style={styles.button}>
             <Image source={require("../assets/alumn.png")} style={styles.img} />
-            <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+            <Text style={styles.touchText}>VER ALUMNOS</Text>
           </View>
         </TouchableHighlight>
       </View>

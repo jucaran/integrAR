@@ -1,5 +1,5 @@
 import Subject from "../models/Subject";
-import Course from "../models/Course"
+import Course from "../models/Course";
 
 // Query
 export const allSubjects = async (_, args, ctx) => {
@@ -8,19 +8,18 @@ export const allSubjects = async (_, args, ctx) => {
   } else {
     return await Subject.find();
   }
-}
+};
 
 // Mutations
 export const createSubject = async (_, args, ctx) => {
   const newSubject = await new Subject(args.input).save();
 
-  let course = await Course.findById(args.input.course)
-  course && course.subjects.push(newSubject._id)
-  course && await course.save()
-  console.log("lis anda a cagar", course.subjects)
+  let course = await Course.findById(args.input.course);
+  course && course.subjects.push(newSubject._id);
+  course && (await course.save());
 
-  return newSubject
-}
+  return newSubject;
+};
 
 export const editSubject = async (_, args, ctx) => {
   // return await Subject.findByIdAndUpdate(
@@ -29,19 +28,18 @@ export const editSubject = async (_, args, ctx) => {
   //   { new: true }
   // );
 
-  let subject = await Subject.findById(args._id)
+  let subject = await Subject.findById(args._id);
 
-  args.input.name ? (subject.name = args.input.name) : null
+  args.input.name ? (subject.name = args.input.name) : null;
   // args.input.courses ? (subject.courses = args.input.courses) : null
-  args.input.teachers ? (subject.teachers = args.input.teachers) : null
+  args.input.teachers ? (subject.teachers = args.input.teachers) : null;
   // args.input.class ? (subject.class = args.input.class) : null
 
-  await subject.save()
+  await subject.save();
 
-  return subject
-
-}
+  return subject;
+};
 
 export const deleteSubject = async (_, args, ctx) => {
   return await Subject.findByIdAndDelete(args._id);
-}
+};

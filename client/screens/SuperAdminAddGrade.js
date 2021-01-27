@@ -8,30 +8,21 @@ import {
 } from "react-native";
 import CenterView from "../utils/CenterView";
 import { useMutation, gql } from "@apollo/client";
-import { GET_ALL_COURSES } from "./SuperAdminListCourses"
+import { GET_ALL_GRADES } from "./GradesScreen"
 
-const CREATE_COURSE = gql`
-  mutation CreateCourse( $input: CourseInput) {
-    createCourse(input: $input) {
+const CREATE_GRADE = gql`
+  mutation CreateGrade( $input: GradeInput) {
+    createGrade(input: $input) {
       name
-      grade {
-        _id
-      }
     }
   }
 `;
 
-
-const AddCourseScreen = ({ navigation, route }) => {
-  const _id = route.params.params
-  const [createCourse, { data, error }] = useMutation(CREATE_COURSE, {
-    variables: { _id },
-  });
-  
+const AddCourseScreen = ({ navigation }) => {
+  const [createGrade, { data, error }] = useMutation(CREATE_GRADE);
   const [inputs, setInputs] = useState({
-    course: "",
+    grade: "",
   });
-
   const handleChange = (text, input) => {
     setInputs({
       ...inputs,
@@ -39,14 +30,14 @@ const AddCourseScreen = ({ navigation, route }) => {
     });
   }
 
-
-  const handleSubmit = async (name, _id) => {
+  const handleSubmit = async (name) => {
     try { 
-      await createCourse({
-      variables: { input: { name, grade: { _id } } },
-      refetchQueries: [ { query: GET_ALL_COURSES }]
+      await createGrade({
+      variables: { input: { name } },
+      refetchQueries: [ { query: GET_ALL_GRADES }]
     })
-    navigation.navigate("SuperAdminListCourses", { screen: "SuperAdminListCourses" })
+    alert(`El grado ${name} fue agregado exitosamente!`)
+    navigation.navigate("Cursos", { screen: "GradesScreen" })
   }
     catch (error) {
       console.log(error);
@@ -57,23 +48,23 @@ const AddCourseScreen = ({ navigation, route }) => {
   
 
   return (
+  
     <CenterView>
-      <Text style={styles.title}>AGREGAR CURSO</Text>
+      <Text style={styles.title}>AGREGAR GRADO</Text>
       <View>
-        <Text style={styles.description}>Curso</Text>
+        <Text style={styles.description}>Grado</Text>
         <TextInput
           style={styles.input}
-          placeholder="Curso..."
-          value={inputs.courseInput}
-          onChangeText={(text) => handleChange(text, "course")}
+          placeholder="Año..."
+          value={inputs.gradeInput}
+          onChangeText={(text) => handleChange(text, "grade")}
         />
-        {console.log(inputs)}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
         underlayColor="lightblue"
         style={styles.button}
-        onPress={()=>handleSubmit(inputs.course, _id)}
+        onPress={()=>handleSubmit(inputs.grade)}
       >
         <Text style={styles.textButton}>AGREGAR</Text>
       </TouchableOpacity>
