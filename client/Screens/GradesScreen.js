@@ -44,7 +44,7 @@ const GradesScreen = ({ navigation }) => {
   if (data) {
     const { grades } = data;
     return (
-      <ScrollView>
+      <View>
         <TouchableHighlight
           style={styles.touch}
           activeOpacity={0.6}
@@ -111,7 +111,7 @@ const GradesScreen = ({ navigation }) => {
           }}
           keyExtractor={({ _id }) => _id}
         />
-      </ScrollView>
+      </View>
     );
   } else if (error)
     return (
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 350
+    width: 345
 
   }
 });

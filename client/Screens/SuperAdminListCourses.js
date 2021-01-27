@@ -52,7 +52,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
     const courses = data.grades[0].courses;
 
     return (
-      <ScrollView>
         <View style={styles.cont}>
           <TouchableHighlight
             activeOpacity={0.6}
@@ -131,7 +130,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
             keyExtractor={({ _id }) => _id}
           />
         </View>
-      </ScrollView>
     );
   } else if (error)
     return (
@@ -191,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 350
+    width: 344
 
   }
 });
