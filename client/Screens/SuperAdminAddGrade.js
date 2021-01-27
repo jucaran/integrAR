@@ -49,6 +49,7 @@ console.log(data)
   
 
   return (
+  
     <CenterView>
       <Text style={styles.title}>AGREGAR AÑO</Text>
       <View>
