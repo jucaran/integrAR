@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView, Button, Alert } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 
 //Falta hacer la query para traer la info del alumno a editar
@@ -26,7 +26,7 @@ const EDIT_STUDENT = gql`
 }
 `;
 
-function EditStudentScreen({navigation}) {
+function EditStudentScreen() {
     const [student, setStudent] = useState({
         name: '',
         dni: '',
@@ -44,28 +44,64 @@ function EditStudentScreen({navigation}) {
         setStudent({...student, [name]: value})
     }
 
-    const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
-        try {
-            dni = parseInt(dni);
-            // falta agregar el ID para que funque
-            await editStudent({
-                variables: {
-                    name,
-                    dni,
-                    email,
-                    whatsapp,
-                    address,
-                    picture
-                },
-            })
-            if(error) {
-                console.log(error)
-                return false;
-            }
-            return alert(`El alumno ${name} fue actualizado exitosamente!`);
-        } catch (err) {
-            console.error('soy el catch', err);
-        }
+    const handleOnPress = ({name, dni, email, whatsapp, address, picture}) => {
+        Alert.alert(
+        "Editar Alumno",
+        `Se sobreescribiran los datos del alumno.
+        ¿Desea continuar?`,
+        [
+            {
+            text: "Cancelar",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+            },
+            { text: "Confirmar", onPress: async () => {
+                try {
+                    dni = parseInt(dni);
+                    // falta agregar el ID para que funque
+                    await editStudent({
+                        variables: {
+                            name,
+                            dni,
+                            email,
+                            whatsapp,
+                            address,
+                            picture
+                        },
+                    })
+                    if(error) {
+                        console.log(error)
+                        return false;
+                    }
+                    return alert(`El alumno ${name} fue actualizado exitosamente!`);
+                } catch (err) {
+                    console.error('soy el catch', err);
+                }
+            } }
+        ],
+        { cancelable: false }
+        )
+        // try {
+        //     dni = parseInt(dni);
+        //     // falta agregar el ID para que funque
+        //     await editStudent({
+        //         variables: {
+        //             name,
+        //             dni,
+        //             email,
+        //             whatsapp,
+        //             address,
+        //             picture
+        //         },
+        //     })
+        //     if(error) {
+        //         console.log(error)
+        //         return false;
+        //     }
+        //     return alert(`El alumno ${name} fue actualizado exitosamente!`);
+        // } catch (err) {
+        //     console.error('soy el catch', err);
+        // }
     }
 
     return ( 

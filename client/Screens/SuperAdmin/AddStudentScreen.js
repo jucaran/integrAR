@@ -24,7 +24,7 @@ const ADD_STUDENT = gql`
 }
 `;
 
-function AddStudentScreen({navigation}) {
+function AddStudentScreen() {
     const [student, setStudent] = useState({
         name: '',
         dni: '',

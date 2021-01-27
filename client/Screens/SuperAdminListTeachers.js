@@ -58,7 +58,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
               activeOpacity={0.6}
               underlayColor="ligthgrey"
               onPress={() =>
-                navigation.navigate("", { screen: "SuperAdminAddTeacher" })
+                navigation.navigate("AddTeacher")
               }
             >
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>

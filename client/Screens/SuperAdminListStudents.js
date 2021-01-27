@@ -5,9 +5,9 @@ import { useQuery, gql } from "@apollo/client";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
-const GET_STUDENTS = gql`
+export const GET_STUDENTS = gql`
   {
-    students(order_by: "desc", attribute: "lastname") {
+    students {
       _id
       name
       lastname
@@ -18,12 +18,13 @@ const GET_STUDENTS = gql`
 function SuperAdminListStudents() {
   const { data, loading, error } = useQuery(GET_STUDENTS);
 
-  if (error)
+  if (error){
+    console.log(error)
     return (
       <CenterView>
         <Text>ERROR</Text>
       </CenterView>
-    );
+    );}
   else if (data)
     return (
       <ScrollView>
