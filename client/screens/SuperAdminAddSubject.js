@@ -47,6 +47,7 @@ const AddSubjectScreen = ({ navigation, route }) => {
           variables: { name: materia, course: _id },
           refetchQueries: [ { query: GET_SUBJECTS_FROM_COURSE_BY_ID }]
         });
+        alert(`La asignatura ${materia} fue agregada exitosamente!`)
         console.log("SUCCEDEED");
         navigation.pop();
       }
