@@ -6,10 +6,11 @@ import {
   TouchableHighlight,
   ActivityIndicator,
   FlatList,
-  ScrollView
+  ScrollView,
+  Alert,
 } from "react-native";
 import { Card } from "react-native-paper";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import CenterView from "../utils/CenterView";
 
 export const GET_ALL_GRADES = gql`
@@ -21,8 +22,17 @@ export const GET_ALL_GRADES = gql`
   }
 `;
 
+const DELETE_GRADE = gql`
+  mutation DeleteGrade($_id: ID) {
+    deleteGrade(_id: $_id) {
+      name
+    }
+  }
+`;
+
 const GradesScreen = ({ navigation }) => {
   const { data, loading, error } = useQuery(GET_ALL_GRADES);
+  const [deleteGrade, mutationData] = useMutation(DELETE_GRADE);
 
   if (loading)
     return (
@@ -34,16 +44,12 @@ const GradesScreen = ({ navigation }) => {
   if (data) {
     const { grades } = data;
     return (
-      <ScrollView>
+      <View>
         <TouchableHighlight
           style={styles.touch}
           activeOpacity={0.6}
           underlayColor="ligthgrey"
-          onPress={() =>
-            navigation.navigate("Courses", {
-              screen: "SuperAdminAddGrade",
-            })
-          }
+          onPress={() => navigation.navigate("SuperAdminAddGrade")}
         >
           <Text style={styles.touchText}>Agregar Año</Text>
         </TouchableHighlight>
@@ -51,25 +57,53 @@ const GradesScreen = ({ navigation }) => {
           data={grades}
           renderItem={({ item: grade }) => {
             return (
-              <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor="ligthgrey"
-                onPress={() =>
-                  navigation.navigate("SuperAdminListCourses", {
-                    screen: "SuperAdminListCourses",
-                    params: { id: grade._id },
-                  })
-                }
-              >
-                <Card key={grade._id} style={styles.card}>
-                  <Text style={styles.cardText}>{grade.name}</Text>
-                </Card>
-              </TouchableHighlight>
+              <Card key={grade._id} style={styles.card}>
+                <View style={styles.cardIn}>
+                  <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="ligthgrey"
+                    onPress={() =>
+                      navigation.navigate("SuperAdminListCourses", {
+                        screen: "SuperAdminListCourses",
+                        params: { id: grade._id },
+                      })
+                    }
+                  >
+                    <Text style={styles.cardText}>{grade.name}</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="ligthgrey"
+                    onPress={() =>
+                      Alert.alert(
+                        "Eliminar grado",
+                        `¿Está seguro que desea eliminar este grado ${grade.name}?`,
+                        [
+                          {
+                            text: "Cancelar",
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () =>
+                              deleteGrade({
+                                variables: { _id: grade._id },
+                                refetchQueries: [{ query: GET_ALL_GRADES }],
+                              }),
+                          },
+                        ]
+                      )
+                    }
+                  >
+                    <Text style={styles.img}> X </Text>
+                  </TouchableHighlight>
+                </View>
+              </Card>
             );
           }}
           keyExtractor={({ _id }) => _id}
         />
-      </ScrollView>
+      </View>
     );
   } else if (error)
     return (
@@ -111,6 +145,17 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 20,
     padding: 10,
+    color: "white",
+  },
+  img: {
+    color: "white",
+    fontSize: 15,
+  },
+  cardIn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: 345,
   },
 });
 export default GradesScreen;

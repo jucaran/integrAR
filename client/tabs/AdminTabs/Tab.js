@@ -56,7 +56,7 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Teachers"
+        name="Profesores"
         component={TeachersStack}
         options={{
           tabBarIcon: () => {
