@@ -1,13 +1,27 @@
-import { allTeachers, createTeacher, editTeacher, deleteTeacher } from "./teacher";
-import { allStudents, createStudent, editStudent, deleteStudent } from "./student";
-import { allCourses, createCourse, editCourse, deleteCourse } from "./course"
+import {
+  allTeachers,
+  createTeacher,
+  editTeacher,
+  deleteTeacher,
+} from "./teacher";
+import {
+  allStudents,
+  createStudent,
+  editStudent,
+  deleteStudent,
+} from "./student";
+import { allCourses, createCourse, editCourse, deleteCourse } from "./course";
 import { allGrades, createGrade, editGrade, deleteGrade } from "./grade";
 import { admin, createAdmin, editAdmin, deleteAdmin } from "./admin";
-import { allSubjects, createSubject, editSubject, deleteSubject } from "./subjects";
+import {
+  allSubjects,
+  createSubject,
+  editSubject,
+  deleteSubject,
+} from "./subjects";
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
 
 export default {
-
   // GET REQUEST
   Query: {
     admin,
@@ -17,16 +31,16 @@ export default {
     grades: allGrades,
     courses: allCourses,
     subjects: allSubjects,
-    login
   },
 
   // PUT, POST, DELETE REQUEST
   Mutation: {
     // USUARIO
+    login,
     createUser,
     editUser,
     deleteUser,
-    
+
     // PRECEPTOR
     createAdmin,
     editAdmin,

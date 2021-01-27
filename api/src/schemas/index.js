@@ -10,16 +10,15 @@ export default gql`
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID): [Subject]
-    login(dni: Int, password: String) : AuthData
   }
 
-    
   type Mutation {
     createAdmin(input: AdminInput): Admin
     editAdmin(_id: ID, input: AdminInput): Admin
     deleteAdmin(_id: ID): Admin
-    
+
     # login(userInput: UserInput) : User
+    login(dni: Int!, password: String!): AuthData
     createUser(userInput: UserInput): User
     editUser(_id: ID, input: UserInput): User
     deleteUser(_id: ID): User
@@ -99,7 +98,7 @@ export default gql`
     email: String
     password: String
   }
-   
+
   # ---------------------------
   type Teacher {
     _id: ID
@@ -175,7 +174,7 @@ export default gql`
     _id: ID
     name: String
     courses: [CourseInput]
-    teachers: [TeacherInput] 
+    teachers: [TeacherInput]
     subjects: [SubjectInput]
     students: [StudentInput]
   }
