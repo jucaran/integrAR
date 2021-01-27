@@ -37,7 +37,7 @@ const SuperAdminView = ({ navigation }) => {
             underlayColor="ligthgrey"
             style={styles.touch}
             onPress={() =>
-              navigation.navigate("Teachers", {
+              navigation.navigate("Profesores", {
                 screen: "SuperAdminListTeachers",
               })
             }
