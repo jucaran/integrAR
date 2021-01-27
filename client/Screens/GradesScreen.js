@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -49,11 +49,7 @@ const GradesScreen = ({ navigation }) => {
           style={styles.touch}
           activeOpacity={0.6}
           underlayColor="ligthgrey"
-          onPress={() =>
-            navigation.navigate("Courses", {
-              screen: "SuperAdminAddGrade",
-            })
-          }
+          onPress={() => navigation.navigate("SuperAdminAddGrade")}
         >
           <Text style={styles.touchText}>Agregar Año</Text>
         </TouchableHighlight>
@@ -61,52 +57,48 @@ const GradesScreen = ({ navigation }) => {
           data={grades}
           renderItem={({ item: grade }) => {
             return (
-             <Card key={grade._id} style={styles.card}>
-                  <View style={styles.cardIn}>
+              <Card key={grade._id} style={styles.card}>
+                <View style={styles.cardIn}>
                   <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor="ligthgrey"
-                onPress={() =>
-                  navigation.navigate("SuperAdminListCourses", {
-                    screen: "SuperAdminListCourses",
-                    params: { id: grade._id },
-                  })
-                }
-              >
-                  <Text style={styles.cardText}>{grade.name}</Text>
-              </TouchableHighlight>
+                    activeOpacity={0.6}
+                    underlayColor="ligthgrey"
+                    onPress={() =>
+                      navigation.navigate("SuperAdminListCourses", {
+                        screen: "SuperAdminListCourses",
+                        params: { id: grade._id },
+                      })
+                    }
+                  >
+                    <Text style={styles.cardText}>{grade.name}</Text>
+                  </TouchableHighlight>
                   <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() =>
-                          Alert.alert(
-                            "Eliminar grado",
-                            `¿Está seguro que desea eliminar este grado ${grade.name}?`,
-                            [
-                              {
-                                text: "Cancelar",
-                                style: "cancel",
-                              },
-                              {
-                                text: "OK",
-                                onPress: () =>
-                                  deleteGrade({
-                                    variables: { _id: grade._id },
-                                    refetchQueries: [
-                                      { query: GET_ALL_GRADES },
-                                    ],
-                                  }),
-                              },
-                            ]
-                          )
-                        }
-                      >
-                        <Text
-                          style={styles.img}
-                        > X </Text>
-                      </TouchableHighlight>
-                  </View>  
-                </Card>
+                    activeOpacity={0.6}
+                    underlayColor="ligthgrey"
+                    onPress={() =>
+                      Alert.alert(
+                        "Eliminar grado",
+                        `¿Está seguro que desea eliminar este grado ${grade.name}?`,
+                        [
+                          {
+                            text: "Cancelar",
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () =>
+                              deleteGrade({
+                                variables: { _id: grade._id },
+                                refetchQueries: [{ query: GET_ALL_GRADES }],
+                              }),
+                          },
+                        ]
+                      )
+                    }
+                  >
+                    <Text style={styles.img}> X </Text>
+                  </TouchableHighlight>
+                </View>
+              </Card>
             );
           }}
           keyExtractor={({ _id }) => _id}
@@ -153,18 +145,17 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 20,
     padding: 10,
-    color: 'white'
+    color: "white",
   },
   img: {
-    color: 'white',
+    color: "white",
     fontSize: 15,
   },
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 345
-
-  }
+    width: 345,
+  },
 });
 export default GradesScreen;
