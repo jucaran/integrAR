@@ -36,7 +36,7 @@ function AddStudentScreen() {
         picture: '',
     })
 
-    const [createStudent, { data, error }] = useMutation(ADD_STUDENT)
+    const [createStudent, { error }] = useMutation(ADD_STUDENT)
 
     const handleChange = (name, value) => {
         setStudent({...student, [name]: value})
