@@ -7,7 +7,6 @@ import {
   ScrollView,
   Button,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
@@ -166,7 +165,7 @@ function EditStudentScreen({ route, navigation }) {
   if (queryLoading || loading)
     return (
       <CenterView>
-        <ActivityIndicator />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableHighlight,
   Image,
-  ActivityIndicator,
   FlatList,
   Alert,
 } from "react-native";
@@ -41,11 +40,10 @@ const SuperAdminListTeachers = ({ navigation }) => {
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
   const [deleteTeacher, mutationData] = useMutation(DELETE_TEACHER);
 
-
   if (loading || mutationData.loading)
     return (
       <CenterView>
-        <ActivityIndicator />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 
@@ -58,9 +56,9 @@ const SuperAdminListTeachers = ({ navigation }) => {
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="ligthgrey"
-              onPress={() =>{
-                navigation.navigate("AddTeacher")}
-              }
+              onPress={() => {
+                navigation.navigate("AddTeacher");
+              }}
             >
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
             </TouchableHighlight>
@@ -68,7 +66,9 @@ const SuperAdminListTeachers = ({ navigation }) => {
           <FlatList
             data={teachers}
             renderItem={({ item: teacher }) => {
-              {console.log(teacher)}
+              {
+                console.log(teacher);
+              }
               return (
                 <Card key={teacher._id} style={styles.card}>
                   <View style={styles.cardcont}>
@@ -79,10 +79,10 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="ligthgrey"
-                        onPress={() =>{
+                        onPress={() => {
                           navigation.navigate("EditTeacher", {
                             teacherId: teacher._id,
-                          })
+                          });
                         }}
                       >
                         <Image

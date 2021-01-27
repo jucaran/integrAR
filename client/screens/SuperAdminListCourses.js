@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native-gesture-handler";
 import {
-  ActivityIndicator,
   View,
   Text,
   StyleSheet,
@@ -43,7 +42,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
   if (loading)
     return (
       <CenterView>
-        <ActivityIndicator size="large" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 

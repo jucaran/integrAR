@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ActivityIndicator,
   View,
   Text,
   StyleSheet,
@@ -38,7 +37,7 @@ function SuperAdminListStudents({ navigation }) {
   if (loading || mutationData.loading)
     return (
       <CenterView>
-        <ActivityIndicator size="large" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 

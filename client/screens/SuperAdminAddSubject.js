@@ -32,7 +32,9 @@ const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
 const AddSubjectScreen = ({ navigation, route }) => {
   const _id = route.params.params;
   const [subject, setSubject] = useState({ materia: "" });
-  const [addSubject, mutationData] = useMutation(CREATE_SUBJECT_BY_COURSE_ID);
+  const [addSubject, { loading, error }] = useMutation(
+    CREATE_SUBJECT_BY_COURSE_ID
+  );
 
   const handleChange = (text, input) => {
     setSubject({ materia: text });
@@ -45,9 +47,9 @@ const AddSubjectScreen = ({ navigation, route }) => {
       if (materia.length) {
         await addSubject({
           variables: { name: materia, course: _id },
-          refetchQueries: [ { query: GET_SUBJECTS_FROM_COURSE_BY_ID }]
+          refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
         });
-        alert(`La asignatura ${materia} fue agregada exitosamente!`)
+        alert(`La asignatura ${materia} fue agregada exitosamente!`);
         console.log("SUCCEDEED");
         navigation.pop();
       }
@@ -56,6 +58,13 @@ const AddSubjectScreen = ({ navigation, route }) => {
       console.error(err);
     }
   };
+
+  if (loading)
+    return (
+      <CenterView>
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
 
   return (
     <ScrollView>

@@ -6,7 +6,6 @@ import {
   TextInput,
   ScrollView,
   Button,
-  ActivityIndicator,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
@@ -25,7 +24,7 @@ const EDIT_TEACHER = gql`
     $address: String
   ) {
     editTeacher(
-      _id: $_id,
+      _id: $_id
       input: {
         dni: $dni
         name: $name
@@ -89,7 +88,9 @@ function EditTeacherScreen({ route }) {
         console.log(error);
         return false;
       }
-      return alert(`El profesor ${name} ${lastname} fue actualizado exitosamente!`);
+      return alert(
+        `El profesor ${name} ${lastname} fue actualizado exitosamente!`
+      );
     } catch (err) {
       console.error("soy el catch", err);
     }
@@ -98,7 +99,7 @@ function EditTeacherScreen({ route }) {
   if (loading)
     return (
       <CenterView>
-        <ActivityIndicator />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 
@@ -114,7 +115,7 @@ function EditTeacherScreen({ route }) {
             onChangeText={(value) => handleChange("name", value)}
           />
 
-<TextInput
+          <TextInput
             style={styles.input}
             placeholder="Apellido"
             onChangeText={(value) => handleChange("lastname", value)}

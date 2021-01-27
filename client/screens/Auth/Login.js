@@ -7,7 +7,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -81,7 +80,7 @@ const LoginScreen = ({ navigation }) => {
   if (loading)
     return (
       <CenterView>
-        <ActivityIndicator size="large" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 

@@ -2,7 +2,6 @@ import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   View,
-  ActivityIndicator,
   Text,
   TouchableHighlight,
   Alert,
@@ -42,7 +41,16 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
   });
 
   const [deleteSubject, mutationData] = useMutation(DELETE_SUBJECT_BY_ID);
-  if (error) {
+
+  if (loading || mutationData.loading) {
+    return (
+      <CenterView>
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
+  }
+
+  if (error || mutationData.error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -132,13 +140,9 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
         </View>
       </ScrollView>
     );
-  } else
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" />
-      </CenterView>
-    );
+  }
 };
+
 const styles = StyleSheet.create({
   cont: {
     flex: 1,

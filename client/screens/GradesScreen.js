@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  ActivityIndicator,
   FlatList,
   ScrollView,
   Alert,
@@ -37,7 +36,7 @@ const GradesScreen = ({ navigation }) => {
   if (loading)
     return (
       <CenterView>
-        <ActivityIndicator />
+        <Text>Cargando...</Text>
       </CenterView>
     );
 
