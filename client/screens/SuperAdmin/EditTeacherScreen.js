@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
+import { GET_ALL_TEACHERS } from "../SuperAdminListTeachers";
 
 //Falta mandarle el ID para que funque
 const EDIT_TEACHER = gql`
@@ -82,6 +83,7 @@ function EditTeacherScreen({ route }) {
           address,
           picture,
         },
+        refetchQueries: [{ query: GET_ALL_TEACHERS }],
       });
       if (error) {
         console.log(error);
