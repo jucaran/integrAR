@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Card } from "react-native-paper";
 import CenterView from "../utils/CenterView";
@@ -43,6 +44,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
   if (loading || mutationData.loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );

@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
@@ -99,6 +100,7 @@ function EditTeacherScreen({ route }) {
   if (loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );

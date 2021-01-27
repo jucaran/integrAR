@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import CenterView from "../utils/CenterView";
 import { gql, useMutation, useQuery } from "@apollo/client";
@@ -62,6 +68,7 @@ const AddSubjectScreen = ({ navigation, route }) => {
   if (loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );

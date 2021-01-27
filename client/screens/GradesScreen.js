@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableHighlight,
   FlatList,
-  ScrollView,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { Card } from "react-native-paper";
@@ -36,6 +36,7 @@ const GradesScreen = ({ navigation }) => {
   if (loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );

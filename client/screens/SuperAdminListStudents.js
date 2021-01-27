@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   TouchableHighlight,
+  ActivityIndicator,
 } from "react-native";
 import CenterView from "../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
@@ -37,6 +38,7 @@ function SuperAdminListStudents({ navigation }) {
   if (loading || mutationData.loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );

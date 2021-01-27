@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { Card } from "react-native-paper";
@@ -39,9 +40,10 @@ const SuperAdminListCourses = ({ navigation, route }) => {
   });
   const [deleteCourse, mutationData] = useMutation(DELETE_COURSE);
 
-  if (loading)
+  if (loading || mutationData.loading)
     return (
       <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
     );
@@ -129,7 +131,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         )}
       </View>
     );
-  } else if (error)
+  } else if (error || mutationData.error)
     return (
       <View>
         <Text>ERROR</Text>
