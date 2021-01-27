@@ -23,7 +23,7 @@ const EDIT_TEACHER = gql`
     $address: String
   ) {
     editTeacher(
-      _id: $id
+      _id: $_id,
       input: {
         dni: $dni
         name: $name
@@ -144,7 +144,7 @@ function EditTeacherScreen({ route }) {
         <View>
           <Button
             style={styles.button}
-            title="Agregar Profesor"
+            title="Actualizar Profesor"
             onPress={() => handleOnPress(teacher)}
           />
         </View>
