@@ -1,8 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import SuperAdminListTeachers from "../../screens/SuperAdminListTeachers";
 import React from "react";
+import EditTeacherScreen from "../../screens/SuperAdmin/EditTeacherScreen";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator({ route });
 export default function TeachersStack() {
   return (
     <Stack.Navigator
@@ -11,11 +12,15 @@ export default function TeachersStack() {
           backgroundColor: "#00aadd",
         },
         title: "integrAR",
-        headerTintColor: '#fff',
+        headerTintColor: "#fff",
       }}
       initialRouteName={"SuperAdminListTeachers"}
     >
-      <Stack.Screen name="SuperAdminListTeachers" component={SuperAdminListTeachers} />
+      <Stack.Screen
+        name="SuperAdminListTeachers"
+        component={SuperAdminListTeachers}
+      />
+      <Stack.Screen name="EditTeacher" component={EditTeacherScreen} />
     </Stack.Navigator>
   );
 }
