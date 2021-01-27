@@ -87,9 +87,15 @@ export default gql`
     role: String
   }
 
+  type Error {
+    password: Boolean
+    dni: Boolean
+  }
+
   type AuthData {
     token: String
     user: User
+    error: Error
   }
 
   input UserInput {

@@ -41,34 +41,34 @@ export const createUser = async (_, args, ctx) => {
 export const login = async (_, { dni, password }, ctx) => {
   const user = await User.findOne({ dni: dni });
   if (!user) {
-    throw new Error("User does not exist!");
+    return { error: { dni: true, password: false } };
+    // throw new Error("User does not exist!");
   }
   const isEqual = await bcrypt.compare(password, user.password);
   if (!isEqual) {
-    throw new Error("Password is incorrect!");
+    return { token: null, user: null, error: { dni: false, password: true } };
+    // throw new Error("Password is incorrect!");
   }
   const token = jwt.sign({ userId: user.id, dni: user.dni }, JWT_SECRET);
-  return { token: token, user:user };
+  return { token, user, error: { password: null, dni: null } };
 };
 
 export const editUser = async (_, args, ctx) => {
+  let user = await User.findById(args._id);
 
-  let user = await User.findById(args._id)
+  args.input.dni ? (user.dni = args.input.dni) : null;
+  args.input.password ? (user.password = args.input.password) : null;
+  args.input.email ? (user.email = args.input.email) : null;
 
-    args.input.dni ? (user.dni = args.input.dni) : null
-    args.input.password ? (user.password = args.input.password) : null
-    args.input.email ? (user.email = args.input.email) : null
+  await user.save();
 
-    await user.save()
+  return user;
 
-    return user
-
-
-  return await User.findByIdAndUpdate(
-    args._id,
-    { $push: args.input },
-    { new: true }
-  );
+  // return await User.findByIdAndUpdate(
+  //   args._id,
+  //   { $push: args.input },
+  //   { new: true }
+  // );
 };
 
 export const deleteUser = async (_, args, ctx) => {
