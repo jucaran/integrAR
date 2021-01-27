@@ -36,11 +36,7 @@ const SuperAdminListSubjects = ({ navigation }) => {
           <TouchableHighlight
             activeOpacity={0.6}
             underlayColor="ligthgrey"
-            onPress={() =>
-              navigation.navigate("Courses", {
-                screen: "SuperAdminAddSubject",
-              })
-            }
+            onPress={() => navigation.navigate("SuperAdminAddSubject")}
           >
             <Text
               style={{
