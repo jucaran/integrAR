@@ -50,7 +50,6 @@ const SuperAdminListCourses = ({ navigation, route }) => {
 
   if (data) {
     const courses = data.grades[0].courses;
-    console.log(courses);
 
     return (
       <ScrollView>

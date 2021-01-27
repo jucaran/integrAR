@@ -12,7 +12,6 @@ import {
 import { Card } from "react-native-paper";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import CenterView from "../utils/CenterView";
-import x from "../assets/x.png"
 
 export const GET_ALL_GRADES = gql`
   {
