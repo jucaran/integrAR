@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { 
+import React from "react";
+import {
   ActivityIndicator,
   View,
   Text,
-  StyleSheet, 
+  StyleSheet,
   FlatList,
   Image,
   Alert,
-  TouchableHighlight
-  } from "react-native";
+  TouchableHighlight,
+} from "react-native";
 import CenterView from "../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { Card } from "react-native-paper";
 
 export const GET_STUDENTS = gql`
@@ -23,17 +23,33 @@ export const GET_STUDENTS = gql`
   }
 `;
 
-function SuperAdminListStudents({navigation}) {
-  const { data, error } = useQuery(GET_STUDENTS);
+const DELETE_STUDENT = gql`
+  mutation DeleteStudent($_id: ID) {
+    deleteStudent(_id: $_id) {
+      name
+    }
+  }
+`;
 
-  if (error){
-    console.log(error)
+function SuperAdminListStudents({ navigation }) {
+  const { loading, data, error } = useQuery(GET_STUDENTS);
+  const [deleteStudent, mutationData] = useMutation(DELETE_STUDENT);
+
+  if (loading || mutationData.loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
+    );
+
+  if (error || mutationData.error) {
+    console.log(error);
     return (
       <CenterView>
         <Text>ERROR</Text>
       </CenterView>
-    );}
-  else if (data){
+    );
+  } else if (data || mutationData.data) {
     const { students } = data;
     return (
       <View style={styles.centerView}>
@@ -42,9 +58,7 @@ function SuperAdminListStudents({navigation}) {
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="ligthgrey"
-              onPress={() =>
-                navigation.navigate("AddStudent")
-              }
+              onPress={() => navigation.navigate("AddStudent")}
             >
               <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
             </TouchableHighlight>
@@ -56,18 +70,16 @@ function SuperAdminListStudents({navigation}) {
                 <Card key={_id} style={styles.card}>
                   <View style={styles.cardcont}>
                     <View style={styles.alum}>
-                      <Text style={styles.name}>
-                        {`${name} ${lastname}`}
-                      </Text>
+                      <Text style={styles.name}>{`${name} ${lastname}`}</Text>
                       <TouchableHighlight
-                          activeOpacity={0.6}
-                          underlayColor="ligthgrey"
-                          onPress={() =>{
-                            navigation.navigate("EditStudent", {
-                              StudentId: _id,
-                            })
-                          }}
-                        >
+                        activeOpacity={0.6}
+                        underlayColor="ligthgrey"
+                        onPress={() => {
+                          navigation.navigate("EditStudent", {
+                            studentId: _id,
+                          });
+                        }}
+                      >
                         <Image
                           source={require("../assets/edit.png")}
                           style={styles.img}
@@ -87,7 +99,11 @@ function SuperAdminListStudents({navigation}) {
                               },
                               {
                                 text: "OK",
-                                onPress: () => console.log(`${name} fue eliminado con exito!`),
+                                onPress: () =>
+                                  deleteStudent({
+                                    variables: { _id },
+                                    refetchQueries: [{ query: GET_STUDENTS }],
+                                  }),
                               },
                             ]
                           )
@@ -108,12 +124,7 @@ function SuperAdminListStudents({navigation}) {
         </View>
       </View>
     );
-  } else
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" />
-      </CenterView>
-    );
+  }
 }
 const styles = StyleSheet.create({
   centerView: {
@@ -180,59 +191,59 @@ const styles = StyleSheet.create({
 export default SuperAdminListStudents;
 
 // <ScrollView>
-      //   <View style={styles.principal}>
-      //     <Text
-      //       style={{
-      //         fontSize: 25,
-      //         // marginBottom: 20,
-      //         // marginTop: 20,
-      //         marginLeft: 20,
-      //       }}
-      //     >
-      //       Estudiantes
-      //     </Text>
-      //     {data.students ? (
-      //       <FlatList
-      //         data={data.students}
-      //         keyExtractor={({ _id }) => _id}
-      //         renderItem={({ item: { _id, name, dni } }) => {
-      //           return (
-      //             <Card
-      //             key={_id}
-      //             style={{
-      //               margin: 5,
-      //               backgroundColor: "#00aadd",
-      //               borderRadius: 10,
-      //               padding: 20,
-      //               display: "flex",
-      //               justifyContent: "center",
-      //               alignItems: "center",
-      //             }}
-      //             >
-      //               <Text
-      //                 style={{
-      //                   fontSize: 20,
-      //                   padding: 10,
-      //                 }}
-      //               >
-      //                 Nombre: {name}
-      //               </Text>
-      //               <Text
-      //                 style={{
-      //                   fontSize: 20,
-      //                   padding: 10,
-      //                 }}
-      //               >
-      //                 Apellido: {lastname}
-      //               </Text>
-      //             </Card>
-      //           );
-      //         }}
-      //       />
-      //     ) : (
-      //       <View>
-      //         <Text>Nada</Text>
-      //       </View>
-      //     )}
-      //   </View>
-      // </ScrollView>
+//   <View style={styles.principal}>
+//     <Text
+//       style={{
+//         fontSize: 25,
+//         // marginBottom: 20,
+//         // marginTop: 20,
+//         marginLeft: 20,
+//       }}
+//     >
+//       Estudiantes
+//     </Text>
+//     {data.students ? (
+//       <FlatList
+//         data={data.students}
+//         keyExtractor={({ _id }) => _id}
+//         renderItem={({ item: { _id, name, dni } }) => {
+//           return (
+//             <Card
+//             key={_id}
+//             style={{
+//               margin: 5,
+//               backgroundColor: "#00aadd",
+//               borderRadius: 10,
+//               padding: 20,
+//               display: "flex",
+//               justifyContent: "center",
+//               alignItems: "center",
+//             }}
+//             >
+//               <Text
+//                 style={{
+//                   fontSize: 20,
+//                   padding: 10,
+//                 }}
+//               >
+//                 Nombre: {name}
+//               </Text>
+//               <Text
+//                 style={{
+//                   fontSize: 20,
+//                   padding: 10,
+//                 }}
+//               >
+//                 Apellido: {lastname}
+//               </Text>
+//             </Card>
+//           );
+//         }}
+//       />
+//     ) : (
+//       <View>
+//         <Text>Nada</Text>
+//       </View>
+//     )}
+//   </View>
+// </ScrollView>

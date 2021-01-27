@@ -4,9 +4,9 @@ import React from "react";
 import EditTeacherScreen from "../../screens/SuperAdmin/EditTeacherScreen";
 import AddTeacherScreen from "../../screens/SuperAdmin/AddTeacherScreen";
 
-import EditStudentScreen from "../../Screens/SuperAdmin/EditStudentScreen";
+import EditStudentScreen from "../../screens/SuperAdmin/EditStudentScreen";
 import SuperAdminListStudents from "../../screens/SuperAdminListStudents";
-import AddStudentScreen from "../../Screens/SuperAdmin/AddStudentScreen";
+import AddStudentScreen from "../../screens/SuperAdmin/AddStudentScreen";
 
 const Stack = createStackNavigator();
 //Combinado temporalmente student y teacher en un solo stack

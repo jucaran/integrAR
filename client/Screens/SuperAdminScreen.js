@@ -57,7 +57,9 @@ const SuperAdminView = ({ navigation }) => {
           activeOpacity={0.6}
           underlayColor="ligthgrey"
           style={styles.touch}
-          onPress={() => navigation.navigate("Teachers", {screen: "ListStudents"})}
+          onPress={() =>
+            navigation.navigate("Profesores", { screen: "ListStudents" })
+          }
         >
           <View style={styles.button}>
             <Image source={require("../assets/alumn.png")} style={styles.img} />
