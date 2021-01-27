@@ -7,6 +7,7 @@ const ADD_STUDENT = gql`
         $dni: Int!, 
         $name: String!,
         $email: String!, 
+        $lastname: String!, 
         $whatsapp: String!,
         $picture: String, 
         $address: String,
@@ -14,6 +15,7 @@ const ADD_STUDENT = gql`
      createStudent(input: {
         dni: $dni, 
         name: $name,
+        lastname: $lastname,
         email: $email, 
         whatsapp: $whatsapp,
         picture: $picture, 
@@ -27,6 +29,7 @@ const ADD_STUDENT = gql`
 function AddStudentScreen() {
     const [student, setStudent] = useState({
         name: '',
+        lastname: '',
         dni: '',
         email: '',
         whatsapp: '',
@@ -42,12 +45,13 @@ function AddStudentScreen() {
         setStudent({...student, [name]: value})
     }
 
-    const handleOnPress = async ({name, dni, email, whatsapp, address, picture}) => {
+    const handleOnPress = async ({name, lastname, dni, email, whatsapp, address, picture}) => {
         try {
             dni = parseInt(dni);
             await createStudent({
                 variables: {
                     name,
+                    lastname,
                     dni,
                     email,
                     whatsapp,
@@ -72,6 +76,8 @@ function AddStudentScreen() {
 
                 <View>
                     <TextInput style={styles.input} placeholder="Nombre" onChangeText={(value) => handleChange('name', value)}/>
+
+                    <TextInput style={styles.input} placeholder="Apellido" onChangeText={(value) => handleChange('lastname', value)}/> 
 
                     {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
 

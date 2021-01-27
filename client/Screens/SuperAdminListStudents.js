@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import { 
+  ActivityIndicator,
+  View,
+  Text,
+  StyleSheet, 
+  FlatList,
+  Image,
+  Alert,
+  TouchableHighlight
+  } from "react-native";
 import CenterView from "../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
 export const GET_STUDENTS = gql`
@@ -15,8 +23,8 @@ export const GET_STUDENTS = gql`
   }
 `;
 
-function SuperAdminListStudents() {
-  const { data, loading, error } = useQuery(GET_STUDENTS);
+function SuperAdminListStudents({navigation}) {
+  const { data, error } = useQuery(GET_STUDENTS);
 
   if (error){
     console.log(error)
@@ -25,67 +33,82 @@ function SuperAdminListStudents() {
         <Text>ERROR</Text>
       </CenterView>
     );}
-  else if (data)
+  else if (data){
+    const { students } = data;
     return (
-      <ScrollView>
+      <View style={styles.centerView}>
         <View style={styles.principal}>
-          <Text
-            style={{
-              fontSize: 25,
-              // marginBottom: 20,
-              // marginTop: 20,
-              marginLeft: 20,
+          <View style={styles.touch}>
+            <TouchableHighlight
+              activeOpacity={0.6}
+              underlayColor="ligthgrey"
+              onPress={() =>
+                navigation.navigate("AddStudent")
+              }
+            >
+              <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
+            </TouchableHighlight>
+          </View>
+          <FlatList
+            data={students}
+            renderItem={({ item: { _id, name, lastname } }) => {
+              return (
+                <Card key={_id} style={styles.card}>
+                  <View style={styles.cardcont}>
+                    <View style={styles.alum}>
+                      <Text style={styles.name}>
+                        {`${name} ${lastname}`}
+                      </Text>
+                      <TouchableHighlight
+                          activeOpacity={0.6}
+                          underlayColor="ligthgrey"
+                          onPress={() =>{
+                            navigation.navigate("EditStudent", {
+                              StudentId: _id,
+                            })
+                          }}
+                        >
+                        <Image
+                          source={require("../assets/edit.png")}
+                          style={styles.img}
+                        />
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="ligthgrey"
+                        onPress={() =>
+                          Alert.alert(
+                            "Eliminar usuario",
+                            `¿Está seguro que desea eliminar al alumno ${name}?`,
+                            [
+                              {
+                                text: "Cancelar",
+                                style: "cancel",
+                              },
+                              {
+                                text: "OK",
+                                onPress: () => console.log(`${name} fue eliminado con exito!`),
+                              },
+                            ]
+                          )
+                        }
+                      >
+                        <Image
+                          source={require("../assets/x.png")}
+                          style={styles.img}
+                        />
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </Card>
+              );
             }}
-          >
-            Estudiantes
-          </Text>
-          {data.students ? (
-            <FlatList
-              data={data.students}
-              keyExtractor={({ _id }) => _id}
-              renderItem={({ item: { _id, name, lastname } }) => {
-                return (
-                  <Card
-                  key={_id}
-                  style={{
-                    margin: 5,
-                    backgroundColor: "#00aadd",
-                    borderRadius: 10,
-                    padding: 20,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        padding: 10,
-                      }}
-                    >
-                      Nombre: {name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        padding: 10,
-                      }}
-                    >
-                      Apellido: {lastname}
-                    </Text>
-                  </Card>
-                );
-              }}
-            />
-          ) : (
-            <View>
-              <Text>Nada</Text>
-            </View>
-          )}
+            keyExtractor={({ _id }) => _id}
+          />
         </View>
-      </ScrollView>
+      </View>
     );
-  else
+  } else
     return (
       <CenterView>
         <ActivityIndicator size="large" />
@@ -112,7 +135,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
   },
-  prof: {
+  alum: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginRight: 14,
@@ -155,3 +178,61 @@ const styles = StyleSheet.create({
   },
 });
 export default SuperAdminListStudents;
+
+// <ScrollView>
+      //   <View style={styles.principal}>
+      //     <Text
+      //       style={{
+      //         fontSize: 25,
+      //         // marginBottom: 20,
+      //         // marginTop: 20,
+      //         marginLeft: 20,
+      //       }}
+      //     >
+      //       Estudiantes
+      //     </Text>
+      //     {data.students ? (
+      //       <FlatList
+      //         data={data.students}
+      //         keyExtractor={({ _id }) => _id}
+      //         renderItem={({ item: { _id, name, dni } }) => {
+      //           return (
+      //             <Card
+      //             key={_id}
+      //             style={{
+      //               margin: 5,
+      //               backgroundColor: "#00aadd",
+      //               borderRadius: 10,
+      //               padding: 20,
+      //               display: "flex",
+      //               justifyContent: "center",
+      //               alignItems: "center",
+      //             }}
+      //             >
+      //               <Text
+      //                 style={{
+      //                   fontSize: 20,
+      //                   padding: 10,
+      //                 }}
+      //               >
+      //                 Nombre: {name}
+      //               </Text>
+      //               <Text
+      //                 style={{
+      //                   fontSize: 20,
+      //                   padding: 10,
+      //                 }}
+      //               >
+      //                 Apellido: {lastname}
+      //               </Text>
+      //             </Card>
+      //           );
+      //         }}
+      //       />
+      //     ) : (
+      //       <View>
+      //         <Text>Nada</Text>
+      //       </View>
+      //     )}
+      //   </View>
+      // </ScrollView>

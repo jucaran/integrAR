@@ -12,7 +12,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import CenterView from "../utils/CenterView";
 
 const AddSubjectScreen = ({ navigation, route }) => {
-  console.log(navigation, route)
   const [inputs, setInputs] = useState({
     materia: "",
   });
