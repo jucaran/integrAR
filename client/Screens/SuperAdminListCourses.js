@@ -10,53 +10,59 @@ import {
 import { Card } from "react-native-paper";
 import { gql, useQuery } from "@apollo/client";
 import CenterView from "../utils/CenterView";
-/**
- * TODO: Acordarse de cuando hayan grades traerlos tambien o fijarse si son necesarios o no
- */
+
 export const GET_ALL_COURSES = gql`
-  {
-    courses {
+  query GetCoursesFromAGrade($_id: ID) {
+    grades(_id: $_id) {
       _id
       name
-      grade {_id}
+      courses {
+        _id
+        name
+      }
     }
   }
 `;
 
-const SuperAdminListCourses = ({navigation, route}) => {
-  const { id } = route.params.params
-  const { data, loading, error } = useQuery(GET_ALL_COURSES);
-  const arrCour = []
+const SuperAdminListCourses = ({ navigation, route }) => {
+  const { id: _id } = route.params.params;
+  const { data, loading, error } = useQuery(GET_ALL_COURSES, {
+    variables: { _id },
+  });
+  const arrCour = [];
 
+  if (loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
+    );
 
   if (data) {
-    const { courses } = data;
+    console.log(data);
+    const courses = data.grades[0].courses;
+    console.log(courses);
+
     return (
       <ScrollView>
-        <View
-          style={styles.cont}
-        >
-         <TouchableHighlight
+        <View style={styles.cont}>
+          <TouchableHighlight
             activeOpacity={0.6}
             style={styles.touch}
             underlayColor="ligthgrey"
             onPress={() =>
               navigation.navigate("SuperAdminAddCourse", {
                 screen: "SuperAdminAddCourse",
-                params: id
+                params: _id,
               })
             }
           >
-          <Text style={styles.touchText}
-          >
-            Agregar Curso
-          </Text>
+            <Text style={styles.touchText}>Agregar Curso</Text>
           </TouchableHighlight>
-          {
-          courses.forEach(course =>{
-            if (course.grade?._id === id) arrCour.push(course._id)}
-            )}
-            {console.log(arrCour)}
+          {courses.forEach((course) => {
+            arrCour.push(course._id);
+          })}
+          {console.log(arrCour)}
           <TouchableHighlight
             activeOpacity={0.6}
             underlayColor="ligthgrey"
@@ -64,40 +70,28 @@ const SuperAdminListCourses = ({navigation, route}) => {
             onPress={() =>
               navigation.navigate("SuperAdminAddSubject", {
                 screen: "SuperAdminAddSubject",
-                params: arrCour
+                params: arrCour,
               })
             }
           >
-            <Text
-              style={styles.touchText}
-            >
-              Agregar Materia
-            </Text>
+            <Text style={styles.touchText}>Agregar Materia</Text>
           </TouchableHighlight>
           <FlatList
             data={courses}
-            renderItem={(item) => {
-            if (item.item.grade?._id === id){
-              return (
-                <Card
-                  key={item.item._id}
-                  style={styles.card}
-                >
-                  <Text
-                    style={styles.cardText}
-                  >
-                    {item.item.name}
-                  </Text>
-                </Card>
-              )
-            //  keyExtractor={({ item._id }) => item._id}
-          } 
-          // else {
-          //   return(<CenterView>
-          //     <Text>No hay cursos agregados para este grado</Text>
-          //   </CenterView>)}
-            }  
-          }
+            renderItem={
+              ({ item }) => {
+                return (
+                  <Card key={item._id} style={styles.card}>
+                    <Text style={styles.cardText}>{item.name}</Text>
+                  </Card>
+                );
+              }
+              // else {
+              //   return(<CenterView>
+              //     <Text>No hay cursos agregados para este grado</Text>
+              //   </CenterView>)}
+            }
+            keyExtractor={({ _id }) => _id}
           />
         </View>
       </ScrollView>
@@ -108,18 +102,12 @@ const SuperAdminListCourses = ({navigation, route}) => {
         <Text>ERROR</Text>
       </View>
     );
-  else
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" />
-      </CenterView>
-    );
 };
 
 const styles = StyleSheet.create({
   cont: {
     flex: 1,
-    padding: 5
+    padding: 5,
   },
   container: {
     flex: 1,

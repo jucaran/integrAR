@@ -4,45 +4,35 @@ import {
   View,
   ActivityIndicator,
   Text,
-  StatusBar,
+  Image,
   TouchableHighlight,
 } from "react-native";
-import { Card } from "react-native-paper";
 import CenterView from "../utils/CenterView";
-// import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
+import { Card, ListItem, Button, Icon, Avatar } from "react-native-elements";
 
-// const GET_ALL_SUBJECTS = gql`
-//   {
-//     courses {
-//       _id
-//       name
-//     }
-//   }
-// `;
+const GET_ALL_SUBJECTS = gql`
+  {
+    subjects {
+      _id
+      name
+    }
+  }
+`;
 
-const SuperAdminListSubjects = () => {
-  // const { data, loading, error } = useQuery(GET_ALL_SUBJECTS);
-
+const SuperAdminListSubjects = ({ navigation }) => {
+  const { data, loading, error } = useQuery(GET_ALL_SUBJECTS);
   if (data) {
-    // const { courses } = data;
+    const { subjects } = data;
+
     return (
       <ScrollView>
         <View
           style={{
             flex: 1,
-            padding: 5 /*  marginTop: StatusBar.currentHeight || 0 */,
+            padding: 5,
           }}
         >
-          <Text
-            style={{
-              fontSize: 25,
-              // marginBottom: 20,
-              // marginTop: 20,
-              marginLeft: 20,
-            }}
-          >
-            Cursos
-          </Text>
           <TouchableHighlight
             activeOpacity={0.6}
             underlayColor="ligthgrey"
@@ -63,35 +53,40 @@ const SuperAdminListSubjects = () => {
               Agregar Materia
             </Text>
           </TouchableHighlight>
-          <FlatList
-            data={courses}
-            renderItem={({ item: course }) => {
-              return (
-                <Card
-                  key={course._id}
-                  style={{
-                    margin: 5,
-                    backgroundColor: "#00aadd",
-                    borderRadius: 10,
-                    padding: 20,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      padding: 10,
+          {subjects.length ? (
+            // <Card>
+            //   <Card.Title>MATERIAS</Card.Title>
+            //   <Card.Divider />
+            //   {subjects.map(({ name, _id }, i) => {
+            //     //_id name __typename
+            //     return (
+            //       <View key={_id}>
+            //         <Text>{name}</Text>
+            //       </View>
+            //     );
+            //   })}
+            // </Card>
+            <Card containerStyle={{ padding: 0 }}>
+              {subjects.map(({ name, _id }, i) => (
+                <ListItem key={i}>
+                  <Avatar
+                    source={{
+                      uri:
+                        "https://static.wikia.nocookie.net/simpsons/images/b/bd/Homer_Simpson.png/revision/latest/top-crop/width/360/height/360?cb=20201222215437",
                     }}
-                  >
-                    {course.name}
-                  </Text>
-                </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
+                  />
+                  <ListItem.Content>
+                    <ListItem.Title>{name}</ListItem.Title>
+                    {/* <ListItem.Subtitle></ListItem.Subtitle> */}
+                  </ListItem.Content>
+                </ListItem>
+              ))}
+            </Card>
+          ) : (
+            <CenterView>
+              <Text>ERROR, NO HAY MATERIAS</Text>
+            </CenterView>
+          )}
         </View>
       </ScrollView>
     );

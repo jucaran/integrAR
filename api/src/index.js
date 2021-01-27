@@ -4,37 +4,32 @@ import { connect } from "./database";
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./schemas/index.js";
 import resolvers from "./resolvers/index.js";
-import User from "./models/User"
-import Admin from "./models/Admin";
-import Teacher from "./models/Teacher";
-import Student from "./models/Student";
-import Grade from "./models/Grade";
-import Course from "./models/Course";
-import Subject from "./models/Subject";
+import isAuth from "./middleware/is-auth"
+
 
 const app = express();
+app.use(isAuth);
 app.use(cors());
 connect();
 
+
 const { PORT, API_URL } = process.env;
+
 
 const SERVER = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
-    // LOGIN
-    User,
-    Admin,
-    Teacher,
-    Student,
-    Grade,
-    Course,
-    Subject,
+
+  context: ({ req }) => {
+    const UserAuth = req.isAuth
+
+    return { UserAuth }
+
   },
   introspection: true,
   playground: true,
   playground: {
-    endpoint: `${API_URL}/graphql`,
+    endpoint: `${API_URL}/graphql`, 
     settings: {
       "editor.theme": "dark",
     },

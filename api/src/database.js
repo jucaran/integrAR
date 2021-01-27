@@ -8,7 +8,7 @@ export async function connect() {
   try {
     await mongoose.connect(ATLAS_URL_DB,
       {
-        useNewUrlParser: true, useUnifiedTopology: true
+        useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
       }
     );
     console.log(">>> DB is connected");
