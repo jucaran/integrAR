@@ -1,28 +1,58 @@
 import React, { useState } from "react";
-import {
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Switch,
-} from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-//import CheckBox from '@react-native-community/checkbox';;
+import { StyleSheet, Text, View, TextInput } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import CenterView from "../utils/CenterView";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
+const CREATE_SUBJECT_BY_COURSE_ID = gql`
+  mutation CreateSubject($name: String, $course: ID) {
+    createSubject(input: { name: $name, course: $course }) {
+      _id
+      name
+      course {
+        _id
+        name
+      }
+    }
+  }
+`;
+
+const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
+  query GetSubjectsFromCourseId($_id: ID) {
+    courses(_id: $_id) {
+      _id
+      name
+      subjects {
+        _id
+        name
+      }
+    }
+  }
+`;
 const AddSubjectScreen = ({ navigation, route }) => {
-  console.log(navigation, route)
-  const [inputs, setInputs] = useState({
-    materia: "",
-  });
-
+  const _id = route.params.params;
+  const [subject, setSubject] = useState({ materia: "" });
+  const [addSubject, mutationData] = useMutation(CREATE_SUBJECT_BY_COURSE_ID);
 
   const handleChange = (text, input) => {
-    setInputs({
-      ...inputs,
-      [input]: text,
-    });
+    setSubject({ materia: text });
+  };
+
+  const handleSubmit = async () => {
+    const { materia } = subject;
+
+    try {
+      if (materia.length) {
+        await addSubject({
+          variables: { name: materia, course: _id },
+        });
+        console.log("SUCCEDEED");
+        navigation.pop();
+      }
+    } catch (err) {
+      console.log("ERROR:");
+      console.error(err);
+    }
   };
 
   return (
@@ -33,79 +63,19 @@ const AddSubjectScreen = ({ navigation, route }) => {
           <Text style={styles.description}>Materia</Text>
           <TextInput
             style={styles.input}
-            placeholder="Materia..."
-            value={inputs.materia}
-            onChangeText={(text) => handleChange(text, "materia")}
+            placeholder="Nombre de la materia..."
+            value={subject}
+            onChangeText={(text) => handleChange(text, "subject")}
           />
         </View>
-        {/* <View>
-          <Text style={styles.description}>Agregar Profesor</Text>
-        </View>
-        <View style={styles.switchsCont}>
-          {teachers?.map((teacher, i) => {
-            const [isTeacher, setisTeacher] = useState(false);
-            if (teacher) {
-              return (
-                <View key={i} style={styles.switchsCont2}>
-                  <Text style={styles.switchTxt}>
-                    {teacher?.Nombre + " " + teacher?.Apellido}
-                  </Text>
-                  <Switch
-                    style={styles.switch}
-                    trackColor={{ false: "#767577", true: "#2290CD" }}
-                    thumbColor={isTeacher ? "#8FC6E4" : "#f4f3f4"}
-                    value={isTeacher}
-                    onValueChange={() =>
-                      inputs?.materia ? setisTeacher((prev) => !prev) : null
-                    }
-                    {...(isTeacher
-                      ? teacher.materias.push(inputs.materia)
-                      : teacher.materias.pop(inputs.materia))}
-                  />
-                </View>
-              );
-            }
-          })}
-          {console.log(teachers)}
-        </View> */}
-        {/* <View>
-          <Text style={styles.description}>Agregar Curso</Text>
-        </View>
-        <View style={styles.switchsCont}>
-          {cursos.map((curso, i) => {
-            const [isCurso, setIsCurso] = useState(false);
-            if (curso) {
-              return (
-                <View key={i} style={styles.switchsCont2}>
-                  <Text style={styles.switchTxt}>
-                    {curso?.grado + " " + curso?.curso}
-                  </Text>
-                  <Switch
-                    style={styles.switch}
-                    trackColor={{ false: "#767577", true: "#2290CD" }}
-                    thumbColor={isCurso ? "#8FC6E4" : "#f4f3f4"}
-                    value={isCurso}
-                    onValueChange={() =>
-                      inputs?.materia ? setIsCurso((prev) => !prev) : null
-                    }
-                    {...(isCurso
-                      ? curso.materias.push(inputs.materia)
-                      : curso.materias.pop(inputs.materia))}
-                  />
-                </View>
-              );
-            }
-          })}
-          {console.log(cursos)}
-        </View> */}
-        <TouchableHighlight
+        <TouchableOpacity
           activeOpacity={0.8}
           underlayColor="lightblue"
           style={styles.button}
-          onPress={() => navigation.navigate("")}
+          onPress={() => handleSubmit()}
         >
           <Text style={styles.textButton}>AGREGAR</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </CenterView>
     </ScrollView>
   );
