@@ -46,6 +46,7 @@ const AddCourseScreen = ({ navigation, route }) => {
       variables: { input: { name, grade: { _id } } },
       refetchQueries: [ { query: GET_ALL_COURSES }]
     })
+    alert(`El curso ${name} fue agregado exitosamente!`)
     navigation.navigate("SuperAdminListCourses", { screen: "SuperAdminListCourses" })
   }
     catch (error) {

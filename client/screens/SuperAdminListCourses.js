@@ -65,14 +65,14 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         >
           <Text style={styles.touchText}>Agregar Curso</Text>
         </TouchableHighlight>
-        <TouchableHighlight
+        {/* <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="ligthgrey"
           style={styles.touch}
           onPress={() => navigation.navigate("SuperAdminAddSubject")}
         >
           <Text style={styles.touchText}>Agregar Materia</Text>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
         {courses.length ? (
           <FlatList
             data={courses}

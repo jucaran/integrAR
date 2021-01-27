@@ -36,6 +36,7 @@ const AddCourseScreen = ({ navigation }) => {
       variables: { input: { name } },
       refetchQueries: [ { query: GET_ALL_GRADES }]
     })
+    alert(`El grado ${name} fue agregado exitosamente!`)
     navigation.navigate("Cursos", { screen: "GradesScreen" })
   }
     catch (error) {
@@ -49,9 +50,9 @@ const AddCourseScreen = ({ navigation }) => {
   return (
   
     <CenterView>
-      <Text style={styles.title}>AGREGAR AÑO</Text>
+      <Text style={styles.title}>AGREGAR GRADO</Text>
       <View>
-        <Text style={styles.description}>Año</Text>
+        <Text style={styles.description}>Grado</Text>
         <TextInput
           style={styles.input}
           placeholder="Año..."
