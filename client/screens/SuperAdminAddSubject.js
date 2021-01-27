@@ -45,6 +45,7 @@ const AddSubjectScreen = ({ navigation, route }) => {
       if (materia.length) {
         await addSubject({
           variables: { name: materia, course: _id },
+          refetchQueries: [ { query: GET_SUBJECTS_FROM_COURSE_BY_ID }]
         });
         console.log("SUCCEDEED");
         navigation.pop();
