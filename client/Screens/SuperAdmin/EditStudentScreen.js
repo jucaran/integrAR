@@ -127,7 +127,7 @@ function EditStudentScreen() {
                     <TextInput style={styles.input} placeholder="DNI" onChangeText={(value) => handleChange('dni', value)}/>
                 </View>
                 <View>
-                    <Button style={styles.button} title="Agregar Alumno" onPress={() => handleOnPress(student)} />
+                    <Button style={styles.button} title="Actualizar Alumno" onPress={() => handleOnPress(student)} />
                 </View>
 
             </View>

@@ -58,8 +58,8 @@ const SuperAdminListTeachers = ({ navigation }) => {
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="ligthgrey"
-              onPress={() =>
-                navigation.navigate("AddTeacher")
+              onPress={() =>{
+                navigation.navigate("AddTeacher")}
               }
             >
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
@@ -79,11 +79,11 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="ligthgrey"
-                        onPress={() =>
+                        onPress={() =>{
                           navigation.navigate("EditTeacher", {
                             teacherId: teacher._id,
                           })
-                        }
+                        }}
                       >
                         <Image
                           source={require("../assets/edit.png")}
