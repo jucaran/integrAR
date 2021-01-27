@@ -43,7 +43,7 @@ function SuperAdminListStudents() {
             <FlatList
               data={data.students}
               keyExtractor={({ _id }) => _id}
-              renderItem={({ item: { _id, name, lastname, __typename } }) => {
+              renderItem={({ item: { _id, name, lastname } }) => {
                 return (
                   <Card
                   key={_id}
@@ -72,14 +72,6 @@ function SuperAdminListStudents() {
                       }}
                     >
                       Apellido: {lastname}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        padding: 10,
-                      }}
-                    >
-                      Tipo: {__typename}
                     </Text>
                   </Card>
                 );
