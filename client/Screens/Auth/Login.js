@@ -7,9 +7,27 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../providers/AuthProvider";
+import { gql, useMutation } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
+
+const LOG_USER = gql`
+  mutation Login($dni: Int!, $password: String!) {
+    login(dni: $dni, password: $password) {
+      token
+      user {
+        _id
+        name
+        role
+        email
+        dni
+      }
+    }
+  }
+`;
 
 const LoginScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({});
@@ -17,7 +35,8 @@ const LoginScreen = ({ navigation }) => {
     dni: false,
     password: false,
   });
-  const { login } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  const [logUser, { loading, data, error }] = useMutation(LOG_USER);
 
   const handleChange = (txt, input) => {
     setInputs({
@@ -39,6 +58,39 @@ const LoginScreen = ({ navigation }) => {
       [input]: false,
     });
   };
+
+  const handleSubmit = () => {
+    console.log("SUBMITIO");
+    console.log(parseInt(inputs.dni));
+    logUser({
+      variables: {
+        dni: parseInt(inputs.dni),
+        password: inputs.password,
+      },
+    });
+  };
+
+  if (loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" />
+      </CenterView>
+    );
+
+  if (data) {
+    (async () => {
+      await AsyncStorage.setItem("token", data.login.token);
+      await AsyncStorage.setItem("user", JSON.stringify(data.login.user));
+      setUser(data.login.user);
+    })();
+    // console.log(data);
+  }
+
+  if (error) {
+    <CenterView>
+      <Text>{JSON.stringify(error)}</Text>
+    </CenterView>;
+  }
 
   return (
     <CenterView>
@@ -77,12 +129,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={{ color: "#2290CD" }}>¿Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
       </View>
-      <Button
-        title="Ingresar"
-        onPress={() => {
-          login(inputs);
-        }}
-      />
+      <Button title="Ingresar" onPress={handleSubmit} />
     </CenterView>
   );
 };
