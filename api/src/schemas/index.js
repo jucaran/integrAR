@@ -9,7 +9,7 @@ export default gql`
     students(dni: Int, _id: ID): [Student]
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
-    subjects(_id: ID): [Subject]
+    subjects(_id: ID, attribute: String, order_by: String): [Subject]
   }
 
   type Mutation {
