@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import React from "react";
+import { FlatList } from "react-native-gesture-handler";
 import {
   ActivityIndicator,
   View,
@@ -73,14 +73,24 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         >
           <Text style={styles.touchText}>Agregar Materia</Text>
         </TouchableHighlight>
-        <FlatList
-          data={courses}
-          renderItem={
-            ({ item }) => {
+        {courses.length ? (
+          <FlatList
+            data={courses}
+            renderItem={({ item }) => {
               return (
                 <Card key={item._id} style={styles.card}>
                   <View style={styles.cardIn}>
                     <Text style={styles.cardText}>{item.name}</Text>
+                    <Text
+                      style={styles.cardText}
+                      onPress={() => {
+                        navigation.navigate("SuperAdminListSubjects", {
+                          params: { _id: item._id },
+                        });
+                      }}
+                    >
+                      Ver materias
+                    </Text>
                     <TouchableHighlight
                       activeOpacity={0.6}
                       underlayColor="ligthgrey"
@@ -110,14 +120,14 @@ const SuperAdminListCourses = ({ navigation, route }) => {
                   </View>
                 </Card>
               );
-            }
-            // else {
-            //   return(<CenterView>
-            //     <Text>No hay cursos agregados para este grado</Text>
-            //   </CenterView>)}
-          }
-          keyExtractor={({ _id }) => _id}
-        />
+            }}
+            keyExtractor={({ _id }) => _id}
+          />
+        ) : (
+          <CenterView>
+            <Text>No hay cursos agregados para este grado</Text>
+          </CenterView>
+        )}
       </View>
     );
   } else if (error)
