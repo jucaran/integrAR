@@ -3,7 +3,7 @@ import SuperAdminListTeachers from "../../screens/SuperAdminListTeachers";
 import React from "react";
 import EditTeacherScreen from "../../screens/SuperAdmin/EditTeacherScreen";
 
-const Stack = createStackNavigator({ route });
+const Stack = createStackNavigator();
 export default function TeachersStack() {
   return (
     <Stack.Navigator
