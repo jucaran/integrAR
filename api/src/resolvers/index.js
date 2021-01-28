@@ -20,6 +20,7 @@ import {
   deleteSubject,
 } from "./subjects";
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
+import { uploadCsv } from "./file";
 
 export default {
   // GET REQUEST
@@ -70,5 +71,7 @@ export default {
     createSubject,
     editSubject,
     deleteSubject,
+
+    uploadCsv,
   },
 };

@@ -42,6 +42,16 @@ export default gql`
     createSubject(input: SubjectInput): Subject
     editSubject(_id: ID, input: SubjectInput): Subject
     deleteSubject(_id: ID): Subject
+
+    uploadCsv(file: Upload): File
+  }
+
+  type File {
+    status: Boolean
+    uri: String
+    filename: String
+    mimetype: String
+    encoding: String
   }
   # ---------------------------
   type Admin {
