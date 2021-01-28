@@ -11,7 +11,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
-import { Button } from "react-native-elements";
+
 
 const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
   query GetSubjectsFromCourseId($_id: ID) {
@@ -104,8 +104,16 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                     }}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    <Button
-                      title="Eliminar Materia"
+                    <TouchableHighlight
+                    style={styles.button}
+                    activeOpacity={0.6}
+                      onPress={() => navigation.navigate()}>
+                        <Text style={styles.textHigh}>Agregar Profesor</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                    activeOpacity={0.6}
+                    style={styles.buttonEx}
+                    underlayColor="ligthgrey"
                       onPress={() =>
                         Alert.alert(
                           "Eliminar curso",
@@ -128,8 +136,10 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                             },
                           ]
                         )
-                      }
-                    />
+                      }>
+                        <Text style={styles.textHigh}>X</Text>
+                      </TouchableHighlight>
+
                   </View>
                 );
               })}
@@ -195,8 +205,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 344,
+    // width: 334,
   },
+  button: {
+    backgroundColor: "#2290CD",
+    padding: 7,
+    borderRadius: 3,
+  },
+  buttonEx: {
+    backgroundColor: "#2290CD",
+    padding: 7,
+    borderRadius: 3,
+    width: 7
+  },
+  textHigh: {
+    color: "white",
+
+  }
 });
 
 // <TouchableHighlight

@@ -115,7 +115,7 @@ export default gql`
     whatsapp: String
     address: String
     birthday: String
-    pictureure: String
+    picture: String
     grades: [Grade]
     courses: [Course]
     subjects: [Subject]

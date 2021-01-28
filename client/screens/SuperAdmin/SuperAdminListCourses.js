@@ -83,7 +83,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
                   <View style={styles.cardIn}>
                     <Text style={styles.cardText}>{item.name}</Text>
                     <Text
-                      style={styles.cardText}
+                      style={styles.cardSee}
                       onPress={() => {
                         navigation.navigate("SuperAdminListSubjects", {
                           params: { _id: item._id },
@@ -171,8 +171,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cardText: {
-    fontSize: 20,
+  cardSee: {
+    fontSize: 17,
     padding: 10,
     color: "white",
   },
