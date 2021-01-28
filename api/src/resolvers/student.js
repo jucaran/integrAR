@@ -15,14 +15,12 @@ export const allStudents = async (_, args, ctx) => {
 // Mutations
 export const createStudent = async (_, args, ctx) => {
   let newStudent = await new Student(args.input).save();
-  const studentCourses = args.input.courses;
+  const CourseId = args.input.courseId;
 
-  if (studentCourses) {
-    studentCourses.map( async (el) => {
-      const course = await Course.findById(el._id)
-      course && course.students.push(newTeacher._id)
+  if (CourseId) {
+      const course = await Course.findById(CourseId)
+      course && course.students.push(newStudent._id)
       course && await course.save();
-    });
   }
 
   return newStudent;
