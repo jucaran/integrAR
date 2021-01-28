@@ -36,7 +36,7 @@ const ADD_TEACHER = gql`
   }
 `;
 
-function AddTeacherScreen({}) {
+function AddTeacherScreen() {
   const [teacher, setTeacher] = useState({
     picture: "",
     name: "",
