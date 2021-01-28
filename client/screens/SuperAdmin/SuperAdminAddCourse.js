@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import CenterView from "../utils/CenterView";
+import CenterView from "../../utils/CenterView";
 import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_COURSES } from "./SuperAdminListCourses"
 

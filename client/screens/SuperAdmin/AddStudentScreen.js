@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import { GET_STUDENTS } from "../SuperAdminListStudents";
+import { GET_STUDENTS } from "./SuperAdminListStudents";
 
 const ADD_STUDENT = gql`
   mutation AddStudent(

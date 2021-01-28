@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import { GET_ALL_TEACHERS } from "../SuperAdminListTeachers";
+import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers";
 
 const ADD_TEACHER = gql`
   mutation AddTeacher(

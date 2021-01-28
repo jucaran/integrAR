@@ -1,12 +1,12 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import Test from "../../screens/Test";
-import GradesScreen from "../../screens/GradesScreen";
+import GradesScreen from "../../screens/SuperAdmin/GradesScreen";
 import React from "react";
-import SuperAdminListCourses from "../../screens/SuperAdminListCourses";
-import SuperAdminAddGrade from "../../screens/SuperAdminAddGrade";
-import SuperAdminListSubjects from "../../screens/SuperAdminListSubjects";
-import SuperAdminAddCourse from "../../screens/SuperAdminAddCourse";
-import SuperAdminAddSubject from "../../screens/SuperAdminAddSubject";
+import SuperAdminListCourses from "../../screens/SuperAdmin/SuperAdminListCourses";
+import SuperAdminAddGrade from "../../screens/SuperAdmin/SuperAdminAddGrade";
+import SuperAdminListSubjects from "../../screens/SuperAdmin/SuperAdminListSubjects";
+import SuperAdminAddCourse from "../../screens/SuperAdmin/SuperAdminAddCourse";
+import SuperAdminAddSubject from "../../screens/SuperAdmin/SuperAdminAddSubject";
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {

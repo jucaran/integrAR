@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import SuperAdminListTeachers from "../../screens/SuperAdminListTeachers";
+import SuperAdminListTeachers from "../../screens/SuperAdmin/SuperAdminListTeachers";
 import React from "react";
 import EditTeacherScreen from "../../screens/SuperAdmin/EditTeacherScreen";
 import AddTeacherScreen from "../../screens/SuperAdmin/AddTeacherScreen";
 
 import EditStudentScreen from "../../screens/SuperAdmin/EditStudentScreen";
-import SuperAdminListStudents from "../../screens/SuperAdminListStudents";
+import SuperAdminListStudents from "../../screens/SuperAdmin/SuperAdminListStudents";
 import AddStudentScreen from "../../screens/SuperAdmin/AddStudentScreen";
 
 const Stack = createStackNavigator();

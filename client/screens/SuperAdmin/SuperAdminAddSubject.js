@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import CenterView from "../utils/CenterView";
+import CenterView from "../../utils/CenterView";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 const CREATE_SUBJECT_BY_COURSE_ID = gql`

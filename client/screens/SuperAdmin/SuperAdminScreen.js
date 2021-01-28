@@ -6,8 +6,8 @@ import {
   View,
   Image,
 } from "react-native";
-import CenterView from "../utils/CenterView";
-import { AuthContext } from "../providers/AuthProvider";
+import CenterView from "../../utils/CenterView";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const SuperAdminView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
@@ -26,7 +26,7 @@ const SuperAdminView = ({ navigation }) => {
             }
           >
             <View style={styles.button}>
-              <Image source={require("../assets/bro.png")} style={styles.img} />
+              <Image source={require("../../assets/bro.png")} style={styles.img} />
               <Text style={styles.touchText}>VER GRADOS</Text>
             </View>
           </TouchableHighlight>
@@ -44,7 +44,7 @@ const SuperAdminView = ({ navigation }) => {
           >
             <View style={styles.button}>
               <Image
-                source={require("../assets/Character.png")}
+                source={require("../../assets/Character.png")}
                 style={styles.img}
               />
               <Text style={styles.touchText}>VER PROFESORES</Text>
@@ -62,7 +62,7 @@ const SuperAdminView = ({ navigation }) => {
           }
         >
           <View style={styles.button}>
-            <Image source={require("../assets/alumn.png")} style={styles.img} />
+            <Image source={require("../../assets/alumn.png")} style={styles.img} />
             <Text style={styles.touchText}>VER ALUMNOS</Text>
           </View>
         </TouchableHighlight>

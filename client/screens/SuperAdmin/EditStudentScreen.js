@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
-import { GET_STUDENTS } from "../SuperAdminListStudents";
+import { GET_STUDENTS } from "./SuperAdminListStudents";
 
 //Falta hacer la query para traer la info del alumno a editar
 

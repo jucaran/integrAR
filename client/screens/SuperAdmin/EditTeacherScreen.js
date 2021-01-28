@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
-import { GET_ALL_TEACHERS } from "../SuperAdminListTeachers";
+import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers";
 
 //Falta mandarle el ID para que funque
 const EDIT_TEACHER = gql`

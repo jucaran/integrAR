@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import CenterView from "../utils/CenterView";
+import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";

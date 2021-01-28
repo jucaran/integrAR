@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import CenterView from "../utils/CenterView";
+import CenterView from "../../utils/CenterView";
 
 export const GET_ALL_COURSES = gql`
   query GetCoursesFromAGrade($_id: ID) {

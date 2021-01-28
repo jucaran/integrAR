@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../../screens/HomeScreen";
-import SuperAdminScreen from "../../screens/SuperAdminScreen";
+import SuperAdminScreen from "../../screens/SuperAdmin/SuperAdminScreen";
 import React from "react";
-import SuperAdminListStudents from "../../screens/SuperAdminListStudents";
+import SuperAdminListStudents from "../../screens/SuperAdmin/SuperAdminListStudents";
 
 const Stack = createStackNavigator();
 export default function HomeStack() {
