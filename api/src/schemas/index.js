@@ -207,13 +207,13 @@ export default gql`
   type Subject {
     _id: ID
     name: String
-    teachers: [Teacher]
+    teacher: Teacher
     course: Course
   }
   input SubjectInput {
     _id: ID
     name: String
-    teachers: [TeacherInput]
+    teacher: TeacherInput
     course: ID
   }
 `;
