@@ -43,7 +43,7 @@ export default gql`
     editSubject(_id: ID, input: SubjectInput): Subject
     deleteSubject(_id: ID): Subject
 
-    uploadCsv(file: Upload): File
+    uploadCsv(file: Upload, text: String): File
   }
 
   type File {
