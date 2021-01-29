@@ -36,7 +36,13 @@ export default gql`
     deleteGrade(_id: ID): Grade
 
     createCourse(input: CourseInput): Course
-    editCourse(_id: ID, input: CourseInput): Course
+    editCourse(
+      _id: ID
+      input: CourseInput
+      teacherId: ID
+      studentId: ID
+      deleteMode: Boolean
+    ): Course
     deleteCourse(_id: ID): Course
 
     createSubject(input: SubjectInput): Subject
