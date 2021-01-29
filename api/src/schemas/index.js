@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-express";
+import { fileTypes } from "./files";
 
 // Admin
 export default gql`
@@ -10,6 +11,7 @@ export default gql`
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID, attribute: String, order_by: String): [Subject]
+    classes: [Class]
   }
 
   type Mutation {
@@ -44,15 +46,10 @@ export default gql`
     deleteSubject(_id: ID): Subject
 
     uploadCsv(file: Upload, text: String): File
+    uploadClassFile(file: Upload, classId: ID): File
   }
 
-  type File {
-    status: Boolean
-    uri: String
-    filename: String
-    mimetype: String
-    encoding: String
-  }
+  ${fileTypes}
   # ---------------------------
   type Admin {
     _id: ID
@@ -217,13 +214,24 @@ export default gql`
   type Subject {
     _id: ID
     name: String
-    teachers: [Teacher]
+    teacher: Teacher
     course: Course
+    classes: [Class]
   }
   input SubjectInput {
     _id: ID
     name: String
-    teachers: [TeacherInput]
+    teachers: ID
     course: ID
+  }
+
+  #---------------------------
+  type Class {
+    _id: ID
+    name: String
+    files: [String]
+    homework: String
+    correction: String
+    test: String
   }
 `;

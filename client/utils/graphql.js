@@ -7,3 +7,11 @@ export const UPLOAD_FILE = gql`
     }
   }
 `;
+
+export const UPLOAD_CLASS_FILE = gql`
+  mutation UploadClassFile($file: Upload!, $classId: ID!) {
+    uploadClassFile(file: $file, classId: $classId) {
+      status
+    }
+  }
+`;
