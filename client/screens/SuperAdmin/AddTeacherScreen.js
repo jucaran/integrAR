@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   Button,
+  Alert,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_TEACHERS } from "../SuperAdminListTeachers";
@@ -36,7 +37,7 @@ const ADD_TEACHER = gql`
   }
 `;
 
-function AddTeacherScreen() {
+function AddTeacherScreen({ navigation }) {
   const [teacher, setTeacher] = useState({
     picture: "",
     name: "",
@@ -82,9 +83,16 @@ function AddTeacherScreen() {
         console.log(error);
         return false;
       }
-      return alert(
-        `El profesor ${name} ${lastname} fue agregado exitosamente!`
-      );
+      Alert.alert(
+        "Excelente!",
+        `El profesor ${name} ${lastname} fue agregado exitosamente!`,
+        [
+          {
+            text: "Ok",
+            onPress: () => navigation.navigate("SuperAdminListTeachers")
+          }
+        ]
+      )
     } catch (err) {
       console.error("soy el catch", err);
     }

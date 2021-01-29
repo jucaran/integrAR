@@ -46,10 +46,10 @@ export const editStudent = async (_, args, ctx) => {
   args.input.birthday ? (student.birthday = args.input.birthday) : null
   args.input.picture ? (student.picture = args.input.picture) : null
 
-  args.input.grades ? (course.grades = args.input.grades) : null
-  args.input.courses ? (course.courses = args.input.courses) : null
-  args.input.teachers ? (course.teachers = args.input.teachers) : null
-  args.input.subjects ? (course.subjects = args.input.subjects) : null
+  args.input.grades ? (student.grades = args.input.grades) : null
+  args.input.courses ? (student.courses = args.input.courses) : null
+  args.input.teachers ? (student.teachers = args.input.teachers) : null
+  args.input.subjects ? (student.subjects = args.input.subjects) : null
     
   await student.save()
 
