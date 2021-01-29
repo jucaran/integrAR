@@ -25,10 +25,14 @@ export const editSubject = async (_, args, ctx) => {
 
   let subject = await Subject.findById(args._id);
 
-  args.input.name ? (subject.name = args.input.name) : null;
-  args.input.courses ? (subject.courses = args.input.courses) : null
-  args.input.teacher ? (subject.teacher = args.input.teacher) : null;
-  args.input.class ? (subject.class = args.input.class) : null
+  let inputs = args.input;
+  for (const key in inputs) {
+    key ? subject[key] = inputs[key] : null
+  }
+  // args.input.name ? (subject.name = args.input.name) : null;
+  // args.input.courses ? (subject.courses = args.input.courses) : null
+  // args.input.teacher ? (subject.teacher = args.input.teacher) : null;
+  // args.input.class ? (subject.class = args.input.class) : null
 
   await subject.save();
 

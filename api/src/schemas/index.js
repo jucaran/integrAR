@@ -213,7 +213,7 @@ export default gql`
   input SubjectInput {
     _id: ID
     name: String
-    teacher: TeacherInput
+    teacher: ID
     course: ID
   }
 `;
