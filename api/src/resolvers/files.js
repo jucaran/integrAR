@@ -37,11 +37,12 @@ export const uploadClassFile = async (_, { file, classId }) => {
   _class.files.push(`../uploads/${filename}`);
   _class.save();
 
-  await new Promise((res) =>
+  await new Promise((res, rej) =>
     createReadStream()
       .pipe(createWriteStream(filePath))
       .on("error", function (err) {
         console.log(err);
+        rej;
       })
       .on("close", res)
   );
