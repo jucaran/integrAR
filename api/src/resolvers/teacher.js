@@ -1,5 +1,6 @@
 import Teacher from "../models/Teacher";
 import Course from "../models/Course";
+import Subject from "../models/Subject";
 
 // Query
 export const allTeachers = async (_, args, ctx) => {
@@ -15,12 +16,23 @@ export const allTeachers = async (_, args, ctx) => {
 export const createTeacher = async (_, args, ctx) => {
   let newTeacher = await new Teacher(args.input).save();
   const teacherCourses = args.input.courses;
+  const teacherSubjects = args.input.subjects;
 
   if (teacherCourses) {
     teacherCourses.map( async (el) => {
       const course = await Course.findById(el._id)
       course && course.teachers.push(newTeacher._id)
       course && await course.save();
+    });
+  }
+  
+  if (teacherSubjects) {
+    teacherSubjects.map( async (el) => {
+      const subject = await Subject.findById(el._id)
+      if ( subject ) {
+        subject.teacher = newTeacher._id
+      }
+      subject && await subject.save();
     });
   }
 

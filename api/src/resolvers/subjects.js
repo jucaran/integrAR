@@ -22,17 +22,16 @@ export const createSubject = async (_, args, ctx) => {
 };
 
 export const editSubject = async (_, args, ctx) => {
-  // return await Subject.findByIdAndUpdate(
-  //   args._id,
-  //   { $push: args.input },
-  //   { new: true }
-  // );
 
   let subject = await Subject.findById(args._id);
 
-  args.input.name ? (subject.name = args.input.name) : null;
+  let inputs = args.input;
+  for (const key in inputs) {
+    key ? subject[key] = inputs[key] : null
+  }
+  // args.input.name ? (subject.name = args.input.name) : null;
   // args.input.courses ? (subject.courses = args.input.courses) : null
-  args.input.teachers ? (subject.teachers = args.input.teachers) : null;
+  // args.input.teacher ? (subject.teacher = args.input.teacher) : null;
   // args.input.class ? (subject.class = args.input.class) : null
 
   await subject.save();

@@ -6,7 +6,7 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
-  grade: { 
+  grade: {
     type: Schema.Types.ObjectId,
     ref: "Grade",
     autopopulate: true,
