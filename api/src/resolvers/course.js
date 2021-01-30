@@ -24,10 +24,15 @@ export const createCourse = async (_, args, ctx) => {
 export const editCourse = async (_, args, ctx) => {
   let course = await Course.findById(args._id);
   const { teacherId, studentId, deleteMode } = args;
+
+  //Compruebo si ya existe el alumno o profesor para saber si lo agrego/elimino despues
+  let teacherExist = course.teachers.find(el => parseInt(el._id) === parseInt(teacherId))
+  let studentExist = course.students.find(el => parseInt(el._id) === parseInt(studentId))
+
   try {
     if (!deleteMode) {
-      teacherId && course.teachers.push(teacherId);
-      studentId && course.students.push(studentId);
+      if(teacherId && !teacherExist) course.teachers.push(teacherId);
+      if(studentId && !studentExist) course.students.push(studentId);
 
       for (let key in args.input) {
         key ? (course[key] = args.input[key]) : null;
@@ -36,6 +41,9 @@ export const editCourse = async (_, args, ctx) => {
       /**
        * !Si el deleteMode esta activado, se busca el id del profesor o estudiante y se lo borra
        */
+      for (let key in args.input) {
+        key ? (course[key] = args.input[key]) : null;
+      }
       teacherId &&
         (course.teachers = course.teachers.filter(
           ({ _id }) => parseInt(_id) !== parseInt(teacherId)
