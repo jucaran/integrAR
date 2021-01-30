@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   View,
@@ -13,7 +13,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
-import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
+//import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
 
 const GET_ALL_TEACHERS = gql`
   {
@@ -67,7 +67,7 @@ export default function AddTeacherToSubject ({ navigation, route }) {
         },
         // refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
       });
-      navigation.navigate("GradeScreen")
+      navigation.navigate("GradesScreen", { screen: "GradesScreen"})
       //   "SuperAdminListSubject",{
       //   screen: "SuperAdminListSubject",
       //   params: id,
@@ -104,7 +104,6 @@ export default function AddTeacherToSubject ({ navigation, route }) {
           <Card.Title>Profesor para</Card.Title>
           <Card.Divider />
         {teachers.map((teacher, i) =>{
-         // {isTeacher=false}
           return(
             <Card key={teacher._id} style={styles.card}>
             <Text style={styles.prof}>{teacher.name} {teacher.lastname}</Text>
@@ -142,49 +141,9 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "column",
   },
-  // cardcont: {
-  //   display: "flex",
-  //   flexDirection: "column",
-  // },
   prof: {
     fontSize: 17,
-   },
-  // img: {
-  //   width: 14,
-  //   height: 14,
-  //   marginTop: 10,
-  //   marginRight: 25,
-  // },
-  // name: {
-  //   fontSize: 16,
-  //   width: 280,
-  //   // fontFamily: "roboto",
-  //   color: "#000000",
-  //   marginLeft: 10,
-  //   fontWeight: "bold",
-  // },
-  // desc: {
-  //   flexDirection: "row",
-  // },
-  // description: {
-  //   fontSize: 14,
-  //   // fontFamily: "roboto",
-  //   color: "#000000",
-  //   marginLeft: 10,
-  // },
-  // touchText: {
-  //   marginTop: 15,
-  //   marginBottom: 15,
-  //   // fontFamily: "roboto",
-  //   fontSize: 14,
-  //   alignItems: "flex-start",
-  //   color: "#2290CD",
-  // },
-  // touch: {
-  //   justifyContent: "flex-start",
-  //   margin: 5,
-  //   marginLeft: 12,
-  // },
+  },
   onPress: {
     backgroundColor: "#2290CD",
     padding: 7,
