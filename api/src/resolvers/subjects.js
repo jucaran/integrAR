@@ -1,5 +1,6 @@
 import Subject from "../models/Subject";
 import Course from "../models/Course";
+import Teacher from "../models/Teacher";
 
 // Query
 export const allSubjects = async (_, args, ctx) => {
@@ -22,21 +23,35 @@ export const createSubject = async (_, args, ctx) => {
 };
 
 export const editSubject = async (_, args, ctx) => {
-
   let subject = await Subject.findById(args._id);
+  let teacher;
+  let aux;
 
-  let inputs = args.input;
-  for (const key in inputs) {
-    key ? subject[key] = inputs[key] : null
+  try {
+    /**
+     * !Inentendible pero anda, mañana lo optimizo y lo hago mas entendible
+     * !basicamente lo que hace es que borra el profesor anterior de la materia si es que le quiero agregar uno nuevo y lo hace en los 2 lados, y le agrega el nuevo a la materia y la materia al profesor nuevo, el que use esto que me avise y se lo explico
+     */
+    args.input.name ? (subject.name = args.input.name) : null;
+    subject.teacher &&
+      (aux = await Teacher.findById(subject.teacher._id)) &&
+      (aux.subjects = []) &&
+      (await aux.save());
+
+    args.input.teacher &&
+      (teacher = await Teacher.findById(args.input.teacher)) &&
+      (subject.teacher = teacher) &&
+      teacher.subjects.push(args._id) &&
+      (await teacher.save());
+    await subject.save();
+    return subject;
+  } catch (err) {
+    console.error(err);
+    return err;
   }
-  // args.input.name ? (subject.name = args.input.name) : null;
-  // args.input.courses ? (subject.courses = args.input.courses) : null
-  // args.input.teacher ? (subject.teacher = args.input.teacher) : null;
-  // args.input.class ? (subject.class = args.input.class) : null
-
-  await subject.save();
-
-  return subject;
+  // for (const key in inputs) {
+  //   key ? (subject[key] = inputs[key]) : null;
+  // }
 };
 
 export const deleteSubject = async (_, args, ctx) => {
