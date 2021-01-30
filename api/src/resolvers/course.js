@@ -35,14 +35,14 @@ export const editCourse = async (_, args, ctx) => {
       if(studentId && !studentExist) course.students.push(studentId);
 
       for (let key in args.input) {
-        key ? (course[key] = args.input[key]) : null;
+        key ? (course[key] = args.input[key]) : course[key];
       }
     } else {
       /**
        * !Si el deleteMode esta activado, se busca el id del profesor o estudiante y se lo borra
        */
       for (let key in args.input) {
-        key ? (course[key] = args.input[key]) : null;
+        key ? (course[key] = args.input[key]) : course[key];
       }
       teacherId &&
         (course.teachers = course.teachers.filter(
