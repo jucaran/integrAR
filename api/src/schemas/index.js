@@ -46,7 +46,7 @@ export default gql`
     deleteCourse(_id: ID): Course
 
     createSubject(input: SubjectInput): Subject
-    editSubject(_id: ID, input: SubjectInput): Subject
+    editSubject(_id: ID, input: SubjectInput, deleteMode: Boolean): Subject
     deleteSubject(_id: ID): Subject
   }
   # ---------------------------

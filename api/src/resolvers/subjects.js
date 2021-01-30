@@ -1,7 +1,7 @@
 import Subject from "../models/Subject";
 import Course from "../models/Course";
 import Teacher from "../models/Teacher";
-
+import { editSubjectDeleteMode } from "../utils/subjectResolverUtils";
 // Query
 export const allSubjects = async (_, args, ctx) => {
   if (args._id) {
@@ -23,6 +23,7 @@ export const createSubject = async (_, args, ctx) => {
 };
 
 export const editSubject = async (_, args, ctx) => {
+  if (args.deleteMode) return editSubjectDeleteMode(args);
   let subject = await Subject.findById(args._id);
   let teacher;
   let aux;
@@ -33,6 +34,7 @@ export const editSubject = async (_, args, ctx) => {
      * !basicamente lo que hace es que borra el profesor anterior de la materia si es que le quiero agregar uno nuevo y lo hace en los 2 lados, y le agrega el nuevo a la materia y la materia al profesor nuevo, el que use esto que me avise y se lo explico
      */
     args.input.name ? (subject.name = args.input.name) : null;
+
     subject.teacher &&
       (aux = await Teacher.findById(subject.teacher._id)) &&
       (aux.subjects = []) &&
