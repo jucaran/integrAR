@@ -7,7 +7,7 @@ import SuperAdminAddGrade from "../../screens/SuperAdmin/SuperAdminAddGrade";
 import SuperAdminListSubjects from "../../screens/SuperAdmin/SuperAdminListSubjects";
 import SuperAdminAddCourse from "../../screens/SuperAdmin/SuperAdminAddCourse";
 import SuperAdminAddSubject from "../../screens/SuperAdmin/SuperAdminAddSubject";
-
+import AddTeacherToSubject from "../../screens/SuperAdmin/AddTeacherToSubject"
 const Stack = createStackNavigator();
 export default function CoursesStack() {
   return (
@@ -43,6 +43,11 @@ export default function CoursesStack() {
         name="SuperAdminAddSubject"
         component={SuperAdminAddSubject}
       />
+      <Stack.Screen
+        name="AddTeacherToSubject"
+        component={AddTeacherToSubject}
+      />
+
     </Stack.Navigator>
   );
 }

@@ -107,7 +107,10 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                     <TouchableHighlight
                     style={styles.button}
                     activeOpacity={0.6}
-                      onPress={() => navigation.navigate()}>
+                      onPress={() =>  navigation.navigate("AddTeacherToSubject", {
+                        screen: "AddTeacherToSubject",
+                        params: { id: subject._id },
+                      })}>
                         <Text style={styles.textHigh}>Agregar Profesor</Text>
                     </TouchableHighlight>
                     <TouchableHighlight
