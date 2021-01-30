@@ -20,7 +20,11 @@ const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
       name
       subjects {
         _id
-        name
+        name 
+        teacher {
+          name
+          _id
+        }
       }
     }
   }
@@ -60,7 +64,6 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
     );
   } else if (data) {
     const subjects = data.courses[0].subjects;
-
     return (
       <ScrollView>
         <View
@@ -99,20 +102,33 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                       justifyContent: "space-between",
                       display: "flex",
                       flexDirection: "row",
-                      margin: 20,
+                      marginTop: 20,
+                      marginBottom: 20,
                       maxWidth: 900,
                     }}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    <TouchableHighlight
-                    style={styles.button}
-                    activeOpacity={0.6}
-                      onPress={() =>  navigation.navigate("AddTeacherToSubject", {
-                        screen: "AddTeacherToSubject",
-                        params: { id: subject._id },
-                      })}>
-                        <Text style={styles.textHigh}>Agregar Profesor</Text>
-                    </TouchableHighlight>
+                    {console.log(subject)}
+                   {subject.teacher ? 
+                     <TouchableHighlight
+                     style={styles.buttonDel}
+                     activeOpacity={0.6}
+                       onPress={() =>  navigation.navigate("DeleteTeacherFromSubject", {
+                         screen: "DeleteTeacherFromSubject",
+                         params: { id: subject._id },
+                       })}>
+                         <Text style={styles.textHigh}>Borrar Profesor</Text>
+                     </TouchableHighlight> :
+                      <TouchableHighlight
+                      style={styles.button}
+                      activeOpacity={0.6}
+                        onPress={() =>  navigation.navigate("AddTeacherToSubject", {
+                          screen: "AddTeacherToSubject",
+                          params: { id: subject._id },
+                        })}>
+                          <Text style={styles.textHigh}>+ Profesor</Text>
+                      </TouchableHighlight>
+                    }
                     <TouchableHighlight
                     activeOpacity={0.6}
                     style={styles.buttonEx}
@@ -121,7 +137,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                         Alert.alert(
                           "Eliminar curso",
                           `¿Está seguro que desea eliminar esta materia:
-    "${subject.name}"?`,
+                          "${subject.name}"?`,
                           [
                             {
                               text: "Cancelar",
@@ -179,7 +195,7 @@ const styles = StyleSheet.create({
   },
   touch: {
     justifyContent: "flex-start",
-    marginLeft: 12,
+    // marginLeft: 12,
   },
   card: {
     margin: 5,
@@ -207,19 +223,24 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    // width: 334,
+    justifyContent: "space-around",
+    //width: 334,
   },
   button: {
     backgroundColor: "#2290CD",
-    padding: 7,
+    padding: 5,
+    borderRadius: 3,
+  },
+  buttonDel: {
+    backgroundColor: "red",
+    padding: 5,
     borderRadius: 3,
   },
   buttonEx: {
     backgroundColor: "#2290CD",
     padding: 7,
     borderRadius: 3,
-    width: 7
+    width: 24
   },
   textHigh: {
     color: "white",

@@ -154,7 +154,7 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    courses: [Course]
+    course: Course
     grades: [Grade]
     teachers: [Teacher]
     subjects: [Subject]
