@@ -32,27 +32,15 @@ export const editStudent = async (_, args, ctx) => {
   //   { $push: args.input },
   //   { new: true }
   // );
-
+  /**
+   * TODO: cuando se le agregue un estudiante a un curso, se le agregue ese curso al estudiante puto ese
+   */
   let student = await Student.findById(args._id)
   
   let inputs = args.input;
   for (const key in inputs) {
     key ? student[key] = inputs[key] : null
   }
-
-  // args.input.name ? (student.name = args.input.name) : null
-  // args.input.lastname ? (student.lastname = args.input.lastname) : null
-  // args.input.dni ? (student.dni = args.input.dni) : null
-  // args.input.email ? (student.email = args.input.email) : null
-  // args.input.whatsapp ? (student.whatsapp = args.input.whatsapp) : null
-  // args.input.address ? (student.address = args.input.address) : null
-  // args.input.birthday ? (student.birthday = args.input.birthday) : null
-  // args.input.picture ? (student.picture = args.input.picture) : null
-
-  // args.input.grades ? (student.grades = args.input.grades) : null
-  // args.input.courses ? (student.courses = args.input.courses) : null
-  // args.input.teachers ? (student.teachers = args.input.teachers) : null
-  // args.input.subjects ? (student.subjects = args.input.subjects) : null
     
   await student.save()
 
