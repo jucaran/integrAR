@@ -39,7 +39,7 @@ export const editStudent = async (_, args, ctx) => {
   
   let inputs = args.input;
   for (const key in inputs) {
-    key ? student[key] = inputs[key] : null
+    key ? (student[key] = inputs[key]) : student[key]
   }
     
   await student.save()
