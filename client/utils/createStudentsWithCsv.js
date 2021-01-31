@@ -6,9 +6,15 @@ import { useMutation } from "@apollo/client";
 import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 
 export default function CreateStudentsWithCsv() {
-  const [sendFile, { data, loading, error }] = useMutation(CREATE_STUDENTS_WITH_CSV);
+  const [sendFile, { data, loading, error }] = useMutation(
+    CREATE_STUDENTS_WITH_CSV
+  );
+
   const [file, setFile] = useState();
   const [typeError, setTypeError] = useState();
+
+  // The courseId should be received by route params
+  const courseId = "6011af6d26f4941c64553b94";
 
   const pickFile = async () => {
     try {
@@ -69,8 +75,7 @@ export default function CreateStudentsWithCsv() {
           // First we check that we have a correct file and then we send it
           file &&
           sendFile({
-            // The courseId should be received by route params
-            variables: { file, courseId: "6011af6d26f4941c64553b94" },
+            variables: { file, courseId },
           })
         }
       >
