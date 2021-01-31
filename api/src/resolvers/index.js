@@ -20,8 +20,9 @@ import {
   deleteSubject,
 } from "./subjects";
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
-import { getClasses } from "./class";
-import { uploadCsv, uploadClassFile } from "./files";
+import { getModules } from "./module";
+import { getClasses, uploadClassFile } from "./class";
+import { uploadCsv } from "./files";
 
 export default {
   // GET REQUEST
@@ -33,6 +34,7 @@ export default {
     grades: allGrades,
     courses: allCourses,
     subjects: allSubjects,
+    modules: getModules,
     classes: getClasses,
   },
 
@@ -74,8 +76,8 @@ export default {
     editSubject,
     deleteSubject,
 
-    // ARCHIVOS
-    uploadCsv,
+    // CLASES
     uploadClassFile,
+    // uploadCsv,
   },
 };
