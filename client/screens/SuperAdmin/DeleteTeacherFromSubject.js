@@ -7,13 +7,11 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
-  Switch,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
-import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
+import { GET_SUBJECTS_FROM_COURSE_BY_ID } from "./SuperAdminListSubjects";
 
 const GET_SUBJECT_BY_ID = gql`
   query GetSubjectById($_id: ID) {
@@ -30,8 +28,16 @@ const GET_SUBJECT_BY_ID = gql`
 `;
 
 const DELETE_TEACHER_FROM_SUBJECT = gql`
-  mutation DeleteTeacherFromSubject($_id: ID!, $teacher: ID!, $deleteMode: Boolean) {
-    editSubject(_id: $_id, input: {teacher: $teacher}, deleteMode: $deleteMode) {
+  mutation DeleteTeacherFromSubject(
+    $_id: ID!
+    $teacher: ID!
+    $deleteMode: Boolean
+  ) {
+    editSubject(
+      _id: $_id
+      input: { teacher: $teacher }
+      deleteMode: $deleteMode
+    ) {
       name
       teacher {
         _id
@@ -41,7 +47,6 @@ const DELETE_TEACHER_FROM_SUBJECT = gql`
   }
 `;
 
-
 export default function DeleteTeacherFromSubject({ navigation, route }) {
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_SUBJECT_BY_ID, {
@@ -49,9 +54,8 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   });
   const [
     deleteTeacherFromSubject,
-    { mutationData, mutationLoading, mutationError },
+    { data: mutationData, loading: mutationLoading, error: mutationError },
   ] = useMutation(DELETE_TEACHER_FROM_SUBJECT);
-
 
   const handleOnPress = async (teacherId, id, name, lastname, subjectName) => {
     try {
@@ -59,20 +63,17 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
         variables: {
           _id: id,
           teacher: teacherId,
-          deleteMode: true
+          deleteMode: true,
         },
-         refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
       });
       navigation.pop();
-      //   "SuperAdminListSubject",{
-      //   screen: "SuperAdminListSubject",
-      //   params: id,
-      // })
+    
       if (mutationError) {
         console.log(mutationError);
         return false;
       }
-      return alert(
+      return Alert.alert(
         `El profesor ${name} ${lastname} fue eliminado de ${subjectName}!`
       );
     } catch (err) {
@@ -80,7 +81,7 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
     }
   };
 
-  if (loading || mutationLoading){
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator />
@@ -91,13 +92,13 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   if (data) {
     const subject = data.subjects[0];
     //const subjects = data.courses[0].subjects;
-    console.log(subject)
+    console.log(subject);
     return (
-      <ScrollView>
-        <CenterView>
+      <CenterView>
+        <ScrollView>
           <View style={styles.principal}>
             <Card>
-              <Card.Title>Eliminar profesor</Card.Title>
+              <Card.Title>Eliminar profesor de {subject.name}</Card.Title>
               <Card.Divider />
               <Card key={subject.teacher._id} style={styles.card}>
                 <Text style={styles.prof}>
@@ -120,12 +121,10 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
               </Card>
             </Card>
           </View>
-        </CenterView>
-      </ScrollView>
+        </ScrollView>
+      </CenterView>
     );
-  } else if (error || mutationError){
-    console.log(error, 'error 1')
-    console.log(mutationError, 'error 2')
+  } else if (error || mutationError) {
     return (
       <View>
         <Text>ERROR</Text>
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   card: {
-    width: 360,
     height: 66,
     margin: 5,
     alignItems: "flex-start",
@@ -149,11 +147,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   onPress: {
-    backgroundColor: "#2290CD",
+    backgroundColor: "#DE2525",
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
     marginTop: 2,
+    maxWidth: 210,
+    minWidth:  60,
   },
   cardT: {
     color: "white",

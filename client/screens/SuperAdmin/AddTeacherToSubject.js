@@ -7,8 +7,6 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
-  Switch,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -65,16 +63,13 @@ export default function AddTeacherToSubject({ navigation, route }) {
         },
         refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID}],
       });
-      navigation.navigate("GradesScreen")
-      //   "SuperAdminListSubject",{
-      //   screen: "SuperAdminListSubject",
-      //   params: id,
-      // })
+      navigation.pop()
+
       if (mutationError) {
         console.log(mutationError);
         return false;
       }
-      return alert(
+      return Alert.alert(
         `El profesor ${name} ${lastname} fue agregado exitosamente!`
       );
     } catch (err) {

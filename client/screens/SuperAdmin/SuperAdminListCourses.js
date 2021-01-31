@@ -101,6 +101,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
                     <TouchableHighlight
                       activeOpacity={0.6}
                       underlayColor="ligthgrey"
+                      style={styles.onPress}
                       onPress={() =>
                         Alert.alert(
                           "Eliminar curso",
@@ -122,7 +123,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
                         )
                       }
                     >
-                      <Text style={styles.img}> X </Text>
+                      <Text style={styles.img}>X</Text>
                     </TouchableHighlight>
                   </View>
                 </Card>
@@ -186,10 +187,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     color: "white",
+    marginLeft: 20, 
+  },
+  onPress: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 15,
+    width: 30,
+    height: 32,
+    justifyContent: "center",
   },
   img: {
     color: "white",
-    fontSize: 15,
+    fontSize: 18,
   },
   cardIn: {
     flexDirection: "row",

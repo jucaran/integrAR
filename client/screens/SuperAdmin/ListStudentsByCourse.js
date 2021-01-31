@@ -14,7 +14,8 @@ import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
-const GET_STUDENTS_BY_COURSE = gql`
+
+export const GET_STUDENTS_BY_COURSE = gql`
   query GetSubjectById($_id: ID) {
     courses(_id: $_id) {
       _id
@@ -28,11 +29,12 @@ const GET_STUDENTS_BY_COURSE = gql`
   }
 `;
 
+
 const DELETE_STUDENT_FROM_COURSE = gql`
-  mutation DeleteStudentFromCourse($_id: ID!, $student: ID!, $deleteMode: Boolean) {
-    editCourse(_id: $_id, input: {student: $student}, deleteMode: $deleteMode) {
+  mutation DeleteStudentFromCourse($_id: ID!, $studentId: ID!, $deleteMode: Boolean) {
+    editCourse(_id: $_id, studentId: $studentId, deleteMode: $deleteMode) {
       name
-      student {
+      students {
         _id
         name
       }
@@ -41,18 +43,17 @@ const DELETE_STUDENT_FROM_COURSE = gql`
 `;
 
 
-export default function ListStudentsByCourse({ navigation, route }) {
+const ListStudentsByCourse = ({ navigation, route }) => {
   const _id = route.params.params._id;
   const { data, loading, error } = useQuery(GET_STUDENTS_BY_COURSE, {
     variables: { _id },
   });
   const [
     deleteStudentFromCourse,
-    { mutationData, mutationLoading, mutationError },
+    { data: mutationData, loading: mutationLoading, error: mutationError },
   ] = useMutation(DELETE_STUDENT_FROM_COURSE);
 
-  if (loading) {
-    //  || mutationLoading)
+  if (loading  || mutationLoading){
     return (
       <CenterView>
         <ActivityIndicator />
@@ -64,7 +65,7 @@ export default function ListStudentsByCourse({ navigation, route }) {
     const course = data.courses[0];
     console.log(course);
     return (
-      <ScrollView>
+      <View>
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="ligthgrey"
@@ -83,21 +84,21 @@ export default function ListStudentsByCourse({ navigation, route }) {
             <FlatList
               data={course.students}
               renderItem={({ item }) => {
-                console.log(item);
                 return (
                   <Card key={item._id} style={styles.card}>
                     <View style={styles.cardIn}>
                       <Text style={styles.cardText}>
                         {item.name} {item.lastname}
                       </Text>
+                      {console.log('_id', _id)}
+                      {console.log('item_id', item._id)}
                       <TouchableHighlight
                         style={styles.onPress}
                         activeOpacity={0.6}
-                        onPress={() =>
+                        onPress={ () =>
                           Alert.alert(
                             "Eliminar curso",
-                            `¿Está seguro que desea eliminar este alumno ${item.name} 
-                          ${item.lastname} del curso ${course.name}?`,
+                            `¿Está seguro que desea eliminar este alumno ${item.name} ${item.lastname} del curso ${course.name}?`,
                             [
                               {
                                 text: "Cancelar",
@@ -105,16 +106,17 @@ export default function ListStudentsByCourse({ navigation, route }) {
                               },
                               {
                                 text: "OK",
-                                onPress: () =>
-                                  deleteStudentFromCourse({
-                                    variables: {
-                                      _id: course._id,
-                                      student: item._id,
-                                      deleteMode: true
-                                    },
-                                    refetchQueries: [{ query: GET_ALL_COURSES }],
-                                  }),
+                                onPress: async () =>
+                                await deleteStudentFromCourse({
+                                  variables: {
+                                    _id: _id,
+                                    studentId: item._id,
+                                    deleteMode: true,
+                                  },
+                                  refetchQueries: [{ query: GET_STUDENTS_BY_COURSE }],
+                                }) 
                               },
+                               // navigation.pop("ListStudentsByCourse")
                             ]
                           )
                         }
@@ -133,10 +135,9 @@ export default function ListStudentsByCourse({ navigation, route }) {
             </CenterView>
           )}
         </Card>
-      </ScrollView>
+      </View>
     );
-  } else if (error) {
-    // || mutationError)
+  } else if (error || mutationError){
     return (
       <View>
         <Text>ERROR</Text>
@@ -156,11 +157,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "column",
   },
+  cardIn: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
   prof: {
     fontSize: 17,
   },
   onPress: {
-    backgroundColor: "red",
+    backgroundColor: "#DE2525",
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
@@ -173,12 +179,14 @@ const styles = StyleSheet.create({
     color: "white",
   },
   touchText: {
-    marginTop: 5,
+    marginTop: 20,
     marginLeft: 20,
-    marginBottom: 15,
+    marginBottom: 10,
     // fontFamily: "roboto",
     fontSize: 20,
     alignItems: "flex-start",
     color: "#2290CD",
   },
 });
+
+export default ListStudentsByCourse

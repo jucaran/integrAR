@@ -25,23 +25,8 @@ import CenterView from "../../utils/CenterView";
 //     }
 //   }
 // `;
-export const GET_ALL_STUDENTS = gql`
-  {
-    students{
-      _id
-      name
-      lastname
-      course{
-        _id
-        name
-      }
-    }
-  }
-`;
-
-
 // mutation {
-//   editCourse(_id: "6010d7eeb32b4b37a0877eb5", 
+//   editCourse(_id: "6010d7eeb32b4b37a0877eb5",
 //     input: { students: {_id: "6009f729f07df02f7c214b3c" }}) {
 //     name
 //     students {
@@ -50,52 +35,67 @@ export const GET_ALL_STUDENTS = gql`
 //     }
 //   }
 // }
-
-//ADD_STUDENT_TO_A_COURSE
-const EDIT_COURSE = gql`
-  mutation EditCourse(
-      $_id: ID!
-      $studentId: ID!
-  ) {
-    editCourse(
-      _id: $_id
-      studentId: $studentId
-    ) {
-        name
-        students {
-            _id
+export const GET_ALL_STUDENTS = gql`
+  {
+    students {
+      _id
+      name
+      lastname
+      course {
+        _id
         name
       }
     }
   }
 `;
 
+const GET_STUDENTS_BY_COURSE = gql`
+  query GetSubjectById($_id: ID) {
+    courses(_id: $_id) {
+      _id
+      name
+      students {
+        name
+        lastname
+        _id
+      }
+    }
+  }
+`
 
 
-export default function AddStudentToACourse ({ navigation, route }) {
-  const id = route.params.params.id
-  const courseName = route.params.params.name
+//ADD_STUDENT_TO_A_COURSE
+const EDIT_COURSE = gql`
+  mutation EditCourse($_id: ID!, $studentId: ID!) {
+    editCourse(_id: $_id, studentId: $studentId) {
+      name
+    }
+  }
+`;
+
+export default function AddStudentToACourse({ navigation, route }) {
+  const id = route.params.params.id;
+  const courseName = route.params.params.name;
   const { data, loading, error } = useQuery(GET_ALL_STUDENTS);
-  const [editCourse, {mutationData, mutationLoading, mutationError }] = useMutation(EDIT_COURSE);
-  const handleOnPress = async (studentsId, id, name, lastname) => {
+  const [
+    editCourse,
+    { data: mutationData, data :mutationLoading, data: mutationError },
+  ] = useMutation(EDIT_COURSE);
+  const handleOnPress = async (studentId, id, name, lastname) => {
     try {
       await editCourse({
         variables: {
           _id: id,
-          students: studentsId
+          studentId: studentId,
         },
-        // refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+        refetchQueries: [{ query: GET_STUDENTS_BY_COURSE }],
       });
-      navigation.navigate("GradesScreen", { screen: "GradesScreen"})
-      //   "SuperAdminListSubject",{
-      //   screen: "SuperAdminListSubject",
-      //   params: id,
-      // })
+      navigation.pop();
       if (mutationError) {
         console.log(mutationError);
         return false;
       }
-      return alert(
+      return Alert.alert(
         `El alumno ${name} ${lastname} fue agregado exitosamente a ${courseName}!`
       );
     } catch (err) {
@@ -103,58 +103,66 @@ export default function AddStudentToACourse ({ navigation, route }) {
     }
   };
 
-
-
-  if (loading)
-  //  || mutationLoading)
-  { return (
-    <CenterView>
+  if (loading || mutationLoading){
+    return (
+      <CenterView>
         <ActivityIndicator />
       </CenterView>
-    );}
-    
-    if (data) {
-      const { students } = data;
-      console.log('soy students',students)
-      return (
+    );
+  }
+
+  if (data) {
+    const { students } = data;
+    return (
       <ScrollView>
         <CenterView>
-        <View style={styles.principal}>
-        <Card>
-          <Card.Title>Agregar Alumno a {courseName}</Card.Title>
-          <Card.Divider />
-        {students.map(student =>{
-          console.log(student)
-        { if (!student.course){
-          return(
-            <Card key={student._id} style={styles.card}>
-            <Text style={styles.prof}>{student.name} {student.lastname}</Text>
-            <TouchableHighlight
-            style={styles.onPress}
-            onPress={()=>handleOnPress(student._id, id,
-              student.name, student.lastname, courseName)}
-            >
-              <Text style={styles.cardT}>Agregar</Text>
-            </TouchableHighlight>
-          </Card>
-          )
-        }
-          else {return (<Text>No hay alumnos sin curso asignado</Text>)}}
-
-        })      }
-        </Card>
-        </View>
+          <View style={styles.principal}>
+            <Card>
+              <Card.Title>Agregar Alumno a {courseName}</Card.Title>
+              <Card.Divider />
+              {students.map((student) => {
+                //console.log(student);
+                {
+                  if (!student.course) {
+                    return (
+                      <Card key={student._id} style={styles.card}>
+                        <Text style={styles.prof}>
+                          {student.name} {student.lastname}
+                        </Text>
+                        <TouchableHighlight
+                          style={styles.onPress}
+                          onPress={() =>
+                            handleOnPress(
+                              student._id,
+                              id,
+                              student.name,
+                              student.lastname,
+                              courseName
+                            )
+                          }
+                        >
+                          <Text style={styles.cardT}>Agregar</Text>
+                        </TouchableHighlight>
+                      </Card>
+                    );
+                  } else {
+                    return <Text>No hay alumnos sin curso asignado</Text>;
+                  }
+                }
+              })}
+            </Card>
+          </View>
         </CenterView>
       </ScrollView>
     );
-  } else if (error)
-    // || mutationError)
-   { return (
+  } else if (error || mutationError) {
+    return (
       <View>
         <Text>ERROR</Text>
       </View>
     );
-};}
+  }
+}
 
 const styles = StyleSheet.create({
   principal: {
@@ -175,8 +183,10 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginTop: 2
+    marginTop: 2, 
+    maxWidth: 250
   },
   cardT: {
-  color: "white",}
+    color: "white",
+  },
 });
