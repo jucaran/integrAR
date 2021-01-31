@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
-import { Text, View, TouchableHighlight, StyleSheet } from "react-native";
+import { Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 import { AuthContext } from "../../providers/AuthProvider";
 
 // Necesito:
@@ -14,7 +14,8 @@ const TeacherView = ({ navigation }) => {
   return (
     <CenterView>
       <Text style={styles.title}>
-        ¡Hola {user.name}{user.lastname}! Bienvenido
+        ¡Hola {user.name}
+        {user.lastname}! Bienvenido
       </Text>
       <View style={styles.cont}>
         <View style={styles.materias}>
@@ -23,10 +24,16 @@ const TeacherView = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor="lightgrey"
             onPress={() =>
-              navigation.navigate("Materias", { screen: "TeacherListSubjects"})
+              navigation.navigate("Materias")
             }
           >
-            <Text style={styles.touchText}>MATERIAS</Text>
+            <View style={styles.button}>
+              <Image
+                source={require("../../assets/subjects.png")}
+                style={styles.img}
+              />
+              <Text style={styles.touchText}>MATERIAS</Text>
+            </View>
           </TouchableHighlight>
         </View>
         <View style={styles.alumn}>
@@ -35,10 +42,14 @@ const TeacherView = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor="lightgrey"
             onPress={() =>
-              navigation.navigate("Cursos", { screen: "TeacherListCourses"})
+              navigation.navigate("Cursos")
             }
           >
             <View style={styles.button}>
+            <Image
+                source={require("../../assets/students.jpg")}
+                style={styles.img}
+              />
               <Text style={styles.touchText}>CURSOS</Text>
             </View>
           </TouchableHighlight>
@@ -94,8 +105,8 @@ export default TeacherView;
 // Crear Screens:
 // TeacherScreen --> Ready
 //    TeacherListSubjects : --> Ready
-//      TeacherListUnity (AddUnity, DeleteUnity) :
+//      TeacherListUnit (AddUnit, DeleteUnit)
 //        TeacherListClass (AddClass, DeleteClass)
 //    TeacherListCourse :  --> Ready
-//      TeacherListStudent
-//        StudentDetail
+//      TeacherListStudent --> Ready
+//        StudentDetail: --> Ready

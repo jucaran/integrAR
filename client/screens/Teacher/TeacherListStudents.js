@@ -13,7 +13,6 @@ import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { Card } from "react-native-paper";
 
-
 export const GET_STUDENTS_FROM_COURSE = gql`
   query GetStudentsFromACourse($_id: ID) {
     courses(_id: $_id) {
@@ -28,12 +27,10 @@ export const GET_STUDENTS_FROM_COURSE = gql`
   }
 `;
 
-
-const TeacherListStudents =({ navigation, route }) => {
-  const { id: _id} = route.params.params;
-  console.log("soy el id:", _id)
+const TeacherListStudents = ({ navigation, route }) => {
+  const { _id }  = route.params.params;
   const { data, loading, error } = useQuery(GET_STUDENTS_FROM_COURSE, {
-    variables: { _id }
+    variables: { _id },
   });
 
   if (loading) {
@@ -45,48 +42,41 @@ const TeacherListStudents =({ navigation, route }) => {
     );
   }
 
-  if(error) {
+  if (error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
       </CenterView>
-    )
+    );
   }
 
-  if(data) {
+  if (data) {
     // const students = data.courses[0].students;
-    const { students } = data;
-    console.log("estos son los estudiantes: ", data)
-
-    
-// esto trae data
-//     courses: Array(5)
-// 0: {__typename: "Course", _id: "6010d7eeb32b4b37a0877eb5", name: "1º A", students: Array(1)}
-// 1: {__typename: "Course", _id: "6010d819b32b4b37a0877eb7", name: "1° B", students: Array(0)}
-// 2: {__typename: "Course", _id: "6010d838b32b4b37a0877ebb", name: "2° A", students: Array(0)}
-// 3: {__typename: "Course", _id: "6010d849b32b4b37a0877ebd", name: "2° B", students: Array(0)}
-// 4: {__typename: "Course", _id: "6011af6d26f4941c64553b94", name: "2º D", students: Array(0)}
-// length: 5
+    const students = data.courses[0].students;
 
     return (
       <View style={styles.centerView}>
         <View style={styles.principal}>
+          {students.length > 0 ? (
           <FlatList
             data={students}
-            renderItem={({ item: { students } }) => {
-              {console.log("este es el item: ", item)}
-              {console.log("estos son los estudiantes: ", students)}
+            renderItem={({ item: { _id, name, lastname } }) => {
+              // {
+              //   console.log("este es el item: ", item);
+              // }
               return (
                 <Card key={_id} style={styles.card}>
                   <View style={styles.cardcont}>
                     <View style={styles.alum}>
                       <TouchableHighlight
-                      activeOpacity={0.6}
-                      onPress = {() => navigation.navigate("StudentDetail_Teacher", {
-                        params: _id,
-                      })}
+                        activeOpacity={0.6}
+                        onPress={() =>
+                          navigation.navigate("Cursos", {
+                            screen: "StudentDetail",
+                            params: { _id },
+                        })}
                       >
-                        <Text style={styles.name}>{`${students}`}</Text>
+                        <Text style={styles.name}>{`${name} ${lastname}`}</Text>
                       </TouchableHighlight>
                     </View>
                   </View>
@@ -95,11 +85,17 @@ const TeacherListStudents =({ navigation, route }) => {
             }}
             keyExtractor={({ _id }) => _id}
           />
-        </View> 
+         ) : (
+          <CenterView>
+            <Text>Este Curso no tiene Estudiantes</Text>
+          </CenterView>
+        )}
+        </View>
       </View>
     );
   }
-}
+};
+
 
 const styles = StyleSheet.create({
   centerView: {

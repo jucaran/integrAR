@@ -60,15 +60,9 @@ const TeacherListCourses = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("Data: ", data)
-    console.log("data en if ", data.teachers[0].subjects[0].course);
+    // console.log("Data: ", data)
+    // console.log("data en if ", data.teachers[0].subjects[0].course);
     const courses = data.teachers[0].subjects[0].course;
-    console.log(
-      "courses: ",
-      courses.name,
-      "largo: ",
-      courses.__typename == "Course"
-    );
 
     return (
       <View style={styles.cont}>
@@ -83,7 +77,7 @@ const TeacherListCourses = ({ navigation, route }) => {
                     <Text
                       style={styles.cardText}
                       onPress={() => {
-                        navigation.navigate("Estudiantes", {
+                        navigation.navigate("TeacherListStudents", {
                           params: { _id: item._id },
                         });
                       }}

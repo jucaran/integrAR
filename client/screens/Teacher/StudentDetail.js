@@ -28,7 +28,7 @@ export const GET_STUDENTS_BY_ID = gql`
 `;
 
 function StudentDetail({ route }) {
-  const { id: _id } = route.params.params;
+  const { _id }  = route.params;
   const { data, loading, error } = useQuery(GET_STUDENTS_BY_ID, {
     variables: { _id },
   });
@@ -51,30 +51,92 @@ function StudentDetail({ route }) {
   }
 
   if (data) {
-    // const students = data.courses[0].students;
-    const { students } = data;
-    console.log("estos son los estudiantes: ", data);
-
+    const students = data.students[0]
+ 
     return (
-      <View style={styles.centerView}>
-        <View style={styles.principal}>
-          <Text style={styles.name}>
-            Alumno: {`${students.name} ${students.lastname}`}
-          </Text>
-          <Image
-            source={{
-              uri: `${students.picture}`,
-            }}
-          />
-          <Text>Correo: {`${students.email}`}</Text>
-          {/* <Text>{`Correo: ${students.email}`}</Text> */}
-          <Text>WhatsApp: {`${students.whatsapp}`}</Text>
-          <Text>Dirección: {`${students.adress}`}</Text>
-          <Text>Fecha de nacimiento: {`${students.birthday}`}</Text>
+      <CenterView>
+        <View style={styles.centerView}>
+          <View style={styles.principal}>
+            <Text style={styles.name}>
+              Alumno: {`${students.name} ${students.lastname}`}
+            </Text>
+            <Image
+              source={{
+                uri: `${students.picture}`,
+              }}
+            />
+            <Text>Correo: {`${students.email}`}</Text>
+            <Text>WhatsApp: {`${students.whatsapp}`}</Text>
+            <Text>Dirección: {`${students.adress}`}</Text>
+            <Text>Fecha de nacimiento: {`${students.birthday}`}</Text>
+          </View>
         </View>
-      </View>
+      </CenterView> 
     );
   }
 }
+
+const styles = StyleSheet.create({
+  centerView: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  principal: {
+    backgroundColor: "white",
+  },
+  card: {
+    width: 360,
+    height: 66,
+    margin: 5,
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
+  cardcont: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  alum: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: 14,
+  },
+  img: {
+    width: 14,
+    height: 14,
+    marginTop: 10,
+    marginRight: 25,
+  },
+  name: {
+    fontSize: 16,
+    width: 280,
+    // fontFamily: "roboto",
+    color: "#000000",
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
+  desc: {
+    flexDirection: "row",
+  },
+  description: {
+    fontSize: 14,
+    // fontFamily: "roboto",
+    color: "#000000",
+    marginLeft: 10,
+  },
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 14,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    margin: 5,
+    marginLeft: 12,
+  },
+});
 
 export default StudentDetail;
