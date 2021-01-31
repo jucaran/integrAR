@@ -1,5 +1,7 @@
 import Course from "../models/Course";
 import Grade from "../models/Grade";
+import Student from "../models/Student";
+import Teacher from "../models/Teacher";
 
 // Query
 export const allCourses = async (_, args, ctx) => {
@@ -26,8 +28,29 @@ export const editCourse = async (_, args, ctx) => {
   const { teacherId, studentId, deleteMode } = args;
   try {
     if (!deleteMode) {
-      teacherId && course.teachers.push(teacherId);
-      studentId && course.students.push(studentId);
+      if (studentId) {
+        try {
+          course.students.push(studentId);
+          let student = await Student.findById(studentId);
+          student.courses.push(course._id);
+          await student.save();
+        } catch (error) {
+          console.error(error);
+          return error;
+        }
+      }
+      if (teacherId) {
+        try {
+          course.teachers.push(teacherId);
+
+          let teacher = await Teacher.findById(teacherId);
+          teacher.courses.push(course._id);
+          await teacher.save();
+        } catch (error) {
+          console.error(error);
+          return error;
+        }
+      }
 
       for (let key in args.input) {
         key ? (course[key] = args.input[key]) : null;
@@ -36,26 +59,33 @@ export const editCourse = async (_, args, ctx) => {
       /**
        * !Si el deleteMode esta activado, se busca el id del profesor o estudiante y se lo borra
        */
+      let teacher;
+      let student;
       teacherId &&
         (course.teachers = course.teachers.filter(
           ({ _id }) => parseInt(_id) !== parseInt(teacherId)
-        ));
+        )) &&
+        (teacher = await Teacher.findById(teacherId)) &&
+        teacher.courses.filter(
+          ({ _id }) => parseInt(_id) !== parseInt(course._id)
+        ) &&
+        (await teacher.save());
+
       studentId &&
         (course.students = course.students.filter(
           ({ _id }) => parseInt(_id) !== parseInt(studentId)
-        ));
+        )) &&
+        (student = await Student.findById(studentId)) &&
+        student.courses.filter(
+          ({ _id }) => parseInt(_id) !== parseInt(course._id)
+        ) &&
+        (await student.save());
     }
     await course.save();
     return course;
   } catch (err) {
     console.error(err);
   }
-
-  // return await Course.findByIdAndUpdate(
-  //   args._id,
-  //   { $push: args.input },
-  //   { new: true }
-  // );
 };
 
 export const deleteCourse = async (_, args, ctx) => {
