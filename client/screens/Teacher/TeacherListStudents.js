@@ -57,6 +57,7 @@ const TeacherListStudents =({ navigation, route }) => {
     // const students = data.courses[0].students;
     const { students } = data;
     console.log("estos son los estudiantes: ", data)
+
     
 // esto trae data
 //     courses: Array(5)
@@ -72,8 +73,9 @@ const TeacherListStudents =({ navigation, route }) => {
         <View style={styles.principal}>
           <FlatList
             data={students}
-            renderItem={({ item: { _id, name, lastname } }) => {
+            renderItem={({ item: { students } }) => {
               {console.log("este es el item: ", item)}
+              {console.log("estos son los estudiantes: ", students)}
               return (
                 <Card key={_id} style={styles.card}>
                   <View style={styles.cardcont}>
@@ -84,7 +86,7 @@ const TeacherListStudents =({ navigation, route }) => {
                         params: _id,
                       })}
                       >
-                        <Text style={styles.name}>{`${name} ${lastname}`}</Text>
+                        <Text style={styles.name}>{`${students}`}</Text>
                       </TouchableHighlight>
                     </View>
                   </View>

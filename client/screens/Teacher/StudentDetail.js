@@ -27,44 +27,54 @@ export const GET_STUDENTS_BY_ID = gql`
   }
 `;
 
-
 function StudentDetail({ route }) {
   const { id: _id } = route.params.params;
   const { data, loading, error } = useQuery(GET_STUDENTS_BY_ID, {
-    variables: { _id }
+    variables: { _id },
   });
 
-  if(loading) {
+  if (loading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
         <Text>Cargando...</Text>
       </CenterView>
-    )
+    );
   }
 
-  if(error) {
+  if (error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
       </CenterView>
-    )
+    );
   }
 
-  if(data) {
+  if (data) {
     // const students = data.courses[0].students;
     const { students } = data;
-    console.log("estos son los estudiantes: ", data)
+    console.log("estos son los estudiantes: ", data);
 
     return (
       <View style={styles.centerView}>
         <View style={styles.principal}>
-          {/* <Text style={styles.name}>{`${name} ${lastname}`}</Text> */}
-        </View> 
+          <Text style={styles.name}>
+            Alumno: {`${students.name} ${students.lastname}`}
+          </Text>
+          <Image
+            source={{
+              uri: `${students.picture}`,
+            }}
+          />
+          <Text>Correo: {`${students.email}`}</Text>
+          {/* <Text>{`Correo: ${students.email}`}</Text> */}
+          <Text>WhatsApp: {`${students.whatsapp}`}</Text>
+          <Text>Dirección: {`${students.adress}`}</Text>
+          <Text>Fecha de nacimiento: {`${students.birthday}`}</Text>
+        </View>
       </View>
     );
   }
-
 }
 
 export default StudentDetail;
