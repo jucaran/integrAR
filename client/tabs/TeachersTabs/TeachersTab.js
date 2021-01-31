@@ -2,6 +2,9 @@ import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
+import TeacherScreen from "../../screens/Teacher/TeacherScreen";
+import TeacherListCourses from "../../screens/Teacher/TeacherListCourses";
+import TeacherListStudents from "../../screens/Teacher/TeacherListStudents";
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -15,7 +18,7 @@ function MyTabs() {
     >
       <Tab.Screen
         name="Inicio"
-        component={}
+        component={TeacherScreen}
         options={{
           tabBarIcon: () => {
             return (
@@ -41,7 +44,7 @@ function MyTabs() {
       /> */}
       <Tab.Screen
         name="Cursos"
-        component={}
+        component={TeacherListCourses}
         options={{
           tabBarIcon: () => {
             return (
@@ -53,8 +56,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name=""
-        component={}
+        name="Estudiantes"
+        component={TeacherListStudents}
         options={{
           tabBarIcon: () => {
             return (
@@ -65,7 +68,7 @@ function MyTabs() {
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Opciones"
         component={OptionsStack}
         options={{
@@ -77,7 +80,7 @@ function MyTabs() {
             );
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
