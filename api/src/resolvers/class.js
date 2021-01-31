@@ -2,8 +2,9 @@ import path from "path";
 import { createWriteStream } from "fs";
 import Class from "../models/Class";
 
-export const getClasses = async () => {
-  return await Class.find();
+export const getClasses = async (_, { _id }) => {
+  if (_id) return await Class.findById(_id);
+  else return await Class.find();
 };
 
 export const createClass = async (_, { input }) => {
@@ -11,8 +12,11 @@ export const createClass = async (_, { input }) => {
   const newClass = await new Class(input).save();
 
   const module = await Module.findById(input.module);
-  module && module.push(newClass._id);
-  module && (await module.save());
+
+  if (module) {
+    module.push(newClass._id);
+    await module.save();
+  }
 };
 
 export const editClass = async (_, { _id, input }) => {
@@ -29,6 +33,12 @@ export const editClass = async (_, { _id, input }) => {
   await _class.save();
 };
 
+/**
+ * This resolver receives a class id and a file and uploads it to the
+ * /uploads folder in the server
+ * also it pushes the file name to the "files" atribute of Class model
+ * so in the fron we can call it to download it
+ */
 export const uploadClassFile = async (_, { file, classId }) => {
   const { createReadStream, filename } = await file;
   const filePath = path.join(__dirname, "../uploads/", filename);

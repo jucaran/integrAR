@@ -22,7 +22,7 @@ import {
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
 import { getModules } from "./module";
 import { getClasses, uploadClassFile, createClass, editClass } from "./class";
-import { uploadCsv } from "./files";
+import { createStudentsWithCsv } from "./files";
 
 export default {
   // GET REQUEST
@@ -60,6 +60,7 @@ export default {
     createStudent,
     editStudent,
     deleteStudent,
+    createStudentsWithCsv,
 
     // GRADOS
     createGrade,
@@ -80,6 +81,5 @@ export default {
     createClass,
     editClass,
     uploadClassFile,
-    // uploadCsv,
   },
 };

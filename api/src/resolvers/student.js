@@ -19,7 +19,7 @@ export const createStudent = async (_, args, ctx) => {
   if (studentCourses) {
     studentCourses.map(async (el) => {
       const course = await Course.findById(el._id);
-      course && course.students.push(newTeacher._id);
+      course && course.students.push(newStudent._id);
       course && (await course.save());
     });
   }

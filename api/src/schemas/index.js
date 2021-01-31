@@ -52,7 +52,7 @@ export default gql`
     editClass(_id: ID, input:ClassInput)
     uploadClassFile(file: Upload, classId: ID): File
 
-    uploadCsv(file: Upload, text: String): File
+    createStudentsWithCsv(file: Upload, courseId: ID): File
   }
 
   # ---------------------------
