@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const UPLOAD_FILE = gql`
-  mutation UploadCsv($file: Upload!) {
-    uploadCsv(file: $file) {
+  mutation CreateStudentsWithCsv($file: Upload!, $courseId: ID) {
+    createStudentsWithCsv(file: $file, courseId: $courseId) {
       status
     }
   }

@@ -5,7 +5,7 @@ import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_FILE } from "./graphql";
 
-export default function GetFile() {
+export default function CreateStudentsWithCsv() {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_FILE);
   const [file, setFile] = useState();
 
@@ -58,7 +58,13 @@ export default function GetFile() {
       <TouchableOpacity onPress={pickFile}>
         <Text>Get .csv file</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => sendFile({ variables: { file } })}>
+      <TouchableOpacity
+        onPress={() =>
+          sendFile({
+            variables: { file, courseId: "6011af6d26f4941c64553b94" },
+          })
+        }
+      >
         <Text>Send .csv file</Text>
       </TouchableOpacity>
     </View>

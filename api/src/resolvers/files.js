@@ -11,7 +11,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     fileBuffer = [...fileBuffer, chunk];
   });
 
-  stream.on("end", function () {
+  stream.on("end", async function () {
     // Puts together the array of "chunks", parces it as a string and cuts it in rows
     const rows = Buffer.concat(fileBuffer).toString("utf8").split("\r\n").slice(1);
 
@@ -19,20 +19,20 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     const studentPromises = rows.map(row => {
       // We grab the elements in order and add them as atribute to create each student
       const [name, lastname, dni, email, whatsapp, address, birthday] = row.split(",");
-      return new Student(name, lastname, dni, email, whatsapp, address, birthday).save()
+      return new Student({name, lastname, dni, email, whatsapp, address, birthday}).save()
     })
 
     // If any of the promises is rejected the hole Promise.all will be
     // If nay is rejected it returns an array with all the students created
-    students = await Promise.all(studentPromises)
+    const students = await Promise.all(studentPromises)
     
     // Once the Promise all is finished we add each student to the course given by args
-    course = await Course.findById(courseId)
+    const course = await Course.findById(courseId)
     if(course) {
       students.forEach(async student => {
         course.students.push(student._id)       
-        await course.save()
       });
+      await course.save()
     }
 
     return {

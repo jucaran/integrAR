@@ -9,7 +9,7 @@ export const moduleTypes = gql`
 
   input ModuleInput {
     name: String
-    classes: [Class]
+    classes: [ClassInput]
     test: String
   }
 `;

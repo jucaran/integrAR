@@ -49,7 +49,7 @@ export default gql`
     deleteSubject(_id: ID): Subject
 
     createClass(input: ClassInput): Class
-    editClass(_id: ID, input:ClassInput)
+    editClass(_id: ID, input: ClassInput): Class
     uploadClassFile(file: Upload, classId: ID): File
 
     createStudentsWithCsv(file: Upload, courseId: ID): File
