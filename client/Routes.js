@@ -7,7 +7,7 @@ import { AuthContext } from "./providers/AuthProvider";
 import MyTabs from "./tabs/AdminTabs/Tab";
 import TabTeacher from "./tabs/TeachersTabs/TeachersTab";
 import AuthStack from "./stacks/AuthStack/AuthStack";
-import TeacherScreen from "./screens/Teacher/TeacherScreen";
+//import TeacherScreen from "./screens/Teacher/TeacherScreen";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -38,7 +38,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      <TabTeacher/>
+      {/* <TabTeacher/> */}
       {/* Comentar y descomentar */}
       {user ? <MyTabs role={user.role} /> : <AuthStack />}
       
