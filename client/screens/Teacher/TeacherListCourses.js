@@ -36,7 +36,8 @@ export const GET_ALL_COURSES_TEACHER = gql`
 const TeacherListCourses = ({ navigation, route }) => {
   //const { id: _id } = route.params.params;
   //console.log(" id: _id ", _id)
-  const _id = "6014f33a4309a313907f1582";
+  // const _id = "6014f33a4309a313907f1582";
+  const _id = "6016d637ee9c7113b85a2b59"
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
     variables: { _id },
   });
@@ -59,6 +60,7 @@ const TeacherListCourses = ({ navigation, route }) => {
   }
 
   if (data) {
+    console.log("Data: ", data)
     console.log("data en if ", data.teachers[0].subjects[0].course);
     const courses = data.teachers[0].subjects[0].course;
     console.log(

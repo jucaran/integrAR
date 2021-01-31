@@ -51,7 +51,7 @@ const GradesScreen = ({ navigation }) => {
           underlayColor="ligthgrey"
           onPress={() => navigation.navigate("SuperAdminAddGrade")}
         >
-          <Text style={styles.touchText}>Agregar Año</Text>
+          <Text style={styles.touchText}>Agregar Grado</Text>
         </TouchableHighlight>
         <FlatList
           data={grades}
@@ -74,6 +74,7 @@ const GradesScreen = ({ navigation }) => {
                   <TouchableHighlight
                     activeOpacity={0.6}
                     underlayColor="ligthgrey"
+                    style={styles.onPress}
                     onPress={() =>
                       Alert.alert(
                         "Eliminar grado",
@@ -95,7 +96,7 @@ const GradesScreen = ({ navigation }) => {
                       )
                     }
                   >
-                    <Text style={styles.img}> X </Text>
+                    <Text style={styles.img}>X</Text>
                   </TouchableHighlight>
                 </View>
               </Card>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     // fontFamily: "roboto",
-    fontSize: 16,
+    fontSize: 20,
     alignItems: "flex-start",
     color: "#2290CD",
   },
@@ -147,9 +148,19 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "white",
   },
+  onPress: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 15,
+    width: 30,
+    height: 32,
+    justifyContent: "center",
+  },
   img: {
     color: "white",
-    fontSize: 15,
+    fontSize: 18,
   },
   cardIn: {
     flexDirection: "row",

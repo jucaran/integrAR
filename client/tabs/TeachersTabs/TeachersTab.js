@@ -5,6 +5,7 @@ import { View } from "react-native";
 import TeacherScreen from "../../screens/Teacher/TeacherScreen";
 import TeacherListCourses from "../../screens/Teacher/TeacherListCourses";
 import TeacherListStudents from "../../screens/Teacher/TeacherListStudents";
+import TeacherListSubjects from "../../screens/Teacher/TeacherListSubjects";
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -45,6 +46,19 @@ function MyTabs() {
       <Tab.Screen
         name="Cursos"
         component={TeacherListCourses}
+        options={{
+          tabBarIcon: () => {
+            return (
+              <View>
+                <Icon name={"ios-school-outline"} size={25} color={"white"}/>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Materias"
+        component={TeacherListSubjects}
         options={{
           tabBarIcon: () => {
             return (

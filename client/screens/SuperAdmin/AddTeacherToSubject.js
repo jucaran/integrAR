@@ -7,8 +7,6 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
-  Switch,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -45,6 +43,7 @@ const EDIT_SUBJECT = gql`
 
 export default function AddTeacherToSubject({ navigation, route }) {
   const id = route.params.params.id;
+  const subjectName = route.params.params.name
   console.log(id)
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
   const [
@@ -65,16 +64,20 @@ export default function AddTeacherToSubject({ navigation, route }) {
         },
         refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID}],
       });
-      navigation.navigate("GradesScreen")
-      //   "SuperAdminListSubject",{
-      //   screen: "SuperAdminListSubject",
-      //   params: id,
-      // })
+      navigation.pop()
+
+      // if (mutationLoading) {
+      //   return (
+      //     <CenterView>
+      //       <ActivityIndicator />
+      //     </CenterView>
+      //   );
+      // }
       if (mutationError) {
         console.log(mutationError);
         return false;
       }
-      return alert(
+      return Alert.alert(
         `El profesor ${name} ${lastname} fue agregado exitosamente!`
       );
     } catch (err) {
@@ -94,10 +97,9 @@ export default function AddTeacherToSubject({ navigation, route }) {
     const { teachers } = data;
     return (
       <ScrollView>
-        <CenterView>
-          <View style={styles.principal}>
+          <View>
             <Card>
-              <Card.Title>Profesor para</Card.Title>
+              <Card.Title>Agregar profesor a {subjectName}</Card.Title>
               <Card.Divider />
               {teachers.map((teacher, i) => {
                 return (
@@ -123,7 +125,6 @@ export default function AddTeacherToSubject({ navigation, route }) {
               })}
             </Card>
           </View>
-        </CenterView>
       </ScrollView>
     );
   } else if (error || mutationError) {
@@ -136,9 +137,6 @@ export default function AddTeacherToSubject({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  principal: {
-    backgroundColor: "white",
-  },
   card: {
     width: 360,
     height: 66,
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginTop: 2,
+    marginTop: 5,
   },
   cardT: {
     color: "white",
