@@ -12,7 +12,6 @@ import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
-
 export const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
   query GetSubjectsFromCourseId($_id: ID) {
     courses(_id: $_id) {
@@ -20,7 +19,7 @@ export const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
       name
       subjects {
         _id
-        name 
+        name
         teacher {
           name
           _id
@@ -82,10 +81,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
             }
           >
             <Text
-              style={{
-                fontSize: 25,
-                marginLeft: 20,
-              }}
+              style={styles.touchText}
             >
               Agregar Materia
             </Text>
@@ -96,42 +92,39 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
               <Card.Divider />
               {subjects.map((subject, i) => {
                 return (
-                  <View
-                    key={subject._id}
-                    style={{
-                      justifyContent: "space-between",
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 20,
-                      marginBottom: 20,
-                      maxWidth: 900,
-                    }}
-                  >
+                  <View key={subject._id} style={styles.cards}>
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
                     {console.log(subject)}
-                   {subject.teacher ? 
-                     <TouchableHighlight
-                     style={styles.buttonDel}
-                     activeOpacity={0.6}
-                       onPress={() =>  navigation.navigate("DeleteTeacherFromSubject",
-                         {params: { id: subject._id }} )
-                       }>
-                         <Text style={styles.textHigh}>Borrar Profesor</Text>
-                     </TouchableHighlight> :
+                    {subject.teacher ? (
                       <TouchableHighlight
-                      style={styles.button}
-                      activeOpacity={0.6}
-                        onPress={() =>  navigation.navigate("AddTeacherToSubject", {
-                          screen: "AddTeacherToSubject",
-                          params: { id: subject._id },
-                        })}>
-                          <Text style={styles.textHigh}>+ Profesor</Text>
+                        style={styles.buttonDel}
+                        activeOpacity={0.6}
+                        onPress={() =>
+                          navigation.navigate("DeleteTeacherFromSubject", {
+                            params: { id: subject._id },
+                          })
+                        }
+                      >
+                        <Text style={styles.textHigh}>Borrar Profesor</Text>
                       </TouchableHighlight>
-                    }
+                    ) : (
+                      <TouchableHighlight
+                        style={styles.button}
+                        activeOpacity={0.6}
+                        onPress={() =>
+                          navigation.navigate("AddTeacherToSubject", {
+                            screen: "AddTeacherToSubject",
+                            params: { id: subject._id, name: subject.name },
+                          })
+                        }
+                      >
+                        <Text style={styles.textHigh}>Agregar Profesor</Text>
+                      </TouchableHighlight>
+                    )}
                     <TouchableHighlight
-                    activeOpacity={0.6}
-                    style={styles.buttonEx}
-                    underlayColor="ligthgrey"
+                      activeOpacity={0.6}
+                      style={styles.buttonEx}
+                      underlayColor="ligthgrey"
                       onPress={() =>
                         Alert.alert(
                           "Eliminar curso",
@@ -154,10 +147,10 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                             },
                           ]
                         )
-                      }>
-                        <Text style={styles.textHigh}>X</Text>
-                      </TouchableHighlight>
-
+                      }
+                    >
+                      <Text style={styles.textHigh}>X</Text>
+                    </TouchableHighlight>
                   </View>
                 );
               })}
@@ -185,10 +178,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   touchText: {
-    marginTop: 5,
+    marginTop: 15,
     marginBottom: 15,
+    marginLeft: 20,
     // fontFamily: "roboto",
-    fontSize: 16,
+    fontSize: 20,
     alignItems: "flex-start",
     color: "#2290CD",
   },
@@ -196,14 +190,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     // marginLeft: 12,
   },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
+  cards: {
+    justifyContent: "space-between",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 20,
+    marginBottom: 20,
+    maxWidth: 900,
+    alignItems: "center"
   },
   cardText: {
     fontSize: 20,
@@ -227,47 +221,29 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#2290CD",
-    padding: 5,
-    borderRadius: 3,
+    padding: 7,
+    borderRadius: 7,
+    justifyContent: "center",
   },
   buttonDel: {
-    backgroundColor: "red",
-    padding: 5,
-    borderRadius: 3,
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    justifyContent: "center",
   },
   buttonEx: {
-    backgroundColor: "#2290CD",
+    backgroundColor: "#DE2525",
     padding: 7,
-    borderRadius: 3,
-    width: 24
+    borderRadius: 7,
+    alignItems: "center",
+    marginTop: 2,
+    width: 30,
+    justifyContent: "center",
   },
   textHigh: {
     color: "white",
-
-  }
+  },
 });
 
-// <TouchableHighlight
-// activeOpacity={0.6}
-// underlayColor="ligthgrey"
-// onPress={() =>
-//   Alert.alert(
-//     "Eliminar curso",
-//     `¿Está seguro que desea eliminar esta materia:
-//     "${subject.name}"?`,
-//     [
-//       {
-//         text: "Cancelar",
-//         style: "cancel",
-//       },
-//       {
-//         text: "OK",
-//         onPress: () => console.log("holis"),
-//       },
-//     ]
-//   )
-// }
-// >
-// <Button title="Eliminar Materia" />
-// </TouchableHighlight>
+
 export default SuperAdminListSubjects;
