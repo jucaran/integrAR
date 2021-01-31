@@ -51,7 +51,7 @@ const GradesScreen = ({ navigation }) => {
           underlayColor="ligthgrey"
           onPress={() => navigation.navigate("SuperAdminAddGrade")}
         >
-          <Text style={styles.touchText}>Agregar Año</Text>
+          <Text style={styles.touchText}>Agregar Grado</Text>
         </TouchableHighlight>
         <FlatList
           data={grades}
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     // fontFamily: "roboto",
-    fontSize: 16,
+    fontSize: 20,
     alignItems: "flex-start",
     color: "#2290CD",
   },

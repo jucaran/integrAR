@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   touchText: {
-    marginTop: 5,
+    marginTop: 15,
     marginBottom: 15,
     // fontFamily: "roboto",
     fontSize: 20,

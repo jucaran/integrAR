@@ -115,17 +115,15 @@ export default function AddStudentToACourse({ navigation, route }) {
     const { students } = data;
     return (
       <ScrollView>
-        <CenterView>
           <View style={styles.principal}>
             <Card>
               <Card.Title>Agregar Alumno a {courseName}</Card.Title>
               <Card.Divider />
               {students.map((student) => {
-                //console.log(student);
                 {
                   if (!student.course) {
                     return (
-                      <Card key={student._id} style={styles.card}>
+                      <Card key={student._id}>
                         <Text style={styles.prof}>
                           {student.name} {student.lastname}
                         </Text>
@@ -152,7 +150,6 @@ export default function AddStudentToACourse({ navigation, route }) {
               })}
             </Card>
           </View>
-        </CenterView>
       </ScrollView>
     );
   } else if (error || mutationError) {
@@ -165,16 +162,7 @@ export default function AddStudentToACourse({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  principal: {
-    backgroundColor: "white",
-  },
-  card: {
-    width: 360,
-    height: 66,
-    margin: 5,
-    alignItems: "flex-start",
-    flexDirection: "column",
-  },
+ 
   prof: {
     fontSize: 17,
   },
@@ -183,8 +171,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginTop: 2, 
-    maxWidth: 250
+    justifyContent: "center",
+    marginTop: 5, 
+    maxWidth: 300
   },
   cardT: {
     color: "white",

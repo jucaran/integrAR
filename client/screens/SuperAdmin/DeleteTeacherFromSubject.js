@@ -94,9 +94,8 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
     //const subjects = data.courses[0].subjects;
     console.log(subject);
     return (
-      <CenterView>
         <ScrollView>
-          <View style={styles.principal}>
+          <View >
             <Card>
               <Card.Title>Eliminar profesor de {subject.name}</Card.Title>
               <Card.Divider />
@@ -122,7 +121,6 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
             </Card>
           </View>
         </ScrollView>
-      </CenterView>
     );
   } else if (error || mutationError) {
     return (
@@ -134,9 +132,7 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  principal: {
-    backgroundColor: "white",
-  },
+
   card: {
     height: 66,
     margin: 5,
@@ -151,8 +147,8 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginTop: 2,
-    maxWidth: 210,
+    marginTop: 5,
+    maxWidth: 300,
     minWidth:  60,
   },
   cardT: {

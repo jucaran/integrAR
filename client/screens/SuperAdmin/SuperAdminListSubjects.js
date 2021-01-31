@@ -81,10 +81,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
             }
           >
             <Text
-              style={{
-                fontSize: 25,
-                marginLeft: 20,
-              }}
+              style={styles.touchText}
             >
               Agregar Materia
             </Text>
@@ -117,7 +114,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                         onPress={() =>
                           navigation.navigate("AddTeacherToSubject", {
                             screen: "AddTeacherToSubject",
-                            params: { id: subject._id },
+                            params: { id: subject._id, name: subject.name },
                           })
                         }
                       >
@@ -181,10 +178,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   touchText: {
-    marginTop: 5,
+    marginTop: 15,
     marginBottom: 15,
+    marginLeft: 20,
     // fontFamily: "roboto",
-    fontSize: 16,
+    fontSize: 20,
     alignItems: "flex-start",
     color: "#2290CD",
   },
