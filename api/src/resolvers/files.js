@@ -23,7 +23,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     })
 
     // If any of the promises is rejected the hole Promise.all will be
-    // If nay is rejected it returns an array with all the students created
+    // If none is rejected it returns an array with all the students created
     const students = await Promise.all(studentPromises)
     
     // Once the Promise all is finished we add each student to the course given by args

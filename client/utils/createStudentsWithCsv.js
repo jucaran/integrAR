@@ -3,27 +3,32 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
-import { UPLOAD_FILE } from "./graphql";
+import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 
 export default function CreateStudentsWithCsv() {
-  const [sendFile, { data, loading, error }] = useMutation(UPLOAD_FILE);
+  const [sendFile, { data, loading, error }] = useMutation(CREATE_STUDENTS_WITH_CSV);
   const [file, setFile] = useState();
+  const [typeError, setTypeError] = useState();
 
   const pickFile = async () => {
     try {
-      const filePicked = await DocumentPicker.getDocumentAsync({
-        // type: "text/csv",
-      });
-      console.log("file received: ", filePicked);
+      const filePicked = await DocumentPicker.getDocumentAsync();
 
       if (filePicked.type !== "cancel") {
-        const nativeFile = new ReactNativeFile({
-          uri: filePicked.uri,
-          name: filePicked.name,
-          type: "text/csv",
-        });
+        // We check if the file is .csv if thats not the case we show an error
+        if (filePicked.name.slice(-3) !== "csv")
+          setTypeError("Please select a .csv file");
+        else {
+          // If the file is .csv we clear the errors and set the state with a native file
+          setTypeError(null);
+          const nativeFile = new ReactNativeFile({
+            uri: filePicked.uri,
+            name: filePicked.name,
+            type: "text/csv",
+          });
 
-        setFile(nativeFile);
+          setFile(nativeFile);
+        }
       }
     } catch (e) {
       console.log("error", e);
@@ -54,13 +59,17 @@ export default function CreateStudentsWithCsv() {
 
   return (
     <View style={styles.center}>
-      {console.log(file)}
+      {/* If the file is not .csv we show a error message */}
+      {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
       <TouchableOpacity onPress={pickFile}>
         <Text>Get .csv file</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
+          // First we check that we have a correct file and then we send it
+          file &&
           sendFile({
+            // The courseId should be received by route params
             variables: { file, courseId: "6011af6d26f4941c64553b94" },
           })
         }
