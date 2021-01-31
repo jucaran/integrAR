@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
-  Switch
+  Switch,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -31,35 +31,33 @@ const GET_ALL_TEACHERS = gql`
   }
 `;
 
- const EDIT_SUBJECT = gql`
-  mutation EditSubject(
-      $_id: ID!
-      $teacher: ID!
-  ) {
-    editSubject(
-        _id: $_id
-      input: {
-        teacher: $teacher
-        }
-    ) {
-        name
-        teacher {
-            _id
+const EDIT_SUBJECT = gql`
+  mutation EditSubject($_id: ID!, $teacher: ID!) {
+    editSubject(_id: $_id, input: { teacher: $teacher }) {
+      name
+      teacher {
+        _id
         name
       }
     }
   }
 `;
 
-
-
-export default function AddTeacherToSubject ({ navigation, route }) {
-  const id = route.params.params.id
+export default function AddTeacherToSubject({ navigation, route }) {
+  const id = route.params.params.id;
+  console.log(id)
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
-  const [editSubject, {mutationData, mutationLoading, mutationError }] = useMutation(EDIT_SUBJECT);
+  const [
+    editSubject,
+    { mutationData, mutationLoading, mutationError },
+  ] = useMutation(EDIT_SUBJECT);
 
   const handleOnPress = async (teacherId, id, name, lastname) => {
     try {
+      console.log('teacherId',teacherId)
+      console.log('id',id)
+      console.log('name',name)
+      console.log('lastname',lastname)
       await editSubject({
         variables: {
           _id: id,
@@ -67,7 +65,8 @@ export default function AddTeacherToSubject ({ navigation, route }) {
         },
         // refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
       });
-      navigation.navigate("GradesScreen", { screen: "GradesScreen"})
+      navigation.navigate("GradesScreen", { screen: "GradesScreen" });
+      navigation.pop()
       //   "SuperAdminListSubject",{
       //   screen: "SuperAdminListSubject",
       //   params: id,
@@ -84,51 +83,58 @@ export default function AddTeacherToSubject ({ navigation, route }) {
     }
   };
 
-
-
-  if (loading || mutationLoading)
-  { return (
-    <CenterView>
+  if (loading || mutationLoading) {
+    return (
+      <CenterView>
         <ActivityIndicator />
       </CenterView>
-    );}
-    
-    if (data) {
-      const { teachers } = data;
-      return (
-        
+    );
+  }
+
+  if (data) {
+    const { teachers } = data;
+    return (
       <ScrollView>
         <CenterView>
-        <View style={styles.principal}>
-        <Card>
-          <Card.Title>Profesor para</Card.Title>
-          <Card.Divider />
-        {teachers.map((teacher, i) =>{
-          return(
-            <Card key={teacher._id} style={styles.card}>
-            <Text style={styles.prof}>{teacher.name} {teacher.lastname}</Text>
-            <TouchableHighlight
-            style={styles.onPress}
-            onPress={()=>handleOnPress(teacher._id, id,
-              teacher.name, teacher.lastname)}
-            >
-              <Text style={styles.cardT}>Agregar</Text>
-            </TouchableHighlight>
-          </Card>
-          )
-        })}
-        </Card>
-        </View>
+          <View style={styles.principal}>
+            <Card>
+              <Card.Title>Profesor para</Card.Title>
+              <Card.Divider />
+              {teachers.map((teacher, i) => {
+                return (
+                  <Card key={teacher._id} style={styles.card}>
+                    <Text style={styles.prof}>
+                      {teacher.name} {teacher.lastname}
+                    </Text>
+                    <TouchableHighlight
+                      style={styles.onPress}
+                      onPress={() =>
+                        handleOnPress(
+                          teacher._id,
+                          id,
+                          teacher.name,
+                          teacher.lastname
+                        )
+                      }
+                    >
+                      <Text style={styles.cardT}>Agregar</Text>
+                    </TouchableHighlight>
+                  </Card>
+                );
+              })}
+            </Card>
+          </View>
         </CenterView>
       </ScrollView>
     );
-  } else if (error  || mutationError)
-   { return (
+  } else if (error || mutationError) {
+    return (
       <View>
         <Text>ERROR</Text>
       </View>
     );
-};}
+  }
+}
 
 const styles = StyleSheet.create({
   principal: {
@@ -149,8 +155,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginTop: 2
+    marginTop: 2,
   },
   cardT: {
-  color: "white",}
+    color: "white",
+  },
 });

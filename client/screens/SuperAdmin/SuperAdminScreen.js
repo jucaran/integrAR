@@ -27,7 +27,7 @@ const SuperAdminView = ({ navigation }) => {
           >
             <View style={styles.button}>
               <Image source={require("../../assets/bro.png")} style={styles.img} />
-              <Text style={styles.touchText}>VER GRADOS</Text>
+              <Text style={styles.touchText}>GRADOS</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -47,7 +47,7 @@ const SuperAdminView = ({ navigation }) => {
                 source={require("../../assets/Character.png")}
                 style={styles.img}
               />
-              <Text style={styles.touchText}>VER PROFESORES</Text>
+              <Text style={styles.touchText}>PROFESORES</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -63,7 +63,7 @@ const SuperAdminView = ({ navigation }) => {
         >
           <View style={styles.button}>
             <Image source={require("../../assets/alumn.png")} style={styles.img} />
-            <Text style={styles.touchText}>VER ALUMNOS</Text>
+            <Text style={styles.touchText}>ALUMNOS</Text>
           </View>
         </TouchableHighlight>
       </View>

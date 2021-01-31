@@ -19,11 +19,12 @@ export const GET_ALL_TEACHERS = gql`
       _id
       name
       lastname
-      courses {
-        name
-      }
       subjects {
         name
+        course{
+          name
+          _id
+        }
       }
     }
   }
@@ -68,9 +69,6 @@ const SuperAdminListTeachers = ({ navigation }) => {
           <FlatList
             data={teachers}
             renderItem={({ item: teacher }) => {
-              {
-                console.log(teacher);
-              }
               return (
                 <Card key={teacher._id} style={styles.card}>
                   <View style={styles.cardcont}>
@@ -129,20 +127,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         teacher.subjects.map((subject, i) => {
                           return (
                             <Text key={i} style={styles.description}>
-                              {subject.name}
-                            </Text>
-                          );
-                        })
-                      ) : (
-                        <></>
-                      )}
-                    </View>
-                    <View style={styles.desc}>
-                      {teacher.courses?.length > 0 ? (
-                        teacher.courses.map((course, i) => {
-                          return (
-                            <Text key={i} style={styles.description}>
-                              {course.name}
+                            | {subject.name}: {subject.course.name} |
                             </Text>
                           );
                         })

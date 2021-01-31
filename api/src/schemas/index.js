@@ -46,7 +46,7 @@ export default gql`
     deleteCourse(_id: ID): Course
 
     createSubject(input: SubjectInput): Subject
-    editSubject(_id: ID, input: SubjectInput): Subject
+    editSubject(_id: ID, input: SubjectInput, deleteMode: Boolean): Subject
     deleteSubject(_id: ID): Subject
   }
   # ---------------------------
@@ -154,7 +154,7 @@ export default gql`
     address: String
     birthday: String
     picture: String
-    courses: [Course]
+    course: Course
     grades: [Grade]
     teachers: [Teacher]
     subjects: [Subject]
