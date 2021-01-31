@@ -13,15 +13,16 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
+import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
 
 const GET_SUBJECT_BY_ID = gql`
   query GetSubjectById($_id: ID) {
     subjects(_id: $_id) {
       _id
       name
-      lastname
       teacher {
         name
+        lastname
         _id
       }
     }
@@ -29,8 +30,8 @@ const GET_SUBJECT_BY_ID = gql`
 `;
 
 const DELETE_TEACHER_FROM_SUBJECT = gql`
-  mutation DeleteTeacherFromSubject($_id: ID!, $teacherId: ID!, $deleteMode: Boolean) {
-    editSubject(_id: $_id, teacherId: $teacherId, deleteMode: $deleteMode) {
+  mutation DeleteTeacherFromSubject($_id: ID!, $teacher: ID!, $deleteMode: Boolean) {
+    editSubject(_id: $_id, input: {teacher: $teacher}, deleteMode: $deleteMode) {
       name
       teacher {
         _id
@@ -40,33 +41,29 @@ const DELETE_TEACHER_FROM_SUBJECT = gql`
   }
 `;
 
+
 export default function DeleteTeacherFromSubject({ navigation, route }) {
   const _id = route.params.params.id;
-  console.log(route.params.params);
   const { data, loading, error } = useQuery(GET_SUBJECT_BY_ID, {
-    variables: { _id },
+    variables: { _id: _id },
   });
   const [
     deleteTeacherFromSubject,
     { mutationData, mutationLoading, mutationError },
   ] = useMutation(DELETE_TEACHER_FROM_SUBJECT);
 
+
   const handleOnPress = async (teacherId, id, name, lastname, subjectName) => {
     try {
-      console.log("teacherId", teacherId);
-      console.log("id", id);
-      console.log("name", name);
-      console.log("lastname", lastname);
-      console.log("subjectName", subjectName);
-      await editSubject({
+      await deleteTeacherFromSubject({
         variables: {
           _id: id,
-          teacherId: teacherId,
+          teacher: teacherId,
           deleteMode: true
         },
-        // refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+         refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
       });
-      navigation.navigate("GradesScreen", { screen: "GradesScreen" });
+      navigation.pop();
       //   "SuperAdminListSubject",{
       //   screen: "SuperAdminListSubject",
       //   params: id,
@@ -127,6 +124,8 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
       </ScrollView>
     );
   } else if (error || mutationError){
+    console.log(error, 'error 1')
+    console.log(mutationError, 'error 2')
     return (
       <View>
         <Text>ERROR</Text>

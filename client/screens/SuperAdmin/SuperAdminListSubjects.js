@@ -13,7 +13,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
 
-const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
+export const GET_SUBJECTS_FROM_COURSE_BY_ID = gql`
   query GetSubjectsFromCourseId($_id: ID) {
     courses(_id: $_id) {
       _id
@@ -113,10 +113,9 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                      <TouchableHighlight
                      style={styles.buttonDel}
                      activeOpacity={0.6}
-                       onPress={() =>  navigation.navigate("DeleteTeacherFromSubject", {
-                         screen: "DeleteTeacherFromSubject",
-                         params: { id: subject._id },
-                       })}>
+                       onPress={() =>  navigation.navigate("DeleteTeacherFromSubject",
+                         {params: { id: subject._id }} )
+                       }>
                          <Text style={styles.textHigh}>Borrar Profesor</Text>
                      </TouchableHighlight> :
                       <TouchableHighlight

@@ -13,7 +13,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
-//import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
+import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
 
 const GET_ALL_TEACHERS = gql`
   {
@@ -63,10 +63,9 @@ export default function AddTeacherToSubject({ navigation, route }) {
           _id: id,
           teacher: teacherId
         },
-        // refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID}],
       });
-      navigation.navigate("GradesScreen", { screen: "GradesScreen" });
-      navigation.pop()
+      navigation.navigate("GradesScreen")
       //   "SuperAdminListSubject",{
       //   screen: "SuperAdminListSubject",
       //   params: id,
