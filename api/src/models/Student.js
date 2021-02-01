@@ -6,7 +6,10 @@ const studentSchema = new Schema({
     required: true
   }, 
   lastname: String,
-  dni: Number,
+  dni: {
+    type: String,
+    unique: true
+  },
   email: String,
   whatsapp: String,
   address: String,
