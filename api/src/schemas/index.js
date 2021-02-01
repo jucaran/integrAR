@@ -237,11 +237,7 @@ export default gql`
   input SubjectInput {
     _id: ID
     name: String
-<<<<<<< HEAD
     teacher: ID
-=======
-    teachers: ID
->>>>>>> file-uploading
     course: ID
   }
 
