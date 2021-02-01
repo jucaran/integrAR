@@ -20,6 +20,9 @@ import {
   deleteSubject,
 } from "./subjects";
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
+import { getModules } from "./module";
+import { getClasses, uploadClassFile, createClass, editClass } from "./class";
+import { createStudentsWithCsv } from "./files";
 
 export default {
   // GET REQUEST
@@ -31,6 +34,8 @@ export default {
     grades: allGrades,
     courses: allCourses,
     subjects: allSubjects,
+    modules: getModules,
+    classes: getClasses,
   },
 
   // PUT, POST, DELETE REQUEST
@@ -55,6 +60,7 @@ export default {
     createStudent,
     editStudent,
     deleteStudent,
+    createStudentsWithCsv,
 
     // GRADOS
     createGrade,
@@ -70,5 +76,10 @@ export default {
     createSubject,
     editSubject,
     deleteSubject,
+
+    // CLASES
+    createClass,
+    editClass,
+    uploadClassFile,
   },
 };
