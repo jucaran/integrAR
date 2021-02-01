@@ -2,9 +2,9 @@ import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
     dni: { 
-      type: Number, 
+      type: String, 
       required: true, 
-      // unique: true ---> Ver la nueva 
+      unique: true 
     },
     name: {
       type: String, 
