@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext }  from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import { AuthContext } from "../../providers/AuthProvider";
 import {
   View,
   Text,
@@ -13,8 +14,8 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
 export const GET_ALL_SUBJECTS_TEACHER = gql`
-  query GetSubjectsFromCourseId($_id: ID) {
-    teachers(_id: $_id) {
+  query GetSubjectsFromCourseId($dni: Int) {
+    teachers(dni: $dni) {
       _id
       name
       subjects {
@@ -26,9 +27,17 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 `;
 
 const TeacherListSubjects = ({ navigation, route }) => {
-  const { _id } = route.params;
+  // const { user } = useContext(AuthContext);
+  // console.log("User en Materias: ", user)
+  // const { _id } = user
+  // console.log("Soy id de user: ", _id) //600f1ff2ce0ef4127866efa8
+  //-----------------------------
+  const { dni } = route.params;
+  console.log("La ruta: ", route)
+  console.log("Soy dni de ruta: ", dni) //601737b313cb4717908902fb id profe
+
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
-    variables: { _id },
+    variables: { dni },
   });
 
   if (loading) {
@@ -49,6 +58,7 @@ const TeacherListSubjects = ({ navigation, route }) => {
   }
 
   if (data) {
+    console.log("Dataaaa: ", data)
     const subjects = data.teachers[0].subjects;
     return (
       <ScrollView>

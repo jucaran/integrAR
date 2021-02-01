@@ -1,7 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import TeacherListSubjects from "../../screens/Teacher/TeacherListSubjects"
-
+import TeacherListUnits from "../../screens/Teacher/TeacherListUnits"
+import AddUnitToSubject from "../../screens/Teacher/AddUnitToSubject"
 
 const Stack = createStackNavigator();
 export default function TechersSubjectStack() {
@@ -21,7 +22,11 @@ export default function TechersSubjectStack() {
       initialRouteName={"TeacherListSubjects"}
     >
       <Stack.Screen name="TeacherListSubjects" component={TeacherListSubjects} />
-
+      <Stack.Screen name="TeacherListUnits" component = {TeacherListUnits} />
+      <Stack.Screen name="AddUnitToSubject" component = {AddUnitToSubject} />
     </Stack.Navigator>
   );
 }
+
+
+// subject -> modules -> classes
