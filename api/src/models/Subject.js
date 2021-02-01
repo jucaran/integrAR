@@ -15,6 +15,7 @@ const subjectSchema = new Schema({
     ref: "Teacher",
     autopopulate: true,
   },
+<<<<<<< HEAD
   class: [
     {
       type: String,
@@ -37,6 +38,13 @@ const subjectSchema = new Schema({
           },
         },
       ],
+=======
+  classes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Class",
+      autopopulate: true,
+>>>>>>> file-uploading
     },
   ],
 });
