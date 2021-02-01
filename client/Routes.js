@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "./providers/AuthProvider";
 import MyTabs from "./tabs/AdminTabs/Tab";
 import AuthStack from "./stacks/AuthStack/AuthStack";
-import CreateStudentsWithCsv from "./utils/createStudentsWithCsv";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -36,10 +35,9 @@ const Routes = () => {
     );
 
   return (
-    // <NavigationContainer>
-    //   {user ? <MyTabs role={user.role} /> : <AuthStack />}
-    // </NavigationContainer>
-    <CreateStudentsWithCsv />
+    <NavigationContainer>
+      {user ? <MyTabs role={user.role} /> : <AuthStack />}
+    </NavigationContainer>
   );
 };
 
