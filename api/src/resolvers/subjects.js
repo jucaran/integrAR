@@ -6,6 +6,8 @@ import { editSubjectDeleteMode } from "../utils/subjectResolverUtils";
 export const allSubjects = async (_, args, ctx) => {
   if (args._id) {
     return await Subject.find({ _id: args._id });
+  } else if(args.dni){
+    return await Subject.find({ dni: args.dni });
   } else {
     return await Subject.find();
   }
