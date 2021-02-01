@@ -155,7 +155,7 @@ export default gql`
     birthday: String
     picture: String
     course: Course
-    grades: [Grade]
+    grade: Grade
     teachers: [Teacher]
     subjects: [Subject]
     user: [User]

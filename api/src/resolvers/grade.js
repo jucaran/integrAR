@@ -20,11 +20,16 @@ export const createGrade = async (_, args, ctx) => {
 export const editGrade = async (parent, args, ctx) => {
   let grade = await Grade.findById(args._id)
 
-  args.input.name ? (grade.name = args.input.name) : null
-  args.input.courses ? (grade.courses = args.input.courses) : null
-  args.input.teachers ? (grade.teachers = args.input.teachers) : null 
-  args.input.subjects ? (grade.subjects = args.input.subjects) : null
-  args.input.students ? (grade.students = args.input.students) : null
+  let inputs = args.input;
+  for (const key in inputs) {
+    key ? (grade[key] = inputs[key]) : grade[key]
+  }
+
+  // args.input.name ? (grade.name = args.input.name) : null
+  // args.input.courses ? (grade.courses = args.input.courses) : null
+  // args.input.teachers ? (grade.teachers = args.input.teachers) : null 
+  // args.input.subjects ? (grade.subjects = args.input.subjects) : null
+  // args.input.students ? (grade.students = args.input.students) : null
 
   await grade.save()
 
