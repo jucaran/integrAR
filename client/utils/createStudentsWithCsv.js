@@ -14,7 +14,7 @@ export default function CreateStudentsWithCsv() {
   const [typeError, setTypeError] = useState();
 
   // The courseId should be received by route params
-  const courseId = "6011af6d26f4941c64553b94";
+  const courseId = "601736f613cb4717908902ef";
 
   const pickFile = async () => {
     try {

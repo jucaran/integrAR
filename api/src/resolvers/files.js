@@ -19,7 +19,9 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     const studentPromises = rows.map(row => {
       // We grab the elements in order and add them as atribute to create each student
       const [name, lastname, dni, email, whatsapp, address, birthday] = row.split(",");
-      return new Student({name, lastname, dni, email, whatsapp, address, birthday}).save()
+      return new Student(
+        {name, lastname, dni, email, whatsapp, address, birthday, course: courseId}
+        ).save()
     })
 
     // If any of the promises is rejected the hole Promise.all will be
