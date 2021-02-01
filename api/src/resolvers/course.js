@@ -72,7 +72,7 @@ export const editCourse = async (_, args, ctx) => {
       }
 
       if(studentId && (student = await Student.findById(studentId)) ) {
-        course.students = course.students.filter(({ _id }) => _id !== studentId)
+        course.students = course.students.filter( el => el.dni !== student.dni)
         student.course = null;
         await student.save()
       }
