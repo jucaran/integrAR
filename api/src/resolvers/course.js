@@ -27,67 +27,58 @@ export const editCourse = async (_, args, ctx) => {
   let course = await Course.findById(args._id);
   const { teacherId, studentId, deleteMode } = args;
 
-  //Compruebo si ya existe el alumno o profesor para saber si lo agrego/elimino despues
-  //let teacherExist = course.teachers.find(el => parseInt(el._id) === parseInt(teacherId))
-  //let studentExist = course.students.find(el => parseInt(el._id) === parseInt(studentId))
-
   try {
     if (!deleteMode) {
       if (studentId){
-        // && !studentExist) {
-        try {
-          course.students.push(studentId);
-          let student = await Student.findById(studentId);
-          student.course = course._id;
-          await student.save();
-        } catch (error) {
-          console.error(error);
-          return error;
+        let student = await Student.findById(studentId);
+        let studentExist = course.students.find(el => el.dni === student.dni)
+        console.log(studentExist)
+        if(!studentExist){
+          try {
+            course.students.push(studentId);
+            student.course = course._id;
+            await student.save();
+          } catch (error) {
+            console.error(error);
+            return error;
+          }
         }
       }
       if (teacherId){
-        // && !teacherExist) {
-        try {
-          course.teachers.push(teacherId);
-
-          let teacher = await Teacher.findById(teacherId);
-          teacher.courses.push(course._id);
-          await teacher.save();
-        } catch (error) {
-          console.error(error);
-          return error;
+        let teacher = await Teacher.findById(teacherId);
+        let teacherExist = course.teachers.find(el => el.dni === teacher.dni)
+        console.log(teacherExist)
+        if(!teacherExist){
+          try {
+            course.teachers.push(teacherId);
+            teacher.courses.push(course._id);
+            await teacher.save();
+          } catch (error) {
+            console.error(error);
+            return error;
+          }
         }
-      }
-
-      for (let key in args.input) {
-        key ? (course[key] = args.input[key]) : course[key];
       }
     } else {
       /**
        * !Si el deleteMode esta activado, se busca el id del profesor o estudiante y se lo borra
        */
-      for (let key in args.input) {
-        key ? (course[key] = args.input[key]) : course[key];
-      }
       let teacher;
       let student;
-      teacherId &&
-        (course.teachers = course.teachers.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(teacherId)
-        )) &&
-        (teacher = await Teacher.findById(teacherId)) &&
-        teacher.courses.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(course._id)
-        ) &&
-        (await teacher.save());
+      if( teacherId && (teacher = await Teacher.findById(teacherId)) ){
+        course.teachers = course.teachers.filter( el => el.dni !== teacher.dni)
+        teacher.courses = teacher.courses.filter( el => el.name !== course.name )
+        await teacher.save()
+      }
 
-      studentId &&
-        (course.students = course.students.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(studentId)
-        )) &&
-        (student = await Student.findById(studentId)); 
+      if(studentId && (student = await Student.findById(studentId)) ) {
+        course.students = course.students.filter(({ _id }) => _id !== studentId)
         student.course = null;
-        await student.save();
+        await student.save()
+      }
+    }
+    for (let key in args.input) {
+      key ? (course[key] = args.input[key]) : course[key];
     }
     await course.save();
     return course;
