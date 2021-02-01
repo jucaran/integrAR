@@ -26,9 +26,7 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 `;
 
 const TeacherListSubjects = ({ navigation, route }) => {
-  // const { _id } = route.params.params;
-  const _id = "6016d637ee9c7113b85a2b59";
-
+  const { _id } = route.params;
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { _id },
   });
@@ -51,7 +49,6 @@ const TeacherListSubjects = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("data de materias: ", data);
     const subjects = data.teachers[0].subjects;
     return (
       <ScrollView>
@@ -79,14 +76,13 @@ const TeacherListSubjects = ({ navigation, route }) => {
                     }}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    {console.log(subject)}
-
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
+                      underlayColor="lightgrey"
                       onPress={() =>
-                        navigation.navigate("AddTeacherToSubject", {
-                          screen: "AddTeacherToSubject",
+                        navigation.navigate("TeacherListUnits", {
+                          screen: "TeacherListUnits",
                           params: { id: subject._id },
                         })
                       }

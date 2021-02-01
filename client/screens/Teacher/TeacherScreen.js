@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
-import { Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 import { AuthContext } from "../../providers/AuthProvider";
+import {Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 
-// Necesito:
-// user.name
-// user.lastname
-// OJO -> Rutas modificar antes de push
 
 const TeacherView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
+  // const _id = user._id
+  console.log("User del profe: ", user._id)
+  //----------------------------------------
+  const _id = "601737b313cb4717908902fb"
 
   return (
     <CenterView>
@@ -24,7 +24,10 @@ const TeacherView = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor="lightgrey"
             onPress={() =>
-              navigation.navigate("Materias")
+              navigation.navigate("Materias", {
+                screen:"TeacherListSubjects",
+                params: { _id: _id },
+              })
             }
           >
             <View style={styles.button}>
@@ -42,11 +45,14 @@ const TeacherView = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor="lightgrey"
             onPress={() =>
-              navigation.navigate("Cursos")
+              navigation.navigate("Cursos", {
+                screen:"TeacherListCourses",
+                params: { _id: _id },
+              })
             }
           >
             <View style={styles.button}>
-            <Image
+              <Image
                 source={require("../../assets/students.jpg")}
                 style={styles.img}
               />
