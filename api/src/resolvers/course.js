@@ -85,9 +85,9 @@ export const editCourse = async (_, args, ctx) => {
         (course.students = course.students.filter(
           ({ _id }) => parseInt(_id) !== parseInt(studentId)
         )) &&
-        (student = await Student.findById(studentId)) &&
-        (student.course = null) &&
-        (await student.save());
+        (student = await Student.findById(studentId)); 
+        student.course = null;
+        await student.save();
     }
     await course.save();
     return course;

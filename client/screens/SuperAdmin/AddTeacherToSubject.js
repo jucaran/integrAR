@@ -23,6 +23,7 @@ const GET_ALL_TEACHERS = gql`
         name
       }
       subjects {
+        _id
         name
       }
     }
@@ -32,37 +33,42 @@ const GET_ALL_TEACHERS = gql`
 const EDIT_SUBJECT = gql`
   mutation EditSubject($_id: ID!, $teacher: ID!) {
     editSubject(_id: $_id, input: { teacher: $teacher }) {
+      _id
       name
       teacher {
         _id
         name
+        lastname
+        courses {
+        name
+      }
       }
     }
   }
 `;
 
 export default function AddTeacherToSubject({ navigation, route }) {
-  const id = route.params.params.id;
+  const _id = route.params.params.id;
   const subjectName = route.params.params.name
-  console.log(id)
+  console.log(_id)
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
   const [
     editSubject,
-    { mutationData, mutationLoading, mutationError },
+    { mutationData, loading: mutationLoading, error: mutationError },
   ] = useMutation(EDIT_SUBJECT);
 
-  const handleOnPress = async (teacherId, id, name, lastname) => {
+  const handleOnPress = async (teacherId, _id, name, lastname) => {
     try {
       console.log('teacherId',teacherId)
-      console.log('id',id)
+      console.log('id',_id)
       console.log('name',name)
       console.log('lastname',lastname)
       await editSubject({
         variables: {
-          _id: id,
+          _id: _id,
           teacher: teacherId
         },
-        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID}],
+        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id}}, {query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id }}],
       });
       navigation.pop()
 
@@ -112,7 +118,7 @@ export default function AddTeacherToSubject({ navigation, route }) {
                       onPress={() =>
                         handleOnPress(
                           teacher._id,
-                          id,
+                          _id,
                           teacher.name,
                           teacher.lastname
                         )

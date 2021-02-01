@@ -56,9 +56,14 @@ const GET_STUDENTS_BY_COURSE = gql`
       _id
       name
       students {
+        _id
         name
         lastname
-        _id
+        dni
+        course{
+          _id
+          name
+        }
       }
     }
   }
@@ -69,7 +74,18 @@ const GET_STUDENTS_BY_COURSE = gql`
 const EDIT_COURSE = gql`
   mutation EditCourse($_id: ID!, $studentId: ID!) {
     editCourse(_id: $_id, studentId: $studentId) {
+      _id
       name
+      students{
+        _id
+        name
+        lastname
+        dni
+        course{
+          _id
+          name
+        }
+      }
     }
   }
 `;
@@ -80,7 +96,7 @@ export default function AddStudentToACourse({ navigation, route }) {
   const { data, loading, error } = useQuery(GET_ALL_STUDENTS);
   const [
     editCourse,
-    { data: mutationData, data :mutationLoading, data: mutationError },
+    { data: mutationData, loading :mutationLoading, error: mutationError },
   ] = useMutation(EDIT_COURSE);
   const handleOnPress = async (studentId, id, name, lastname) => {
     try {
@@ -89,7 +105,7 @@ export default function AddStudentToACourse({ navigation, route }) {
           _id: id,
           studentId: studentId,
         },
-        refetchQueries: [{ query: GET_STUDENTS_BY_COURSE }],
+        refetchQueries: [{ query: GET_STUDENTS_BY_COURSE, variables: {_id: id} }]
       });
       navigation.pop();
       if (mutationError) {
@@ -130,7 +146,7 @@ export default function AddStudentToACourse({ navigation, route }) {
                           {student.name} {student.lastname}
                         </Text>
                         <Text style={styles.prof}>
-                          {student.dni}
+                         DNI: {student.dni}
                         </Text>
                         <TouchableHighlight
                           style={styles.onPress}
