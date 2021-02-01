@@ -41,6 +41,7 @@ export const GET_ALL_STUDENTS = gql`
       _id
       name
       lastname
+      dni
       course {
         _id
         name
@@ -116,16 +117,20 @@ export default function AddStudentToACourse({ navigation, route }) {
     return (
       <ScrollView>
           <View style={styles.principal}>
-            <Card>
+            <Card key="01">
               <Card.Title>Agregar Alumno a {courseName}</Card.Title>
               <Card.Divider />
               {students.map((student) => {
+                //console.log(student)
                 {
                   if (!student.course) {
                     return (
                       <Card key={student._id}>
                         <Text style={styles.prof}>
                           {student.name} {student.lastname}
+                        </Text>
+                        <Text style={styles.prof}>
+                          {student.dni}
                         </Text>
                         <TouchableHighlight
                           style={styles.onPress}
@@ -144,7 +149,7 @@ export default function AddStudentToACourse({ navigation, route }) {
                       </Card>
                     );
                   } else {
-                    return <Text>No hay alumnos sin curso asignado</Text>;
+                    return <></>;
                   }
                 }
               })}

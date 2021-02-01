@@ -12,16 +12,16 @@ const studentSchema = new Schema({
   address: String,
   birthday: Date,
   picture: String,
-  courses: [{
+  course: {
     type: Schema.Types.ObjectId,
     ref: "Course",
     autopopulate: true
-  }],
-  grades: [{
+  },
+  grade: {
     type: Schema.Types.ObjectId,
     ref: "Grade",
     autopopulate: true
-  }],
+  },
   teachers: [{
     type: Schema.Types.ObjectId,
     ref: "Teacher",

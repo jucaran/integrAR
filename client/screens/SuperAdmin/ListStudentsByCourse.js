@@ -23,6 +23,7 @@ export const GET_STUDENTS_BY_COURSE = gql`
       students {
         name
         lastname
+        dni
         _id
       }
     }
@@ -89,6 +90,9 @@ const ListStudentsByCourse = ({ navigation, route }) => {
                     <View style={styles.cardIn}>
                       <Text style={styles.cardText}>
                         {item.name} {item.lastname}
+                      </Text>
+                      <Text style={styles.cardText}>
+                        {item.dni}
                       </Text>
                       {console.log('_id', _id)}
                       {console.log('item_id', item._id)}
