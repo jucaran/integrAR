@@ -33,7 +33,7 @@ export const editCourse = async (_, args, ctx) => {
 
   try {
     if (!deleteMode) {
-      if (studentId){
+      if (studentId) {
         // && !studentExist) {
         try {
           course.students.push(studentId);
@@ -45,7 +45,7 @@ export const editCourse = async (_, args, ctx) => {
           return error;
         }
       }
-      if (teacherId){
+      if (teacherId) {
         // && !teacherExist) {
         try {
           course.teachers.push(teacherId);
@@ -73,21 +73,19 @@ export const editCourse = async (_, args, ctx) => {
       let student;
       teacherId &&
         (course.teachers = course.teachers.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(teacherId)
+          ({ _id }) => _id !== teacherId
         )) &&
         (teacher = await Teacher.findById(teacherId)) &&
-        teacher.courses.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(course._id)
-        ) &&
+        teacher.courses.filter(({ _id }) => _id !== course._id) &&
         (await teacher.save());
 
       studentId &&
         (course.students = course.students.filter(
-          ({ _id }) => parseInt(_id) !== parseInt(studentId)
+          ({ _id }) => _id !== studentId
         )) &&
-        (student = await Student.findById(studentId)); 
-        student.course = null;
-        await student.save();
+        (student = await Student.findById(studentId));
+      student.course = null;
+      await student.save();
     }
     await course.save();
     return course;
