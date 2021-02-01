@@ -13,6 +13,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
+import { GET_ALL_STUDENTS } from "./AddStudentToACourse";
 
 
 export const GET_STUDENTS_BY_COURSE = gql`
@@ -25,6 +26,10 @@ export const GET_STUDENTS_BY_COURSE = gql`
         lastname
         dni
         _id
+        course {
+          _id
+          name
+        }
       }
     }
   }
@@ -34,10 +39,17 @@ export const GET_STUDENTS_BY_COURSE = gql`
 const DELETE_STUDENT_FROM_COURSE = gql`
   mutation DeleteStudentFromCourse($_id: ID!, $studentId: ID!, $deleteMode: Boolean) {
     editCourse(_id: $_id, studentId: $studentId, deleteMode: $deleteMode) {
+      _id
       name
       students {
         _id
         name
+        lastname
+        dni
+        course {
+          _id
+          name
+        }
       }
     }
   }
@@ -92,7 +104,7 @@ const ListStudentsByCourse = ({ navigation, route }) => {
                         {item.name} {item.lastname}
                       </Text>
                       <Text style={styles.cardText}>
-                        {item.dni}
+                       DNI: {item.dni}
                       </Text>
                       {console.log('_id', _id)}
                       {console.log('item_id', item._id)}
@@ -117,7 +129,7 @@ const ListStudentsByCourse = ({ navigation, route }) => {
                                     studentId: item._id,
                                     deleteMode: true,
                                   },
-                                  refetchQueries: [{ query: GET_STUDENTS_BY_COURSE }],
+                                  refetchQueries: [{ query: GET_STUDENTS_BY_COURSE, variables: { _id: _id} }, { query: GET_ALL_STUDENTS}],
                                 }) 
                               },
                                // navigation.pop("ListStudentsByCourse")

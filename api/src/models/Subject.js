@@ -15,28 +15,11 @@ const subjectSchema = new Schema({
     ref: "Teacher",
     autopopulate: true,
   },
-  class: [
+  classes: [
     {
-      type: String,
-      // required: true,
-      content: [
-        {
-          type: String,
-          // required: true,
-          homework: {
-            type: String,
-            // required: true
-          },
-          correction: {
-            type: String,
-            // required: true
-          },
-          test: {
-            type: String,
-            // required: true
-          },
-        },
-      ],
+      type: Schema.Types.ObjectId,
+      ref: "Class",
+      autopopulate: true,
     },
   ],
 });

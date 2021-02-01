@@ -65,7 +65,7 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
           teacher: teacherId,
           deleteMode: true,
         },
-        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+        refetchQueries: [{ query: GET_SUBJECT_BY_ID, variables: { _id: _id } }, {query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id }}, { query: GET_ALL_TEACHERS }],
       });
       navigation.pop();
     
