@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
@@ -65,10 +65,15 @@ export default function CreateStudentsWithCsv() {
 
   return (
     <View style={styles.center}>
+      {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
+      <Image
+        style={styles.exampleImg}
+        source={require("../assets/ejemplocsv.png")}
+      />
       {/* If the file is not .csv we show a error message */}
       {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
       <TouchableOpacity onPress={pickFile}>
-        <Text>Get .csv file</Text>
+        <Text style={styles.btn}>Get .csv file</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
@@ -79,8 +84,17 @@ export default function CreateStudentsWithCsv() {
           })
         }
       >
-        <Text>Send .csv file</Text>
+        <Text style={styles.btn}>Send .csv file</Text>
       </TouchableOpacity>
+      <View style={styles.instructionBox}>
+        <Text style={styles.intruction}>El archivo debe ser .csv</Text>
+        <Text style={styles.intruction}>
+          La primera fila debe contener solo los titulos de los campos
+        </Text>
+        <Text style={styles.intruction}>
+          Deben estar acomodados en el orden propuesto y sin usar comas
+        </Text>
+      </View>
     </View>
   );
 }
@@ -90,5 +104,22 @@ const styles = new StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  btn: {
+    textDecorationLine: "underline",
+  },
+  exampleImg: {
+    width: 300,
+    height: 50,
+    marginBottom: 20,
+  },
+  instructionBox: {
+    marginTop: 20,
+    marginRight: "auto",
+    marginLeft: "auto",
+    width: 250,
+  },
+  intruction: {
+    marginBottom: 10,
   },
 });
