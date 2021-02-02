@@ -1,8 +1,9 @@
-const nodemailer = require("nodemailer");
-const smtpTransport = require("nodemailer-smtp-transport");
-require("dotenv").config({ path: "../../.env" });
+import nodemailer from "nodemailer";
+import smtpTransport from "nodemailer-smtp-transport";
+import { firstTimePassword } from "./mail-model";
+import dotenv from "dotenv";
+dotenv.config({ path: "../../.env" });
 const { GOOGLE_USERNAME, GOOGLE_PASSWORD } = process.env;
-const { firstTimePassword } = require("./mail-model");
 
 const auth = {
   service: "gmail",
@@ -18,7 +19,7 @@ const transporter = nodemailer.createTransport(smtpTransport(auth));
 /**
  * Takes user and password and sends an email it to Stundent/Teacher
  */
-async function sendMailWithPassword(user, password) {
+export async function sendMailWithPassword(user, password) {
   let mailBody = firstTimePassword;
   mailBody = mailBody.replace("%name%", user.name);
   mailBody = mailBody.replace("%password%", password);
@@ -37,14 +38,9 @@ async function sendMailWithPassword(user, password) {
 
   try {
     await transporter.sendMail(mailOptions);
-    return true;
+    return [true];
   } catch (err) {
     console.log(err);
-    return false;
+    return [false, err];
   }
 }
-
-sendMailWithPassword(
-  { name: "Juan", email: "dubsnip.store@gmail.com" },
-  "1809480"
-);
