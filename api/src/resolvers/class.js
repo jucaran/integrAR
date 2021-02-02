@@ -3,7 +3,7 @@ import { createWriteStream } from "fs";
 import Class from "../models/Class";
 
 export const getClasses = async (_, { _id }) => {
-  if (_id) return await Class.findById(_id);
+  if (_id) return await Class.find({_id});
   else return await Class.find();
 };
 
