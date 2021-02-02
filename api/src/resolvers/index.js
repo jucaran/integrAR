@@ -20,8 +20,14 @@ import {
   deleteSubject,
 } from "./subjects";
 import { allUsers, createUser, login, editUser, deleteUser } from "./user";
-import { getModules } from "./module";
-import { getClasses, uploadClassFile, createClass, editClass } from "./class";
+import { getModules, createModule, editModule, deleteModule } from "./module";
+import {
+  getClasses,
+  uploadClassFile,
+  createClass,
+  editClass,
+  deleteClass,
+} from "./class";
 import { createStudentsWithCsv } from "./files";
 
 export default {
@@ -77,9 +83,15 @@ export default {
     editSubject,
     deleteSubject,
 
+    // MODULE
+    createModule,
+    editModule,
+    deleteModule,
+
     // CLASES
     createClass,
     editClass,
+    deleteClass,
     uploadClassFile,
   },
 };
