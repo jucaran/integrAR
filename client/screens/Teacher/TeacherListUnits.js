@@ -11,19 +11,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { gql, useQuery, useMutation } from "@apollo/client";
+import { assertLeafType } from "graphql";
 
 export const GET_ALL_UNITS_SUBJECT = gql`
   query GetUnitsFromSubjects($_id: ID) {
-    teachers(_id: $_id) {
+    subjects(_id: $_id) {
       _id
       name
-      subjects {
+      units {
         _id
         name
-        units {
-          _id
-          name
-        }
       }
     }
   }
@@ -38,75 +35,114 @@ const DELETE_UNIT = gql`
 `;
 
 const TeacherListUnits = ({ navigation, route }) => {
-  const { _id } = route.params; // aca llega id de subjects
-  const { data, loading, error } = useQuery(GET_ALL_UNITS_SUBJECT, {
-    variables: { _id },
-  });
+  console.log("Data ruta ", route);
+
+  const { _id } = route.params.params; // aca llega id de subjects
+  // const { data, loading, error } = useQuery(GET_ALL_UNITS_SUBJECT, {
+  //   variables: { _id },
+  // });
+  const data = {
+    units: [
+      {
+        _id: "1",
+        name: "Ortografía",
+      },
+      {
+        _id: "2",
+        name: "Redacción",
+      },
+      {
+        _id: "3",
+        name: "Poesía",
+      },
+    ],
+  };
+  console.log("Data unidad ", data);
   const [deleteUnit, mutationData] = useMutation(DELETE_UNIT);
 
-  if (loading) {
-    return (
-      <CenterView>
-        <ActivityIndicator size="large" color="#2290CD" />
-        <Text>Cargando...</Text>
-      </CenterView>
-    );
-  }
+  // if (loading || mutationData.loading) {
+  //   return (
+  //     <CenterView>
+  //       <ActivityIndicator size="large" color="#2290CD" />
+  //       <Text>Cargando...</Text>
+  //     </CenterView>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <CenterView>
-        <Text>ERROR</Text>
-      </CenterView>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <CenterView>
+  //       <Text>ERROR</Text>
+  //     </CenterView>
+  //   );
+  // }
 
   if (data) {
-    const { units } = data
-    // const subjects = data.teachers[0].subjects;
+    const { units } = data;
+
     return (
       <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            padding: 5,
-          }}
-        >
+        <View style={styles.cont}>
+          <TouchableHighlight
+            style={styles.touch}
+            underlayColor="ligthgrey"
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("AddUnitToSubject")}
+          >
+            <Text style={styles.touchText}>Agregar Unidad</Text>
+          </TouchableHighlight>
+
           {units.length ? (
             <Card>
-              <Card.Title>
-                Unidades de {`nombre del subject`}
-              </Card.Title>
+              <Card.Title>Unidades de {units[0].name}</Card.Title>
               <Card.Divider />
-              {units.map((subject, i) => {
+              {units.map((unit, i) => {
                 return (
-                  <View
-                    key={subject._id}
-                    style={{
-                      justifyContent: "space-between",
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 20,
-                      marginBottom: 20,
-                      maxWidth: 900,
-                    }}
-                  >
-                    
-
-                    <Text style={{ fontSize: 18 }}>{units.name}</Text>
+                  <View key={unit._id} style={styles.cardIn}>
+                    <Text style={{ fontSize: 18 }}>{unit.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
-                      underlayColor="lightgrey"
                       onPress={() =>
-                        navigation.navigate("TeacherListUnits", {
-                          screen: "TeacherListUnits",
-                          params: { id: units._id },
+                        navigation.navigate("TeacherListClasses", {
+                          screen: "TeacherListClasses",
+                          params: { id: unit._id },
                         })
                       }
                     >
-                      <Text style={styles.textHigh}>Unidades</Text>
+                      <Text style={styles.textHigh}>Clases</Text>
                     </TouchableHighlight>
+                    <View>
+                      <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="ligthgrey"
+                        style={styles.onPress}
+                        onPress={() =>
+                          Alert.alert(
+                            "Eliminar Unidad",
+                            `¿Está seguro que desea eliminar la unidad ${unit.name}?`,
+                            [
+                              {
+                                text: "Cancelar",
+                                style: "cancel",
+                              },
+                              {
+                                text: "OK",
+                                onPress: () =>
+                                  deleteUnit({
+                                    variables: { _id: unit._id },
+                                    refetchQueries: [
+                                      { query: GET_ALL_UNITS_SUBJECT },
+                                    ],
+                                  }),
+                              },
+                            ]
+                          )
+                        }
+                      >
+                        <Text style={styles.img}>X</Text>
+                      </TouchableHighlight>
+                    </View>
                   </View>
                 );
               })}
@@ -114,13 +150,6 @@ const TeacherListUnits = ({ navigation, route }) => {
           ) : (
             <CenterView>
               <Text>NO HAY UNIDADES EN ESTA ASIGNATURA</Text>
-              <TouchableHighlight
-                style={styles.touch}
-                activeOpacity={0.6}
-                onPress={() => navigation.navigate("AddUnitToSubject")}
-              >
-                <Text style={styles.touchText}>Agregar Unidad</Text>
-              </TouchableHighlight>
             </CenterView>
           )}
         </View>
@@ -134,12 +163,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   touchText: {
     marginTop: 5,
     marginBottom: 15,
@@ -150,7 +173,24 @@ const styles = StyleSheet.create({
   },
   touch: {
     justifyContent: "flex-start",
-    // marginLeft: 12,
+    marginLeft: 15,
+  },
+  onPress: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 15,
+    width: 30,
+    height: 32,
+    justifyContent: "center",
+    
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   card: {
     margin: 5,
@@ -178,24 +218,17 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    //width: 334,
+    width: 334,
+    justifyContent: "space-between",
+    display: "flex",
+    marginTop: 10,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
     borderRadius: 3,
-  },
-  buttonDel: {
-    backgroundColor: "red",
-    padding: 5,
-    borderRadius: 3,
-  },
-  buttonEx: {
-    backgroundColor: "#2290CD",
-    padding: 7,
-    borderRadius: 3,
-    width: 24,
+    //marginLeft: 100,
   },
   textHigh: {
     color: "white",
