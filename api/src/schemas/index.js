@@ -54,8 +54,13 @@ export default gql`
     editSubject(_id: ID, input: SubjectInput, deleteMode: Boolean): Subject
     deleteSubject(_id: ID): Subject
 
+    createModule(input: ModuleInput): Module
+    editModule(_id: ID, input: ModuleInput): Module
+    deleteModule(_id: ID): Module
+
     createClass(input: ClassInput): Class
     editClass(_id: ID, input: ClassInput): Class
+    deleteClass(_id: ID): Module
     uploadClassFile(file: Upload, classId: ID): File
 
     createStudentsWithCsv(file: Upload, courseId: ID): File

@@ -5,9 +5,9 @@ export const classTypes = gql`
     _id: ID
     name: String
     files: [String]
+    subject: ID
+    module: ID
     homework: String
-    correction: String
-    test: String
   }
 
   input ClassInput {
@@ -15,8 +15,7 @@ export const classTypes = gql`
     name: String
     files: [String]
     subject: ID
+    module: ID
     homework: String
-    correction: String # ? tal vez lo deberia tener el alumno
-    test: String # ? tal vez lo deberia tener la unidad
   }
 `;
