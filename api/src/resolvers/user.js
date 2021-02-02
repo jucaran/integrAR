@@ -55,10 +55,13 @@ export const login = async (_, { dni, password }, ctx) => {
 
 export const editUser = async (_, args, ctx) => {
   let user = await User.findById(args._id);
-
-  args.input.dni ? (user.dni = args.input.dni) : null;
-  args.input.password ? (user.password = args.input.password) : null;
-  args.input.email ? (user.email = args.input.email) : null;
+  let inputs = args.input
+  for (const key in inputs) {
+    key ? (user[key] = input[key]) : user[key];
+  }
+  // args.input.dni ? (user.dni = args.input.dni) : null;
+  // args.input.password ? (user.password = args.input.password) : null;
+  // args.input.email ? (user.email = args.input.email) : null;
 
   await user.save();
 
