@@ -2,6 +2,7 @@ import Student from "../models/Student";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import { sendMailWithPassword } from "../mail";
+import Course from "../models/Course";
 
 // Query
 export const allStudents = async (_, args, ctx) => {
