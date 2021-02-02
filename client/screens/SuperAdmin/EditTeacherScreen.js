@@ -16,7 +16,7 @@ import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers";
 const EDIT_TEACHER = gql`
   mutation EditTeacher(
     $_id: ID!
-    $dni: Int
+    $dni: String
     $name: String
     $lastname: String
     $email: String

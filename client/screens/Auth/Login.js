@@ -15,7 +15,7 @@ import { gql, useMutation } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const LOG_USER = gql`
-  mutation Login($dni: Int!, $password: String!) {
+  mutation Login($dni: String!, $password: String!) {
     login(dni: $dni, password: $password) {
       token
       error {
