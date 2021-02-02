@@ -17,7 +17,7 @@ import CenterView from "../../utils/CenterView";
 
 const ADD_STUDENT = gql`
   mutation AddStudent(
-    $dni: Int!
+    $dni: String!
     $name: String!
     $email: String!
     $lastname: String!
