@@ -11,7 +11,7 @@ export const allTeachers = async (_, args, ctx) => {
   } else {
     return await Teacher.find();
   }
-};  
+};
 // Mutations
 export const createTeacher = async (_, args, ctx) => {
   let newTeacher = await new Teacher(args.input).save();
@@ -19,20 +19,20 @@ export const createTeacher = async (_, args, ctx) => {
   const teacherSubjects = args.input.subjects;
 
   if (teacherCourses) {
-    teacherCourses.map( async (el) => {
-      const course = await Course.findById(el._id)
-      course && course.teachers.push(newTeacher._id)
-      course && await course.save();
+    teacherCourses.map(async (el) => {
+      const course = await Course.findById(el._id);
+      course && course.teachers.push(newTeacher._id);
+      course && (await course.save());
     });
   }
-  
+
   if (teacherSubjects) {
-    teacherSubjects.map( async (el) => {
-      const subject = await Subject.findById(el._id)
-      if ( subject ) {
-        subject.teacher = newTeacher._id
+    teacherSubjects.map(async (el) => {
+      const subject = await Subject.findById(el._id);
+      if (subject) {
+        subject.teacher = newTeacher._id;
       }
-      subject && await subject.save();
+      subject && (await subject.save());
     });
   }
 
@@ -44,6 +44,10 @@ export const editTeacher = async (_, args, ctx) => {
   //   { $push: args.input },
   //   { new: true }
   // )
+  let newTeacher = await new Teacher(args.input).save();
+  let newUser = await new User(args.input).save();
+  const teacherCourses = args.input.courses;
+  const teacherSubjects = args.input.subjects;
 
   let teacher = await Teacher.findById(args._id);
 
@@ -63,7 +67,33 @@ export const editTeacher = async (_, args, ctx) => {
 
   await teacher.save();
 
-  return teacher;
+  if (teacherCourses) {
+    teacherCourses.map(async (el) => {
+      const course = await Course.findById(el._id);
+      course && course.teachers.push(newTeacher._id);
+      course && (await course.save());
+    });
+  }
+
+  if (teacherSubjects) {
+    teacherSubjects.map(async (el) => {
+      const subject = await Subject.findById(el._id);
+      if (subject) {
+        subject.teacher = newTeacher._id;
+      }
+      subject && (await subject.save());
+    });
+  }
+
+  newUser.role = "Teacher";
+  const password = Math.floor(100000 + Math.random() * 900000);
+
+  console.log("teacherUser: ", teacherUser);
+
+  const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+  teacherUser.password = hashedPassword;
+
+  return newTeacher;
 };
 
 export const deleteTeacher = async (_, args, ctx) => {
