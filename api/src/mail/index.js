@@ -25,7 +25,7 @@ export async function sendMailWithPassword(user, password) {
   mailBody = mailBody.replace("%password%", password);
 
   const mailOptions = {
-    from: GOOGLE_USERNAME,
+    from: `"integrAR" <${GOOGLE_USERNAME}>`,
     to: user.email,
     subject: "Mensaje de confirmación de usuario",
     text: `Hola ${user.name} bienvenido a integrAR! 
