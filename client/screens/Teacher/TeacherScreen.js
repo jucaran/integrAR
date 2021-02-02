@@ -7,9 +7,10 @@ import {Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 const TeacherView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   // const _id = user._id
-  console.log("User del profe: ", user._id)
+  console.log("User del profe: ", user.dni)
   //----------------------------------------
   const _id = "601737b313cb4717908902fb"
+  const {dni} = user
 
   return (
     <CenterView>
@@ -26,7 +27,8 @@ const TeacherView = ({ navigation }) => {
             onPress={() =>
               navigation.navigate("Materias", {
                 screen:"TeacherListSubjects",
-                params: { _id: _id },
+                params: { dni },
+                //params: { _id: _id },
               })
             }
           >
@@ -47,7 +49,7 @@ const TeacherView = ({ navigation }) => {
             onPress={() =>
               navigation.navigate("Cursos", {
                 screen:"TeacherListCourses",
-                params: { _id: _id },
+                params: { dni:456789 },
               })
             }
           >
@@ -112,6 +114,7 @@ export default TeacherView;
 // TeacherScreen --> Ready
 //    TeacherListSubjects : --> Ready
 //      TeacherListUnit (AddUnit, DeleteUnit)
+//          AddUnit
 //        TeacherListClass (AddClass, DeleteClass)
 //    TeacherListCourse :  --> Ready
 //      TeacherListStudent --> Ready

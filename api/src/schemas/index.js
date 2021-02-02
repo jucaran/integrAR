@@ -133,7 +133,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -165,7 +165,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -181,7 +181,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
