@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext }  from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import { FlatList } from "react-native-gesture-handler";
@@ -13,8 +14,8 @@ import {
 } from "react-native";
 
 export const GET_ALL_COURSES_TEACHER = gql`
-  query GetCoursesFromATeacher($_id: ID) {
-    teachers(_id: $_id) {
+  query GetCoursesFromATeacher($dni: Int) {
+    teachers(dni: $dni) {
       _id
       name
       courses {
@@ -33,11 +34,12 @@ export const GET_ALL_COURSES_TEACHER = gql`
   }
 `;
 
-const TeacherListCourses = ({ navigation, route }) => {
-  console.log("Ruta curso: ", route)
-  const { _id: _id } = route.params;
+const TeacherListCourses = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+  //const { dni } = user
+  const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
-    variables: { _id },
+    variables: { dni },
   });
 
   if (loading) {
@@ -58,7 +60,8 @@ const TeacherListCourses = ({ navigation, route }) => {
   }
 
   if (data) {
-    const courses = data.teachers[0].subjects[0].course;
+    // const courses = data.teachers[0].subjects[0].course;
+    const courses = data.teachers[0].courses[0];
 
     return (
       <View style={styles.cont}>

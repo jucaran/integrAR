@@ -7,7 +7,7 @@ const teacherSchema = new Schema({
   },
   lastname: String,
   dni: {
-    type: String,
+    type: Number,
     unique: true
   },
   email: String,

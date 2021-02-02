@@ -18,6 +18,7 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
     teachers(dni: $dni) {
       _id
       name
+      dni
       subjects {
         _id
         name
@@ -26,16 +27,10 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
   }
 `;
 
-const TeacherListSubjects = ({ navigation, route }) => {
-  // const { user } = useContext(AuthContext);
-  // console.log("User en Materias: ", user)
-  // const { _id } = user
-  // console.log("Soy id de user: ", _id) //600f1ff2ce0ef4127866efa8
-  //-----------------------------
-  const { dni } = route.params;
-  console.log("La ruta: ", route)
-  console.log("Soy dni de ruta: ", dni) //601737b313cb4717908902fb id profe
-
+const TeacherListSubjects = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+  //const { dni } = user
+  const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { dni },
   });
@@ -58,7 +53,6 @@ const TeacherListSubjects = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("Dataaaa: ", data)
     const subjects = data.teachers[0].subjects;
     return (
       <ScrollView>
@@ -89,11 +83,10 @@ const TeacherListSubjects = ({ navigation, route }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
-                      underlayColor="lightgrey"
                       onPress={() =>
                         navigation.navigate("TeacherListUnits", {
                           screen: "TeacherListUnits",
-                          params: { id: subject._id },
+                          params: { _id: subject._id },
                         })
                       }
                     >

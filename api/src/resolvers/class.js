@@ -24,20 +24,21 @@ export const editClass = async (_, { _id, input }) => {
 
   if (!_class) return false;
 
-  input.name ? (_class.name = input.name) : null;
-  input.files ? (_class.files = input.files) : null;
-  input.homework ? (_class.homework = input.homework) : null;
-  input.correction ? (_class.correction = input.correction) : null;
-  input.test ? (_class.test = input.test) : null;
+  for (const key in input) {
+    key ? (_class[key] = input[key]) : null;
+  }
 
   await _class.save();
 };
+
+export const deleteClass = async (_, { _id }) =>
+  await Grade.findByIdAndDelete(_id);
 
 /**
  * This resolver receives a class id and a file and uploads it to the
  * /uploads folder in the server
  * also it pushes the file name to the "files" atribute of Class model
- * so in the fron we can call it to download it
+ * so in the front we can call it to download it
  */
 export const uploadClassFile = async (_, { file, classId }) => {
   const { createReadStream, filename } = await file;

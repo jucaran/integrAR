@@ -6,11 +6,6 @@ import {Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 
 const TeacherView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  // const _id = user._id
-  console.log("User del profe: ", user.dni)
-  //----------------------------------------
-  const _id = "601737b313cb4717908902fb"
-  const {dni} = user
 
   return (
     <CenterView>
@@ -23,12 +18,9 @@ const TeacherView = ({ navigation }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
-            underlayColor="lightgrey"
             onPress={() =>
               navigation.navigate("Materias", {
                 screen:"TeacherListSubjects",
-                params: { dni },
-                //params: { _id: _id },
               })
             }
           >
@@ -45,11 +37,9 @@ const TeacherView = ({ navigation }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
-            underlayColor="lightgrey"
             onPress={() =>
               navigation.navigate("Cursos", {
                 screen:"TeacherListCourses",
-                params: { dni:456789 },
               })
             }
           >
