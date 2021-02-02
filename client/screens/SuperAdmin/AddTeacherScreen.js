@@ -66,7 +66,6 @@ function AddTeacherScreen({ navigation }) {
     picture,
   }) => {
     try {
-      dni = parseInt(dni);
       await createTeacher({
         variables: {
           name,

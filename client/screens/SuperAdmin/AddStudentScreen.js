@@ -66,7 +66,6 @@ function AddStudentScreen({ navigation }) {
     picture,
   }) => {
     try {
-      dni = parseInt(dni);
       await createStudent({
         variables: {
           name,
