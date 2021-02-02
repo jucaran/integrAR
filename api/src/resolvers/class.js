@@ -1,6 +1,7 @@
 import path from "path";
 import { createWriteStream } from "fs";
 import Class from "../models/Class";
+import Module from "../models/Module";
 
 export const getClasses = async (_, { _id }) => {
   if (_id) return await Class.find({_id});
@@ -12,10 +13,12 @@ export const createClass = async (_, { input }) => {
   const newClass = await new Class(input).save();
 
   const module = await Module.findById(input.module);
-
+  //ourse.students.push(studentId);
   if (module) {
-    module.push(newClass._id);
-    await module.save();
+    module.classes.push(newClass._id) 
+    //await module.save(); 
+    await classes.save(); 
+
   }
 };
 
@@ -32,7 +35,7 @@ export const editClass = async (_, { _id, input }) => {
 };
 
 export const deleteClass = async (_, { _id }) =>
-  await Grade.findByIdAndDelete(_id);
+  await Class.findByIdAndDelete(_id);
 
 /**
  * This resolver receives a class id and a file and uploads it to the

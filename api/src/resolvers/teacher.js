@@ -63,7 +63,7 @@ export const editTeacher = async (_, args, ctx) => {
 
   const input = args.input;
   for (const key in input) {
-    key ? (teacher[key] = input[key]) : null;
+    key ? (teacher[key] = input[key]) : teacher[key];
   }
 
   await teacher.save();

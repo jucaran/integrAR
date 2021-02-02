@@ -12,7 +12,7 @@ export const createModule = async (_, { input }) =>
   await new Module(input).save();
 
 export const editModule = async (_, { _id, input }) => {
-  let newModule = await Class.findById(_id);
+  let newModule = await Module.findById(_id);
 
   if (!newModule) return false;
 
@@ -20,7 +20,10 @@ export const editModule = async (_, { _id, input }) => {
     key ? (newModule[key] = input[key]) : null;
   }
 
+  // newModule.classes.push()
   await newModule.save();
+  
+  return newModule;
 };
 
 export const deleteModule = async (_, { _id }) =>

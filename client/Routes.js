@@ -38,9 +38,9 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {/* <TabTeacher/> */}
+      <TabTeacher/>
       {/* Comentar y descomentar */}
-      {user ? <MyTabs role={user.role} /> : <AuthStack />}
+      {/* {user ? <MyTabs role={user.role} /> : <AuthStack />} */}
       
     </NavigationContainer>
   );
