@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import { GET_ALL_UNITS_SUBJECT } from "./TeacherListUnits"
+import { GET_ALL_UNITS_SUBJECT } from "./TeacherListModules"
 
 
 const ADD_UNIT = gql`
