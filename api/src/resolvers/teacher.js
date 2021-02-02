@@ -2,6 +2,7 @@ import Teacher from "../models/Teacher";
 import Course from "../models/Course";
 import Subject from "../models/Subject";
 import User from "../models/User";
+import bcrypt from "bcryptjs";
 import { sendMailWithPassword } from "../mail";
 
 // Query
@@ -16,11 +17,10 @@ export const allTeachers = async (_, args, ctx) => {
 };
 
 // Mutations
-export const createTeacher = async (_, args, ctx) => {
-  let newTeacher = await new Teacher(args.input).save();
-  let teacherUser = await new User(args.input).save();
-  const teacherCourses = args.input.courses;
-  const teacherSubjects = args.input.subjects;
+export const createTeacher = async (_, { input }, ctx) => {
+  let newTeacher = await new Teacher(input).save();
+  const teacherCourses = input.courses;
+  const teacherSubjects = input.subjects;
 
   teacherSubjects &&
     teacherSubjects.map(async (el) => {
@@ -39,10 +39,17 @@ export const createTeacher = async (_, args, ctx) => {
       }
     });
 
-  teacherUser.role = "Teacher";
-  const password = Math.floor(100000 + Math.random() * 900000);
-  teacherUser.password = await bcrypt.hash(password, 12);
-  await teacherUser.save();
+  const password = Math.floor(100000 + Math.random() * 900000).toString();
+  const hash = await bcrypt.hash(password, 12);
+  const { name, email, dni } = input;
+
+  let teacherUser = await new User({
+    name,
+    email,
+    dni,
+    password: hash,
+    role: "Teacher",
+  }).save();
 
   const [isMailSent, error] = await sendMailWithPassword(teacherUser, password);
 

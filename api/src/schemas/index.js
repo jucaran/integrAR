@@ -23,7 +23,7 @@ export default gql`
     deleteAdmin(_id: ID): Admin
 
     # login(userInput: UserInput) : User
-    login(dni: Int!, password: String!): AuthData
+    login(dni: String!, password: String!): AuthData
     createUser(userInput: UserInput): User
     editUser(_id: ID, input: UserInput): User
     deleteUser(_id: ID): User
@@ -149,7 +149,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
