@@ -7,7 +7,7 @@ import { moduleTypes } from "./module";
 export default gql`
   type Query {
     user(_id: ID): [User]
-    admin: String
+    admin(dni: String, _id: ID): [Admin]
     teachers(dni: String, _id: ID): [Teacher]
     students(dni: String, _id: ID): [Student]
     courses(_id: ID): [Course]
