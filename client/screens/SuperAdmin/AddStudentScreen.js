@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FlatList } from "react-native-gesture-handler";
 import {
   View,
   Text,
@@ -7,9 +8,12 @@ import {
   ScrollView,
   Button,
   Alert,
+  ActivityIndicator,
 } from "react-native";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_STUDENTS } from "./SuperAdminListStudents";
+import { Picker } from "@react-native-picker/picker";
+import CenterView from "../../utils/CenterView";
 
 const ADD_STUDENT = gql`
   mutation AddStudent(
@@ -20,6 +24,7 @@ const ADD_STUDENT = gql`
     $whatsapp: String!
     $picture: String
     $address: String
+    $courseId: ID
   ) {
     createStudent(
       input: {
@@ -30,6 +35,7 @@ const ADD_STUDENT = gql`
         whatsapp: $whatsapp
         picture: $picture
         address: $address
+        course: $courseId
       }
     ) {
       name
@@ -37,7 +43,19 @@ const ADD_STUDENT = gql`
   }
 `;
 
+const GET_ALL_COURSES = gql`
+  {
+    courses {
+      _id
+      name
+    }
+  }
+`;
+
 function AddStudentScreen({ navigation }) {
+  const { data, loading: loadingGet, error: errorGet } = useQuery(
+    GET_ALL_COURSES
+  );
   const [student, setStudent] = useState({
     name: "",
     lastname: "",
@@ -48,6 +66,7 @@ function AddStudentScreen({ navigation }) {
     address: "",
     birthday: "",
     picture: "",
+    course: "",
   });
 
   const [createStudent, { error }] = useMutation(ADD_STUDENT);
@@ -64,8 +83,17 @@ function AddStudentScreen({ navigation }) {
     whatsapp,
     address,
     picture,
+    course
   }) => {
     try {
+      console.log('variables: ',name,
+        lastname,
+        dni,
+        email,
+        whatsapp,
+        address,
+        picture,
+        course)
       await createStudent({
         variables: {
           name,
@@ -75,6 +103,7 @@ function AddStudentScreen({ navigation }) {
           whatsapp,
           address,
           picture,
+          course
         },
         refetchQueries: [{ query: GET_STUDENTS }],
       });
@@ -98,68 +127,105 @@ function AddStudentScreen({ navigation }) {
     }
   };
 
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Datos del Alumno</Text>
+  if (loadingGet)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
 
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholder="Nombre"
-            onChangeText={(value) => handleChange("name", value)}
-          />
+  if (data) {
+    const courses = data.courses;
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Datos del Alumno</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Apellido"
-            onChangeText={(value) => handleChange("lastname", value)}
-          />
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre"
+              onChangeText={(value) => handleChange("name", value)}
+            />
 
-          {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
+            <TextInput
+              style={styles.input}
+              placeholder="Apellido"
+              onChangeText={(value) => handleChange("lastname", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={(value) => handleChange("email", value)}
-          />
+            {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
 
-          <TextInput
-            style={styles.input}
-            placeholder="Telefono"
-            onChangeText={(value) => handleChange("whatsapp", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={(value) => handleChange("email", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Direccion"
-            onChangeText={(value) => handleChange("address", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Telefono"
+              onChangeText={(value) => handleChange("whatsapp", value)}
+            />
 
-          {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
+            <TextInput
+              style={styles.input}
+              placeholder="Direccion"
+              onChangeText={(value) => handleChange("address", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Foto"
-            onChangeText={(value) => handleChange("picture", value)}
-          />
+            {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
 
-          <TextInput
-            style={styles.input}
-            placeholder="DNI"
-            onChangeText={(value) => handleChange("dni", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Foto"
+              onChangeText={(value) => handleChange("picture", value)}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="DNI"
+              onChangeText={(value) => handleChange("dni", value)}
+            />
+          </View>
+          <View>
+            <Picker
+              selectedValue={student.course}
+              style={{ height: 200, width: 150 }}
+              onValueChange={(value) => handleChange("course", value)}
+            >
+              <Picker.Item label=" " value= "null" />
+              {courses.length ? (
+                courses.map((course) => {
+                  return (
+                  <Picker.Item key={course._id} label={course.name} value={course._id} />);
+                })
+              ) : (
+                <CenterView>
+                  <Text>No hay cursos agregados</Text>
+                </CenterView>
+              )}
+            </Picker>
+          </View>
+
+          <View>
+            <Button
+              style={styles.button}
+              title="Agregar Alumno"
+              onPress={() => handleOnPress(student)}
+            />
+          </View>
         </View>
-        <View>
-          <Button
-            style={styles.button}
-            title="Agregar Alumno"
-            onPress={() => handleOnPress(student)}
-          />
-        </View>
+      </ScrollView>
+    );
+  } else if (errorGet) {
+    return (
+      <View>
+        <Text>ERROR</Text>
       </View>
-    </ScrollView>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
