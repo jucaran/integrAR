@@ -24,7 +24,7 @@ const ADD_STUDENT = gql`
     $whatsapp: String!
     $picture: String
     $address: String
-    $courseId: ID
+    $course: ID
   ) {
     createStudent(
       input: {
@@ -35,7 +35,7 @@ const ADD_STUDENT = gql`
         whatsapp: $whatsapp
         picture: $picture
         address: $address
-        course: $courseId
+        course: $course
       }
     ) {
       name
