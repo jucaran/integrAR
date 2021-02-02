@@ -1,5 +1,7 @@
-import Student from "../models/Student"
-import Course from "../models/Course"
+import Student from "../models/Student";
+import Course from "../models/Course";
+import bcrypt from "bcryptjs";
+import { sendMailWithPassword } from "../mail";
 
 export const createStudentsWithCsv = async (_, { file, courseId }) => {
   const { createReadStream, filename, mimetype, encoding } = await file;
@@ -13,29 +15,79 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
 
   stream.on("end", async function () {
     // Puts together the array of "chunks", parces it as a string and cuts it in rows
-    const rows = Buffer.concat(fileBuffer).toString("utf8").split("\r\n").slice(1);
+    const rows = Buffer.concat(fileBuffer)
+      .toString("utf8")
+      .split("\r\n")
+      .slice(1);
 
     // Returns a promise for each student in the .csv file
-    const studentPromises = rows.map(row => {
+    const studentPromises = rows.map((row) => {
       // We grab the elements in order and add them as atribute to create each student
-      const [name, lastname, dni, email, whatsapp, address, birthday] = row.split(",");
-      return new Student(
-        {name, lastname, dni, email, whatsapp, address, birthday, course: courseId}
-        ).save()
-    })
+      const [
+        name,
+        lastname,
+        dni,
+        email,
+        whatsapp,
+        address,
+        birthday,
+      ] = row.split(",");
+      return new Student({
+        name,
+        lastname,
+        dni,
+        email,
+        whatsapp,
+        address,
+        birthday,
+        course: courseId,
+      }).save();
+    });
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
-    const students = await Promise.all(studentPromises)
-    
+    const students = await Promise.all(studentPromises);
+
     // Once the Promise all is finished we add each student to the course given by args
-    const course = await Course.findById(courseId)
-    if(course) {
-      students.forEach(async student => {
-        course.students.push(student._id)       
+    const course = await Course.findById(courseId);
+    if (course) {
+      students.forEach(async (student) => {
+        course.students.push(student._id);
       });
-      await course.save()
+      await course.save();
     }
+
+    const passwords = [];
+    // Creating the users for each student
+    const usersPromises = students.map(async ({ dni, name, email }) => {
+      const password = Math.floor(100000 + Math.random() * 900000).toString();
+      passwords.push(password);
+      const hash = await bcrypt.hash(password, 12);
+
+      return new User({
+        dni,
+        name,
+        email,
+        password: hash,
+        role: "Student",
+      }).save();
+    });
+
+    const users = await Promise.all(usersPromises);
+
+    users.forEach(async (user, i) => {
+      const [isMailSent, error] = await sendMailWithPassword(
+        user,
+        passwords[i]
+      );
+
+      if (!isMailSent) {
+        console.log(error);
+        return {
+          status: false,
+        };
+      }
+    });
 
     return {
       status: true,
