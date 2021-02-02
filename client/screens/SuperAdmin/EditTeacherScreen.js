@@ -71,7 +71,6 @@ function EditTeacherScreen({ route }) {
     picture,
   }) => {
     try {
-      dni = parseInt(dni);
       await editTeacher({
         variables: {
           _id: teacherId,
