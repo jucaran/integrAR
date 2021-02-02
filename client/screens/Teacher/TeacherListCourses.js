@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 export const GET_ALL_COURSES_TEACHER = gql`
-  query GetCoursesFromATeacher($dni: Int) {
+  query GetCoursesFromATeacher($dni: String) {
     teachers(dni: $dni) {
       _id
       name

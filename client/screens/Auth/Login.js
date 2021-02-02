@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
     } else {
       logUser({
         variables: {
-          dni: parseInt(inputs.dni),
+          dni: inputs.dni,
           password: inputs.password,
         },
       });

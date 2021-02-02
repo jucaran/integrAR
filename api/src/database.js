@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { ATLAS_URL_DB } = process.env;
+const { MONGODB_PATH } = process.env;
 
 export async function connect() {
   try {
-    await mongoose.connect(ATLAS_URL_DB,
-      {
-        useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
-      }
-    );
+    await mongoose.connect(MONGODB_PATH, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    });
     console.log(">>> DB is connected");
-  } catch(err) {
+  } catch (err) {
     console.log("Something goes wrong");
-    console.log(err)
+    console.log(err);
   }
 }

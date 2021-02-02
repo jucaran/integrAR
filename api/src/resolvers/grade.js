@@ -14,9 +14,6 @@ export const createGrade = async (_, args, ctx) => {
   return await new Grade(args.input).save();
 };
 
-// args.input.dni ? (teacher.dni = args.input.dni) : null
-// let teacher = await Teacher.findById(args._id)
-
 export const editGrade = async (parent, args, ctx) => {
   let grade = await Grade.findById(args._id);
 
