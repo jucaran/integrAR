@@ -14,7 +14,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
 export const GET_ALL_SUBJECTS_TEACHER = gql`
-  query GetSubjectsFromCourseId($dni: Int) {
+  query GetSubjectsFromCourseId($dni: String) {
     teachers(dni: $dni) {
       _id
       name

@@ -11,7 +11,7 @@ import { LOCAL_IP } from "@env";
 // });
 
 const link = createUploadLink({
-  uri: `http://${LOCAL_IP}:4000/graphql`,
+  uri: `http://192.168.0.8:4000/graphql`,
 });
 
 const authLink = setContext(async (_, { headers }) => {

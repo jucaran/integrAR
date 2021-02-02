@@ -8,8 +8,8 @@ export default gql`
   type Query {
     user(_id: ID): [User]
     admin: String
-    teachers(dni: Int, _id: ID): [Teacher]
-    students(dni: Int, _id: ID): [Student]
+    teachers(dni: String, _id: ID): [Teacher]
+    students(dni: String, _id: ID): [Student]
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID, attribute: String, order_by: String): [Subject]
@@ -76,7 +76,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -92,7 +92,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
