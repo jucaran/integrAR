@@ -1,4 +1,6 @@
 import Admin from "../models/Admin";
+import User from "../models/User";
+import bcrypt from "bcryptjs";
 
 // Query
 export const admin = async (_, args, ctx) => {
@@ -20,6 +22,8 @@ export const createAdmin = async (_, args, ctx) => {
     password: hash,
     role: "Admin",
   }).save();
+
+  console.log(`The password for ${user.name} is: `, password);
 
   const [isMailSent, error] = await sendMailWithPassword(user, password);
 
