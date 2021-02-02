@@ -1,4 +1,7 @@
 import Student from "../models/Student";
+import User from "../models/User";
+import bcrypt from "bcryptjs";
+import { sendMailWithPassword } from "../mail";
 
 // Query
 export const allStudents = async (_, args, ctx) => {
@@ -31,7 +34,7 @@ export const createStudent = async (_, args, ctx) => {
     email,
     dni,
     password: hash,
-    role: "Teacher",
+    role: "Student",
   }).save();
 
   const [isMailSent, error] = await sendMailWithPassword(studentUser, password);
