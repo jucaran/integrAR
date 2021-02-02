@@ -108,11 +108,18 @@ export default gql`
   # ---------------------------
   type User {
     _id: ID
-    dni: Int
+    dni: String!
     name: String
     password: String
-    email: String
+    email: String!
     role: String
+  }
+
+  input UserInput {
+    _id: ID
+    dni: String!
+    email: String!
+    password: String
   }
 
   type Error {
@@ -124,13 +131,6 @@ export default gql`
     token: String
     user: User
     error: Error
-  }
-
-  input UserInput {
-    _id: ID
-    dni: Int
-    email: String
-    password: String
   }
 
   # ---------------------------
@@ -193,6 +193,7 @@ export default gql`
     birthday: String
     picture: String
     user: [UserInput]
+    course: ID
   }
 
   # ---------------------------

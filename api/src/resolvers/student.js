@@ -14,13 +14,29 @@ export const allStudents = async (_, args, ctx) => {
 // Mutations
 export const createStudent = async (_, args, ctx) => {
   let newStudent = await new Student(args.input).save();
-  const CourseId = args.input.courseId;
+  const CourseId = args.input.course;
 
   if (CourseId) {
     const course = await Course.findById(CourseId);
     course && course.students.push(newStudent._id);
     course && (await course.save());
   }
+
+  const password = Math.floor(100000 + Math.random() * 900000).toString();
+  const hash = await bcrypt.hash(password, 12);
+  const { name, email, dni } = args.input;
+
+  let studentUser = await new User({
+    name,
+    email,
+    dni,
+    password: hash,
+    role: "Teacher",
+  }).save();
+
+  const [isMailSent, error] = await sendMailWithPassword(studentUser, password);
+
+  if (!isMailSent) return error;
 
   return newStudent;
 };
