@@ -7,8 +7,8 @@ const teacherSchema = new Schema({
   },
   lastname: String,
   dni: {
-    type: Number,
-    unique: true
+    type: String,
+    unique: true,
   },
   email: String,
   whatsapp: String,
