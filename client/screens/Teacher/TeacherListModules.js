@@ -30,7 +30,6 @@ const DELETE_MODULE = gql`
   mutation DeleteModule($_id: ID) {
     deleteModule(_id: $_id) {
       _id
-      name
     }
   }
 `;
@@ -120,6 +119,7 @@ const TeacherListModules = ({ navigation, route }) => {
                                 onPress: () =>
                                   deleteModule({
                                     variables: { _id: module._id },
+                                    
                                     refetchQueries: [
                                       { query: GET_ALL_MODULES_SUBJECT },
                                     ],
