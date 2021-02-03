@@ -62,7 +62,7 @@ export default gql`
     createClass(input: ClassInput): Class
     editClass(_id: ID, input: ClassInput): Class
     deleteClass(_id: ID): Module
-    uploadClassFile(file: Upload, classId: ID): File
+    uploadClassFile(file: Upload!, classId: ID!): File
 
     createStudentsWithCsv(file: Upload, courseId: ID): File
     createTeachersWithCsv(file: Upload): File
