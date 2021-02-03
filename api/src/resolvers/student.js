@@ -38,6 +38,11 @@ export const createStudent = async (_, args, ctx) => {
     role: "Student",
   }).save();
 
+  console.log(
+    `The password for dni ${studentUser.dni} (Student) is: `,
+    password
+  );
+
   const [isMailSent, error] = await sendMailWithPassword(studentUser, password);
 
   if (!isMailSent) return error;
