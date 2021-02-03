@@ -13,7 +13,7 @@ import {
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { assertLeafType } from "graphql";
 
-export const GET_ALL_CLASSES_SUBJECT = gql`
+export const GET_ALL_CLASSES_MODULES = gql`
   query GetClassesFromModules($_id: ID) {
     modules(_id: $_id) {
       _id
@@ -37,8 +37,8 @@ const DELETE_CLASS = gql`
 const TeacherListClasses = ({ navigation, route }) => {
   console.log("Data ruta ", route);
 
-  const { _id } = route.params.params; // aca llega id de subjects
-  const { data, loading, error } = useQuery(GET_ALL_CLASSES_SUBJECT, {
+  const _id = route.params.params.id; // aca llega id de subjects
+  const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
     variables: { _id },
   });
 
@@ -62,6 +62,7 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
+    console.log('soy data',data)
     const { classes } = data;
 
     return (
@@ -70,7 +71,7 @@ const TeacherListClasses = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
-            onPress={() => navigation.navigate("AddClassToModule")}
+            onPress={() => navigation.navigate("AddClassToModule", {params: { id:_id}})}
           >
             <Text style={styles.touchText}>Agregar Clase</Text>
           </TouchableHighlight>
@@ -114,7 +115,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                                   deleteClass({
                                     variables: { _id: oneClass._id },
                                     refetchQueries: [
-                                      { query: GET_ALL_CLASSESS_SUBJECT },
+                                      { query: GET_ALL_CLASSESS_MODULES },
                                     ],
                                   }),
                               },
