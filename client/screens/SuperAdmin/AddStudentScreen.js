@@ -92,6 +92,7 @@ function AddStudentScreen({ navigation }) {
         address,
         picture,
         course)
+      if (course){
       await createStudent({
         variables: {
           name,
@@ -104,7 +105,21 @@ function AddStudentScreen({ navigation }) {
           course
         },
         refetchQueries: [{ query: GET_STUDENTS }],
-      });
+      })}
+      else {
+        await createStudent({
+          variables: {
+            name,
+            lastname,
+            dni,
+            email,
+            whatsapp,
+            address,
+            picture,
+          },
+          refetchQueries: [{ query: GET_STUDENTS }],
+        })
+      }
       if (error) {
         console.log(error);
         return false;
@@ -123,6 +138,7 @@ function AddStudentScreen({ navigation }) {
     } catch (err) {
       console.error("soy el catch", err);
     }
+  
   };
 
   if (loadingGet || loading)
@@ -193,7 +209,7 @@ function AddStudentScreen({ navigation }) {
               style={{ height: 200, width: 150 }}
               onValueChange={(value) => handleChange("course", value)}
             >
-              <Picker.Item label=" " value= "null" />
+              <Picker.Item label="" value='null' />
               {courses.length ? (
                 courses.map((course) => {
                   return (

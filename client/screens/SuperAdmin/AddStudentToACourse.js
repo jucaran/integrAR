@@ -146,7 +146,7 @@ export default function AddStudentToACourse({ navigation, route }) {
                           {student.name} {student.lastname}
                         </Text>
                         <Text style={styles.prof}>
-                         DNI: {student.dni}
+                          DNI: {student.dni}
                         </Text>
                         <TouchableHighlight
                           style={styles.onPress}
@@ -164,8 +164,6 @@ export default function AddStudentToACourse({ navigation, route }) {
                         </TouchableHighlight>
                       </Card>
                     );
-                  } else {
-                    return <></>;
                   }
                 }
               })}

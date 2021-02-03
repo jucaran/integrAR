@@ -40,7 +40,7 @@ const Routes = () => {
     <NavigationContainer>
       {user === null ? (
         <AuthStack />
-      ) : user.role === "admin" ? (
+      ) : user.role === "Admin" ? (
         <MyTabs role={user.role} />
       ) : user.role === "Teacher" ? (
         <TabTeacher role={user.role} />

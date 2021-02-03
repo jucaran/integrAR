@@ -19,6 +19,11 @@ export const GET_STUDENTS = gql`
       _id
       name
       lastname
+      dni
+      course {
+        _id
+        name
+      }
     }
   }
 `;
@@ -58,65 +63,80 @@ function SuperAdminListStudents({ navigation }) {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="ligthgrey"
+              underlayColor="#E8E8E8"
+              style={{width: 180}}
               onPress={() => navigation.navigate("AddStudent")}
             >
               <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
             </TouchableHighlight>
           </View>
+          <View style={styles.touch}>
+            <TouchableHighlight
+              activeOpacity={0.6}
+              underlayColor="#E8E8E8"
+              style={{width: 230}}
+              onPress={() => navigation.navigate("CreateStudentsCsv")}
+            >
+              <Text style={styles.touchText2}>AGREGAR ALUMNOS CON CSV</Text>
+            </TouchableHighlight>
+          </View>
           <FlatList
             data={students}
-            renderItem={({ item: { _id, name, lastname } }) => {
+            renderItem={({ item: { _id, name, lastname, dni, course } }) => {
               return (
                 <Card key={_id} style={styles.card}>
-                  <View style={styles.cardcont}>
-                    <View style={styles.alum}>
-                      <Text style={styles.name}>{`${name} ${lastname}`}</Text>
-                      <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() => {
-                          navigation.navigate("EditStudent", {
-                            studentId: _id,
-                          });
-                        }}
-                      >
-                        <Image
-                          source={require("../../assets/edit.png")}
-                          style={styles.img}
-                        />
-                      </TouchableHighlight>
-                      <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="ligthgrey"
-                        onPress={() =>
-                          Alert.alert(
-                            "Eliminar usuario",
-                            `¿Está seguro que desea eliminar al alumno ${name}?`,
-                            [
-                              {
-                                text: "Cancelar",
-                                style: "cancel",
-                              },
-                              {
-                                text: "OK",
-                                onPress: () =>
-                                  deleteStudent({
-                                    variables: { _id },
-                                    refetchQueries: [{ query: GET_STUDENTS }],
-                                  }),
-                              },
-                            ]
-                          )
-                        }
-                      >
-                        <Image
-                          source={require("../../assets/x.png")}
-                          style={styles.img}
-                        />
-                      </TouchableHighlight>
-                    </View>
-                  </View>
+                      <View style={styles.first}>
+                        <Text style={styles.name}>{`${name} ${lastname}`}</Text>
+                        <TouchableHighlight
+                          activeOpacity={0.6}
+                          style={styles.imgCont}
+                          onPress={() => {
+                            navigation.navigate("EditStudent", {
+                              studentId: _id,
+                            });
+                          }}
+                        >
+                          <Image
+                            source={require("../../assets/edit.png")}
+                            style={styles.img}
+                          />
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                          activeOpacity={0.6}
+                          style={styles.onPress}
+                          onPress={() =>
+                            Alert.alert(
+                              "Eliminar usuario",
+                              `¿Está seguro que desea eliminar al alumno ${name}?`,
+                              [
+                                {
+                                  text: "Cancelar",
+                                  style: "cancel",
+                                },
+                                {
+                                  text: "OK",
+                                  onPress: () =>
+                                    deleteStudent({
+                                      variables: { _id },
+                                      refetchQueries: [{ query: GET_STUDENTS }],
+                                    }),
+                                },
+                              ]
+                            )
+                          }
+                        >
+                          <Text style={styles.img2}>X</Text>
+                        </TouchableHighlight>
+                      </View>
+                      <View style={styles.desc}>
+                        {course?.name ? (
+                          <Text>
+                            DNI: {dni} | Curso: {course.name}
+                          </Text>
+                        ) : (
+                          <Text>DNI: {dni}</Text>
+                        )}
+                      </View>
                 </Card>
               );
             }}
@@ -136,6 +156,11 @@ const styles = StyleSheet.create({
   principal: {
     backgroundColor: "white",
   },
+  first: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginRight: 20,
+  },
   card: {
     width: 360,
     height: 66,
@@ -143,20 +168,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "column",
   },
-  cardcont: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  alum: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: 14,
-  },
   img: {
     width: 14,
     height: 14,
     marginTop: 10,
     marginRight: 25,
+  },
+  
+  img2: {
+    color: "white",
+    fontSize: 18,
   },
   name: {
     fontSize: 16,
@@ -168,6 +189,7 @@ const styles = StyleSheet.create({
   },
   desc: {
     flexDirection: "row",
+    marginLeft: 10,
   },
   description: {
     fontSize: 14,
@@ -182,6 +204,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignItems: "flex-start",
     color: "#2290CD",
+  },
+  touchText2: {
+    marginTop: 5,
+    marginBottom: 20,
+    // fontFamily: "roboto",
+    fontSize: 14,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  onPress: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 25,
+    width: 30,
+    height: 32,
+    justifyContent: "center",
   },
   touch: {
     justifyContent: "flex-start",
