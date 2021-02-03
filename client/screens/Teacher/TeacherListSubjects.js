@@ -82,6 +82,7 @@ const TeacherListSubjects = ({ navigation }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
+                      underlayColor=""
                       onPress={() =>
                         navigation.navigate("TeacherListModules", {
                           screen: "TeacherListModules",

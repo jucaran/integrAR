@@ -9,6 +9,7 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { assertLeafType } from "graphql";
@@ -26,10 +27,11 @@ export const GET_ALL_MODULES_SUBJECT = gql`
   }
 `;
 
-const DELETE_MODULE = gql`
+const DELETE_MODULE_BY_ID = gql`
   mutation DeleteModule($_id: ID) {
     deleteModule(_id: $_id) {
       _id
+      name
     }
   }
 `;
@@ -42,7 +44,7 @@ const TeacherListModules = ({ navigation, route }) => {
   });
  console.log("data en unidades ", data)
   //console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
-  const [deleteModule, mutationData] = useMutation(DELETE_MODULE);
+  const [deleteModule, mutationData] = useMutation(DELETE_MODULE_BY_ID);
 
   if (loading || mutationData.loading) {
     return (
@@ -53,7 +55,7 @@ const TeacherListModules = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationData.error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -62,16 +64,14 @@ const TeacherListModules = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("Data del listado ", data)
     const { modules } = data.subjects[0];
-    console.log("modules: ", modules)
 
     return (
       <ScrollView>
         <View style={styles.cont}>
           <TouchableHighlight
             style={styles.touch}
-            underlayColor="ligthgrey"
+            underlayColor=""
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate("AddModuleToSubject", { params: { _id } })
@@ -103,30 +103,37 @@ const TeacherListModules = ({ navigation, route }) => {
                     <View>
                       <TouchableHighlight
                         activeOpacity={0.6}
-                        underlayColor="ligthgrey"
+                        underlayColor=""
                         style={styles.onPress}
-                        onPress={() =>
-                          Alert.alert(
-                            "Eliminar Unidad",
-                            `¿Está seguro que desea eliminar la unidad ${module.name}?`,
-                            [
-                              {
-                                text: "Cancelar",
-                                style: "cancel",
-                              },
-                              {
-                                text: "OK",
-                                onPress: () =>
-                                  deleteModule({
-                                    variables: { _id: module._id },
-                                    
-                                    refetchQueries: [
-                                      { query: GET_ALL_MODULES_SUBJECT },
-                                    ],
-                                  }),
-                              },
-                            ]
-                          )
+                        onPress={async () =>
+                          await deleteModule({
+                            variables: { _id: module._id }, 
+                            refetchQueries: [
+                              { query: GET_ALL_MODULES_SUBJECT },
+                            ],
+                          })
+
+                          // Alert.alert(
+                          //   "Eliminar Unidad",
+                          //   `¿Está seguro que desea eliminar la unidad:
+                          //    "${module.name}"?`,
+                          //   [
+                          //     {
+                          //       text: "Cancelar",
+                          //       style: "cancel",
+                          //     },
+                          //     {
+                          //       text: "OK",
+                          //       onPress: async () =>
+                          //         await deleteModule({
+                          //           variables: { _id: module._id }, 
+                          //           refetchQueries: [
+                          //             { query: GET_ALL_MODULES_SUBJECT },
+                          //           ],
+                          //         }),
+                          //     },
+                          //   ]
+                          // )
                         }
                       >
                         <Text style={styles.img}>X</Text>

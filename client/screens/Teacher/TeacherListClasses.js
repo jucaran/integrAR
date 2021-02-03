@@ -71,6 +71,7 @@ const TeacherListClasses = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() => navigation.navigate("AddClassToModule", {params: { id:_id}})}
           >
             <Text style={styles.touchText}>Agregar Clase</Text>

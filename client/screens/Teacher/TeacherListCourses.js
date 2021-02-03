@@ -62,10 +62,13 @@ const TeacherListCourses = ({ navigation }) => {
   if (data) {
     const courses = data.teachers[0].subjects[0].course; // OPCIÓN DESDE MATERIA 
     //const courses = data.teachers[0].courses[0]; // OPCIÓN DESDE CURSO
+    console.log("Dtaaaaa", data)
+    console.log("Cursos ", courses)
+    console.log("Cursos largo", courses._typename)
 
     return (
       <View style={styles.cont}>
-        {courses.length ? (
+        {courses? (
           <FlatList
             data={[courses]}
             renderItem={({ item }) => {

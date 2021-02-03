@@ -17,7 +17,8 @@ const TeacherView = ({ navigation }) => {
         <View style={styles.materias}>
           <TouchableHighlight
             style={styles.touch}
-            //activeOpacity={0.6}
+            activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("Materias", {
                 screen:"TeacherListSubjects",
@@ -36,7 +37,8 @@ const TeacherView = ({ navigation }) => {
         <View style={styles.alumn}>
           <TouchableHighlight
             style={styles.touch}
-            //activeOpacity={0.6}
+            activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("Cursos", {
                 screen:"TeacherListCourses",
