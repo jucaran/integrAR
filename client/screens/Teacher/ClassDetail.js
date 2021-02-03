@@ -52,7 +52,7 @@ function ClassDetail({ navigation, route }) {
  
     return (
       <CenterView>
-        <View style={styles.centerView}>
+        {/* <View style={styles.centerView}> */}
           <View style={styles.principal}>
             <Text style={styles.name}>
               {/* En construcción */}
@@ -79,18 +79,18 @@ function ClassDetail({ navigation, route }) {
             <Text style={styles.textHigh}>Tareas</Text>
             </TouchableHighlight>
           </View>
-        </View>
+        {/* </View> */}
       </CenterView> 
     );
   }
 }
 
 const styles = StyleSheet.create({
-  centerView: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "white",
-  },
+  // centerView: {
+  //   flex: 1,
+  //   alignItems: "center",
+  //   backgroundColor: "white",
+  // },
   principal: {
     backgroundColor: "white",
   },
