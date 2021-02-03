@@ -28,7 +28,7 @@ import {
   editClass,
   deleteClass,
 } from "./class";
-import { createStudentsWithCsv } from "./files";
+import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
 export default {
   // GET REQUEST
@@ -61,6 +61,7 @@ export default {
     createTeacher,
     editTeacher,
     deleteTeacher,
+    createTeachersWithCsv,
 
     // ALUMNOS
     createStudent,

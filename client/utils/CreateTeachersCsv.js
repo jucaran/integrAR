@@ -10,13 +10,13 @@ import {
 import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
-import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
-import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
+import { CREATE_TEACHERS_WITH_CSV } from "./graphql";
 import { Card } from "react-native-paper";
+import { GET_ALL_TEACHERS } from "../screens/SuperAdmin/SuperAdminListTeachers";
 
-export default function CreateStudentsWithCsv() {
+export default function CreateTeachersWithCsv() {
   const [sendFile, { data, loading, error }] = useMutation(
-    CREATE_STUDENTS_WITH_CSV
+    CREATE_TEACHERS_WITH_CSV
   );
 
   let bigSize = {
@@ -36,8 +36,6 @@ export default function CreateStudentsWithCsv() {
   const [imageState, setImageState] = useState(normalSize);
 
   // The courseId should be received by route params
-  const courseId = "601736f613cb4717908902ef";
-
   const pickFile = async () => {
     try {
       const filePicked = await DocumentPicker.getDocumentAsync();
@@ -116,8 +114,8 @@ export default function CreateStudentsWithCsv() {
             // First we check that we have a correct file and then we send it
             file &&
             sendFile({
-              variables: { file, courseId },
-              refetchQueries: [{ query: GET_STUDENTS }],
+              variables: { file },
+              refetchQueries: [{ query: GET_ALL_TEACHERS }],
             })
           }
         >
