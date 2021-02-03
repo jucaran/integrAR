@@ -36,11 +36,13 @@ export const GET_ALL_COURSES_TEACHER = gql`
 
 const TeacherListCourses = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  //const { dni } = user
-  const dni = 23453213
+  const { dni } = user
+  console.log("user: ", user)
+  //const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
     variables: { dni },
   });
+  console.log("data: ", data)
 
   if (loading) {
     return (
@@ -60,8 +62,8 @@ const TeacherListCourses = ({ navigation }) => {
   }
 
   if (data) {
-    // const courses = data.teachers[0].subjects[0].course;
-    const courses = data.teachers[0].courses[0];
+    const courses = data.teachers[0].subjects[0].course; // OPCIÓN DESDE MATERIA 
+    //const courses = data.teachers[0].courses[0]; // OPCIÓN DESDE CURSO
 
     return (
       <View style={styles.cont}>

@@ -23,7 +23,9 @@ export const createAdmin = async (_, { input }, ctx) => {
     password: hash,
     role: "Admin",
   }).save();
-  console.log(`The password for ${user.dni} is: `, password);
+
+  console.log(`The password for dni ${user.dni} (Admin) is: `, password);
+
   const [isMailSent, error] = await sendMailWithPassword(user, password);
 
   if (!isMailSent) return error;

@@ -51,6 +51,11 @@ export const createTeacher = async (_, { input }, ctx) => {
     role: "Teacher",
   }).save();
 
+  console.log(
+    `The password for dni ${teacherUser.dni} (Teacher) is: `,
+    password
+  );
+
   const [isMailSent, error] = await sendMailWithPassword(teacherUser, password);
 
   if (!isMailSent) return error;
@@ -67,7 +72,7 @@ export const editTeacher = async (_, args, ctx) => {
   }
 
   await teacher.save();
-  return teacher
+  return teacher;
 };
 
 export const deleteTeacher = async (_, args, ctx) => {
