@@ -55,7 +55,7 @@ const FilesFromClass = ({ navigation, route }) => {
         <TouchableHighlight
            style={styles.touch}
            activeOpacity={0.6}
-           onPress={() => navigation.navigate("UploadClassFile", {params: {_id: clase._id}})}
+           onPress={() => navigation.navigate("UploadClassFile", {params: {id: clase._id}})}
            >
           <Text  style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
