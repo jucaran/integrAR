@@ -58,12 +58,12 @@ export default function UploadClassFile({navigation, route}) {
         <Text>Pick file</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() =>{
+        onPress={async () =>{
           try{
             console.log(file, 'file', classId, 'classId')
-          sendFile({
+          await sendFile({
             variables: { file, classId },
-            refetchQueries: { query: GET_CLASS_BY_ID, variables: { _id: classId }}
+           // refetchQueries: [{ query: GET_CLASS_BY_ID, variables: { _id: classId }}]
           })
           navigation.pop()
         } catch (err){console.log(err)}

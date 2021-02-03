@@ -41,6 +41,7 @@ export const deleteClass = async (_, { _id }) =>
  * so in the front we can call it to download it
  */
 export const uploadClassFile = async (_, { file, classId }) => {
+  console.log('entro al resolver')
   const { createReadStream, filename } = await file;
   const filePath = path.join(__dirname, "../uploads/", filename);
 
