@@ -16,10 +16,11 @@ import { GET_ALL_CLASSES_MODULES } from "./TeacherListClasses"
 const ADD_CLASS = gql`
   mutation CreateClass($input: ClassInput) {
     createClass(input: $input) {
+      _id
       name
-      test
-      subject {
+      module {
         _id 
+        name
       }
     }
   },

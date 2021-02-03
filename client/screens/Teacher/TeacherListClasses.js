@@ -63,7 +63,7 @@ const TeacherListClasses = ({ navigation, route }) => {
 
   if (data) {
     console.log('soy data',data)
-    const { classes } = data;
+    const  classes  = data.modules[0];
 
     return (
       <ScrollView>
@@ -78,9 +78,9 @@ const TeacherListClasses = ({ navigation, route }) => {
 
           {classes ? (
             <Card>
-              <Card.Title>Clases de {classes[0].name}</Card.Title>
+              <Card.Title>Clases de {classes.name}</Card.Title>
               <Card.Divider />
-              {classes.map((clase, i) => {
+              {classes.classes.map((clase, i) => {
                 return (
                   <View key={clase._id} style={styles.cardIn}>
                     <Text style={{ fontSize: 18 }}>{clase.name}</Text>
