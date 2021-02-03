@@ -11,6 +11,7 @@ export const getModules = async (_, { _id }) => {
 
 export const createModule = async (_, { input }) => {
   const newModule = await new Module(input).save()
+  console.log("Llego acá unidades: ", input)
 
   const subject = await Subject.findById(input.subject);
   subject && subject.modules.push(newModule._id);

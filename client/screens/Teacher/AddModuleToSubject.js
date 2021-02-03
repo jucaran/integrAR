@@ -12,6 +12,7 @@ import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_MODULES_SUBJECT } from "./TeacherListModules"
 
 
+
 const ADD_MODULE = gql`
   mutation CreateModule($input: ModuleInput) {
     createModule(input: $input) {
@@ -24,42 +25,33 @@ const ADD_MODULE = gql`
   },
 `
 
-
-// cuando se cree una nueva unidad, asociarle la subject
-// creo que en este caso no haría falta editar la subject
-// porque no se crea una unidad por si sola
-
-
 function AddModuleToSubject({ navigation, route }) {
   const { _id } = route.params.params;
-  
-  const [createModule, { data, error }] = useMutation(ADD_MODULE, {
-    variables: { _id }, 
-  });
-
-  console.log("data: ", data)
-  
+  const [createModule, {error}] = useMutation(ADD_MODULE);
   const [unit, setUnit] = useState({
     name: "",
   });
+ 
+    
   const handleChange = (prop, value) => {
     setUnit({ ...unit, [prop]: value});
   };
-
+  
   const handleOnPress = async ({
     name,
   }) => {
     try {
+      console.log("name y id", name, _id)
       await createModule({
         variables: {
-          name,
+          input:{
+            name,
+            subject:_id
+          }
         },
         refetchQueries: [{ query: GET_ALL_MODULES_SUBJECT }]
       });
-      if (error) {
-        console.log(error);
-        return false;
-      }
+      
 
       Alert.alert(
         "Excelente!",
@@ -76,6 +68,11 @@ function AddModuleToSubject({ navigation, route }) {
     }
   }
 
+  if (error) {
+    console.log(error);
+    return <View><Text>{JSON.stringify(error)}</Text></View>;
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -84,6 +81,7 @@ function AddModuleToSubject({ navigation, route }) {
           <TextInput
             style={styles.input}
             placeholder="Nombre"
+            value={unit.moduleInput}
             onChangeText={(value) => handleChange("name", value)}
           />
         </View>
@@ -91,7 +89,7 @@ function AddModuleToSubject({ navigation, route }) {
           <Button
             style={styles.button}
             title="Agregar Unidad"
-            onPress={() => handleOnPress(unit)}
+            onPress={() => handleOnPress(unit, _id)}
           />
         </View>
       </View>

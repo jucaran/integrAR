@@ -95,7 +95,7 @@ const ListStudentsByCourse = ({ navigation, route }) => {
               underlayColor="#white"
               style={{width: 230}}
               onPress={() => navigation.navigate("CreateStudentsCsv", {
-                params: {id: _id}
+                params: { id: _id }
               })}
             >
               <Text style={styles.touchText}>Agregar alumnos con CSV</Text>

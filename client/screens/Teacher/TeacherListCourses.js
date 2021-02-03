@@ -37,8 +37,6 @@ export const GET_ALL_COURSES_TEACHER = gql`
 const TeacherListCourses = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const { dni } = user
-  console.log("user: ", user)
-  //const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
     variables: { dni },
   });
@@ -67,7 +65,7 @@ const TeacherListCourses = ({ navigation }) => {
 
     return (
       <View style={styles.cont}>
-        {courses.__typename == "Course" ? (
+        {courses.length ? (
           <FlatList
             data={[courses]}
             renderItem={({ item }) => {

@@ -4,6 +4,7 @@ import Teacher from "../models/Teacher";
 import { editSubjectDeleteMode } from "../utils/subjectResolverUtils";
 // Query
 export const allSubjects = async (_, args, ctx) => {
+  console.log("Llego acá materias: ", args._id)
   if (args._id) {
     return await Subject.find({ _id: args._id });
   } else if(args.dni){
