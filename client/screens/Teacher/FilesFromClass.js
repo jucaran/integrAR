@@ -6,9 +6,11 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
   ActivityIndicator,
-  Alert
+  Alert,
 } from "react-native";
+import * as WebBrowser from "expo-web-browser";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
@@ -29,6 +31,10 @@ const FilesFromClass = ({ navigation, route }) => {
     variables: { _id },
   });
 
+  const handleFilePress = (name) => {
+    WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
+  };
+
   if (loading) {
     return (
       <CenterView>
@@ -46,18 +52,22 @@ const FilesFromClass = ({ navigation, route }) => {
     );
   }
 
-  if ('soy clase',data) {
-    const clase = data.classes[0]
-    console.log(clase)
+  if (("soy clase", data)) {
+    const clase = data.classes[0];
+    console.log(clase);
 
     return (
       <View style={styles.cont}>
         <TouchableHighlight
-           style={styles.touch}
-           activeOpacity={0.6}
-           onPress={() => navigation.navigate("UploadClassFile", {params: {_id: clase._id}})}
-           >
-          <Text  style={styles.touchText}>Agregar Archivos</Text>
+          style={styles.touch}
+          activeOpacity={0.6}
+          onPress={() =>
+            navigation.navigate("UploadClassFile", {
+              params: { _id: clase._id },
+            })
+          }
+        >
+          <Text style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
         <Text>Archivos de la {clase.name}</Text>
         {clase.files.length ? (
@@ -67,7 +77,11 @@ const FilesFromClass = ({ navigation, route }) => {
               return (
                 <Card key={item._id} style={styles.card}>
                   <View style={styles.cardIn}>
-                    <Text style={styles.cardText}>{item.name}</Text>
+                    <TouchableOpacity
+                      onPress={() => handleFilePress(item.name)}
+                    >
+                      <Text style={styles.cardText}>{item.name}</Text>
+                    </TouchableOpacity>
                     <TouchableHighlight
                       activeOpacity={0.6}
                       style={styles.onPress}
@@ -105,7 +119,6 @@ const FilesFromClass = ({ navigation, route }) => {
             <Text>No hay archivos agregados para esta clase</Text>
           </CenterView>
         )}
-
       </View>
     );
   }
@@ -150,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     color: "white",
-    marginLeft: 20, 
+    marginLeft: 20,
   },
   onPress: {
     backgroundColor: "#DE2525",
