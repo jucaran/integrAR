@@ -1,4 +1,7 @@
 import Admin from "../models/Admin";
+import User from "../models/User";
+import bcrypt from "bcryptjs"
+import { sendMailWithPassword } from "../mail"
 
 // Query
 export const admin = async (_, args, ctx) => {
@@ -6,8 +9,8 @@ export const admin = async (_, args, ctx) => {
 };
 
 // Mutations
-export const createAdmin = async (_, args, ctx) => {
-  const newAdmin = await new Admin(args.input).save();
+export const createAdmin = async (_, { input }, ctx) => {
+  const newAdmin = await new Admin(input).save();
 
   const password = Math.floor(100000 + Math.random() * 900000).toString();
   const hash = await bcrypt.hash(password, 12);
@@ -20,7 +23,7 @@ export const createAdmin = async (_, args, ctx) => {
     password: hash,
     role: "Admin",
   }).save();
-
+  console.log(`The password for ${user.dni} is: `, password);
   const [isMailSent, error] = await sendMailWithPassword(user, password);
 
   if (!isMailSent) return error;
