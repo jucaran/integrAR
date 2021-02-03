@@ -19,7 +19,14 @@ import {
   editSubject,
   deleteSubject,
 } from "./subjects";
-import { allUsers, createUser, login, editUser, deleteUser } from "./user";
+import {
+  allUsers,
+  createUser,
+  login,
+  editUser,
+  deleteUser,
+  changePassword,
+} from "./user";
 import { getModules, createModule, editModule, deleteModule } from "./module";
 import {
   getClasses,
@@ -51,6 +58,7 @@ export default {
     createUser,
     editUser,
     deleteUser,
+    changePassword,
 
     // PRECEPTOR
     createAdmin,
