@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FlatList } from "react-native-gesture-handler";
 import {
   View,
   Text,
@@ -53,7 +52,7 @@ const GET_ALL_COURSES = gql`
 `;
 
 function AddStudentScreen({ navigation }) {
-  const { data, loading: loadingGet, error: errorGet } = useQuery(
+  const { data: dataGet, loading: loadingGet, error: errorGet } = useQuery(
     GET_ALL_COURSES
   );
   const [student, setStudent] = useState({
@@ -62,14 +61,13 @@ function AddStudentScreen({ navigation }) {
     dni: "",
     email: "",
     whatsapp: "",
-    course: "",
     address: "",
     birthday: "",
     picture: "",
     course: "",
   });
 
-  const [createStudent, { error }] = useMutation(ADD_STUDENT);
+  const [createStudent, { error, loading }] = useMutation(ADD_STUDENT);
 
   const handleChange = (name, value) => {
     setStudent({ ...student, [name]: value });
@@ -127,7 +125,7 @@ function AddStudentScreen({ navigation }) {
     }
   };
 
-  if (loadingGet)
+  if (loadingGet || loading)
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -135,8 +133,8 @@ function AddStudentScreen({ navigation }) {
       </CenterView>
     );
 
-  if (data) {
-    const courses = data.courses;
+  if (dataGet) {
+    const courses = dataGet.courses;
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -219,7 +217,7 @@ function AddStudentScreen({ navigation }) {
         </View>
       </ScrollView>
     );
-  } else if (errorGet) {
+  } else if (errorGet || error) {
     return (
       <View>
         <Text>ERROR</Text>
