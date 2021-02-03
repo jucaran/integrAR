@@ -23,9 +23,8 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
-function ClassDetail({ route }) {
-  console.log("route.params: ", route.params )
-  const { _id }  = route.params;
+function ClassDetail({ navigation, route }) {
+  const _id  = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -48,8 +47,8 @@ function ClassDetail({ route }) {
   }
 
   if (data) {
-    console.log("data: ", data)
-    // const clase = data.clase[0]
+    const clase = data.classes[0]
+    console.log("clase: ", clase)
  
     return (
       <CenterView>
@@ -59,9 +58,26 @@ function ClassDetail({ route }) {
               {/* En construcción */}
               Clase: {`${clase.name}`}
             </Text>
-            <TouchableHighlight></TouchableHighlight>
-            <Text>Archivos: {`${clase.files}`}</Text>
-            {/* <Text>Tareas: {`${clase.homework}`}</Text> */}
+            <TouchableHighlight
+              style={styles.button}
+              activeOpacity = {0.6}
+              onPress = {() => 
+              navigation.navigate("FilesFromClass", {
+                params: { id: clase._id }
+              })}
+            >
+              <Text>Archivos: {`${clase.files}`}</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.button}
+              activeOpacity = {0.6}
+              onPress = {() => 
+              navigation.navigate("HomeworkFromClass", {
+                params: { id: clase._id }
+              })}
+            >
+            <Text>Tareas: {`${clase.homework}`}</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </CenterView> 
