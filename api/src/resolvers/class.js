@@ -13,7 +13,7 @@ export const createClass = async (_, { input }) => {
   const module = await Module.findById(input.module);
 
   if (module) {
-    module.classes.push(newClass._id) 
+    module.classes.push(newClass._id)
     await module.save(); 
   }
   return newClass

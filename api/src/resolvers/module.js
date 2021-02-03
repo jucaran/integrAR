@@ -16,12 +16,8 @@ export const createModule = async (_, { input }) => {
   subject && subject.modules.push(newModule._id);
   subject && (await subject.save())
   
-
   return newModule;
 
-
-  // console.log("Input back: ", input)
-  // await new Module(input).save();
 }
 export const editModule = async (_, { _id, input }) => {
   let newModule = await Module.findById(_id);

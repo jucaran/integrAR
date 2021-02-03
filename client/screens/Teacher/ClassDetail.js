@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  TouchableHighlight
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
@@ -55,10 +56,11 @@ function ClassDetail({ route }) {
         <View style={styles.centerView}>
           <View style={styles.principal}>
             <Text style={styles.name}>
-              En construcción
-              {/* Clase: {`${clase.name}`} */}
+              {/* En construcción */}
+              Clase: {`${clase.name}`}
             </Text>
-            {/* <Text>Archivos: {`${clase.files}`}</Text> */}
+            <TouchableHighlight></TouchableHighlight>
+            <Text>Archivos: {`${clase.files}`}</Text>
             {/* <Text>Tareas: {`${clase.homework}`}</Text> */}
           </View>
         </View>
