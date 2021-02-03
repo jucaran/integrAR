@@ -38,9 +38,9 @@ const TeacherListClasses = ({ navigation, route }) => {
   console.log("Data ruta ", route);
 
   const { _id } = route.params.params; // aca llega id de subjects
-  // const { data, loading, error } = useQuery(GET_ALL_CLASSES_SUBJECT, {
-  //   variables: { _id },
-  // });
+  const { data, loading, error } = useQuery(GET_ALL_CLASSES_SUBJECT, {
+    variables: { _id },
+  });
 
   const [deleteClass, mutationData] = useMutation(DELETE_CLASS);
 
@@ -70,12 +70,12 @@ const TeacherListClasses = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
-            onPress={() => navigation.navigate("AddModuleToSubject")}
+            onPress={() => navigation.navigate("AddClassToModule")}
           >
-            <Text style={styles.touchText}>Agregar Unidad</Text>
+            <Text style={styles.touchText}>Agregar Clase</Text>
           </TouchableHighlight>
 
-          {classes.length ? (
+          {classes ? (
             <Card>
               <Card.Title>Clases de {classes[0].name}</Card.Title>
               <Card.Divider />

@@ -8,15 +8,14 @@ import {
   Button,
   Alert,
 } from "react-native";
-import { useMutation, gql, useQuery } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_MODULES_SUBJECT } from "./TeacherListModules"
-import { GET_ALL_SUBJECTS_TEACHER } from "./TeacherListSubjects";
+
 
 
 const ADD_MODULE = gql`
   mutation CreateModule($input: ModuleInput) {
     createModule(input: $input) {
-      inpiu
       name
       test
       subject {
@@ -26,23 +25,14 @@ const ADD_MODULE = gql`
   },
 `
 
-
-// cuando se cree una nueva unidad, asociarle la subject
-// creo que en este caso no haría falta editar la subject
-// porque no se crea una unidad por si sola
-
-
 function AddModuleToSubject({ navigation, route }) {
   const { _id } = route.params.params;
   const [createModule, {error}] = useMutation(ADD_MODULE);
   const [unit, setUnit] = useState({
     name: "",
   });
-  
-  // console.log("id en add ", _id)
-  // console.log("Unit: ", unit)
-  //console.log("data en add: ", data)
-  
+ 
+    
   const handleChange = (prop, value) => {
     setUnit({ ...unit, [prop]: value});
   };
@@ -74,14 +64,12 @@ function AddModuleToSubject({ navigation, route }) {
         ]
       )
     } catch (err) {
-      console.log("estoy en catch")
       console.error(err);
     }
   }
 
   if (error) {
     console.log(error);
-
     return <View><Text>{JSON.stringify(error)}</Text></View>;
   }
 
