@@ -11,6 +11,7 @@ import AddTeacherToSubject from "../../screens/SuperAdmin/AddTeacherToSubject"
 import DeleteTeacherFromSubject from "../../screens/SuperAdmin/DeleteTeacherFromSubject"
 import ListStudentsByCourse from "../../screens/SuperAdmin/ListStudentsByCourse";
 import AddStudentToACourse from "../../screens/SuperAdmin/AddStudentToACourse";
+import CreateStudentsCsv from "../../utils/CreateStudentsCsv"
 
 const Stack = createStackNavigator();
 export default function CoursesStack() {
@@ -61,6 +62,8 @@ export default function CoursesStack() {
         name="ListStudentsByCourse"
         component={ListStudentsByCourse}
       />
+      <Stack.Screen name="CreateStudentsCsv" component={CreateStudentsCsv} />
+
        <Stack.Screen
         name="AddStudentToACourse"
         component={AddStudentToACourse}
