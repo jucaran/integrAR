@@ -9,7 +9,7 @@ export const CREATE_STUDENTS_WITH_CSV = gql`
 `;
 
 export const CREATE_TEACHERS_WITH_CSV = gql`
-  mutation CreateTeachersWithCsv($file: Upload!, $courseId: ID) {
+  mutation CreateTeachersWithCsv($file: Upload!) {
     createTeachersWithCsv(file: $file) {
       status
     }

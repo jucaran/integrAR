@@ -92,7 +92,7 @@ export default function CreateTeachersWithCsv() {
       <View style={styles.center}>
         {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
-        <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
+        <Text style={styles.title}>Subir profesores con archivo .CSV</Text>
         <Text>Ejemplo:</Text>
         <TouchableHighlight
           onPress={() => onClick(imageState.normalSize ? false : true)}
