@@ -4,7 +4,7 @@ import Class from "../models/Class";
 import Module from "../models/Module";
 
 export const getClasses = async (_, { _id }) => {
-  if (_id) return await Class.find({_id});
+  if (_id) return await Class.find({ _id });
   else return await Class.find();
 };
 
@@ -13,10 +13,10 @@ export const createClass = async (_, { input }) => {
   const module = await Module.findById(input.module);
 
   if (module) {
-    module.classes.push(newClass._id)
-    await module.save(); 
+    module.classes.push(newClass._id);
+    await module.save();
   }
-  return newClass
+  return newClass;
 };
 
 export const editClass = async (_, { _id, input }) => {
@@ -44,7 +44,11 @@ export const uploadClassFile = async (_, { file, classId }) => {
   const { createReadStream, filename } = await file;
   const filePath = path.join(__dirname, "../uploads/", filename);
 
+  console.log("filename: ", filename);
+
   const _class = await Class.findById(classId);
+
+  console.log("class: ", _class);
 
   if (!_class) return { status: false };
 
