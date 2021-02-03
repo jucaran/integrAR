@@ -10,7 +10,9 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  files: [{ type: String }],
+  files: [
+    { type: String }
+  ],
   homework: {
     type: String,
   },
@@ -24,7 +26,7 @@ const classSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Module",
     autopopulate: true,
-  }
+  },
 });
 
 classSchema.plugin(require("mongoose-autopopulate"));

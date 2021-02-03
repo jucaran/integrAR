@@ -59,6 +59,7 @@ const FilesFromClass = ({ navigation, route }) => {
     return (
       <View style={styles.cont}>
         <TouchableHighlight
+<<<<<<< HEAD
           style={styles.touch}
           activeOpacity={0.6}
           onPress={() =>
@@ -68,8 +69,15 @@ const FilesFromClass = ({ navigation, route }) => {
           }
         >
           <Text style={styles.touchText}>Agregar Archivos</Text>
+=======
+           style={styles.touch}
+           activeOpacity={0.6}
+           onPress={() => navigation.navigate("UploadClassFile", {params: {id: clase._id}})}
+           >
+          <Text  style={styles.touchText}>Agregar Archivos</Text>
+>>>>>>> 9502185f9c420faa61f8801faed52679d4078f49
         </TouchableHighlight>
-        <Text>Archivos de la {clase.name}</Text>
+        <Text style={styles.name}>Archivos de la {clase.name}</Text>
         {clase.files.length ? (
           <FlatList
             data={clase.files}
