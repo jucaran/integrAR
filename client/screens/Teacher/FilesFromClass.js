@@ -7,11 +7,14 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
+  Alert
 } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { Card } from "react-native-paper";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
-    class(_id: $_id) {
+    classes(_id: $_id) {
       _id
       name
       files
@@ -19,9 +22,9 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
-const TeacherClassDetails = ({ navigation, route }) => {
-  console.log("Ruta classDetails: ", route);
-  const { _id: _id } = route.params;
+const FilesFromClass = ({ navigation, route }) => {
+  const _id = route.params.params.id;
+  console.log("id filesfromclass: ", _id);
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -43,22 +46,23 @@ const TeacherClassDetails = ({ navigation, route }) => {
     );
   }
 
-  if (data) {
+  if ('soy clase',data) {
     const clase = data.classes[0]
+    console.log(clase)
 
     return (
       <View style={styles.cont}>
-        <Text>{clase.name}</Text>
         <TouchableHighlight
-          style={styles.button}
-          activeOpacity={0.6}
-          onPress={() => navigation.navigate("", {params: {_id: clase._id}})}
-        >
-          <Text  style={styles.buttonText}>Agregar Archivos</Text>
+           style={styles.touch}
+           activeOpacity={0.6}
+           onPress={() => navigation.navigate("UploadClassFile", {params: {id: clase._id}})}
+           >
+          <Text  style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
-        {clase.files ? (
+        <Text>Archivos de la {clase.name}</Text>
+        {clase.files.length ? (
           <FlatList
-            data={clase}
+            data={clase.files}
             renderItem={({ item }) => {
               return (
                 <Card key={item._id} style={styles.card}>
@@ -168,6 +172,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: 344,
   },
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 20,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  name: {
+    marginBottom: 5,
+    marginLeft: 12,
+    fontWeight: "bold",
+    fontSize: 15,
+    alignItems: "flex-start",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    marginLeft: 12,
+  },
 });
 
-export default TeacherClassDetails;
+export default FilesFromClass;
