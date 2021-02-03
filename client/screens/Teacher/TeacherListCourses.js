@@ -40,7 +40,7 @@ const TeacherListCourses = ({ navigation }) => {
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
     variables: { dni },
   });
-  console.log("data: ", data)
+  // console.log("data: ", data)
 
   if (loading) {
     return (
@@ -62,9 +62,9 @@ const TeacherListCourses = ({ navigation }) => {
   if (data) {
     const courses = data.teachers[0].subjects[0].course; // OPCIÓN DESDE MATERIA 
     //const courses = data.teachers[0].courses[0]; // OPCIÓN DESDE CURSO
-    console.log("Dtaaaaa", data)
-    console.log("Cursos ", courses)
-    console.log("Cursos largo", courses._typename)
+    // console.log("Dtaaaaa", data)
+    // console.log("Cursos ", courses)
+    // console.log("Cursos largo", courses._typename)
 
     return (
       <View style={styles.cont}>

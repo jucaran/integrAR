@@ -41,7 +41,6 @@ function AddModuleToSubject({ navigation, route }) {
     name,
   }) => {
     try {
-      console.log("name y id", name, _id)
       await createModule({
         variables: {
           input:{

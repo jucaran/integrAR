@@ -42,7 +42,6 @@ function AddClassToModule({ navigation, route }) {
     name,
   }) => {
     try {
-      console.log("name y id", name, _id)
       await createClass({
         variables: {
           input:{

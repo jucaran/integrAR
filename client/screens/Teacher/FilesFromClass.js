@@ -26,7 +26,7 @@ export const GET_CLASS_BY_ID = gql`
 
 const FilesFromClass = ({ navigation, route }) => {
   const _id = route.params.params.id;
-  console.log("id filesfromclass: ", _id);
+  // console.log("id filesfromclass: ", _id);
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -54,7 +54,7 @@ const FilesFromClass = ({ navigation, route }) => {
 
   if (("soy clase", data)) {
     const clase = data.classes[0];
-    console.log(clase);
+    // console.log(clase);
 
     return (
       <View style={styles.cont}>

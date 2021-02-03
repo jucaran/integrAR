@@ -10,7 +10,7 @@ export default function UploadClassFile({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_CLASS_FILE);
   const [file, setFile] = useState();
   const classId = route.params.params._id;
-  console.log("classId", classId);
+  //console.log("classId", classId);
 
   const pickFile = async () => {
     try {
@@ -60,7 +60,6 @@ export default function UploadClassFile({ navigation, route }) {
       <TouchableOpacity
         onPress={() => {
           try {
-            console.log(file, "file", classId, "classId");
             sendFile({
               variables: { file, classId },
               refetchQueries: [

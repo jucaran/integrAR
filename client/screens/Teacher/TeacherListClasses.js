@@ -62,7 +62,7 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log('soy data',data)
+    // console.log('soy data',data)
     const  classes  = data.modules[0];
 
     return (

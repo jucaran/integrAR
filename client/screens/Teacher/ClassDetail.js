@@ -48,7 +48,7 @@ function ClassDetail({ navigation, route }) {
 
   if (data) {
     const clase = data.classes[0]
-    console.log("clase: ", clase)
+    //console.log("clase: ", clase)
  
     return (
       <CenterView>
