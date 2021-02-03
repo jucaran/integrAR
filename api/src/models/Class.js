@@ -20,6 +20,11 @@ const classSchema = new Schema({
   test: {
     type: String,
   },
+  module: {
+    type: Schema.Types.ObjectId,
+    ref: "Module",
+    autopopulate: true,
+  }
 });
 
 classSchema.plugin(require("mongoose-autopopulate"));

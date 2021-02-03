@@ -4,6 +4,7 @@ import TeacherListSubjects from "../../screens/Teacher/TeacherListSubjects"
 import TeacherListModules from "../../screens/Teacher/TeacherListModules"
 import AddModuleToSubject from "../../screens/Teacher/AddModuleToSubject"
 import TeacherListClasses from "../../screens/Teacher/TeacherListClasses"
+import ClassDetail from "../../screens/Teacher/ClassDetail"
 
 const Stack = createStackNavigator();
 export default function TechersSubjectStack() {
@@ -26,6 +27,7 @@ export default function TechersSubjectStack() {
       <Stack.Screen name="TeacherListModules" component = {TeacherListModules} />
       <Stack.Screen name="AddModuleToSubject" component = {AddModuleToSubject} />
       <Stack.Screen name="TeacherListClasses" component = {TeacherListClasses} />
+      <Stack.Screen name="ClassDetail" component = {ClassDetail} />
       
     </Stack.Navigator>
   );
