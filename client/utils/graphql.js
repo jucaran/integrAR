@@ -1,5 +1,11 @@
 import { gql } from "@apollo/client";
 
+export const CHANGE_PASSWORD = gql`
+  mutation ChangePassword($newPassword: String!, $userId: ID!) {
+    changePassword(newPassword: $newPassword, userId: $userId)
+  }
+`;
+
 export const CREATE_STUDENTS_WITH_CSV = gql`
   mutation CreateStudentsWithCsv($file: Upload!, $courseId: ID) {
     createStudentsWithCsv(file: $file, courseId: $courseId) {

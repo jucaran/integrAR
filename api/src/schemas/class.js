@@ -6,7 +6,7 @@ export const classTypes = gql`
     name: String
     files: [String]
     subject: ID
-    module: [Module]
+    module: Module
     homework: String
   }
 

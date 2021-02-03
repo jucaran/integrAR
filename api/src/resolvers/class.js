@@ -9,17 +9,14 @@ export const getClasses = async (_, { _id }) => {
 };
 
 export const createClass = async (_, { input }) => {
-  // input should have: name:string, module:ID
   const newClass = await new Class(input).save();
-
   const module = await Module.findById(input.module);
-  //ourse.students.push(studentId);
+
   if (module) {
     module.classes.push(newClass._id) 
-    //await module.save(); 
-    await classes.save(); 
-
+    await module.save(); 
   }
+  return newClass
 };
 
 export const editClass = async (_, { _id, input }) => {

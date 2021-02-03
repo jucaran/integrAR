@@ -55,7 +55,7 @@ export const login = async (_, { dni, password }, ctx) => {
 
 export const editUser = async (_, args, ctx) => {
   let user = await User.findById(args._id);
-  let inputs = args.input
+  let inputs = args.input;
   for (const key in inputs) {
     key ? (user[key] = input[key]) : user[key];
   }
@@ -76,4 +76,15 @@ export const editUser = async (_, args, ctx) => {
 
 export const deleteUser = async (_, args, ctx) => {
   return await User.findByIdAndDelete(args._id);
+};
+
+export const changePassword = async (_, { newPassword, userId }) => {
+  const user = await User.findById(userId);
+
+  if (!user) return false;
+
+  const password = await bcrypt.hash(newPassword, 12);
+  user.password = password;
+  await user.save();
+  return true;
 };

@@ -80,21 +80,21 @@ const TeacherListClasses = ({ navigation, route }) => {
             <Card>
               <Card.Title>Clases de {classes[0].name}</Card.Title>
               <Card.Divider />
-              {classes.map((oneClass, i) => {
+              {classes.map((clase, i) => {
                 return (
-                  <View key={oneClass._id} style={styles.cardIn}>
-                    <Text style={{ fontSize: 18 }}>{oneClass.name}</Text>
+                  <View key={clase._id} style={styles.cardIn}>
+                    <Text style={{ fontSize: 18 }}>{clase.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
                       onPress={() =>
-                        navigation.navigate("TeacherListClassess", {
-                          screen: "TeacherListClassess",
-                          params: { id: oneClass._id },
+                        navigation.navigate("ClassDetail", {
+                          screen: "ClassDetail",
+                          params: { id: clase._id },
                         })
                       }
                     >
-                      <Text style={styles.textHigh}>Clases</Text>
+                      <Text style={styles.textHigh}>Detalle</Text>
                     </TouchableHighlight>
                     <View>
                       <TouchableHighlight
@@ -103,7 +103,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                         onPress={() =>
                           Alert.alert(
                             "Eliminar Clase",
-                            `¿Está seguro que desea eliminar la clase ${oneClass.name}?`,
+                            `¿Está seguro que desea eliminar la clase ${clase.name}?`,
                             [
                               {
                                 text: "Cancelar",
@@ -113,7 +113,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                                 text: "OK",
                                 onPress: () =>
                                   deleteClass({
-                                    variables: { _id: oneClass._id },
+                                    variables: { _id: clase._id },
                                     refetchQueries: [
                                       { query: GET_ALL_CLASSESS_MODULES },
                                     ],

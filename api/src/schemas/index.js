@@ -27,6 +27,7 @@ export default gql`
     createUser(userInput: UserInput): User
     editUser(_id: ID, input: UserInput): User
     deleteUser(_id: ID): User
+    changePassword(newPassword: String!, userId: ID!): Boolean
 
     createTeacher(input: TeacherInput): Teacher
     editTeacher(_id: ID, input: TeacherInput): Teacher
