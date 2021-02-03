@@ -11,7 +11,7 @@ import {
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
-    class(_id: $_id) {
+    classes(_id: $_id) {
       _id
       name
       homework
@@ -20,8 +20,8 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const TeacherClassDetails = ({ navigation, route }) => {
-  console.log("Ruta classDetails: ", route);
-  const { _id: _id } = route.params;
+  // console.log("Ruta classDetails: ", route.params.params.id);
+  const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -44,21 +44,25 @@ const TeacherClassDetails = ({ navigation, route }) => {
   }
 
   if (data) {
-    const clase = data.classes[0]
+    console.log("Data en tarea ", data);
+    const clase = data.classes[0];
 
     return (
       <View style={styles.cont}>
-        <Text>{clase.name}</Text>
-        <TouchableHighlight
-          style={styles.button}
-          activeOpacity={0.6}
-          onPress={() => navigation.navigate(""), {params: {_id: clase._id}}}
-        >
-          <Text  style={styles.buttonText}>Agregar Tarea</Text>
-        </TouchableHighlight>
-        <Text>{clase.homework}</Text>
-        
-
+        <Text>Tarea</Text>
+        {clase.homework ? (
+          <Text>{clase.homework}</Text>
+        ) : (
+          <TouchableHighlight
+            style={styles.button}
+            activeOpacity={0.6}
+            onPress={
+              (() => navigation.navigate(""), { params: { _id: clase._id } })
+            }
+          >
+            <Text style={styles.buttonText}>Agregar Tarea</Text>
+          </TouchableHighlight>
+        )}
       </View>
     );
   }
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 20,
     alignItems: "flex-start",
-    color: "#2290CD",
+    color: "white",
   },
 });
 

@@ -12,8 +12,8 @@ import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { Card } from "react-native-paper";
 
-export const GET_CLASS_BY_ID = gql`
-  query GetClassById($_id: ID) {
+export const GET_CLASSES_BY_ID = gql`
+  query GetClassesById($_id: ID) {
     classes(_id: $_id) {
       _id
       name
@@ -25,7 +25,7 @@ export const GET_CLASS_BY_ID = gql`
 
 function ClassDetail({ navigation, route }) {
   const _id  = route.params.params.id;
-  const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
+  const { data, loading, error } = useQuery(GET_CLASSES_BY_ID, {
     variables: { _id },
   });
 
@@ -66,7 +66,7 @@ function ClassDetail({ navigation, route }) {
                 params: { id: clase._id }
               })}
             >
-              <Text>Archivos: {`${clase.files}`}</Text>
+              <Text style={styles.textHigh}>Archivos</Text>
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.button}
@@ -76,7 +76,7 @@ function ClassDetail({ navigation, route }) {
                 params: { id: clase._id }
               })}
             >
-            <Text>Tareas: {`${clase.homework}`}</Text>
+            <Text style={styles.textHigh}>Tareas</Text>
             </TouchableHighlight>
           </View>
         </View>
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     width: 280,
     // fontFamily: "roboto",
     color: "#000000",
-    marginLeft: 10,
+    marginLeft: 15,
+    marginTop: 10,
     fontWeight: "bold",
   },
   desc: {
@@ -140,6 +141,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     margin: 5,
     marginLeft: 12,
+  },
+  button: {
+    margin: 15,
+    backgroundColor: "#2290CD",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 237,
+    height: 50,
+    padding: 7,
+    borderRadius: 7,
+  },
+  textHigh: {
+    color: "white",
   },
 });
 
