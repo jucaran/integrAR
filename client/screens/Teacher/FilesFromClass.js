@@ -59,7 +59,7 @@ const FilesFromClass = ({ navigation, route }) => {
            >
           <Text  style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
-        <Text>Archivos de la {clase.name}</Text>
+        <Text style={styles.name}>Archivos de la {clase.name}</Text>
         {clase.files.length ? (
           <FlatList
             data={clase.files}
