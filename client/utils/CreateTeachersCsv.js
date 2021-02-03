@@ -10,15 +10,13 @@ import {
 import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
-import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
-import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
+import { CREATE_TEACHERS_WITH_CSV } from "./graphql";
 import { Card } from "react-native-paper";
+import { GET_ALL_TEACHERS } from "../screens/SuperAdmin/SuperAdminListTeachers";
 
-export default function CreateStudentsWithCsv({navigation, route}) {
-  const id = route.params?.params.id
-  console.log('soy route de Create CSV', id)
+export default function CreateTeachersWithCsv() {
   const [sendFile, { data, loading, error }] = useMutation(
-    CREATE_STUDENTS_WITH_CSV
+    CREATE_TEACHERS_WITH_CSV
   );
 
   let bigSize = {
@@ -38,8 +36,6 @@ export default function CreateStudentsWithCsv({navigation, route}) {
   const [imageState, setImageState] = useState(normalSize);
 
   // The courseId should be received by route params
-  const courseId = id;
-
   const pickFile = async () => {
     try {
       const filePicked = await DocumentPicker.getDocumentAsync();
@@ -96,7 +92,7 @@ export default function CreateStudentsWithCsv({navigation, route}) {
       <View style={styles.center}>
         {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
-        <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
+        <Text style={styles.title}>Subir profesores con archivo .CSV</Text>
         <Text>Ejemplo:</Text>
         <TouchableHighlight
           onPress={() => onClick(imageState.normalSize ? false : true)}
@@ -118,9 +114,9 @@ export default function CreateStudentsWithCsv({navigation, route}) {
             // First we check that we have a correct file and then we send it
             file &&
             sendFile({
-              variables: { file, courseId },
-              refetchQueries: [{ query: GET_STUDENTS }],
-            }) //.navigation.pop()
+              variables: { file },
+              refetchQueries: [{ query: GET_ALL_TEACHERS }],
+            })
           }
         >
           <Text style={styles.btn}>Enviar archivo .csv</Text>
