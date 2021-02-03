@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const moduleSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    //required: true,
   },
   classes: [
     {
@@ -15,6 +15,11 @@ const moduleSchema = new Schema({
   test: {
     type: String,
   },
+  subject: {
+    type: Schema.Types.ObjectId,
+    ref: "Subject",
+    autopopulate: true,
+  }
 });
 
 moduleSchema.plugin(require("mongoose-autopopulate"));

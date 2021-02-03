@@ -13,12 +13,12 @@ import {
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { assertLeafType } from "graphql";
 
-export const GET_ALL_UNITS_SUBJECT = gql`
-  query GetUnitsFromSubjects($_id: ID) {
+export const GET_ALL_MODULES_SUBJECT = gql`
+  query GetModulesFromSubjects($_id: ID) {
     subjects(_id: $_id) {
       _id
       name
-      units {
+      modules {
         _id
         name
       }
@@ -26,59 +26,61 @@ export const GET_ALL_UNITS_SUBJECT = gql`
   }
 `;
 
-const DELETE_UNIT = gql`
-  mutation DeleteUnit($_id: ID) {
-    deleteUnit(_id: $_id) {
+const DELETE_MODULE = gql`
+  mutation DeleteModule($_id: ID) {
+    deleteModule(_id: $_id) {
+      _id
       name
     }
   }
 `;
 
-const TeacherListUnits = ({ navigation, route }) => {
-  console.log("Data ruta ", route);
+const TeacherListModules = ({ navigation, route }) => {
+  const { _id } = route.params.params;
 
-  const { _id } = route.params.params; // aca llega id de subjects
-  // const { data, loading, error } = useQuery(GET_ALL_UNITS_SUBJECT, {
-  //   variables: { _id },
-  // });
-  const data = {
-    units: [
-      {
-        _id: "1",
-        name: "Ortografía",
-      },
-      {
-        _id: "2",
-        name: "Redacción",
-      },
-      {
-        _id: "3",
-        name: "Poesía",
-      },
-    ],
-  };
-  console.log("Data unidad ", data);
-  const [deleteUnit, mutationData] = useMutation(DELETE_UNIT);
+  const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
+    variables: { _id },
+  });
+ 
+  console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
+  const [deleteModule, mutationData] = useMutation(DELETE_MODULE);
 
-  // if (loading || mutationData.loading) {
-  //   return (
-  //     <CenterView>
-  //       <ActivityIndicator size="large" color="#2290CD" />
-  //       <Text>Cargando...</Text>
-  //     </CenterView>
-  //   );
-  // }
+  if (loading || mutationData.loading) {
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
+  }
 
-  // if (error) {
-  //   return (
-  //     <CenterView>
-  //       <Text>ERROR</Text>
-  //     </CenterView>
-  //   );
-  // }
+  if (error) {
+    return (
+      <CenterView>
+        <Text>ERROR</Text>
+      </CenterView>
+    );
+  }
+  //  const data2 = {
+  //   modules: [
+  //     {
+  //       _id: "1",
+  //       name: "Ortografía",
+  //     },
+  //     {
+  //       _id: "2",
+  //       name: "Redacción",
+  //     },
+  //     {
+  //       _id: "3",
+  //       name: "Poesía",
+  //     },
+  //   ],
+  // };
 
   if (data) {
-    const { units } = data;
+    const { modules } = data.subjects[0];
+    console.log("modules: ", modules)
 
     return (
       <ScrollView>
@@ -87,26 +89,28 @@ const TeacherListUnits = ({ navigation, route }) => {
             style={styles.touch}
             underlayColor="ligthgrey"
             activeOpacity={0.6}
-            onPress={() => navigation.navigate("AddUnitToSubject")}
+            onPress={() =>
+              navigation.navigate("AddModuleToSubject", { params: { _id } })
+            }
           >
             <Text style={styles.touchText}>Agregar Unidad</Text>
           </TouchableHighlight>
 
-          {units.length ? (
+          {modules.length ? (
             <Card>
-              <Card.Title>Unidades de {units[0].name}</Card.Title>
+              <Card.Title>Unidades de {modules[0].name}</Card.Title>
               <Card.Divider />
-              {units.map((unit, i) => {
+              {modules.map((module, i) => {
                 return (
-                  <View key={unit._id} style={styles.cardIn}>
-                    <Text style={{ fontSize: 18 }}>{unit.name}</Text>
+                  <View key={module._id} style={styles.cardIn}>
+                    <Text style={{ fontSize: 18 }}>{module.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
                       onPress={() =>
                         navigation.navigate("TeacherListClasses", {
                           screen: "TeacherListClasses",
-                          params: { id: unit._id },
+                          params: { id: module._id },
                         })
                       }
                     >
@@ -120,7 +124,7 @@ const TeacherListUnits = ({ navigation, route }) => {
                         onPress={() =>
                           Alert.alert(
                             "Eliminar Unidad",
-                            `¿Está seguro que desea eliminar la unidad ${unit.name}?`,
+                            `¿Está seguro que desea eliminar la unidad ${module.name}?`,
                             [
                               {
                                 text: "Cancelar",
@@ -129,10 +133,10 @@ const TeacherListUnits = ({ navigation, route }) => {
                               {
                                 text: "OK",
                                 onPress: () =>
-                                  deleteUnit({
-                                    variables: { _id: unit._id },
+                                  deleteModule({
+                                    variables: { _id: module._id },
                                     refetchQueries: [
-                                      { query: GET_ALL_UNITS_SUBJECT },
+                                      { query: GET_ALL_MODULES_SUBJECT },
                                     ],
                                   }),
                               },
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 32,
     justifyContent: "center",
-    
   },
   container: {
     flex: 1,
@@ -234,4 +237,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-export default TeacherListUnits;
+export default TeacherListModules;
+
+

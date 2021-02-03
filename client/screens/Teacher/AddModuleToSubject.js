@@ -9,18 +9,19 @@ import {
   Alert,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import { GET_ALL_UNITS_SUBJECT } from "./TeacherListModules"
+import { GET_ALL_MODULES_SUBJECT } from "./TeacherListModules"
 
 
-const ADD_UNIT = gql`
+const ADD_MODULE = gql`
   mutation CreateModule($input: ModuleInput) {
     createModule(input: $input) {
-      name,
+      name
+      test
       subject {
-        _id
+        _id 
       }
     }
-  }
+  },
 `
 
 
@@ -29,14 +30,18 @@ const ADD_UNIT = gql`
 // porque no se crea una unidad por si sola
 
 
-function AddUnitToSubject({ navigation, route }) {
-  // const { id } = route.params.params;
+function AddModuleToSubject({ navigation, route }) {
+  const { _id } = route.params.params;
+  
+  const [createModule, { data, error }] = useMutation(ADD_MODULE, {
+    variables: { _id }, 
+  });
+
+  console.log("data: ", data)
+  
   const [unit, setUnit] = useState({
     name: "",
   });
-
-  const [createUnit, {error}] = useMutation(ADD_UNIT);
-
   const handleChange = (prop, value) => {
     setUnit({ ...unit, [prop]: value});
   };
@@ -45,11 +50,11 @@ function AddUnitToSubject({ navigation, route }) {
     name,
   }) => {
     try {
-      await createUnit({
+      await createModule({
         variables: {
           name,
         },
-        refetchQueries: [{ query: GET_ALL_UNITS_SUBJECT }]
+        refetchQueries: [{ query: GET_ALL_MODULES_SUBJECT }]
       });
       if (error) {
         console.log(error);
@@ -120,4 +125,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default AddUnitToSubject;
+export default AddModuleToSubject;
