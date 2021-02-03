@@ -8,13 +8,15 @@ import {
   Button,
   Alert,
 } from "react-native";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
 import { GET_ALL_MODULES_SUBJECT } from "./TeacherListModules"
+import { GET_ALL_SUBJECTS_TEACHER } from "./TeacherListSubjects";
 
 
 const ADD_MODULE = gql`
   mutation CreateModule($input: ModuleInput) {
     createModule(input: $input) {
+      inpiu
       name
       test
       subject {
@@ -32,34 +34,34 @@ const ADD_MODULE = gql`
 
 function AddModuleToSubject({ navigation, route }) {
   const { _id } = route.params.params;
-  
-  const [createModule, { data, error }] = useMutation(ADD_MODULE, {
-    variables: { _id }, 
-  });
-
-  console.log("data: ", data)
-  
+  const [createModule, {error}] = useMutation(ADD_MODULE);
   const [unit, setUnit] = useState({
     name: "",
   });
+  
+  // console.log("id en add ", _id)
+  // console.log("Unit: ", unit)
+  //console.log("data en add: ", data)
+  
   const handleChange = (prop, value) => {
     setUnit({ ...unit, [prop]: value});
   };
-
+  
   const handleOnPress = async ({
     name,
   }) => {
     try {
+      console.log("name y id", name, _id)
       await createModule({
         variables: {
-          name,
+          input:{
+            name,
+            subject:_id
+          }
         },
         refetchQueries: [{ query: GET_ALL_MODULES_SUBJECT }]
       });
-      if (error) {
-        console.log(error);
-        return false;
-      }
+      
 
       Alert.alert(
         "Excelente!",
@@ -72,8 +74,15 @@ function AddModuleToSubject({ navigation, route }) {
         ]
       )
     } catch (err) {
+      console.log("estoy en catch")
       console.error(err);
     }
+  }
+
+  if (error) {
+    console.log(error);
+
+    return <View><Text>{JSON.stringify(error)}</Text></View>;
   }
 
   return (
@@ -84,6 +93,7 @@ function AddModuleToSubject({ navigation, route }) {
           <TextInput
             style={styles.input}
             placeholder="Nombre"
+            value={unit.moduleInput}
             onChangeText={(value) => handleChange("name", value)}
           />
         </View>
@@ -91,7 +101,7 @@ function AddModuleToSubject({ navigation, route }) {
           <Button
             style={styles.button}
             title="Agregar Unidad"
-            onPress={() => handleOnPress(unit)}
+            onPress={() => handleOnPress(unit, _id)}
           />
         </View>
       </View>

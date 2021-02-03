@@ -41,8 +41,8 @@ const TeacherListModules = ({ navigation, route }) => {
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
- 
-  console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
+ console.log("data en unidades ", data)
+  //console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
   const [deleteModule, mutationData] = useMutation(DELETE_MODULE);
 
   if (loading || mutationData.loading) {
@@ -61,24 +61,9 @@ const TeacherListModules = ({ navigation, route }) => {
       </CenterView>
     );
   }
-  //  const data2 = {
-  //   modules: [
-  //     {
-  //       _id: "1",
-  //       name: "Ortografía",
-  //     },
-  //     {
-  //       _id: "2",
-  //       name: "Redacción",
-  //     },
-  //     {
-  //       _id: "3",
-  //       name: "Poesía",
-  //     },
-  //   ],
-  // };
 
   if (data) {
+    console.log("Data del listado ", data)
     const { modules } = data.subjects[0];
     console.log("modules: ", modules)
 
