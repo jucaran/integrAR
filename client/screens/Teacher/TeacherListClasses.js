@@ -14,8 +14,8 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { assertLeafType } from "graphql";
 
 export const GET_ALL_CLASSES_SUBJECT = gql`
-  query GetClassessFromUnits($_id: ID) {
-    units(_id: $_id) {
+  query GetClassesFromModules($_id: ID) {
+    modules(_id: $_id) {
       _id
       name
       classes {
@@ -26,7 +26,7 @@ export const GET_ALL_CLASSES_SUBJECT = gql`
   }
 `;
 const DELETE_CLASS = gql`
-  mutation DeleteUnit($_id: ID) {
+  mutation DeleteClass($_id: ID) {
     deleteClass(_id: $_id) {
       name
     }
@@ -41,33 +41,25 @@ const TeacherListClasses = ({ navigation, route }) => {
   // const { data, loading, error } = useQuery(GET_ALL_CLASSES_SUBJECT, {
   //   variables: { _id },
   // });
-  // const data = {
-  //   units: [
-  //     {
-  //       _id: "2",
-  //       name: "Unidad 1.A",
-  //     },
-  //   ],
-  // };
-  console.log("Data unidad ", data);
+
   const [deleteClass, mutationData] = useMutation(DELETE_CLASS);
 
-  // if (loading || mutationData.loading) {
-  //   return (
-  //     <CenterView>
-  //       <ActivityIndicator size="large" color="#2290CD" />
-  //       <Text>Cargando...</Text>
-  //     </CenterView>
-  //   );
-  // }
+  if (loading || mutationData.loading) {
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
+  }
 
-  // if (error) {
-  //   return (
-  //     <CenterView>
-  //       <Text>ERROR</Text>
-  //     </CenterView>
-  //   );
-  // }
+  if (error) {
+    return (
+      <CenterView>
+        <Text>ERROR</Text>
+      </CenterView>
+    );
+  }
 
   if (data) {
     const { classes } = data;
@@ -78,7 +70,7 @@ const TeacherListClasses = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
-            onPress={() => navigation.navigate("AddUnitToSubject")}
+            onPress={() => navigation.navigate("AddModuleToSubject")}
           >
             <Text style={styles.touchText}>Agregar Unidad</Text>
           </TouchableHighlight>

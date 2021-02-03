@@ -1,4 +1,5 @@
 import Module from "../models/Module";
+import Subject from "../models/Subject";
 
 export const getModules = async (_, { _id }) => {
   if (_id) {
@@ -8,9 +9,19 @@ export const getModules = async (_, { _id }) => {
   }
 };
 
-export const createModule = async (_, { input }) =>
-  await new Module(input).save();
+export const createModule = async (_, { input }) => {
+  const newModule = await new Module(input).save()
 
+  const subject = await Subject.findById(input.subject);
+  subject && subject.modules.push(newModule._id);
+  subject && (await subject.save())
+
+  return newModule;
+
+
+  // console.log("Input back: ", input)
+  // await new Module(input).save();
+}
 export const editModule = async (_, { _id, input }) => {
   let newModule = await Module.findById(_id);
 

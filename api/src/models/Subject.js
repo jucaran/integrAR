@@ -15,13 +15,13 @@ const subjectSchema = new Schema({
     ref: "Teacher",
     autopopulate: true,
   },
-  classes: [
+  modules: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Class",
+      ref: "Module",
       autopopulate: true,
-    },
-  ],
+    }
+  ]
 });
 
 subjectSchema.plugin(require("mongoose-autopopulate"));

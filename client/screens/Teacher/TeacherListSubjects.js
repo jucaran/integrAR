@@ -30,7 +30,6 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 const TeacherListSubjects = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const { dni } = user
-  //const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { dni },
   });
@@ -84,8 +83,8 @@ const TeacherListSubjects = ({ navigation }) => {
                       style={styles.button}
                       activeOpacity={0.6}
                       onPress={() =>
-                        navigation.navigate("TeacherListUnits", {
-                          screen: "TeacherListUnits",
+                        navigation.navigate("TeacherListModules", {
+                          screen: "TeacherListModules",
                           params: { _id: subject._id },
                         })
                       }

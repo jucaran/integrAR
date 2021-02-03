@@ -239,6 +239,7 @@ export default gql`
     teacher: Teacher
     course: Course
     classes: [Class]
+    modules: [Module]
   }
   input SubjectInput {
     _id: ID
