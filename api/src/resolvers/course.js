@@ -8,7 +8,7 @@ export const allCourses = async (_, args, ctx) => {
   if (args._id) {
     return await Course.find({ _id: args._id });
   } else {
-    return await Course.find();
+    return await Course.find().sort({ name: 1 });
   }
 };
 

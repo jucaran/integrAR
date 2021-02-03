@@ -29,8 +29,8 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 
 const TeacherListSubjects = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  //const { dni } = user
-  const dni = 23453213
+  const { dni } = user
+  //const dni = 23453213
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { dni },
   });
