@@ -64,6 +64,7 @@ export default gql`
     uploadClassFile(file: Upload, classId: ID): File
 
     createStudentsWithCsv(file: Upload, courseId: ID): File
+    createTeachersWithCsv(file: Upload): File
   }
 
   # ---------------------------
