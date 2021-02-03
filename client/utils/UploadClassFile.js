@@ -9,8 +9,8 @@ import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass"
 export default function UploadClassFile({navigation, route}) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_CLASS_FILE);
   const [file, setFile] = useState();
-  const classId = route.params.params.id
-  console.log(classId)
+  const classId = route.params.params._id
+  console.log('classId',classId)
 
   const pickFile = async () => {
     try {
@@ -60,6 +60,7 @@ export default function UploadClassFile({navigation, route}) {
       <TouchableOpacity
         onPress={() =>{
           try{
+            console.log(file, 'file', classId, 'classId')
           sendFile({
             variables: { file, classId },
             refetchQueries: { query: GET_CLASS_BY_ID, variables: { _id: classId }}
