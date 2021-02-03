@@ -4,13 +4,13 @@ import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_CLASS_FILE } from "./graphql";
-import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass"
+import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass";
 
-export default function UploadClassFile({navigation, route}) {
+export default function UploadClassFile({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_CLASS_FILE);
   const [file, setFile] = useState();
-  const classId = route.params.params._id
-  console.log('classId',classId)
+  const classId = route.params.params._id;
+  console.log("classId", classId);
 
   const pickFile = async () => {
     try {
@@ -58,15 +58,19 @@ export default function UploadClassFile({navigation, route}) {
         <Text>Pick file</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={async () =>{
-          try{
-            console.log(file, 'file', classId, 'classId')
-          await sendFile({
-            variables: { file, classId },
-           // refetchQueries: [{ query: GET_CLASS_BY_ID, variables: { _id: classId }}]
-          })
-          navigation.pop()
-        } catch (err){console.log(err)}
+        onPress={() => {
+          try {
+            console.log(file, "file", classId, "classId");
+            sendFile({
+              variables: { file, classId },
+              refetchQueries: [
+                [{ query: GET_CLASS_BY_ID, variables: { _id: classId } }],
+              ],
+            });
+            navigation.pop();
+          } catch (err) {
+            console.log(err);
+          }
         }}
       >
         <Text>Upload file</Text>
