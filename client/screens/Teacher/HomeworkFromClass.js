@@ -19,8 +19,7 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
-const TeacherClassDetails = ({ navigation, route }) => {
-  // console.log("Ruta classDetails: ", route.params.params.id);
+const FilesFromHomework = ({ navigation, route }) => {
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
@@ -44,27 +43,69 @@ const TeacherClassDetails = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("Data en tarea ", data);
+    // console.log("Data en tarea ", data);
     const clase = data.classes[0];
 
     return (
       <View style={styles.cont}>
-        <Text>Tarea</Text>
-        {clase.homework ? (
-          <Text>{clase.homework}</Text>
+        <TouchableHighlight
+          style={styles.touch}
+          activeOpacity={0.6}
+          onPress={() =>
+            navigation.navigate("UploadClassFile", {
+              params: { id: clase._id },
+            })
+          }
+        >
+          <Text style={styles.touchText}>Agregar Tareas</Text>
+        </TouchableHighlight>
+        <Text style={styles.name}>Archivos de la {clase.name}</Text>
+        {clase.length ? (
+          <FlatList
+            data={clase.homework}
+            renderItem={({ item }) => {
+              return (
+                <Card key={item._id} style={styles.card}>
+                  <View style={styles.cardIn}>
+                    <Text style={styles.cardText}>{item.name}</Text>
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      style={styles.onPress}
+                    >
+                      <Text style={styles.img}>X</Text>
+                    </TouchableHighlight>
+                  </View>
+                </Card>
+              );
+            }}
+            keyExtractor={({ _id }) => _id}
+          />
         ) : (
-          <TouchableHighlight
-            style={styles.button}
-            activeOpacity={0.6}
-            onPress={
-              (() => navigation.navigate(""), { params: { _id: clase._id } })
-            }
-          >
-            <Text style={styles.buttonText}>Agregar Tarea</Text>
-          </TouchableHighlight>
+          <CenterView>
+            <Text>No hay archivos agregados para esta clase</Text>
+          </CenterView>
         )}
       </View>
     );
+    // return (
+    //   <View style={styles.cont}>
+
+    //     <Text>Tarea</Text>
+    //     {clase.homework ? (
+    //       <Text>{clase.homework}</Text>
+    //     ) : (
+    //       <TouchableHighlight
+    //         style={styles.button}
+    //         activeOpacity={0.6}
+    //         onPress={
+    //           (() => navigation.navigate("UploadNomeworkFile"), { params: { _id: clase._id } })
+    //         }
+    //       >
+    //         <Text style={styles.buttonText}>Agregar Tarea</Text>
+    //       </TouchableHighlight>
+    //     )}
+    //   </View>
+    // );
   }
 };
 
@@ -89,6 +130,25 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     color: "white",
   },
+  touchText: {
+    marginTop: 15,
+    marginBottom: 15,
+    // fontFamily: "roboto",
+    fontSize: 20,
+    alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  name: {
+    marginBottom: 5,
+    marginLeft: 12,
+    fontWeight: "bold",
+    fontSize: 15,
+    alignItems: "flex-start",
+  },
+  touch: {
+    justifyContent: "flex-start",
+    marginLeft: 12,
+  },
 });
 
-export default TeacherClassDetails;
+export default FilesFromHomework;

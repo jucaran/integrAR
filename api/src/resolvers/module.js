@@ -34,5 +34,8 @@ export const editModule = async (_, { _id, input }) => {
   return newModule;
 };
 
-export const deleteModule = async (_, { _id }) =>
+export const deleteModule = async (_, { _id }) => {
+  console.log("id del delete back: ", _id)
   await Module.findByIdAndDelete(_id);
+
+}
