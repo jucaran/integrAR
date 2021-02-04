@@ -11,7 +11,6 @@ export const getClasses = async (_, { _id }) => {
 export const createClass = async (_, { input }) => {
   const newClass = await new Class(input).save();
   const module = await Module.findById(input.module);
-
   if (module) {
     module.classes.push(newClass._id);
     await module.save();

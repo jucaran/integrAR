@@ -46,7 +46,7 @@ function AddClassToModule({ navigation, route }) {
         variables: {
           input:{
             name,
-            subject:_id
+            module:_id
           }
         },
         refetchQueries: [{ query: GET_ALL_CLASSES_MODULES, variables: {_id: _id} }]
