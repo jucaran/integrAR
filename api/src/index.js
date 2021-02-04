@@ -1,52 +1,48 @@
-import dotenv from "dotenv";
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
-import mongoose from "mongoose";
-dotenv.config();
-const { DB_HOST, API_URL, DB_NAME } = process.env;
+import { connect } from "./database";
+import { ApolloServer } from "apollo-server-express";
+import typeDefs from "./schemas/index.js";
+import resolvers from "./resolvers/index.js";
+import isAuth from "./middleware/is-auth";
+import path from "path";
 
-//GraphQL config
-import resolvers from "./resolvers/index";
-import typeDefs from "./schemas/index";
+const app = express();
+app.use(isAuth);
+app.use(cors());
+connect();
 
-//Db models
-import Alumno from "./models/Alumno";
-import Profesor from "./models/Profesor";
-import Grado from "./models/Grado";
+const { PORT, API_URL } = process.env;
 
-//We start the server once the db is connected
-(async () => {
-  try {
-    // connection to db
-    await mongoose.connect(`${DB_HOST}/${DB_NAME}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+const SERVER = new ApolloServer({
+  typeDefs,
+  resolvers,
 
-    // start the apollo server
-    const server = new ApolloServer({
-      typeDefs,
-      resolvers,
-      context: {
-        // login
-        models: {
-          Alumno,
-          Profesor,
-          Grado,
-        },
-      },
-    });
+  context: ({ req }) => {
+    const UserAuth = req.isAuth;
 
-    // start the express server
-    const app = express();
-    app.use(cors());
-    server.applyMiddleware({ app });
+    return { UserAuth };
+  },
+  introspection: true,
+  playground: true,
+  playground: {
+    endpoint: `${API_URL}/graphql`,
+    settings: {
+      "editor.theme": "dark",
+    },
+  },
+});
 
-    app.listen({ port: 4000 }, () =>
-      console.log(`🚀 Server ready at ${API_URL}`)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-})();
+SERVER.applyMiddleware({
+  app,
+});
+
+app.get("/download/:name", function (req, res) {
+  const { name } = req.params;
+  res.download(path.join(__dirname, `./uploads/${name}`));
+});
+
+app.set("port", PORT);
+app.listen(app.get("port"), () => {
+  console.log(`Server on port ${PORT}`);
+});

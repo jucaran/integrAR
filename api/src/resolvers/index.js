@@ -1,48 +1,106 @@
-const courses = [
-  {
-    id: 1,
-    title: "Nodejs Course",
-    author: "John Carter",
-    topic: "javascript",
-    url: "facebook.com",
-  },
-  {
-    id: 2,
-    title: "Rust Course",
-    author: "John Carter",
-    topic: "Rust",
-    url: "facebook.com",
-  },
-  {
-    id: 3,
-    title: "Redux Course",
-    author: "John Carter",
-    topic: "React Redux",
-    url: "facebook.com",
-  },
-];
+import {
+  allTeachers,
+  createTeacher,
+  editTeacher,
+  deleteTeacher,
+} from "./teacher";
+import {
+  allStudents,
+  createStudent,
+  editStudent,
+  deleteStudent,
+} from "./student";
+import { allCourses, createCourse, editCourse, deleteCourse } from "./course";
+import { allGrades, createGrade, editGrade, deleteGrade } from "./grade";
+import { admin, createAdmin, editAdmin, deleteAdmin } from "./admin";
+import {
+  allSubjects,
+  createSubject,
+  editSubject,
+  deleteSubject,
+} from "./subjects";
+import {
+  allUsers,
+  createUser,
+  login,
+  editUser,
+  deleteUser,
+  changePassword,
+} from "./user";
+import { getModules, createModule, editModule, deleteModule } from "./module";
+import {
+  getClasses,
+  uploadClassFile,
+  createClass,
+  editClass,
+  deleteClass,
+} from "./class";
+import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
 export default {
+  // GET REQUEST
   Query: {
-    course: (p, arg) => {
-      return arg.id ? courses.filter((e) => e.id === arg.id) : courses;
-    },
+    admin,
+    user: allUsers,
+    teachers: allTeachers,
+    students: allStudents,
+    grades: allGrades,
+    courses: allCourses,
+    subjects: allSubjects,
+    modules: getModules,
+    classes: getClasses,
   },
-  Course: {
-    title(parent, arg, context, info) {
-      return parent.title;
-    },
-    url(parent) {
-      return parent.url;
-    },
-    id(parent) {
-      return parent.id;
-    },
-    topic(parent) {
-      return parent.topic;
-    },
-    author(parent) {
-      return parent.author;
-    },
+
+  // PUT, POST, DELETE REQUEST
+  Mutation: {
+    // USUARIO
+    login,
+    createUser,
+    editUser,
+    deleteUser,
+    changePassword,
+
+    // PRECEPTOR
+    createAdmin,
+    editAdmin,
+    deleteAdmin,
+
+    // PROFESORES
+    createTeacher,
+    editTeacher,
+    deleteTeacher,
+    createTeachersWithCsv,
+
+    // ALUMNOS
+    createStudent,
+    editStudent,
+    deleteStudent,
+    createStudentsWithCsv,
+
+    // GRADOS
+    createGrade,
+    editGrade,
+    deleteGrade,
+
+    // CURSOS
+    createCourse,
+    editCourse,
+    deleteCourse,
+
+    // MATERIAS
+    createSubject,
+    editSubject,
+    deleteSubject,
+
+    // MODULE
+    createModule,
+    editModule,
+    deleteModule,
+
+    // CLASES
+    createClass,
+    editClass,
+    deleteClass,
+    uploadClassFile,
   },
 };
