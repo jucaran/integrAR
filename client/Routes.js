@@ -38,10 +38,17 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {/* <TabTeacher/> */}
-      {/* Comentar y descomentar */}
-      {user ? <MyTabs role={user.role} /> : <AuthStack />}
-      
+      {user === null ? (
+        <AuthStack />
+      ) : user.role === "Admin" ? (
+        <MyTabs role={user.role} />
+      ) : user.role === "Teacher" ? (
+        <TabTeacher role={user.role} />
+      ) : user.role === "Student" ? (
+        <MyTabs role={user.role} />
+      ) : (
+        <AuthStack />
+      )}
     </NavigationContainer>
   );
 };

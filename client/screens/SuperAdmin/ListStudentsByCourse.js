@@ -81,7 +81,7 @@ const ListStudentsByCourse = ({ navigation, route }) => {
       <View>
         <TouchableHighlight
           activeOpacity={0.6}
-          underlayColor="ligthgrey"
+          underlayColor="white"
           onPress={() =>
             navigation.navigate("AddStudentToACourse", {
               params: { id: _id, name: course.name },
@@ -90,6 +90,16 @@ const ListStudentsByCourse = ({ navigation, route }) => {
         >
           <Text style={styles.touchText}>Agregar alumno</Text>
         </TouchableHighlight>
+            <TouchableHighlight
+              activeOpacity={0.6}
+              underlayColor="#white"
+              style={{width: 230}}
+              onPress={() => navigation.navigate("CreateStudentsCsv", {
+                params: { id: _id }
+              })}
+            >
+              <Text style={styles.touchText}>Agregar alumnos con CSV</Text>
+            </TouchableHighlight>
         <Card>
           <Card.Title>Alumnos de {course.name}</Card.Title>
           <Card.Divider />

@@ -138,12 +138,13 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         )}
       </View>
     );
-  } else if (error || mutationData.error)
+  } else if (error || mutationData.error){
     return (
       <View>
         <Text>ERROR</Text>
       </View>
     );
+  }
 };
 
 const styles = StyleSheet.create({

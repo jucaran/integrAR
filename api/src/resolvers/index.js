@@ -19,10 +19,23 @@ import {
   editSubject,
   deleteSubject,
 } from "./subjects";
-import { allUsers, createUser, login, editUser, deleteUser } from "./user";
-import { getModules } from "./module";
-import { getClasses, uploadClassFile, createClass, editClass } from "./class";
-import { createStudentsWithCsv } from "./files";
+import {
+  allUsers,
+  createUser,
+  login,
+  editUser,
+  deleteUser,
+  changePassword,
+} from "./user";
+import { getModules, createModule, editModule, deleteModule } from "./module";
+import {
+  getClasses,
+  uploadClassFile,
+  createClass,
+  editClass,
+  deleteClass,
+} from "./class";
+import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
 export default {
   // GET REQUEST
@@ -45,6 +58,7 @@ export default {
     createUser,
     editUser,
     deleteUser,
+    changePassword,
 
     // PRECEPTOR
     createAdmin,
@@ -55,6 +69,7 @@ export default {
     createTeacher,
     editTeacher,
     deleteTeacher,
+    createTeachersWithCsv,
 
     // ALUMNOS
     createStudent,
@@ -77,9 +92,15 @@ export default {
     editSubject,
     deleteSubject,
 
+    // MODULE
+    createModule,
+    editModule,
+    deleteModule,
+
     // CLASES
     createClass,
     editClass,
+    deleteClass,
     uploadClassFile,
   },
 };

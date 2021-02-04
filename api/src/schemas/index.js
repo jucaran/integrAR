@@ -7,9 +7,9 @@ import { moduleTypes } from "./module";
 export default gql`
   type Query {
     user(_id: ID): [User]
-    admin: String
-    teachers(dni: Int, _id: ID): [Teacher]
-    students(dni: Int, _id: ID): [Student]
+    admin(dni: String, _id: ID): [Admin]
+    teachers(dni: String, _id: ID): [Teacher]
+    students(dni: String, _id: ID): [Student]
     courses(_id: ID): [Course]
     grades(_id: ID): [Grade]
     subjects(_id: ID, attribute: String, order_by: String): [Subject]
@@ -23,10 +23,11 @@ export default gql`
     deleteAdmin(_id: ID): Admin
 
     # login(userInput: UserInput) : User
-    login(dni: Int!, password: String!): AuthData
+    login(dni: String!, password: String!): AuthData
     createUser(userInput: UserInput): User
     editUser(_id: ID, input: UserInput): User
     deleteUser(_id: ID): User
+    changePassword(newPassword: String!, userId: ID!): Boolean
 
     createTeacher(input: TeacherInput): Teacher
     editTeacher(_id: ID, input: TeacherInput): Teacher
@@ -54,11 +55,17 @@ export default gql`
     editSubject(_id: ID, input: SubjectInput, deleteMode: Boolean): Subject
     deleteSubject(_id: ID): Subject
 
+    createModule(input: ModuleInput): Module
+    editModule(_id: ID, input: ModuleInput): Module
+    deleteModule(_id: ID): Module
+
     createClass(input: ClassInput): Class
     editClass(_id: ID, input: ClassInput): Class
-    uploadClassFile(file: Upload, classId: ID): File
+    deleteClass(_id: ID): Module
+    uploadClassFile(file: Upload!, classId: ID!): File
 
     createStudentsWithCsv(file: Upload, courseId: ID): File
+    createTeachersWithCsv(file: Upload): File
   }
 
   # ---------------------------
@@ -71,7 +78,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -87,7 +94,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -103,11 +110,18 @@ export default gql`
   # ---------------------------
   type User {
     _id: ID
-    dni: Int
+    dni: String!
     name: String
     password: String
-    email: String
+    email: String!
     role: String
+  }
+
+  input UserInput {
+    _id: ID
+    dni: String!
+    email: String!
+    password: String
   }
 
   type Error {
@@ -121,19 +135,12 @@ export default gql`
     error: Error
   }
 
-  input UserInput {
-    _id: ID
-    dni: Int
-    email: String
-    password: String
-  }
-
   # ---------------------------
   type Teacher {
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -149,7 +156,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -165,7 +172,7 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
@@ -181,13 +188,14 @@ export default gql`
     _id: ID
     name: String
     lastname: String
-    dni: Int
+    dni: String
     email: String
     whatsapp: String
     address: String
     birthday: String
     picture: String
     user: [UserInput]
+    course: ID
   }
 
   # ---------------------------
@@ -233,6 +241,7 @@ export default gql`
     teacher: Teacher
     course: Course
     classes: [Class]
+    modules: [Module]
   }
   input SubjectInput {
     _id: ID

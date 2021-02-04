@@ -7,19 +7,23 @@ import {
   ScrollView,
   Button,
   Alert,
+  ActivityIndicator,
 } from "react-native";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_STUDENTS } from "./SuperAdminListStudents";
+import { Picker } from "@react-native-picker/picker";
+import CenterView from "../../utils/CenterView";
 
 const ADD_STUDENT = gql`
   mutation AddStudent(
-    $dni: Int!
+    $dni: String!
     $name: String!
     $email: String!
     $lastname: String!
     $whatsapp: String!
     $picture: String
     $address: String
+    $course: ID
   ) {
     createStudent(
       input: {
@@ -30,6 +34,7 @@ const ADD_STUDENT = gql`
         whatsapp: $whatsapp
         picture: $picture
         address: $address
+        course: $course
       }
     ) {
       name
@@ -37,20 +42,32 @@ const ADD_STUDENT = gql`
   }
 `;
 
+const GET_ALL_COURSES = gql`
+  {
+    courses {
+      _id
+      name
+    }
+  }
+`;
+
 function AddStudentScreen({ navigation }) {
+  const { data: dataGet, loading: loadingGet, error: errorGet } = useQuery(
+    GET_ALL_COURSES
+  );
   const [student, setStudent] = useState({
     name: "",
     lastname: "",
     dni: "",
     email: "",
     whatsapp: "",
-    course: "",
     address: "",
     birthday: "",
     picture: "",
+    course: "",
   });
 
-  const [createStudent, { error }] = useMutation(ADD_STUDENT);
+  const [createStudent, { error, loading }] = useMutation(ADD_STUDENT);
 
   const handleChange = (name, value) => {
     setStudent({ ...student, [name]: value });
@@ -64,9 +81,18 @@ function AddStudentScreen({ navigation }) {
     whatsapp,
     address,
     picture,
+    course
   }) => {
     try {
-      dni = parseInt(dni);
+      console.log('variables: ',name,
+        lastname,
+        dni,
+        email,
+        whatsapp,
+        address,
+        picture,
+        course)
+      if (course){
       await createStudent({
         variables: {
           name,
@@ -76,9 +102,24 @@ function AddStudentScreen({ navigation }) {
           whatsapp,
           address,
           picture,
+          course
         },
         refetchQueries: [{ query: GET_STUDENTS }],
-      });
+      })}
+      else {
+        await createStudent({
+          variables: {
+            name,
+            lastname,
+            dni,
+            email,
+            whatsapp,
+            address,
+            picture,
+          },
+          refetchQueries: [{ query: GET_STUDENTS }],
+        })
+      }
       if (error) {
         console.log(error);
         return false;
@@ -97,70 +138,108 @@ function AddStudentScreen({ navigation }) {
     } catch (err) {
       console.error("soy el catch", err);
     }
+  
   };
 
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Datos del Alumno</Text>
+  if (loadingGet || loading)
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
 
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholder="Nombre"
-            onChangeText={(value) => handleChange("name", value)}
-          />
+  if (dataGet) {
+    const courses = dataGet.courses;
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Datos del Alumno</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Apellido"
-            onChangeText={(value) => handleChange("lastname", value)}
-          />
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre"
+              onChangeText={(value) => handleChange("name", value)}
+            />
 
-          {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
+            <TextInput
+              style={styles.input}
+              placeholder="Apellido"
+              onChangeText={(value) => handleChange("lastname", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={(value) => handleChange("email", value)}
-          />
+            {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
 
-          <TextInput
-            style={styles.input}
-            placeholder="Telefono"
-            onChangeText={(value) => handleChange("whatsapp", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={(value) => handleChange("email", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Direccion"
-            onChangeText={(value) => handleChange("address", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Telefono"
+              onChangeText={(value) => handleChange("whatsapp", value)}
+            />
 
-          {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
+            <TextInput
+              style={styles.input}
+              placeholder="Direccion"
+              onChangeText={(value) => handleChange("address", value)}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Foto"
-            onChangeText={(value) => handleChange("picture", value)}
-          />
+            {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
 
-          <TextInput
-            style={styles.input}
-            placeholder="DNI"
-            onChangeText={(value) => handleChange("dni", value)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Foto"
+              onChangeText={(value) => handleChange("picture", value)}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="DNI"
+              onChangeText={(value) => handleChange("dni", value)}
+            />
+          </View>
+          <View>
+            <Picker
+              selectedValue={student.course}
+              style={{ height: 200, width: 150 }}
+              onValueChange={(value) => handleChange("course", value)}
+            >
+              <Picker.Item label="" value='null' />
+              {courses.length ? (
+                courses.map((course) => {
+                  return (
+                  <Picker.Item key={course._id} label={course.name} value={course._id} />);
+                })
+              ) : (
+                <CenterView>
+                  <Text>No hay cursos agregados</Text>
+                </CenterView>
+              )}
+            </Picker>
+          </View>
+
+          <View>
+            <Button
+              style={styles.button}
+              title="Agregar Alumno"
+              onPress={() => handleOnPress(student)}
+            />
+          </View>
         </View>
-        <View>
-          <Button
-            style={styles.button}
-            title="Agregar Alumno"
-            onPress={() => handleOnPress(student)}
-          />
-        </View>
+      </ScrollView>
+    );
+  } else if (errorGet || error) {
+    return (
+      <View>
+        <Text>ERROR</Text>
       </View>
-    </ScrollView>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

@@ -9,40 +9,42 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { assertLeafType } from "graphql";
 
-export const GET_ALL_CLASSES_MODULES = gql`
-  query GetClassesFromModules($_id: ID) {
-    modules(_id: $_id) {
+export const GET_ALL_MODULES_SUBJECT = gql`
+  query GetModulesFromSubjects($_id: ID) {
+    subjects(_id: $_id) {
       _id
       name
-      classes {
+      modules {
         _id
         name
-      } 
+      }
     }
   }
 `;
-const DELETE_CLASS = gql`
-  mutation DeleteClass($_id: ID) {
-    deleteClass(_id: $_id) {
+
+const DELETE_MODULE_BY_ID = gql`
+  mutation DeleteModule($_id: ID) {
+    deleteModule(_id: $_id) {
+      _id
       name
     }
   }
 `;
 
+const TeacherListModules = ({ navigation, route }) => {
+  const { _id } = route.params.params;
 
-const TeacherListClasses = ({ navigation, route }) => {
-  console.log("Data ruta ", route);
-
-  const _id = route.params.params.id; // aca llega id de subjects
-  const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
+  const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
-
-  const [deleteClass, mutationData] = useMutation(DELETE_CLASS);
+  // console.log("data en unidades ", data)
+  // console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
+  const [deleteModule, mutationData] = useMutation(DELETE_MODULE_BY_ID);
 
   if (loading || mutationData.loading) {
     return (
@@ -53,7 +55,7 @@ const TeacherListClasses = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationData.error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -62,66 +64,76 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    // console.log('soy data',data)
-    const  classes  = data.modules[0];
+    const { modules } = data.subjects[0];
 
     return (
       <ScrollView>
         <View style={styles.cont}>
           <TouchableHighlight
             style={styles.touch}
-            activeOpacity={0.6}
             underlayColor=""
-            onPress={() => navigation.navigate("AddClassToModule", {params: { id:_id}})}
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate("AddModuleToSubject", { params: { _id } })
+            }
           >
-            <Text style={styles.touchText}>Agregar Clase</Text>
+            <Text style={styles.touchText}>Agregar Unidad</Text>
           </TouchableHighlight>
 
-          {classes ? (
+          {modules.length ? (
             <Card>
-              <Card.Title>Clases de {classes.name}</Card.Title>
+              <Card.Title>Unidades de {modules[0].name}</Card.Title>
               <Card.Divider />
-              {classes.classes.map((clase, i) => {
+              {modules.map((module, i) => {
                 return (
-                  <View key={clase._id} style={styles.cardIn}>
-                    <Text style={{ fontSize: 18 }}>{clase.name}</Text>
+                  <View key={module._id} style={styles.cardIn}>
+                    <Text style={{ fontSize: 18 }}>{module.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
                       onPress={() =>
-                        navigation.navigate("ClassDetail", {
-                          screen: "ClassDetail",
-                          params: { id: clase._id },
+                        navigation.navigate("TeacherListClasses", {
+                          screen: "TeacherListClasses",
+                          params: { id: module._id },
                         })
                       }
                     >
-                      <Text style={styles.textHigh}>Detalle</Text>
+                      <Text style={styles.textHigh}>Clases</Text>
                     </TouchableHighlight>
                     <View>
                       <TouchableHighlight
                         activeOpacity={0.6}
+                        underlayColor=""
                         style={styles.onPress}
-                        onPress={() =>
-                          Alert.alert(
-                            "Eliminar Clase",
-                            `¿Está seguro que desea eliminar la clase ${clase.name}?`,
-                            [
-                              {
-                                text: "Cancelar",
-                                style: "cancel",
-                              },
-                              {
-                                text: "OK",
-                                onPress: () =>
-                                  deleteClass({
-                                    variables: { _id: clase._id },
-                                    refetchQueries: [
-                                      { query: GET_ALL_CLASSESS_MODULES },
-                                    ],
-                                  }),
-                              },
-                            ]
-                          )
+                        onPress={async () =>
+                          await deleteModule({
+                            variables: { _id: module._id }, 
+                            refetchQueries: [
+                              { query: GET_ALL_MODULES_SUBJECT },
+                            ],
+                          })
+
+                          // Alert.alert(
+                          //   "Eliminar Unidad",
+                          //   `¿Está seguro que desea eliminar la unidad:
+                          //    "${module.name}"?`,
+                          //   [
+                          //     {
+                          //       text: "Cancelar",
+                          //       style: "cancel",
+                          //     },
+                          //     {
+                          //       text: "OK",
+                          //       onPress: async () =>
+                          //         await deleteModule({
+                          //           variables: { _id: module._id }, 
+                          //           refetchQueries: [
+                          //             { query: GET_ALL_MODULES_SUBJECT },
+                          //           ],
+                          //         }),
+                          //     },
+                          //   ]
+                          // )
                         }
                       >
                         <Text style={styles.img}>X</Text>
@@ -133,7 +145,7 @@ const TeacherListClasses = ({ navigation, route }) => {
             </Card>
           ) : (
             <CenterView>
-              <Text>NO HAY CLASES EN ESTA UNIDAD</Text>
+              <Text>NO HAY UNIDADES EN ESTA ASIGNATURA</Text>
             </CenterView>
           )}
         </View>
@@ -166,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 15,
     width: 30,
-    height: 30,
+    height: 32,
     justifyContent: "center",
   },
   container: {
@@ -201,33 +213,22 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
     width: 334,
     justifyContent: "space-between",
     display: "flex",
-    
-    // marginTop: 20,
-    // marginBottom: 20,
-    // maxWidth: 900,
+    marginTop: 10,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
     borderRadius: 3,
-  },
-  buttonDel: {
-    backgroundColor: "red",
-    padding: 5,
-    borderRadius: 3,
-  },
-  buttonEx: {
-    backgroundColor: "#2290CD",
-    padding: 7,
-    borderRadius: 3,
-    width: 24,
+    //marginLeft: 100,
   },
   textHigh: {
     color: "white",
   },
 });
-export default TeacherListClasses;
+export default TeacherListModules;
+
+

@@ -28,7 +28,7 @@ export const GET_STUDENTS_FROM_COURSE = gql`
 `;
 
 const TeacherListStudents = ({ navigation, route }) => {
-  const { _id }  = route.params.params;
+  const { _id } = route.params.params;
   const { data, loading, error } = useQuery(GET_STUDENTS_FROM_COURSE, {
     variables: { _id },
   });
@@ -51,51 +51,55 @@ const TeacherListStudents = ({ navigation, route }) => {
   }
 
   if (data) {
-    // const students = data.courses[0].students;
     const students = data.courses[0].students;
 
     return (
       <View style={styles.centerView}>
         <View style={styles.principal}>
+          <View style={styles.touch}>
+            <Text style={styles.touchText}>
+              ALUMNOS DE {data.courses[0].name}{" "}
+            </Text>
+          </View>
           {students.length > 0 ? (
-          <FlatList
-            data={students}
-            renderItem={({ item: { _id, name, lastname } }) => {
-              // {
-              //   console.log("este es el item: ", item);
-              // }
-              return (
-                <Card key={_id} style={styles.card}>
-                  <View style={styles.cardcont}>
-                    <View style={styles.alum}>
-                      <TouchableHighlight
-                        activeOpacity={0.6}
-                        onPress={() =>
-                          navigation.navigate("Cursos", {
-                            screen: "StudentDetail",
-                            params: { _id },
-                        })}
-                      >
-                        <Text style={styles.name}>{`${name} ${lastname}`}</Text>
-                      </TouchableHighlight>
+            <FlatList
+              data={students}
+              renderItem={({ item: { _id, name, lastname } }) => {
+                return (
+                  <Card key={_id} style={styles.card}>
+                    <View style={styles.cardcont}>
+                      <View style={styles.alum}>
+                        <TouchableHighlight
+                          activeOpacity={0.6}
+                          underlayColor=""
+                          onPress={() =>
+                            navigation.navigate("Cursos", {
+                              screen: "StudentDetail",
+                              params: { _id },
+                            })
+                          }
+                        >
+                          <Text
+                            style={styles.name}
+                          >{`${name} ${lastname}`}</Text>
+                        </TouchableHighlight>
+                      </View>
                     </View>
-                  </View>
-                </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
-         ) : (
-          <CenterView>
-            <Text>Este Curso no tiene Estudiantes</Text>
-          </CenterView>
-        )}
+                  </Card>
+                );
+              }}
+              keyExtractor={({ _id }) => _id}
+            />
+          ) : (
+            <CenterView>
+              <Text>Este Curso no tiene Estudiantes</Text>
+            </CenterView>
+          )}
         </View>
       </View>
     );
   }
 };
-
 
 const styles = StyleSheet.create({
   centerView: {
@@ -122,36 +126,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginRight: 14,
   },
-  img: {
-    width: 14,
-    height: 14,
-    marginTop: 10,
-    marginRight: 25,
-  },
   name: {
     fontSize: 16,
     width: 280,
-    // fontFamily: "roboto",
     color: "#000000",
+    marginTop: 10,
     marginLeft: 10,
     fontWeight: "bold",
-  },
-  desc: {
-    flexDirection: "row",
-  },
-  description: {
-    fontSize: 14,
-    // fontFamily: "roboto",
-    color: "#000000",
-    marginLeft: 10,
   },
   touchText: {
     marginTop: 15,
     marginBottom: 15,
-    // fontFamily: "roboto",
     fontSize: 14,
     alignItems: "flex-start",
     color: "#2290CD",
+    width: 180,
   },
   touch: {
     justifyContent: "flex-start",

@@ -12,6 +12,7 @@ import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 import { GET_SUBJECTS_FROM_COURSE_BY_ID } from "./SuperAdminListSubjects";
+import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers"
 
 const GET_SUBJECT_BY_ID = gql`
   query GetSubjectById($_id: ID) {

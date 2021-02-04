@@ -10,7 +10,9 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  files: [{ type: String }],
+  files: [
+    { type: String }
+  ],
   homework: {
     type: String,
   },
@@ -19,6 +21,11 @@ const classSchema = new Schema({
   },
   test: {
     type: String,
+  },
+  module: {
+    type: Schema.Types.ObjectId,
+    ref: "Module",
+    autopopulate: true,
   },
 });
 

@@ -124,7 +124,6 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                     <TouchableHighlight
                       activeOpacity={0.6}
                       style={styles.buttonEx}
-                      underlayColor="ligthgrey"
                       onPress={() =>
                         Alert.alert(
                           "Eliminar curso",

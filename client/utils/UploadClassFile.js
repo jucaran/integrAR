@@ -4,10 +4,13 @@ import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_CLASS_FILE } from "./graphql";
+import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass";
 
-export default function UploadClassFile() {
+export default function UploadClassFile({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_CLASS_FILE);
   const [file, setFile] = useState();
+  const classId = route.params.params._id;
+  //console.log("classId", classId);
 
   const pickFile = async () => {
     try {
@@ -55,11 +58,19 @@ export default function UploadClassFile() {
         <Text>Pick file</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() =>
-          sendFile({
-            variables: { file, classId: "601474c919cd38595fb64eb3" },
-          })
-        }
+        onPress={() => {
+          try {
+            sendFile({
+              variables: { file, classId },
+              refetchQueries: [
+                [{ query: GET_CLASS_BY_ID, variables: { _id: classId } }],
+              ],
+            });
+            navigation.pop();
+          } catch (err) {
+            console.log(err);
+          }
+        }}
       >
         <Text>Upload file</Text>
       </TouchableOpacity>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext }  from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import { AuthContext } from "../../providers/AuthProvider";
 import {
   View,
   Text,
@@ -13,10 +14,11 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 
 export const GET_ALL_SUBJECTS_TEACHER = gql`
-  query GetSubjectsFromCourseId($_id: ID) {
-    teachers(_id: $_id) {
+  query GetSubjectsFromCourseId($dni: String) {
+    teachers(dni: $dni) {
       _id
       name
+      dni
       subjects {
         _id
         name
@@ -25,10 +27,11 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
   }
 `;
 
-const TeacherListSubjects = ({ navigation, route }) => {
-  const { _id } = route.params;
+const TeacherListSubjects = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+  const { dni } = user
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
-    variables: { _id },
+    variables: { dni },
   });
 
   if (loading) {
@@ -79,11 +82,11 @@ const TeacherListSubjects = ({ navigation, route }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
-                      underlayColor="lightgrey"
+                      underlayColor=""
                       onPress={() =>
-                        navigation.navigate("TeacherListUnits", {
-                          screen: "TeacherListUnits",
-                          params: { id: subject._id },
+                        navigation.navigate("TeacherListModules", {
+                          screen: "TeacherListModules",
+                          params: { _id: subject._id },
                         })
                       }
                     >
