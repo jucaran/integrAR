@@ -56,7 +56,7 @@ export const uploadClassFile = async (_, { file, classId }) => {
 
   await new Promise((res) =>
     createReadStream()
-      .pipe(fs.createWriteStream(path.join(fileDir, classId, filename)))
+      .pipe(fs.createWriteStream(path.join(fileDir, filename)))
       .on("error", function (err) {
         console.log(err);
       })
