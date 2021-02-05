@@ -6,7 +6,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableHighlight,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
@@ -24,10 +24,12 @@ export const GET_CLASSES_BY_ID = gql`
 `;
 
 function ClassDetail({ navigation, route }) {
-  const _id  = route.params.params.id;
+  const _id = route.params.id;
   const { data, loading, error } = useQuery(GET_CLASSES_BY_ID, {
     variables: { _id },
   });
+
+  console.log(route.params);
 
   if (loading) {
     return (
@@ -47,40 +49,40 @@ function ClassDetail({ navigation, route }) {
   }
 
   if (data) {
-    const clase = data.classes[0]
+    const clase = data.classes[0];
     //console.log("clase: ", clase)
- 
+
     return (
       <CenterView>
         {/* <View style={styles.centerView}> */}
-          <View style={styles.principal}>
-            <Text style={styles.name}>
-              {/* En construcción */}
-              Clase: {`${clase.name}`}
-            </Text>
-            <TouchableHighlight
-              style={styles.button}
-              activeOpacity = {0.6}
-              onPress = {() => 
+        <View style={styles.principal}>
+          <Text style={styles.name}>
+            {/* En construcción */}
+            Clase: {`${clase.name}`}
+          </Text>
+          <TouchableHighlight
+            style={styles.button}
+            activeOpacity={0.6}
+            onPress={() =>
               navigation.navigate("FilesFromClass", {
-                params: { id: clase._id }
-              })}
-            >
-              <Text style={styles.textHigh}>Archivos</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={styles.button}
-              activeOpacity = {0.6}
-              onPress = {() => 
-              navigation.navigate("HomeworkFromClass", {
-                params: { id: clase._id }
-              })}
-            >
+                params: { id: clase._id },
+              })
+            }
+          >
+            <Text style={styles.textHigh}>Archivos</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate("HomeworkFromClass", { id: clase._id })
+            }
+          >
             <Text style={styles.textHigh}>Tareas</Text>
-            </TouchableHighlight>
-          </View>
+          </TouchableHighlight>
+        </View>
         {/* </View> */}
-      </CenterView> 
+      </CenterView>
     );
   }
 }

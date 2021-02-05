@@ -1,4 +1,4 @@
-import React, { useContext }  from "react";
+import React, { useContext } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { AuthContext } from "../../providers/AuthProvider";
 import {
@@ -22,10 +22,10 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
       subjects {
         _id
         name
-        course{
-        name
-        _id
-  }
+        course {
+          name
+          _id
+        }
       }
     }
   }
@@ -33,7 +33,7 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 
 const TeacherListSubjects = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  const { dni } = user
+  const { dni } = user;
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { dni },
   });
@@ -56,6 +56,7 @@ const TeacherListSubjects = ({ navigation }) => {
   }
 
   if (data) {
+    console.log(data);
     const subjects = data.teachers[0].subjects;
     return (
       <ScrollView>
@@ -67,7 +68,9 @@ const TeacherListSubjects = ({ navigation }) => {
         >
           {subjects.length ? (
             <Card>
-              <Card.Title>MATERIAS DE {data.teachers[0].name.toUpperCase()}</Card.Title>
+              <Card.Title>
+                MATERIAS DE {data.teachers[0].name.toUpperCase()}
+              </Card.Title>
               <Card.Divider />
               {subjects.map((subject, i) => {
                 return (
@@ -83,7 +86,7 @@ const TeacherListSubjects = ({ navigation }) => {
                     }}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    <Text style={{ fontSize: 16 }}>{subject.course.name}</Text>
+                    <Text style={{ fontSize: 16 }}>{subject.course?.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}

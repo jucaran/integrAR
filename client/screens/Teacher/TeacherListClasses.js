@@ -21,7 +21,7 @@ export const GET_ALL_CLASSES_MODULES = gql`
       classes {
         _id
         name
-      } 
+      }
     }
   }
 `;
@@ -34,15 +34,16 @@ const DELETE_CLASS = gql`
   }
 `;
 
-
 const TeacherListClasses = ({ navigation, route }) => {
-
   const _id = route.params.params.id; // aca llega id de subjects
   const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
     variables: { _id },
   });
 
-  const [deleteClass, {data: mutationData, loading: mutationLoading, error: mutationError}] = useMutation(DELETE_CLASS);
+  const [
+    deleteClass,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_CLASS);
 
   if (loading || mutationLoading) {
     return (
@@ -62,7 +63,7 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    const  classes  = data.modules[0];
+    const classes = data.modules[0];
 
     return (
       <ScrollView>
@@ -71,7 +72,7 @@ const TeacherListClasses = ({ navigation, route }) => {
             style={styles.touch}
             activeOpacity={0.6}
             underlayColor=""
-            onPress={() => navigation.navigate("AddClassToModule", {params: { id:_id}})}
+            onPress={() => navigation.navigate("AddClassToModule", { id: _id })}
           >
             <Text style={styles.touchText}>Agregar Clase</Text>
           </TouchableHighlight>
@@ -101,7 +102,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                         activeOpacity={0.6}
                         underlayColor=""
                         style={styles.onPress}
-                        onPress={ async () =>
+                        onPress={async () =>
                           await Alert.alert(
                             "Eliminar Clase",
                             `¿Está seguro que desea eliminar la clase: ${clase.name}?`,

@@ -9,8 +9,9 @@ import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass";
 export default function UploadClassFile({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_CLASS_FILE);
   const [file, setFile] = useState();
-  const classId = route.params.params._id;
-  //console.log("classId", classId);
+  const classId = route.params?.params._id;
+  console.log("classId", classId);
+  console.log("route params: ", route.params);
 
   const pickFile = async () => {
     try {
