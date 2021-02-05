@@ -36,7 +36,7 @@ import {
   deleteClass,
   uploadClassFile,
   uploadDelivery,
-  uploadDelivery,
+  uploadHomework,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
