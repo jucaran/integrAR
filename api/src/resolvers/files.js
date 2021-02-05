@@ -42,7 +42,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
         whatsapp,
         address,
         birthday,
-        course: courseId,
+        course: courseId ? courseId : null,
       }).save();
     });
 
@@ -51,12 +51,14 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     const students = await Promise.all(studentPromises);
 
     // Once the Promise all is finished we add each student to the course given by args
-    const course = await Course.findById(courseId);
-    if (course) {
-      students.forEach(async (student) => {
-        course.students.push(student._id);
-      });
-      await course.save();
+    if (courseId) {
+      const course = await Course.findById(courseId);
+      if (course) {
+        students.forEach(async (student) => {
+          course.students.push(student._id);
+        });
+        await course.save();
+      }
     }
 
     const passwords = [];

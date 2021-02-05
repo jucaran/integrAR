@@ -5,7 +5,7 @@ import { sendMailWithPassword } from "../mail";
 import Course from "../models/Course";
 
 // Query
-export const allStudents = async (_, args, ctx) => {
+export const allStudents = async (_, args) => {
   if (args._id) {
     return await Student.find({ _id: args._id });
   } else if (args.dni) {
@@ -16,7 +16,7 @@ export const allStudents = async (_, args, ctx) => {
 };
 
 // Mutations
-export const createStudent = async (_, args, ctx) => {
+export const createStudent = async (_, args) => {
   let newStudent = await new Student(args.input).save();
   const CourseId = args.input.course;
 
@@ -50,7 +50,7 @@ export const createStudent = async (_, args, ctx) => {
   return newStudent;
 };
 
-export const editStudent = async (_, args, ctx) => {
+export const editStudent = async (_, args) => {
   // return await Student.findByIdAndUpdate(
   //   args._id,
   //   { $push: args.input },
@@ -64,12 +64,13 @@ export const editStudent = async (_, args, ctx) => {
   for (const key in inputs) {
     key ? (student[key] = inputs[key]) : student[key];
   }
-
-  await student.save();
-
-  return student;
+  return await student.save();
 };
 
 export const deleteStudent = async (_, args, ctx) => {
   return await Student.findByIdAndDelete(args._id);
+};
+
+export const getStudentsWithoutCourse = async (_) => {
+  return await Student.find({ course: { $exists: false } });
 };

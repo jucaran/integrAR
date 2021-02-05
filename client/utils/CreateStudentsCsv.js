@@ -14,9 +14,9 @@ import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
 import { Card } from "react-native-paper";
 
-export default function CreateStudentsWithCsv({navigation, route}) {
-  const id = route.params?.params.id
-  console.log('soy route de Create CSV', id)
+export default function CreateStudentsWithCsv({ navigation, route }) {
+  const id = route.params?.id;
+  console.log("soy route de Create CSV", id);
   const [sendFile, { data, loading, error }] = useMutation(
     CREATE_STUDENTS_WITH_CSV
   );
@@ -36,9 +36,6 @@ export default function CreateStudentsWithCsv({navigation, route}) {
   const [file, setFile] = useState();
   const [typeError, setTypeError] = useState();
   const [imageState, setImageState] = useState(normalSize);
-
-  // The courseId should be received by route params
-  const courseId = id;
 
   const pickFile = async () => {
     try {
@@ -114,13 +111,14 @@ export default function CreateStudentsWithCsv({navigation, route}) {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.onPress}
-          onPress={() =>
-            // First we check that we have a correct file and then we send it
-            file &&
-            sendFile({
-              variables: { file, courseId },
-              refetchQueries: [{ query: GET_STUDENTS }],
-            }) //.navigation.pop()
+          onPress={
+            () =>
+              // First we check that we have a correct file and then we send it
+              file &&
+              sendFile({
+                variables: { file, courseId: id ? id : null },
+                refetchQueries: [{ query: GET_STUDENTS }],
+              }) //.navigation.pop()
           }
         >
           <Text style={styles.btn}>Enviar archivo .csv</Text>
