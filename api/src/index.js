@@ -37,9 +37,15 @@ SERVER.applyMiddleware({
   app,
 });
 
-app.get("/download/:name", function (req, res) {
-  const { name } = req.params;
-  res.download(path.join(__dirname, `./uploads/${name}`));
+app.get("/download/teachers/:classId/:name", function (req, res) {
+  const { name, classId } = req.params;
+  res.download(path.join(__dirname, "uploads", "teachers", classId, name));
+});
+
+app.get("/download/students/:classId/:name", function (req, res) {
+  console.log(req);
+  const { classId, name } = req.params;
+  res.download(path.join(__dirname, "uploads", "students", classId, name));
 });
 
 app.set("port", PORT);

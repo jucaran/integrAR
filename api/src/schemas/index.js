@@ -36,6 +36,7 @@ export default gql`
     createStudent(input: StudentInput): Student
     editStudent(_id: ID, input: StudentInput): Student
     deleteStudent(_id: ID): Student
+    getStudentsWithoutCourse: [StudentWithoutCourse]
 
     createGrade(input: GradeInput): Grade
     editGrade(_id: ID, input: GradeInput): Grade
@@ -63,8 +64,9 @@ export default gql`
     editClass(_id: ID, input: ClassInput): Class
     deleteClass(_id: ID): Module
     uploadClassFile(file: Upload!, classId: ID!): File
+    uploadDelivery(file: Upload!, classId: ID!, dni: String!): File
 
-    createStudentsWithCsv(file: Upload, courseId: ID): File
+    createStudentsWithCsv(file: Upload!, courseId: ID): File
     createTeachersWithCsv(file: Upload): File
   }
 
@@ -184,6 +186,19 @@ export default gql`
     subjects: [Subject]
     user: [User]
   }
+
+  type StudentWithoutCourse {
+    _id: ID
+    name: String
+    lastname: String
+    dni: String
+    email: String
+    whatsapp: String
+    address: String
+    birthday: String
+    picture: String
+  }
+
   input StudentInput {
     _id: ID
     name: String
