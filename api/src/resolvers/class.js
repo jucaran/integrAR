@@ -76,8 +76,9 @@ export const uploadClassFile = async (_, { file, classId }) => {
  * so in the front we can call it to download it
  */
 export const uploadDelivery = async (_, { file, classId, dni }) => {
-  const { createReadStream } = await file;
+  const { createReadStream, filename } = await file;
   const fileDir = path.join(__dirname, "../uploads", "students", classId);
+  const fileType = filename.split(".").pop();
 
   const _class = await Class.findById(classId);
 
@@ -92,7 +93,7 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
 
   await new Promise((res) =>
     createReadStream()
-      .pipe(fs.createWriteStream(path.join(fileDir, dni)))
+      .pipe(fs.createWriteStream(path.join(fileDir, `${dni}.${fileType}`)))
       .on("error", function (err) {
         console.log(err);
       })
