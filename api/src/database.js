@@ -10,10 +10,11 @@ export async function connect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      useCreateIndex: true,
     });
     console.log(">>> DB is connected");
   } catch (err) {
-    console.log("Something goes wrong");
-    console.log(err);
+    console.log("Something went wrong");
+    console.error(err);
   }
 }
