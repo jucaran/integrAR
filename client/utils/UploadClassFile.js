@@ -62,7 +62,7 @@ export default function UploadClassFile({ navigation, route }) {
             sendFile({
               variables: { file, classId },
               refetchQueries: [
-                [{ query: GET_CLASS_BY_ID, variables: { _id: classId } }],
+                { query: GET_CLASS_BY_ID, variables: { _id: classId } },
               ],
             });
             navigation.pop();
