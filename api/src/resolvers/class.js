@@ -84,7 +84,7 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
 
   if (!_class) return { status: false };
 
-  _class.deliveries.push(dni);
+  _class.deliveries.push(`${dni}.${fileType}`);
   _class.save();
 
   if (!fs.existsSync(fileDir)) {
