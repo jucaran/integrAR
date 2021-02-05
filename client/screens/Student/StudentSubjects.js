@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from "react-native";
+import { Divider } from 'react-native-paper';
 
 export const GET_A_STUDENT_SUBJECTS = gql`
   query GetAStudentSubjects($dni: String) {
@@ -32,10 +33,10 @@ const colors = [
   "#F91E1E",
   "#DC1EF6",
   "#F61E49",
-  "#86FB11",
+  "#70CE12",
   "#1CCC71",
   "#CC741C",
-  "#1EF6BB",
+  "#35C8B4",
   "#1EA4F6",
   "#F61E2B",
   "#F61EA1",
@@ -77,11 +78,10 @@ const StudentsSubjects = ({ navigation }) => {
 
   if (data) {
     const student = data.students[0];
-    console.log(student.course.subjects);
 
     return (
       <CenterView>
-        <Text style={styles.text}>Curso: {student.course.name}</Text>
+        <Text style={styles.text}>{student.course.name}</Text>
         {student.course.subjects.length ? (
           <FlatList
             data={student.course.subjects}
@@ -132,14 +132,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     fontSize: 20,
+    color: "#443F3F",
     fontWeight: "bold",
-    color: "#121212",
+    textShadowColor: "#C6B5B5",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   touchText: {
     fontSize: 16,
-    color: "#201F1F",
+    color: "#ECDBDB",
     fontWeight: "bold",
+    textShadowColor: "#232121",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
   },
+  
 });
 
 export default StudentsSubjects;

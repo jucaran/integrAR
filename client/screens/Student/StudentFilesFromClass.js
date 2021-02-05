@@ -89,22 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
   },
-  button: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    marginTop: 15,
-    marginBottom: 15,
-    fontSize: 20,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
   card: {
     margin: 5,
     backgroundColor: "#00aadd",
@@ -114,30 +98,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cardSee: {
-    fontSize: 17,
-    padding: 10,
-    color: "white",
-  },
   cardText: {
     fontSize: 20,
     padding: 10,
     color: "white",
     marginLeft: 20,
-  },
-  onPress: {
-    backgroundColor: "#DE2525",
-    padding: 7,
-    borderRadius: 7,
-    alignItems: "center",
-    marginRight: 15,
-    width: 30,
-    height: 32,
-    justifyContent: "center",
-  },
-  img: {
-    color: "white",
-    fontSize: 18,
   },
   cardIn: {
     flexDirection: "row",
@@ -145,24 +110,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: 344,
   },
-  touchText: {
-    marginTop: 15,
-    marginBottom: 15,
-    // fontFamily: "roboto",
-    fontSize: 20,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
   name: {
     marginBottom: 5,
     marginLeft: 12,
     fontWeight: "bold",
     fontSize: 15,
     alignItems: "flex-start",
-  },
-  touch: {
-    justifyContent: "flex-start",
-    marginLeft: 12,
+    color: "#272626"
   },
 });
 

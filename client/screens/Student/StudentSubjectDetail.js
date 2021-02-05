@@ -21,7 +21,7 @@ export const GET_ALL_MODULES_SUBJECT = gql`
         _id
         name
       }
-      teacher{
+      teacher {
         name
         lastname
       }
@@ -29,15 +29,11 @@ export const GET_ALL_MODULES_SUBJECT = gql`
   }
 `;
 
-
 const SutudentSubjectDetail = ({ navigation, route }) => {
-  const _id  = route.params.params.id;
-  console.log(_id)
-
+  const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
-  
 
   if (loading) {
     return (
@@ -57,46 +53,50 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log(data)
     const { modules } = data.subjects[0];
 
     return (
       <ScrollView>
         <View style={styles.cont}>
-        <CenterView>
-          <Text>Materia: {data.subjects[0].name}. Profesor: {data.subjects[0].teacher.name} {data.subjects[0].teacher.lastname}</Text>
-        </CenterView>
-            <Card>
-              <Card.Title>Unidades</Card.Title>
-              <Card.Divider />
-          {modules.length ? (
+            <Text style={styles.title}>
+              {data.subjects[0].name} 
+              </Text>
+              <Text style={styles.sTitle}>
+              Profesor:{" "}
+              {data.subjects[0].teacher.name}{" "}
+              {data.subjects[0].teacher.lastname}
+            </Text>
+          <Card>
+            <Card.Title>Unidades</Card.Title>
+            <Card.Divider />
+            {modules.length ? (
               <FlatList
-              data={modules}
-              renderItem={({ item }) => {
-                return (
-                  <View key={item._id} style={styles.cardIn}>
-                  <TouchableHighlight
-                    style={styles.button}
-                    activeOpacity={0.6}
-                    underlayColor="white"
-                    onPress={() =>
-                      navigation.navigate("StudentListClasses", {
-                        params: { id: item._id },
-                      })
-                    }
-                  >
-                    <Text style={styles.textHigh}>{item.name}</Text>
-                  </TouchableHighlight>
-                </View>
-                );
-               }}
-               keyExtractor={({ _id }) => _id}
-               />
-               ) : (
-                 <CenterView>
-              <Text>NO HAY UNIDADES EN ESTA ASIGNATURA</Text>
-            </CenterView>
-          )}
+                data={modules}
+                renderItem={({ item }) => {
+                  return (
+                    <View key={item._id} style={styles.cardIn}>
+                      <TouchableHighlight
+                        style={styles.button}
+                        activeOpacity={0.6}
+                        underlayColor="white"
+                        onPress={() =>
+                          navigation.navigate("StudentListClasses", {
+                            params: { id: item._id },
+                          })
+                        }
+                      >
+                        <Text style={styles.textHigh}>{item.name}</Text>
+                      </TouchableHighlight>
+                    </View>
+                  );
+                }}
+                keyExtractor={({ _id }) => _id}
+              />
+            ) : (
+              <CenterView>
+                <Text>NO HAY UNIDADES EN ESTA ASIGNATURA</Text>
+              </CenterView>
+            )}
           </Card>
         </View>
       </ScrollView>
@@ -105,56 +105,27 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 20,
+    margin: 18,
+    fontWeight: "bold",
+    color: "#272626"
+  },
+  sTitle: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 18,
+    fontSize: 18,
+    marginBottom: 20,
+    fontWeight: "bold",
+    color: "#272626"
+  },
+
   cont: {
     flex: 1,
     padding: 5,
-  },
-  touchText: {
-    marginTop: 5,
-    marginBottom: 15,
-    // fontFamily: "roboto",
-    fontSize: 16,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
-
-  onPress: {
-    backgroundColor: "#DE2525",
-    padding: 7,
-    borderRadius: 7,
-    alignItems: "center",
-    minWidth: 40,
-    minHeight: 39,
-    justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  img: {
-    color: "white",
-    fontSize: 15,
   },
   cardIn: {
     flexDirection: "row",
@@ -167,13 +138,14 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
-    borderRadius: 3,
-    //marginLeft: 100,
+    borderRadius: 7,
+    minWidth: 90,
+    minHeight: 50,
+    justifyContent: "center",
+    alignItems: "center"
   },
   textHigh: {
     color: "white",
   },
 });
 export default SutudentSubjectDetail;
-
-

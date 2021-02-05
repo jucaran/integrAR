@@ -13,6 +13,7 @@ const StudentScreen = ({ navigation }) => {
         ¡Hola {user.name}
         {user.lastname}! Bienvenido
       </Text>
+      <View style={styles.twoImages}>
       <View style={styles.alumn}>
           <TouchableHighlight
             style={styles.touch}
@@ -27,9 +28,28 @@ const StudentScreen = ({ navigation }) => {
                 source={require("../../assets/5836.jpg")}
                 style={styles.img}
               />
-              <Text style={styles.touchText}>MIS MATERIAS</Text>
+              <Text style={styles.touchText}>Mis Materias</Text>
             </View>
           </TouchableHighlight>
+        </View>
+        <View style={styles.alumn}>
+          <TouchableHighlight
+            style={styles.touch}
+            activeOpacity={0.6}
+            underlayColor=""
+            onPress={() =>
+              navigation.navigate("Mis Profesores", {screen:"StudentTeachers"})
+            }
+          >
+            <View style={styles.button}>
+              <Image
+                source={require("../../assets/teacher.jpg")}
+                style={styles.img}
+              />
+              <Text style={styles.touchText}>Mis Profesores</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
         </View>
       <View style={styles.cont}>
         <View style={styles.materias}>
@@ -46,7 +66,7 @@ const StudentScreen = ({ navigation }) => {
                 source={require("../../assets/53571.jpg")}
                 style={styles.img}
               />
-              <Text style={styles.touchText}>MI PERFIL</Text>
+              <Text style={styles.touchText3}>Mi Perfil</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -62,6 +82,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  twoImages: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     justifyContent: "center",
     alignItems: "center",
@@ -72,8 +97,8 @@ const styles = StyleSheet.create({
   },
   img: {
     marginTop: 5,
-    width: 156,
-    height: 168,
+    width: 140,
+    height: 160,
   },
   title: {
     fontSize: 20,
@@ -87,7 +112,17 @@ const styles = StyleSheet.create({
   },
   touchText: {
     fontSize: 18,
-    color: "#000000",
+    color: "#272626",
+    fontWeight: "bold",
+  },
+  touchText3: {
+    fontSize: 18,
+    color: "#272626",
+    fontWeight: "bold",
+    margin: 12
+  },
+  alumn: {
+    margin: 15
   },
 });
 

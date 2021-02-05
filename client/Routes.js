@@ -51,7 +51,7 @@ const Routes = () => {
     //     <AuthStack />
     //   )}
     // </NavigationContainer>
-    <UploadDelivery />
+      //<UploadDelivery />
     <NavigationContainer>
       {user === null ? (
         <AuthStack />
