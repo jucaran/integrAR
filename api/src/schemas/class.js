@@ -5,7 +5,8 @@ export const classTypes = gql`
     _id: ID
     name: String
     files: [String]
-    subject: ID
+    deliveries: [String]
+    subject: Subject
     module: Module
     homework: String
   }
@@ -14,6 +15,7 @@ export const classTypes = gql`
     _id: ID
     name: String
     files: [String]
+    deliveries: [String]
     subject: ID
     module: ID
     homework: String
