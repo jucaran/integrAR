@@ -73,8 +73,8 @@ const ChangePassword = ({ navigation }) => {
 
   return (
     <CenterView>
-      <Text style={styles.title}>CAMBIAR CONTASEÑA</Text>
-      <Text style={styles.description}>Vieja contaseña:</Text>
+      <Text style={styles.title}>CAMBIAR CONTRASEÑA</Text>
+      <Text style={styles.description}>Vieja contraseña:</Text>
       <TextInput
         style={styles.input}
         textContentType="password"

@@ -28,6 +28,7 @@ export const GET_ALL_CLASSES_MODULES = gql`
 const DELETE_CLASS = gql`
   mutation DeleteClass($_id: ID) {
     deleteClass(_id: $_id) {
+      _id
       name
     }
   }
@@ -35,7 +36,6 @@ const DELETE_CLASS = gql`
 
 
 const TeacherListClasses = ({ navigation, route }) => {
-  console.log("Data ruta ", route);
 
   const _id = route.params.params.id; // aca llega id de subjects
   const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
@@ -62,7 +62,6 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    // console.log('soy data',data)
     const  classes  = data.modules[0];
 
     return (
@@ -100,11 +99,12 @@ const TeacherListClasses = ({ navigation, route }) => {
                     <View>
                       <TouchableHighlight
                         activeOpacity={0.6}
+                        underlayColor=""
                         style={styles.onPress}
-                        onPress={() =>
-                          Alert.alert(
+                        onPress={ async () =>
+                          await Alert.alert(
                             "Eliminar Clase",
-                            `¿Está seguro que desea eliminar la clase ${clase.name}?`,
+                            `¿Está seguro que desea eliminar la clase: ${clase.name}?`,
                             [
                               {
                                 text: "Cancelar",
@@ -116,7 +116,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                                   deleteClass({
                                     variables: { _id: clase._id },
                                     refetchQueries: [
-                                      { query: GET_ALL_CLASSESS_MODULES },
+                                      { query: GET_ALL_CLASSES_MODULES },
                                     ],
                                   }),
                               },
