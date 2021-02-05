@@ -9,8 +9,7 @@ import { UPLOAD_DELIVERY } from "./graphql";
 export default function UploadDelivery({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_DELIVERY);
   const [file, setFile] = useState();
-  const classId = "601d511aa01f2b37281152fc";
-  const dni = "52652781";
+  const { dni, classId } = route.params;
 
   const pickFile = async () => {
     try {
@@ -62,9 +61,9 @@ export default function UploadDelivery({ navigation, route }) {
           try {
             sendFile({
               variables: { file, classId, dni },
-              // refetchQueries: [
-              //   [{ query: GET_CLASS_BY_ID, variables: { _id: classId } }],
-              // ],
+              refetchQueries: [
+                { query: GET_CLASS_BY_ID, variables: { _id: classId } },
+              ],
             });
             navigation.pop();
           } catch (err) {
