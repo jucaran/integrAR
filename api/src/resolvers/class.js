@@ -41,14 +41,13 @@ export const deleteClass = async (_, { _id }) =>
  */
 export const uploadClassFile = async (_, { file, classId }) => {
   const { createReadStream, filename } = await file;
-  const storedFilename = path.join(classId, filename);
   const fileDir = path.join(__dirname, "../uploads", "teachers", classId);
 
   const _class = await Class.findById(classId);
 
   if (!_class) return { status: false };
 
-  _class.files.push(storedFilename);
+  _class.files.push(filename);
   _class.save();
 
   if (!fs.existsSync(fileDir)) {
@@ -57,7 +56,7 @@ export const uploadClassFile = async (_, { file, classId }) => {
 
   await new Promise((res) =>
     createReadStream()
-      .pipe(fs.createWriteStream(path.join(fileDir, storedFilename)))
+      .pipe(fs.createWriteStream(path.join(fileDir, classId, filename)))
       .on("error", function (err) {
         console.log(err);
       })
@@ -94,6 +93,40 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
   await new Promise((res) =>
     createReadStream()
       .pipe(fs.createWriteStream(path.join(fileDir, `${dni}.${fileType}`)))
+      .on("error", function (err) {
+        console.log(err);
+      })
+      .on("close", res)
+  );
+
+  return {
+    status: true,
+  };
+};
+
+/* This resolver receives a class id and a file and uploads it to the
+ * /uploads/teachers/:classId folder in the server
+ * also it adds the file name to the "homework" atribute of Class model
+ * so in the front we can call it to download it
+ */
+export const uploadHomework = async (_, { file, classId }) => {
+  const { createReadStream, filename } = await file;
+  const fileDir = path.join(__dirname, "../uploads", "teachers", classId);
+
+  const _class = await Class.findById(classId);
+
+  if (!_class) return { status: false };
+
+  _class.homework = filename;
+  _class.save();
+
+  if (!fs.existsSync(fileDir)) {
+    fs.mkdirSync(fileDir);
+  }
+
+  await new Promise((res) =>
+    createReadStream()
+      .pipe(fs.createWriteStream(path.join(fileDir, classId, filename)))
       .on("error", function (err) {
         console.log(err);
       })

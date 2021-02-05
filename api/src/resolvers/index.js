@@ -36,6 +36,7 @@ import {
   deleteClass,
   uploadClassFile,
   uploadDelivery,
+  uploadDelivery,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
@@ -106,5 +107,6 @@ export default {
     deleteClass,
     uploadClassFile,
     uploadDelivery,
+    uploadHomework,
   },
 };
