@@ -10,12 +10,9 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  files: [
-    { type: String }
-  ],
-  homework: {
-    type: String,
-  },
+  files: [{ type: String }],
+  homework: { type: String },
+  deliveries: [{ type: String }],
   correction: {
     type: String,
   },

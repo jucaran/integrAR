@@ -3,13 +3,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
 import OptionsStack from "../../stacks/AdminStack/OptionsStack";
-import TeacherHomeStack from "../../stacks/TeachersStack/TeachersHomeStack"
-import TeacherSubjectStack from "../../stacks/TeachersStack/TeacherSubjectStack"
-import TeacherCoursesStack from "../../stacks/TeachersStack/TeacherCoursesStack"
+import StudentHomeStack from "../../stacks/StudentStack/StudentHomeStack"
+import StudentSubjectStack from "../../stacks/StudentStack/StudentSubjectStack"
+import StudentProfileStack from "../../stacks/StudentStack/StudentProfileStack"
+import StudentTeachersStack from "../../stacks/StudentStack/StudentTeachersStack"
 
 
 const Tab = createMaterialBottomTabNavigator();
-function TabTeacher() {
+function TabStudent() {
   return (
     <Tab.Navigator
       initialRouteName="Inicio"
@@ -19,7 +20,7 @@ function TabTeacher() {
     >
       <Tab.Screen
         name="Inicio"
-        component={TeacherHomeStack}
+        component={StudentHomeStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -31,8 +32,8 @@ function TabTeacher() {
         }}
       />
        <Tab.Screen
-        name="Materias"
-        component={TeacherSubjectStack}
+        name="Mis Materias"
+        component={StudentSubjectStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -44,8 +45,21 @@ function TabTeacher() {
         }}
       />
       <Tab.Screen
-        name="Cursos"
-        component={TeacherCoursesStack}
+        name="Mi Perfil"
+        component={StudentProfileStack}
+        options={{
+          tabBarIcon: () => {
+            return (
+              <View>
+                <Icon name={"ios-person-outline"} size={25} color={"white"}/>
+              </View>
+            );
+          },
+        }}
+      />
+       <Tab.Screen
+        name="Mis Profesores"
+        component={StudentTeachersStack}
         options={{
           tabBarIcon: () => {
             return (
@@ -73,4 +87,4 @@ function TabTeacher() {
   );
 }
 
-export default TabTeacher;
+export default TabStudent;

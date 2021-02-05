@@ -31,10 +31,12 @@ import {
 import { getModules, createModule, editModule, deleteModule } from "./module";
 import {
   getClasses,
-  uploadClassFile,
   createClass,
   editClass,
   deleteClass,
+  uploadClassFile,
+  uploadDelivery,
+  uploadDelivery,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
@@ -104,5 +106,7 @@ export default {
     editClass,
     deleteClass,
     uploadClassFile,
+    uploadDelivery,
+    uploadHomework,
   },
 };

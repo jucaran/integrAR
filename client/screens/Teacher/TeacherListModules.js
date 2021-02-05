@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
     width: 30,
     height: 32,
     justifyContent: "center",
@@ -205,7 +204,6 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    width: 334,
     justifyContent: "space-between",
     display: "flex",
     marginTop: 10,
