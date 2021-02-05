@@ -13,6 +13,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
+import { LOCAL_IP } from "@env";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -33,7 +34,7 @@ const FilesFromClass = ({ navigation, route }) => {
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
-      `http://localhost:4000/download/teachers/${_id}/${name}`
+      `http://${LOCAL_IP}:4000/download/teachers/${_id}/${name}`
     );
   };
 

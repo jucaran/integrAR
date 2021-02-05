@@ -29,7 +29,7 @@ const ADD_CLASS = gql`
 `
 
 function AddClassToModule({ navigation, route }) {
-  const  _id  = route.params.params.id;
+  const  _id  = route.params?.id;
   const [createClass, {error, loading, data}] = useMutation(ADD_CLASS);
   const [clase, setClase] = useState({
     name: "",
