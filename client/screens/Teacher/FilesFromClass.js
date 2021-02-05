@@ -32,7 +32,9 @@ const FilesFromClass = ({ navigation, route }) => {
   });
 
   const handleFilePress = (name) => {
-    WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
+    WebBrowser.openBrowserAsync(
+      `http://localhost:4000/download/teachers/${_id}/${name}`
+    );
   };
 
   if (loading) {
