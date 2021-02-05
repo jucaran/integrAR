@@ -45,7 +45,7 @@ const Routes = () => {
       ) : user.role === "Teacher" ? (
         <TabTeacher role={user.role} />
       ) : user.role === "Student" ? (
-        <MyTabs role={user.role} />
+        <TabStudent role={user.role} />
       ) : (
         <AuthStack />
       )}
