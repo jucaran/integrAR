@@ -29,7 +29,9 @@ const StudentFilesFromClass = ({ navigation, route }) => {
   });
 
   const handleFilePress = (name) => {
-    WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
+    WebBrowser.openBrowserAsync(
+      `http://localhost:4000/download/teachers/${_id}/${name}`
+    );
   };
 
   if (loading) {
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     alignItems: "flex-start",
-    color: "#272626"
+    color: "#272626",
   },
 });
 
