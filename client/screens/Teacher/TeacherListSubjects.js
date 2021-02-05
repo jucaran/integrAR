@@ -22,6 +22,10 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
       subjects {
         _id
         name
+        course{
+        name
+        _id
+  }
       }
     }
   }
@@ -79,6 +83,7 @@ const TeacherListSubjects = ({ navigation }) => {
                     }}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
+                    <Text style={{ fontSize: 16 }}>{subject.course.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}

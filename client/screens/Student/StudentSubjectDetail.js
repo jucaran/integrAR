@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
+import { FlatList } from "react-native-gesture-handler";
 
 export const GET_ALL_MODULES_SUBJECT = gql`
   query GetModulesFromSubjects($_id: ID) {
@@ -20,6 +21,10 @@ export const GET_ALL_MODULES_SUBJECT = gql`
         _id
         name
       }
+      teacher{
+        name
+        lastname
+      }
     }
   }
 `;
@@ -27,13 +32,14 @@ export const GET_ALL_MODULES_SUBJECT = gql`
 
 const SutudentSubjectDetail = ({ navigation, route }) => {
   const _id  = route.params.params.id;
+  console.log(_id)
 
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
   
 
-  if (loading || mutationData.loading) {
+  if (loading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -42,7 +48,7 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
     );
   }
 
-  if (error || mutationData.error) {
+  if (error) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -51,43 +57,47 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
   }
 
   if (data) {
+    console.log(data)
     const { modules } = data.subjects[0];
 
     return (
       <ScrollView>
         <View style={styles.cont}>
-          <Text>Materia: {data.subjects[0].name}</Text>
-
-          {modules.length ? (
+        <CenterView>
+          <Text>Materia: {data.subjects[0].name}. Profesor: {data.subjects[0].teacher.name} {data.subjects[0].teacher.lastname}</Text>
+        </CenterView>
             <Card>
-              <Card.Title>Unidades de {modules[0].name}</Card.Title>
+              <Card.Title>Unidades</Card.Title>
               <Card.Divider />
-              {modules.map((module, i) => {
+          {modules.length ? (
+              <FlatList
+              data={modules}
+              renderItem={({ item }) => {
                 return (
-                  <View key={module._id} style={styles.cardIn}>
-                    <TouchableHighlight
-                      style={styles.button}
-                      activeOpacity={0.6}
-                      onPress={() =>
-                        navigation.navigate("StudentListClasses", {
-                          screen: "StudentListClasses",
-                          params: { id: module._id },
-                        })
-                      }
-                    >
-                      <Text style={styles.textHigh}>{module.name}</Text>
-                    </TouchableHighlight>
-                    <View>
-                    </View>
-                  </View>
+                  <View key={item._id} style={styles.cardIn}>
+                  <TouchableHighlight
+                    style={styles.button}
+                    activeOpacity={0.6}
+                    underlayColor="white"
+                    onPress={() =>
+                      navigation.navigate("StudentListClasses", {
+                        params: { id: item._id },
+                      })
+                    }
+                  >
+                    <Text style={styles.textHigh}>{item.name}</Text>
+                  </TouchableHighlight>
+                </View>
                 );
-              })}
-            </Card>
-          ) : (
-            <CenterView>
+               }}
+               keyExtractor={({ _id }) => _id}
+               />
+               ) : (
+                 <CenterView>
               <Text>NO HAY UNIDADES EN ESTA ASIGNATURA</Text>
             </CenterView>
           )}
+          </Card>
         </View>
       </ScrollView>
     );
@@ -107,18 +117,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     color: "#2290CD",
   },
-  touch: {
-    justifyContent: "flex-start",
-    marginLeft: 15,
-  },
+
   onPress: {
     backgroundColor: "#DE2525",
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
-    width: 30,
-    height: 32,
+    minWidth: 40,
+    minHeight: 39,
     justifyContent: "center",
   },
   container: {
@@ -153,8 +159,7 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    width: 334,
-    justifyContent: "space-between",
+    justifyContent: "center",
     display: "flex",
     marginTop: 10,
     marginBottom: 10,

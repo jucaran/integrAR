@@ -19,7 +19,7 @@ const StudentScreen = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor=""
             onPress={() =>
-              navigation.navigate("StudentSubjects")
+              navigation.navigate("Mis Materias", {screen:"StudentSubjects"})
             }
           >
             <View style={styles.button}>
@@ -38,7 +38,7 @@ const StudentScreen = ({ navigation }) => {
             activeOpacity={0.6}
             underlayColor=""
             onPress={() =>
-              navigation.navigate("StudentProfile")
+              navigation.navigate("Mi Perfil", {screen: "StudentProfile"})
             }
           >
             <View style={styles.button}>

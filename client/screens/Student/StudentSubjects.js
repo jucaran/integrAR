@@ -3,14 +3,11 @@ import { AuthContext } from "../../providers/AuthProvider";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import { FlatList } from "react-native-gesture-handler";
-import { Card } from "react-native-paper";
 import {
-  View,
   Text,
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 
 export const GET_A_STUDENT_SUBJECTS = gql`
@@ -24,6 +21,7 @@ export const GET_A_STUDENT_SUBJECTS = gql`
         _id
         subjects {
           name
+          _id
         }
       }
     }
@@ -59,7 +57,6 @@ const StudentsSubjects = ({ navigation }) => {
   const { data, loading, error } = useQuery(GET_A_STUDENT_SUBJECTS, {
     variables: { dni },
   });
-  // console.log("data: ", data)
 
   if (loading) {
     return (
@@ -80,31 +77,43 @@ const StudentsSubjects = ({ navigation }) => {
 
   if (data) {
     const student = data.students[0];
-    console.log(student);
+    console.log(student.course.subjects);
 
     return (
       <CenterView>
         <Text style={styles.text}>Curso: {student.course.name}</Text>
-        {student.course.subjects ? (
-          student.course.subjects.map((subject, i) => (
-            <TouchableHighlight
-              key={i}
-              onPress={() => navigation.navigate("StudentSubjectDetail", {params: {id: subject._id}})}
-              style={{
-                backgroundColor: colors[i],
-                margin: 5,
-                borderRadius: 10,
-                padding: 20,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                minWidth: 300,
-                fontWeight: 'bold'
-              }}
-            >
-              <Text style={styles.touchText}>{subject.name}</Text>
-            </TouchableHighlight>
-          ))
+        {student.course.subjects.length ? (
+          <FlatList
+            data={student.course.subjects}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="white"
+                  key={item._id}
+                  onPress={() =>
+                    navigation.navigate("StudentSubjectDetail", {
+                      params: { id: item._id },
+                    })
+                  }
+                  style={{
+                    backgroundColor: colors[index],
+                    margin: 5,
+                    borderRadius: 10,
+                    padding: 20,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minWidth: 300,
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Text style={styles.touchText}>{item.name}</Text>
+                </TouchableHighlight>
+              );
+            }}
+            keyExtractor={({ _id }) => _id}
+          />
         ) : (
           <CenterView>
             <Text>Este curso no tiene materias asignadas</Text>
@@ -123,12 +132,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     fontSize: 20,
-    fontWeight: 'bold',
-    color: "#121212"
+    fontWeight: "bold",
+    color: "#121212",
   },
   touchText: {
     fontSize: 16,
-    color: "#121212"
+    color: "#201F1F",
+    fontWeight: "bold",
   },
 });
 

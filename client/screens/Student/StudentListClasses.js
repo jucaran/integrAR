@@ -6,12 +6,11 @@ import {
   View,
   Text,
   TouchableHighlight,
-  Alert,
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import { gql, useQuery, useMutation } from "@apollo/client";
-import { assertLeafType } from "graphql";
+import { gql, useQuery } from "@apollo/client";
+import { FlatList } from "react-native-gesture-handler";
 
 export const GET_ALL_CLASSES_MODULES = gql`
   query GetClassesFromModules($_id: ID) {
@@ -35,7 +34,7 @@ const StudentListClasses = ({ navigation, route }) => {
   });
 
 
-  if (loading || mutationData.loading) {
+  if (loading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -53,41 +52,45 @@ const StudentListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    // console.log('soy data',data)
-    const  classes  = data.modules[0];
-
+    const  module  = data.modules[0];
+    console.log(module)
     return (
       <ScrollView>
         <View style={styles.cont}>
-          {classes ? (
-            <Card>
-              <Card.Title>Clases de {classes.name}</Card.Title>
-              <Card.Divider />
-              {classes.classes.map((clase, i) => {
-                return (
-                  <View key={clase._id} style={styles.cardIn}>
-                    <Text style={{ fontSize: 18 }}>{clase.name}</Text>
+                <Card style={styles.card}>
+                <Card.Title>Clases de {module.name}</Card.Title>
+                <Card.Divider />
+          {module.classes.length ? (
+             <FlatList
+             data={module.classes}
+             renderItem={({ item }) => {
+               return (
+                 <View style={styles.cardIn} key={item._id}>
+                   <Text style={{ fontSize: 18 }}>{item.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
                       onPress={() =>
                         navigation.navigate("StudentClassDetail", {
                           screen: "StudentClassDetail",
-                          params: { id: clase._id },
+                          params: { id: item._id },
                         })
                       }
                     >
-                      <Text style={styles.textHigh}>Detalle</Text>
+                      <Text style={styles.textHigh}>Ver Clase</Text>
                     </TouchableHighlight>
-                  </View>
-                );
-              })}
-            </Card>
-          ) : (
-            <CenterView>
+                   </View>
+               );
+              }}
+              keyExtractor={({ _id }) => _id}
+              />
+              
+              ) : (
+                <CenterView>
               <Text>NO HAY CLASES EN ESTA UNIDAD</Text>
             </CenterView>
           )}
+          </Card>
         </View>
       </ScrollView>
     );
@@ -102,7 +105,6 @@ const styles = StyleSheet.create({
   touchText: {
     marginTop: 5,
     marginBottom: 15,
-    // fontFamily: "roboto",
     fontSize: 16,
     alignItems: "flex-start",
     color: "#2290CD",
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
     width: 30,
     height: 30,
     justifyContent: "center",
@@ -154,13 +155,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    width: 334,
     justifyContent: "space-between",
     display: "flex",
-    
-    // marginTop: 20,
-    // marginBottom: 20,
-    // maxWidth: 900,
+    margin: 10,
   },
   button: {
     backgroundColor: "#2290CD",

@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, TouchableHighlight } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
 
 export const GET_CLASS_BY_ID = gql`
@@ -17,20 +17,20 @@ export const GET_CLASS_BY_ID = gql`
     classes(_id: $_id) {
       _id
       name
-      files
+      homework
     }
   }
 `;
 
-const StudentFilesFromClass = ({ navigation, route }) => {
+const StudentHomeworkFromClass = ({ navigation, route }) => {
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
 
-  const handleFilePress = (name) => {
-    WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
-  };
+  // const handleFilePress = (name) => {
+  //   WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
+  // };
 
   if (loading) {
     return (
@@ -51,32 +51,17 @@ const StudentFilesFromClass = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0];
-    // console.log(clase);
-
     return (
       <View style={styles.cont}>
-        <Text style={styles.name}>Archivos de la {clase.name}</Text>
-        {clase.files.length ? (
-          <FlatList
-            data={clase.files}
-            renderItem={({ item }) => {
-              return (
-                <Card key={item._id} style={styles.card}>
-                  <View style={styles.cardIn}>
-                    <TouchableOpacity
-                      onPress={() => handleFilePress(item.name)}
-                    >
-                      <Text style={styles.cardText}>{item.name}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </Card>
-              );
-            }}
-            keyExtractor={({ _id }) => _id}
-          />
+        <Text style={styles.name}>Tarea de la {clase.name}</Text>
+        {clase.homework ? (
+          <CenterView>
+          <Text>{clase.homework}</Text>
+          <TouchableHighlight><Text>Subir Tarea</Text></TouchableHighlight>
+          </CenterView>
         ) : (
           <CenterView>
-            <Text>No hay archivos agregados para esta clase</Text>
+            <Text>No hay tarea para esta clase</Text>
           </CenterView>
         )}
       </View>
@@ -166,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentFilesFromClass;
+export default StudentHomeworkFromClass;

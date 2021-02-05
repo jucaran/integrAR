@@ -11,7 +11,7 @@ import {
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
-    class(_id: $_id) {
+    classes(_id: $_id) {
       _id
       name
     }
@@ -19,9 +19,9 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentClassDetail = ({ navigation, route }) => {
-  const  _id  = route.params.params._id;
+  const  _id  = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
-    variables: { _id },
+    variables: { _id: _id },
   });
 
   if (loading) {
@@ -43,10 +43,9 @@ const StudentClassDetail = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0]
-
     return (
-      <View style={styles.cont}>
-        <Text>{clase.name}</Text>
+      <CenterView>
+        <Text style={styles.title}>{clase.name}</Text>
         <TouchableHighlight
           style={styles.button}
           activeOpacity={0.6}
@@ -61,15 +60,17 @@ const StudentClassDetail = ({ navigation, route }) => {
         >
           <Text  style={styles.buttonText}>Tareas</Text>
         </TouchableHighlight>
-      </View>
+      </CenterView>
     );
   }
 };
 
 const styles = StyleSheet.create({
-  cont: {
-    flex: 1,
-    padding: 5,
+  title: {
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 20,
+    margin: 15,
   },
   button: {
     margin: 5,
@@ -79,13 +80,14 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    minWidth: 150,
+    minHeight: 80
   },
   buttonText: {
-    marginTop: 15,
-    marginBottom: 15,
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 20,
-    alignItems: "flex-start",
-    color: "#2290CD",
+    color: "white",
   },
 });
 
