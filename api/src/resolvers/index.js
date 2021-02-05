@@ -9,6 +9,7 @@ import {
   createStudent,
   editStudent,
   deleteStudent,
+  getStudentsWithoutCourse,
 } from "./student";
 import { allCourses, createCourse, editCourse, deleteCourse } from "./course";
 import { allGrades, createGrade, editGrade, deleteGrade } from "./grade";
@@ -76,6 +77,7 @@ export default {
     editStudent,
     deleteStudent,
     createStudentsWithCsv,
+    getStudentsWithoutCourse,
 
     // GRADOS
     createGrade,
