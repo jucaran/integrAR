@@ -8,6 +8,7 @@ import MyTabs from "./tabs/AdminTabs/Tab";
 import TabTeacher from "./tabs/TeachersTabs/TeachersTab";
 import AuthStack from "./stacks/AuthStack/AuthStack";
 //import TeacherScreen from "./screens/Teacher/TeacherScreen";
+import UploadDelivery from "./utils/UploadDelivery";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -37,19 +38,20 @@ const Routes = () => {
     );
 
   return (
-    <NavigationContainer>
-      {user === null ? (
-        <AuthStack />
-      ) : user.role === "Admin" ? (
-        <MyTabs role={user.role} />
-      ) : user.role === "Teacher" ? (
-        <TabTeacher role={user.role} />
-      ) : user.role === "Student" ? (
-        <MyTabs role={user.role} />
-      ) : (
-        <AuthStack />
-      )}
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   {user === null ? (
+    //     <AuthStack />
+    //   ) : user.role === "Admin" ? (
+    //     <MyTabs role={user.role} />
+    //   ) : user.role === "Teacher" ? (
+    //     <TabTeacher role={user.role} />
+    //   ) : user.role === "Student" ? (
+    //     <MyTabs role={user.role} />
+    //   ) : (
+    //     <AuthStack />
+    //   )}
+    // </NavigationContainer>
+    <UploadDelivery />
   );
 };
 
