@@ -7,9 +7,11 @@ import {
   ScrollView,
   Button,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_CLASSES_MODULES } from "./TeacherListClasses"
+import CenterView from "../../utils/CenterView"
 
 
 
@@ -28,7 +30,7 @@ const ADD_CLASS = gql`
 
 function AddClassToModule({ navigation, route }) {
   const  _id  = route.params.params.id;
-  const [createClass, {error}] = useMutation(ADD_CLASS);
+  const [createClass, {error, loading, data}] = useMutation(ADD_CLASS);
   const [clase, setClase] = useState({
     name: "",
   });
@@ -66,6 +68,15 @@ function AddClassToModule({ navigation, route }) {
     } catch (err) {
       console.error(err);
     }
+  }
+ 
+  if (loading) {
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
   }
 
   if (error) {

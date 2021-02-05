@@ -42,9 +42,9 @@ const TeacherListClasses = ({ navigation, route }) => {
     variables: { _id },
   });
 
-  const [deleteClass, mutationData] = useMutation(DELETE_CLASS);
+  const [deleteClass, {data: mutationData, loading: mutationLoading, error: mutationError}] = useMutation(DELETE_CLASS);
 
-  if (loading || mutationData.loading) {
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -53,7 +53,7 @@ const TeacherListClasses = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationError) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
     width: 30,
     height: 30,
     justifyContent: "center",
@@ -202,13 +201,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    width: 334,
     justifyContent: "space-between",
     display: "flex",
-    
-    // marginTop: 20,
-    // marginBottom: 20,
-    // maxWidth: 900,
+    margin: 10,
   },
   button: {
     backgroundColor: "#2290CD",

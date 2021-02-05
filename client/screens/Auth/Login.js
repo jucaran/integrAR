@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -102,6 +103,7 @@ const LoginScreen = ({ navigation }) => {
   if (!data || data?.login?.error.password || data?.login?.error.dni) {
     const error = data?.login ? data.login.error : undefined;
     return (
+      <ScrollView>
       <CenterView>
         <Image
           source={require("../../assets/login_splash.png")}
@@ -149,6 +151,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Button title="Ingresar" onPress={handleSubmit} />
       </CenterView>
+      </ScrollView>
     );
   }
 
