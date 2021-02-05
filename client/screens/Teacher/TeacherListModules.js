@@ -106,34 +106,26 @@ const TeacherListModules = ({ navigation, route }) => {
                         underlayColor=""
                         style={styles.onPress}
                         onPress={async () =>
-                          await deleteModule({
-                            variables: { _id: module._id }, 
-                            refetchQueries: [
-                              { query: GET_ALL_MODULES_SUBJECT },
-                            ],
-                          })
-
-                          // Alert.alert(
-                          //   "Eliminar Unidad",
-                          //   `¿Está seguro que desea eliminar la unidad:
-                          //    "${module.name}"?`,
-                          //   [
-                          //     {
-                          //       text: "Cancelar",
-                          //       style: "cancel",
-                          //     },
-                          //     {
-                          //       text: "OK",
-                          //       onPress: async () =>
-                          //         await deleteModule({
-                          //           variables: { _id: module._id }, 
-                          //           refetchQueries: [
-                          //             { query: GET_ALL_MODULES_SUBJECT },
-                          //           ],
-                          //         }),
-                          //     },
-                          //   ]
-                          // )
+                          await Alert.alert(
+                            "Eliminar Unidad",
+                            `¿Está seguro que desea eliminar la unidad: "${module.name}"?`,
+                            [
+                              {
+                                text: "Cancelar",
+                                style: "cancel",
+                              },
+                              {
+                                text: "OK",
+                                onPress: async () =>
+                                  await deleteModule({
+                                    variables: { _id: module._id }, 
+                                    refetchQueries: [
+                                      { query: GET_ALL_MODULES_SUBJECT },
+                                    ],
+                                  }),
+                              },
+                            ]
+                          )
                         }
                       >
                         <Text style={styles.img}>X</Text>
