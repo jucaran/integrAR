@@ -5,7 +5,7 @@ import StudentSubjectDetail from "../../screens/Student/StudentSubjectDetail"
 import StudentListClasses from "../../screens/Student/StudentListClasses"
 import StudentClassDetail from "../../screens/Student/StudentClassDetail"
 import StudentFilesFromClass from "../../screens/Student/StudentFilesFromClass"
-//import StudenthomeworkFromClass from "../../screens/Student/StudenthomeworkFromClass"
+import StudentHomeworkFromClass from "../../screens/Student/StudentHomeworkFromClass"
 
 const Stack = createStackNavigator();
 export default function StudentSubjectsStack() {
@@ -29,6 +29,7 @@ export default function StudentSubjectsStack() {
       <Stack.Screen name = "StudentListClasses" component = {StudentListClasses} />
       <Stack.Screen name = "StudentClassDetail" component = {StudentClassDetail} />
       <Stack.Screen name = "StudentFilesFromClass" component = {StudentFilesFromClass} />
+      <Stack.Screen name = "StudentHomeworkFromClass" component = {StudentHomeworkFromClass} />
     </Stack.Navigator>
   );
 }

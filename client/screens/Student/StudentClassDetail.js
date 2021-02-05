@@ -19,7 +19,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentClassDetail = ({ navigation, route }) => {
-  const  _id  = route.params.params.id;
+  const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id: _id },
   });
@@ -42,23 +42,31 @@ const StudentClassDetail = ({ navigation, route }) => {
   }
 
   if (data) {
-    const clase = data.classes[0]
+    const clase = data.classes[0];
     return (
       <CenterView>
         <Text style={styles.title}>{clase.name}</Text>
         <TouchableHighlight
           style={styles.button}
           activeOpacity={0.6}
-          onPress={() => navigation.navigate("StudentFilesFromClass", {params: {_id: clase._id}})}
+          onPress={() =>
+            navigation.navigate("StudentFilesFromClass", {
+              params: { _id: clase._id },
+            })
+          }
         >
-          <Text  style={styles.buttonText}>Archivos</Text>
+          <Text style={styles.buttonText}>Archivos</Text>
         </TouchableHighlight>
         <TouchableHighlight
           activeOpacity={0.6}
           style={styles.button}
-          onPress={() => navigation.navigate("StudentHomeworkFromClass", {params: {_id: clase._id}})}
+          onPress={() =>
+            navigation.navigate("StudentHomeworkFromClass", {
+              params: { _id: clase._id },
+            })
+          }
         >
-          <Text  style={styles.buttonText}>Tareas</Text>
+          <Text style={styles.buttonText}>Tareas</Text>
         </TouchableHighlight>
       </CenterView>
     );
@@ -71,9 +79,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 20,
     margin: 15,
+    marginBottom: 65,
+    fontWeight: "bold",
+    color: "#272626",
   },
   button: {
-    margin: 5,
+    margin: 25,
     backgroundColor: "#00aadd",
     borderRadius: 10,
     padding: 20,
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     minWidth: 150,
-    minHeight: 80
+    minHeight: 80,
   },
   buttonText: {
     justifyContent: "center",

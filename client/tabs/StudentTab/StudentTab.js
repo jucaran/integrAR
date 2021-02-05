@@ -6,6 +6,7 @@ import OptionsStack from "../../stacks/AdminStack/OptionsStack";
 import StudentHomeStack from "../../stacks/StudentStack/StudentHomeStack"
 import StudentSubjectStack from "../../stacks/StudentStack/StudentSubjectStack"
 import StudentProfileStack from "../../stacks/StudentStack/StudentProfileStack"
+import StudentTeachersStack from "../../stacks/StudentStack/StudentTeachersStack"
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -51,6 +52,19 @@ function TabStudent() {
             return (
               <View>
                 <Icon name={"ios-person-outline"} size={25} color={"white"}/>
+              </View>
+            );
+          },
+        }}
+      />
+       <Tab.Screen
+        name="Mis Profesores"
+        component={StudentTeachersStack}
+        options={{
+          tabBarIcon: () => {
+            return (
+              <View>
+                <Icon name={"ios-school-outline"} size={25} color={"white"}/>
               </View>
             );
           },
