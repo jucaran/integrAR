@@ -65,7 +65,7 @@ const FilesFromClass = ({ navigation, route }) => {
           activeOpacity={0.6}
           onPress={() =>
             navigation.navigate("UploadClassFile", {
-              params: { _id: clase._id },
+              _id: clase._id,
             })
           }
         >
