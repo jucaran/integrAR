@@ -54,7 +54,7 @@ const FilesFromClass = ({ navigation, route }) => {
     );
   }
 
-  if (("soy clase", data)) {
+  if (data) {
     const clase = data.classes[0];
     // console.log(clase);
 
@@ -75,14 +75,12 @@ const FilesFromClass = ({ navigation, route }) => {
         {clase.files.length ? (
           <FlatList
             data={clase.files}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
-                <Card key={item._id} style={styles.card}>
+                <Card key={index} style={styles.card}>
                   <View style={styles.cardIn}>
-                    <TouchableOpacity
-                      onPress={() => handleFilePress(item.name)}
-                    >
-                      <Text style={styles.cardText}>{item.name}</Text>
+                    <TouchableOpacity onPress={() => handleFilePress(item)}>
+                      <Text style={styles.cardText}>{item}</Text>
                     </TouchableOpacity>
                     <TouchableHighlight
                       activeOpacity={0.6}
@@ -114,7 +112,7 @@ const FilesFromClass = ({ navigation, route }) => {
                 </Card>
               );
             }}
-            keyExtractor={({ _id }) => _id}
+            keyExtractor={(index) => index}
           />
         ) : (
           <CenterView>

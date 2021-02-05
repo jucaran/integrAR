@@ -4,7 +4,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_DELIVERY } from "./graphql";
-// import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass";
+import { GET_CLASS_BY_ID } from "../screens/Teacher/FilesFromClass";
 
 export default function UploadDelivery({ navigation, route }) {
   const [sendFile, { data, loading, error }] = useMutation(UPLOAD_DELIVERY);
