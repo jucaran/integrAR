@@ -12,12 +12,7 @@ const classSchema = new Schema({
   },
   files: [{ type: String }],
   homework: { type: String },
-  devileries: [
-    {
-      studentDni: String,
-      file: String,
-    },
-  ],
+  devileries: [{ dni: String }],
   correction: {
     type: String,
   },
