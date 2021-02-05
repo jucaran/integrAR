@@ -10,12 +10,14 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  files: [
-    { type: String }
+  files: [{ type: String }],
+  homework: { type: String },
+  devileries: [
+    {
+      studentDni: String,
+      file: String,
+    },
   ],
-  homework: {
-    type: String,
-  },
   correction: {
     type: String,
   },
