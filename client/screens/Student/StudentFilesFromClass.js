@@ -10,7 +10,8 @@ import {
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { FlatList } from "react-native-gesture-handler";
-import { Card } from "react-native-paper";
+import { Card } from "react-native-elements";
+import { LOCAL_IP } from "@env";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -23,14 +24,14 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentFilesFromClass = ({ navigation, route }) => {
-  const _id = route.params?.id;
+  const _id = route.params?._id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
-      `http://localhost:4000/download/teachers/${_id}/${name}`
+      `http://${LOCAL_IP}:4000/download/teachers/${_id}/${name}`
     );
   };
 
@@ -57,21 +58,22 @@ const StudentFilesFromClass = ({ navigation, route }) => {
 
     return (
       <View style={styles.cont}>
-        <Text style={styles.name}>Archivos de la {clase.name}</Text>
+         <Card >
+          <Card.Title>Archivos de la {clase.name}</Card.Title>
+          <Card.Divider />
         {clase.files.length ? (
           <FlatList
             data={clase.files}
             renderItem={({ item, index }) => {
               return (
-                <Card key={index} style={styles.card}>
-                  <View style={styles.cardIn}>
+                  <View key={index} style={styles.cardIn}>
                     <TouchableOpacity
+                    style={styles.card}
                       onPress={() => handleFilePress(item)}
                     >
                       <Text style={styles.cardText}>{item}</Text>
                     </TouchableOpacity>
                   </View>
-                </Card>
               );
             }}
             keyExtractor={(index) => index}
@@ -81,6 +83,7 @@ const StudentFilesFromClass = ({ navigation, route }) => {
             <Text>No hay archivos agregados para esta clase</Text>
           </CenterView>
         )}
+        </Card>
       </View>
     );
   }
@@ -99,9 +102,10 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    minWidth: 265
   },
   cardText: {
-    fontSize: 20,
+    fontSize: 14,
     padding: 10,
     color: "white",
     marginLeft: 20,

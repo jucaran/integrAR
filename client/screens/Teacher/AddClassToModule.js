@@ -34,7 +34,6 @@ function AddClassToModule({ navigation, route }) {
   const [clase, setClase] = useState({
     name: "",
   });
- 
     
   const handleChange = (prop, value) => {
     setClase({ ...clase, [prop]: value});
@@ -48,7 +47,7 @@ function AddClassToModule({ navigation, route }) {
         variables: {
           input:{
             name,
-            module:_id
+            module: _id
           }
         },
         refetchQueries: [{ query: GET_ALL_CLASSES_MODULES, variables: {_id: _id} }]

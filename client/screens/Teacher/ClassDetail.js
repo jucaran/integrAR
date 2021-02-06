@@ -29,8 +29,6 @@ function ClassDetail({ navigation, route }) {
     variables: { _id },
   });
 
-  console.log(route.params);
-
   if (loading) {
     return (
       <CenterView>
@@ -50,7 +48,6 @@ function ClassDetail({ navigation, route }) {
 
   if (data) {
     const clase = data.classes[0];
-    //console.log("clase: ", clase)
 
     return (
       <CenterView>

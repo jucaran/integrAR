@@ -28,7 +28,7 @@ const ADD_MODULE = gql`
 `
 
 function AddModuleToSubject({ navigation, route }) {
-  const { _id } = route.params.params;
+  const { _id } = route.params;
   const [createModule, {error, loading, data}] = useMutation(ADD_MODULE);
   const [unit, setUnit] = useState({
     name: "",
@@ -47,7 +47,7 @@ function AddModuleToSubject({ navigation, route }) {
         variables: {
           input:{
             name,
-            subject:_id
+            subject: _id
           }
         },
         refetchQueries: [{ query: GET_ALL_MODULES_SUBJECT }]
