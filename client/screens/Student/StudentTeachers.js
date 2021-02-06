@@ -83,7 +83,7 @@ const StudentTeachers = ({ navigation, route }) => {
                         style={styles.button}
                         activeOpacity={0.2}
                         onPress={() =>
-                         alert(
+                          alert(
                             `Whatsapp de ${item.teacher?.name} ${item.teacher?.lastname}: ${item.teacher?.whatsapp}`
                           )
                         }

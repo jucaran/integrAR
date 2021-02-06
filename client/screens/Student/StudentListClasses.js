@@ -25,7 +25,7 @@ export const GET_ALL_CLASSES_MODULES = gql`
 `;
 
 const StudentListClasses = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params?.id;
   const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
     variables: { _id },
   });
