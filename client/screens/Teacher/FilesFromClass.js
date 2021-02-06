@@ -27,7 +27,6 @@ export const GET_CLASS_BY_ID = gql`
 
 const FilesFromClass = ({ navigation, route }) => {
   const _id = route.params.params.id;
-  // console.log("id filesfromclass: ", _id);
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -71,7 +70,7 @@ const FilesFromClass = ({ navigation, route }) => {
         >
           <Text style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
-        <Text style={styles.name}>Archivos de la {clase.name}</Text>
+        <Text style={styles.name}>Archivos de la clase: {clase.name}</Text>
         {clase.files.length ? (
           <FlatList
             data={clase.files}
