@@ -128,8 +128,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                           console.log("subject: ", subject)
                           return (
                             <Text key={i} style={styles.description}>
-                            |sqsq {subject.name}
-                            {/* : {subject.course.name} | */}
+                            {subject.name}: {subject.course.name}{"  "}|
                             </Text>
                           );
                         })

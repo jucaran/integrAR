@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
 import { Card } from "react-native-elements";
+import { WebView, Linking } from "react-native";
+//import { WebView } from 'react-native-webview';
 import {
   View,
   Text,
@@ -35,9 +37,8 @@ export const GET_TEACHERS_FROM_STUDENT = gql`
   }
 `;
 
-const StudentTeachers = ({ navigation, route }) => {
+const StudentTeachers = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   const dni = user.dni;
   const { data, loading, error } = useQuery(GET_TEACHERS_FROM_STUDENT, {
     variables: { dni },
@@ -62,7 +63,6 @@ const StudentTeachers = ({ navigation, route }) => {
 
   if (data) {
     const teachers = data.students[0].course.subjects;
-    console.log(data);
     return (
       <View style={styles.cont}>
         <Card style={styles.card}>
@@ -71,6 +71,7 @@ const StudentTeachers = ({ navigation, route }) => {
           {teachers.length ? (
             <FlatList
               data={teachers}
+              key={teachers._id}
               renderItem={({ item }) => {
                 if (item.teacher) {
                   return (
@@ -79,16 +80,18 @@ const StudentTeachers = ({ navigation, route }) => {
                       <Text style={{ fontSize: 18 }}>
                         {item.teacher?.name} {item.teacher?.lastname}
                       </Text>
+
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.2}
-                        onPress={() =>
-                          alert(
-                            `Whatsapp de ${item.teacher?.name} ${item.teacher?.lastname}: ${item.teacher?.whatsapp}`
+                        onPress={async () =>
+                          await Linking.openURL(
+                            `https://wa.me/${item.teacher?.whatsapp}`
                           )
                         }
                       >
                         <Image
+                          key={item.teacher._id}
                           source={require("../../assets/whatsapp.png")}
                           style={styles.img}
                         />
