@@ -93,7 +93,6 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   if (data) {
     const subject = data.subjects[0];
     //const subjects = data.courses[0].subjects;
-    console.log(subject);
     return (
         <ScrollView>
           <View >

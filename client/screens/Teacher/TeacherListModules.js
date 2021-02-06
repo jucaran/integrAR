@@ -41,8 +41,7 @@ const TeacherListModules = ({ navigation, route }) => {
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
-  // console.log("data en unidades ", data)
-  // console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
+
   const [deleteModule, mutationData] = useMutation(DELETE_MODULE_BY_ID);
 
   if (loading || mutationData.loading) {

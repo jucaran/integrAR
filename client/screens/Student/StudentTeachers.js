@@ -37,7 +37,6 @@ export const GET_TEACHERS_FROM_STUDENT = gql`
 
 const StudentTeachers = ({ navigation, route }) => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   const dni = user.dni;
   const { data, loading, error } = useQuery(GET_TEACHERS_FROM_STUDENT, {
     variables: { dni },
@@ -62,7 +61,6 @@ const StudentTeachers = ({ navigation, route }) => {
 
   if (data) {
     const teachers = data.students[0].course.subjects;
-    console.log(data);
     return (
       <View style={styles.cont}>
         <Card style={styles.card}>

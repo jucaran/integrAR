@@ -180,7 +180,6 @@ function EditStudentScreen({ route, navigation }) {
     );
 
   if (data) {
-    console.log(data);
     const [
       { name, lastname, email, whatsapp, address, picture },
     ] = data.students;

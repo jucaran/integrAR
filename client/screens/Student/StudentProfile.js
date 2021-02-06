@@ -59,7 +59,6 @@ const StudentProfile = ({ navigation }) => {
 
   if (data) {
     const student = data.students[0];
-    console.log(student)
 
     return (
       <View style={styles.cont}>

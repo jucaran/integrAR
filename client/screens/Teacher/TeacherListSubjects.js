@@ -56,7 +56,6 @@ const TeacherListSubjects = ({ navigation }) => {
   }
 
   if (data) {
-    console.log(data);
     const subjects = data.teachers[0].subjects;
     return (
       <ScrollView>

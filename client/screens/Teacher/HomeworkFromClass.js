@@ -7,10 +7,11 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
+import { Card } from "react-native-paper";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -57,28 +58,43 @@ const FilesFromHomework = ({ navigation, route }) => {
 
     return (
       <View style={styles.cont}>
-        <TouchableHighlight
-          style={styles.touch}
-          activeOpacity={0.6}
-          onPress={() =>
-            navigation.navigate("UploadHomework", {
-              _id: clase._id,
-            })
-          }
-        >
-          <Text style={styles.touchText}>Agregar Tareas</Text>
-        </TouchableHighlight>
+        {homework ? (
+          <TouchableHighlight
+            style={styles.touch}
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate("StudentsHomeworks", {
+                _id: clase._id,
+              })
+            }
+          >
+            <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
+          </TouchableHighlight>
+        ) : (
+          <TouchableHighlight
+            style={styles.touch}
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate("UploadHomework", {
+                _id: clase._id,
+              })
+            }
+          >
+            <Text style={styles.touchText}>Agregar Tareas</Text>
+          </TouchableHighlight>
+        )}
         <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
         {clase.homework?.length ? (
-          <View style={styles.cardIn}>
-            <TouchableOpacity 
-              onPress={() => handleFilePress(homework)}>
-              <Text style={styles.cardText}>{homework}</Text>
-            </TouchableOpacity>
-            <TouchableHighlight activeOpacity={0.6} style={styles.onPress}>
-              <Text style={styles.img}>X</Text>
-            </TouchableHighlight>
-          </View>
+          <Card style={styles.card}>
+            <View style={styles.cardIn}>
+              <TouchableOpacity onPress={() => handleFilePress(homework)}>
+                <Text style={styles.cardText}>{homework}</Text>
+              </TouchableOpacity>
+              <TouchableHighlight activeOpacity={0.6} style={styles.onPress}>
+                <Text style={styles.img}>X</Text>
+              </TouchableHighlight>
+            </View>
+          </Card>
         ) : (
           // <FlatList
           //   data={clase.homework}
@@ -190,7 +206,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: 344,
-    backgroundColor: "skyblue"
   },
   touchText: {
     marginTop: 15,
@@ -212,6 +227,5 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
 });
-
 
 export default FilesFromHomework;
