@@ -23,7 +23,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentFilesFromClass = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params?.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -61,20 +61,20 @@ const StudentFilesFromClass = ({ navigation, route }) => {
         {clase.files.length ? (
           <FlatList
             data={clase.files}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
-                <Card key={item._id} style={styles.card}>
+                <Card key={index} style={styles.card}>
                   <View style={styles.cardIn}>
                     <TouchableOpacity
-                      onPress={() => handleFilePress(item.name)}
+                      onPress={() => handleFilePress(item)}
                     >
-                      <Text style={styles.cardText}>{item.name}</Text>
+                      <Text style={styles.cardText}>{item}</Text>
                     </TouchableOpacity>
                   </View>
                 </Card>
               );
             }}
-            keyExtractor={({ _id }) => _id}
+            keyExtractor={(index) => index}
           />
         ) : (
           <CenterView>

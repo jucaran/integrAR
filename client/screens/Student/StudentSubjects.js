@@ -93,7 +93,7 @@ const StudentsSubjects = ({ navigation }) => {
                   key={item._id}
                   onPress={() =>
                     navigation.navigate("StudentSubjectDetail", {
-                      params: { id: item._id },
+                      id: item._id
                     })
                   }
                   style={{

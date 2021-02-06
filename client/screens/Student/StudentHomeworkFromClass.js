@@ -23,7 +23,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentHomeworkFromClass = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params?.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
