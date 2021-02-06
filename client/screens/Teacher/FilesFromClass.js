@@ -54,7 +54,8 @@ const FilesFromClass = ({ navigation, route }) => {
     );
   }
 
-  if (("soy clase", data)) {
+  if (data) {
+    console.log("Data :", data )
     const clase = data.classes[0];
     // console.log(clase);
 
