@@ -50,7 +50,6 @@ const EDIT_SUBJECT = gql`
 export default function AddTeacherToSubject({ navigation, route }) {
   const _id = route.params.params.id;
   const subjectName = route.params.params.name
-  console.log(_id)
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
   const [
     editSubject,
@@ -59,10 +58,6 @@ export default function AddTeacherToSubject({ navigation, route }) {
 
   const handleOnPress = async (teacherId, _id, name, lastname) => {
     try {
-      console.log('teacherId',teacherId)
-      console.log('id',_id)
-      console.log('name',name)
-      console.log('lastname',lastname)
       await editSubject({
         variables: {
           _id: _id,

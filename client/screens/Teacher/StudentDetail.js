@@ -3,13 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
   ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql, useMutation } from "@apollo/client";
-import { Card } from "react-native-paper";
+import { useQuery, gql } from "@apollo/client";
 
 export const GET_STUDENTS_BY_ID = gql`
   query GetStudentById($_id: ID) {

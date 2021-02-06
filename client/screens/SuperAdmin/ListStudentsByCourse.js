@@ -76,7 +76,6 @@ const ListStudentsByCourse = ({ navigation, route }) => {
 
   if (data) {
     const course = data.courses[0];
-    console.log(course);
     return (
       <View>
         <TouchableHighlight
@@ -116,8 +115,6 @@ const ListStudentsByCourse = ({ navigation, route }) => {
                       <Text style={styles.cardText}>
                        DNI: {item.dni}
                       </Text>
-                      {console.log('_id', _id)}
-                      {console.log('item_id', item._id)}
                       <TouchableHighlight
                         style={styles.onPress}
                         activeOpacity={0.6}
