@@ -24,12 +24,12 @@ export const GET_CLASSES_BY_ID = gql`
 `;
 
 function ClassDetail({ navigation, route }) {
-  const _id = route.params.id;
+  const _id = route.params.params.id;
+  console.log("_id: ", _id)
   const { data, loading, error } = useQuery(GET_CLASSES_BY_ID, {
     variables: { _id },
   });
 
-  console.log(route.params);
 
   if (loading) {
     return (
@@ -50,14 +50,11 @@ function ClassDetail({ navigation, route }) {
 
   if (data) {
     const clase = data.classes[0];
-    //console.log("clase: ", clase)
 
     return (
       <CenterView>
-        {/* <View style={styles.centerView}> */}
         <View style={styles.principal}>
           <Text style={styles.name}>
-            {/* En construcción */}
             Clase: {`${clase.name}`}
           </Text>
           <TouchableHighlight
@@ -83,7 +80,6 @@ function ClassDetail({ navigation, route }) {
             <Text style={styles.textHigh}>Tareas</Text>
           </TouchableHighlight>
         </View>
-        {/* </View> */}
       </CenterView>
     );
   }

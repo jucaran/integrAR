@@ -7,7 +7,10 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+import { LOCAL_IP } from "@env";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -50,9 +53,9 @@ const FilesFromHomework = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0];
-    console.log("data: ", data);
-    console.log("clase: ", clase);
-    console.log("clase.homework: ", clase.homework)
+    const homework = clase.homework;
+
+    console.log("homework: ", homework);
 
     return (
       <View style={styles.cont}>
@@ -60,7 +63,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           style={styles.touch}
           activeOpacity={0.6}
           onPress={() =>
-            navigation.navigate("UploadClassFile", {
+            navigation.navigate("UploadHomework", {
               _id: clase._id,
             })
           }
@@ -68,29 +71,39 @@ const FilesFromHomework = ({ navigation, route }) => {
           <Text style={styles.touchText}>Agregar Tareas</Text>
         </TouchableHighlight>
         <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
-        {clase.length ? (
-          <FlatList
-            data={clase.homework}
-            renderItem={({ item, index }) => {
-              return (
-                <Card key={index} style={styles.card}>
-                  <View style={styles.cardIn}>
-                    <TouchableOpacity onPress={() => handleFilePress(item)}>
-                      <Text style={styles.cardText}>{item}</Text>
-                    </TouchableOpacity>
-                    <TouchableHighlight
-                      activeOpacity={0.6}
-                      style={styles.onPress}
-                    >
-                      <Text style={styles.img}>X</Text>
-                    </TouchableHighlight>
-                  </View>
-                </Card>
-              );
-            }}
-            keyExtractor={(index) => index}
-          />
+        {clase.homework?.length ? (
+          <View style={styles.cardIn}>
+            <TouchableOpacity 
+              onPress={() => handleFilePress(homework)}>
+              <Text style={styles.cardText}>{homework}</Text>
+            </TouchableOpacity>
+            <TouchableHighlight activeOpacity={0.6} style={styles.onPress}>
+              <Text style={styles.img}>X</Text>
+            </TouchableHighlight>
+          </View>
         ) : (
+          // <FlatList
+          //   data={clase.homework}
+          //   renderItem={({ item, index }) => {
+          //     {console.log("item: ", item)}
+          //     return (
+          //       <Card key={index} style={styles.card}>
+          //         <View style={styles.cardIn}>
+          //           <TouchableOpacity onPress={() => handleFilePress(item)}>
+          //             <Text style={styles.cardText}>{item}</Text>
+          //           </TouchableOpacity>
+          //           <TouchableHighlight
+          //             activeOpacity={0.6}
+          //             style={styles.onPress}
+          //           >
+          //             <Text style={styles.img}>X</Text>
+          //           </TouchableHighlight>
+          //         </View>
+          //       </Card>
+          //     );
+          //   }}
+          // keyExtractor={(index) => index}
+          // />
           <CenterView>
             <Text>No hay tareas agregadas para esta clase</Text>
           </CenterView>
@@ -138,7 +151,48 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 20,
     alignItems: "flex-start",
+    color: "#2290CD",
+  },
+  card: {
+    margin: 5,
+    backgroundColor: "#00aadd",
+    borderRadius: 10,
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardSee: {
+    fontSize: 17,
+    padding: 10,
     color: "white",
+  },
+  cardText: {
+    fontSize: 20,
+    padding: 10,
+    color: "white",
+    marginLeft: 20,
+  },
+  onPress: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 15,
+    width: 30,
+    height: 32,
+    justifyContent: "center",
+  },
+  img: {
+    color: "white",
+    fontSize: 18,
+  },
+  cardIn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: 344,
+    backgroundColor: "skyblue"
   },
   touchText: {
     marginTop: 15,
@@ -161,4 +215,28 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default FilesFromHomework;
+
+// <FlatList
+//             data={clase.homework}
+//             renderItem={({ item, index }) => {
+//               {console.log("item: ", item)}
+//               return (
+//                 <Card key={index} style={styles.card}>
+//                   <View style={styles.cardIn}>
+//                     <TouchableOpacity onPress={() => handleFilePress(item)}>
+//                       <Text style={styles.cardText}>{item}</Text>
+//                     </TouchableOpacity>
+//                     <TouchableHighlight
+//                       activeOpacity={0.6}
+//                       style={styles.onPress}
+//                     >
+//                       <Text style={styles.img}>X</Text>
+//                     </TouchableHighlight>
+//                   </View>
+//                 </Card>
+//               );
+//             }}
+//             keyExtractor={(index) => index}
+//           />

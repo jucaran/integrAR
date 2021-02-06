@@ -9,6 +9,7 @@ import ClassDetail from "../../screens/Teacher/ClassDetail"
 import FilesFromClass from "../../screens/Teacher/FilesFromClass"
 import HomeworkFromClass from "../../screens/Teacher/HomeworkFromClass"
 import UploadClassFile from "../../utils/UploadClassFile"
+import UploadHomework from "../../utils/UploadHomework"
 
 const Stack = createStackNavigator();
 export default function TechersSubjectStack() {
@@ -36,10 +37,8 @@ export default function TechersSubjectStack() {
       <Stack.Screen name="FilesFromClass" component = {FilesFromClass} />
       <Stack.Screen name="HomeworkFromClass" component = {HomeworkFromClass} />
       <Stack.Screen name="UploadClassFile" component = {UploadClassFile} />
+      <Stack.Screen name="UploadHomework" component = {UploadHomework} />
       
     </Stack.Navigator>
   );
 }
-
-
-// subject -> modules -> classes
