@@ -3,14 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
-  Image,
   ActivityIndicator,
   TouchableHighlight,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql, useMutation } from "@apollo/client";
-import { Card } from "react-native-paper";
+import { useQuery, gql } from "@apollo/client";
 
 export const GET_CLASSES_BY_ID = gql`
   query GetClassesById($_id: ID) {
@@ -24,8 +21,7 @@ export const GET_CLASSES_BY_ID = gql`
 `;
 
 function ClassDetail({ navigation, route }) {
-  const _id = route.params.params.id;
-  console.log("_id: ", _id)
+  const _id = route.params.id;
   const { data, loading, error } = useQuery(GET_CLASSES_BY_ID, {
     variables: { _id },
   });
@@ -85,11 +81,6 @@ function ClassDetail({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  // centerView: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   backgroundColor: "white",
-  // },
   principal: {
     backgroundColor: "white",
   },

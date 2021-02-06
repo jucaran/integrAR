@@ -55,8 +55,6 @@ const FilesFromHomework = ({ navigation, route }) => {
     const clase = data.classes[0];
     const homework = clase.homework;
 
-    console.log("homework: ", homework);
-
     return (
       <View style={styles.cont}>
         <TouchableHighlight
@@ -217,26 +215,3 @@ const styles = StyleSheet.create({
 
 
 export default FilesFromHomework;
-
-// <FlatList
-//             data={clase.homework}
-//             renderItem={({ item, index }) => {
-//               {console.log("item: ", item)}
-//               return (
-//                 <Card key={index} style={styles.card}>
-//                   <View style={styles.cardIn}>
-//                     <TouchableOpacity onPress={() => handleFilePress(item)}>
-//                       <Text style={styles.cardText}>{item}</Text>
-//                     </TouchableOpacity>
-//                     <TouchableHighlight
-//                       activeOpacity={0.6}
-//                       style={styles.onPress}
-//                     >
-//                       <Text style={styles.img}>X</Text>
-//                     </TouchableHighlight>
-//                   </View>
-//                 </Card>
-//               );
-//             }}
-//             keyExtractor={(index) => index}
-//           />

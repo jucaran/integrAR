@@ -125,7 +125,6 @@ const SuperAdminListTeachers = ({ navigation }) => {
                     <View style={styles.desc}>
                       {teacher.subjects?.length > 0 ? (
                         teacher.subjects.map((subject, i) => {
-                          console.log("subject: ", subject)
                           return (
                             <Text key={i} style={styles.description}>
                             |sqsq {subject.name}
