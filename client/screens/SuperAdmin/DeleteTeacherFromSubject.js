@@ -85,7 +85,8 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   if (loading || mutationLoading) {
     return (
       <CenterView>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
   }

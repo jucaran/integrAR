@@ -89,7 +89,8 @@ export default function AddTeacherToSubject({ navigation, route }) {
   if (loading || mutationLoading) {
     return (
       <CenterView>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
   }
