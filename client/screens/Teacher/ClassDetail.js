@@ -29,8 +29,6 @@ function ClassDetail({ navigation, route }) {
     variables: { _id },
   });
 
-  console.log(route.params);
-
   if (loading) {
     return (
       <CenterView>
@@ -50,7 +48,6 @@ function ClassDetail({ navigation, route }) {
 
   if (data) {
     const clase = data.classes[0];
-    //console.log("clase: ", clase)
 
     return (
       <CenterView>
@@ -68,14 +65,16 @@ function ClassDetail({ navigation, route }) {
                 params: { id: clase._id },
               })
             }
-          >
+            >
             <Text style={styles.textHigh}>Archivos</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
             activeOpacity={0.6}
             onPress={() =>
-              navigation.navigate("HomeworkFromClass", { id: clase._id })
+              navigation.navigate("HomeworkFromClass", {
+                params: { id: clase._id },
+              })
             }
           >
             <Text style={styles.textHigh}>Tareas</Text>

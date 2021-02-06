@@ -30,7 +30,7 @@ export const GET_ALL_MODULES_SUBJECT = gql`
 `;
 
 const SutudentSubjectDetail = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params?.id;
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
@@ -81,7 +81,7 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
                         underlayColor="white"
                         onPress={() =>
                           navigation.navigate("StudentListClasses", {
-                            params: { id: item._id },
+                            id: item._id
                           })
                         }
                       >

@@ -5,12 +5,11 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
+  TouchableHighlight
 } from "react-native";
-import * as WebBrowser from "expo-web-browser";
-import { FlatList, TouchableHighlight } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
+import { AuthContext } from "../../providers/AuthProvider";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -23,13 +22,15 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentHomeworkFromClass = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params?.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
+  const { user } = useContext(AuthContext);
+  const { dni } = user;
 
   // const handleFilePress = (name) => {
-  //   WebBrowser.openBrowserAsync(`http://localhost:4000/download/${name}`);
+  //   WebBrowser.openBrowserAsync(`http://${LOCAL_IP}:4000/download/${_id}/${name}`);
   // };
 
   if (loading) {
@@ -57,7 +58,17 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
         {clase.homework ? (
           <CenterView>
           <Text>{clase.homework}</Text>
-          <TouchableHighlight><Text>Subir Tarea</Text></TouchableHighlight>
+          <TouchableHighlight
+          style={styles.touch}
+          activeOpacity={0.2}
+          onPress={() =>
+            navigation.navigate("UploadDelivery", {
+              dni: dni, classId: _id
+            })
+          }
+          >
+            <Text>Subir Tarea</Text>
+          </TouchableHighlight>
           </CenterView>
         ) : (
           <CenterView>

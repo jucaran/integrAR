@@ -19,7 +19,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const StudentClassDetail = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const _id = route.params.params?.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id: _id },
   });
@@ -51,7 +51,7 @@ const StudentClassDetail = ({ navigation, route }) => {
           activeOpacity={0.6}
           onPress={() =>
             navigation.navigate("StudentFilesFromClass", {
-              params: { _id: clase._id },
+              _id: clase._id
             })
           }
         >
@@ -62,7 +62,7 @@ const StudentClassDetail = ({ navigation, route }) => {
           style={styles.button}
           onPress={() =>
             navigation.navigate("StudentHomeworkFromClass", {
-              params: { _id: clase._id },
+              _id: clase._id
             })
           }
         >

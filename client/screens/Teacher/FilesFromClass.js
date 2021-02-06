@@ -13,6 +13,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
+import { LOCAL_IP } from "@env";
 
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
@@ -26,14 +27,13 @@ export const GET_CLASS_BY_ID = gql`
 
 const FilesFromClass = ({ navigation, route }) => {
   const _id = route.params.params.id;
-  // console.log("id filesfromclass: ", _id);
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
-      `http://localhost:4000/download/teachers/${_id}/${name}`
+      `http://${LOCAL_IP}:4000/download/teachers/${_id}/${name}`
     );
   };
 
@@ -55,9 +55,7 @@ const FilesFromClass = ({ navigation, route }) => {
   }
 
   if (data) {
-    console.log("Data :", data )
     const clase = data.classes[0];
-    // console.log(clase);
 
     return (
       <View style={styles.cont}>
@@ -72,18 +70,16 @@ const FilesFromClass = ({ navigation, route }) => {
         >
           <Text style={styles.touchText}>Agregar Archivos</Text>
         </TouchableHighlight>
-        <Text style={styles.name}>Archivos de la {clase.name}</Text>
+        <Text style={styles.name}>Archivos de la clase: {clase.name}</Text>
         {clase.files.length ? (
           <FlatList
             data={clase.files}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
-                <Card key={item._id} style={styles.card}>
+                <Card key={index} style={styles.card}>
                   <View style={styles.cardIn}>
-                    <TouchableOpacity
-                      onPress={() => handleFilePress(item.name)}
-                    >
-                      <Text style={styles.cardText}>{item.name}</Text>
+                    <TouchableOpacity onPress={() => handleFilePress(item)}>
+                      <Text style={styles.cardText}>{item}</Text>
                     </TouchableOpacity>
                     <TouchableHighlight
                       activeOpacity={0.6}
@@ -109,13 +105,13 @@ const FilesFromClass = ({ navigation, route }) => {
                       //   )
                       // }
                     >
-                      <Text style={styles.img}>X</Text>
+                      <Text style={styles.img}>x</Text>
                     </TouchableHighlight>
                   </View>
                 </Card>
               );
             }}
-            keyExtractor={({ _id }) => _id}
+            keyExtractor={(index) => index}
           />
         ) : (
           <CenterView>
@@ -132,22 +128,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
   },
-  button: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    marginTop: 15,
-    marginBottom: 15,
-    fontSize: 20,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
   card: {
     margin: 5,
     backgroundColor: "#00aadd",
@@ -157,13 +137,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cardSee: {
-    fontSize: 17,
-    padding: 10,
-    color: "white",
-  },
   cardText: {
-    fontSize: 20,
+    fontSize: 14,
     padding: 10,
     color: "white",
     marginLeft: 20,
@@ -175,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 15,
     width: 30,
-    height: 32,
+    minHeight: 25,
     justifyContent: "center",
   },
   img: {

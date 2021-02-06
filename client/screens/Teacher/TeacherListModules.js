@@ -38,7 +38,6 @@ const DELETE_MODULE_BY_ID = gql`
 
 const TeacherListModules = ({ navigation, route }) => {
   const { _id } = route.params.params;
-
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
@@ -74,7 +73,7 @@ const TeacherListModules = ({ navigation, route }) => {
             underlayColor=""
             activeOpacity={0.6}
             onPress={() =>
-              navigation.navigate("AddModuleToSubject", { params: { _id } })
+              navigation.navigate("AddModuleToSubject", { _id: _id } )
             }
           >
             <Text style={styles.touchText}>Agregar Unidad</Text>
@@ -93,9 +92,7 @@ const TeacherListModules = ({ navigation, route }) => {
                       activeOpacity={0.6}
                       onPress={() =>
                         navigation.navigate("TeacherListClasses", {
-                          screen: "TeacherListClasses",
-                          params: { id: module._id },
-                        })
+                           id: module._id})
                       }
                     >
                       <Text style={styles.textHigh}>Clases</Text>

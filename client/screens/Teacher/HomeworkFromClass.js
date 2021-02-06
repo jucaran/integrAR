@@ -20,10 +20,16 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const FilesFromHomework = ({ navigation, route }) => {
-  const _id = route.params?.id;
+  const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
+
+  const handleFilePress = (name) => {
+    WebBrowser.openBrowserAsync(
+      `http://${LOCAL_IP}:4000/download/teachers/${_id}/${name}`
+    );
+  };
 
   if (loading) {
     return (
@@ -43,8 +49,10 @@ const FilesFromHomework = ({ navigation, route }) => {
   }
 
   if (data) {
-    // console.log("Data en tarea ", data);
     const clase = data.classes[0];
+    console.log("data: ", data);
+    console.log("clase: ", clase);
+    console.log("clase.homework: ", clase.homework)
 
     return (
       <View style={styles.cont}>
@@ -53,21 +61,23 @@ const FilesFromHomework = ({ navigation, route }) => {
           activeOpacity={0.6}
           onPress={() =>
             navigation.navigate("UploadClassFile", {
-              params: { id: clase._id },
+              _id: clase._id,
             })
           }
         >
           <Text style={styles.touchText}>Agregar Tareas</Text>
         </TouchableHighlight>
-        <Text style={styles.name}>Archivos de la {clase.name}</Text>
+        <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
         {clase.length ? (
           <FlatList
             data={clase.homework}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
-                <Card key={item._id} style={styles.card}>
+                <Card key={index} style={styles.card}>
                   <View style={styles.cardIn}>
-                    <Text style={styles.cardText}>{item.name}</Text>
+                    <TouchableOpacity onPress={() => handleFilePress(item)}>
+                      <Text style={styles.cardText}>{item}</Text>
+                    </TouchableOpacity>
                     <TouchableHighlight
                       activeOpacity={0.6}
                       style={styles.onPress}
@@ -78,11 +88,11 @@ const FilesFromHomework = ({ navigation, route }) => {
                 </Card>
               );
             }}
-            keyExtractor={({ _id }) => _id}
+            keyExtractor={(index) => index}
           />
         ) : (
           <CenterView>
-            <Text>No hay archivos agregados para esta clase</Text>
+            <Text>No hay tareas agregadas para esta clase</Text>
           </CenterView>
         )}
       </View>
