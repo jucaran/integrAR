@@ -12,9 +12,10 @@ import {
 import { useMutation, gql, useQuery } from "@apollo/client";
 import CenterView from "../../utils/CenterView";
 import { GET_STUDENTS } from "./SuperAdminListStudents";
+import { Picker } from "@react-native-picker/picker";
 
 //Falta hacer la query para traer la info del alumno a editar
-
+// 
 const EDIT_STUDENT = gql`
   mutation AddStudent(
     $_id: ID
@@ -24,6 +25,7 @@ const EDIT_STUDENT = gql`
     $whatsapp: String
     $picture: String
     $address: String
+    $course: ID
   ) {
     editStudent(
       _id: $_id
@@ -34,8 +36,18 @@ const EDIT_STUDENT = gql`
         whatsapp: $whatsapp
         picture: $picture
         address: $address
+        course: $course
       }
     ) {
+      name
+    }
+  }
+`;
+
+const GET_ALL_COURSES = gql`
+  {
+    courses {
+      _id
       name
     }
   }
@@ -52,6 +64,10 @@ const GET_STUDENT = gql`
       address
       birthday
       picture
+      course {
+        _id
+        name
+      }
     }
   }
 `;
@@ -66,7 +82,13 @@ function EditStudentScreen({ route, navigation }) {
     address: "",
     birthday: "",
     picture: "",
+    course: "",
+    
   });
+  
+  const { data: dataGet, loading: loadingGet, error: errorGet } = useQuery(
+    GET_ALL_COURSES
+  );
 
   const { data, loading: queryLoading, error: queryError } = useQuery(
     GET_STUDENT,
@@ -89,6 +111,7 @@ function EditStudentScreen({ route, navigation }) {
     whatsapp,
     address,
     picture,
+    course,
   }) => {
     Alert.alert(
       "Editar Alumno",
@@ -113,6 +136,7 @@ function EditStudentScreen({ route, navigation }) {
                   whatsapp,
                   address,
                   picture,
+                  course
                 },
                 refetchQueries: [{ query: GET_STUDENTS }],
               });
@@ -163,7 +187,7 @@ function EditStudentScreen({ route, navigation }) {
     // }
   };
 
-  if (queryLoading || loading)
+  if (queryLoading || loading || loadingGet)
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -171,7 +195,7 @@ function EditStudentScreen({ route, navigation }) {
       </CenterView>
     );
 
-  if (error || queryError)
+  if (error || queryError || errorGet)
     return (
       <CenterView>
         <Text>{error && JSON.stringify(error)}</Text>
@@ -179,11 +203,12 @@ function EditStudentScreen({ route, navigation }) {
       </CenterView>
     );
 
-  if (data) {
-    console.log(data);
+  if (data || dataGet) {    
+    console.log(data.students);
     const [
-      { name, lastname, email, whatsapp, address, picture },
+      { name, lastname, email, whatsapp, address, picture, course },
     ] = data.students;
+    const courses = dataGet.courses;
 
     return (
       <ScrollView>
@@ -236,6 +261,26 @@ function EditStudentScreen({ route, navigation }) {
               placeholder={picture ? `Foto: ${picture}` : "Agregar foto..."}
               onChangeText={(value) => handleChange("picture", value)}
             />
+
+          </View>
+          <View>
+            <Picker
+              selectedValue={course}
+              style={{ height: 200, width: 150 }}
+              onValueChange={(value) => handleChange("course", value)}
+            >
+              <Picker.Item label="" value='null' />
+              {courses.length ? (
+                courses.map((course) => {
+                  return (
+                  <Picker.Item key={course._id} label={course.name} value={course._id} />);
+                })
+              ) : (
+                <CenterView>
+                  <Text>No hay cursos agregados</Text>
+                </CenterView>
+              )}
+            </Picker>
           </View>
           <View>
             <Button
@@ -266,7 +311,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 50,
     marginBottom: 20,
-    // padding: 10,
     borderBottomWidth: 2,
     borderColor: "#2290CD",
   },
