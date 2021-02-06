@@ -30,7 +30,6 @@ function ClassDetail({ navigation, route }) {
     variables: { _id },
   });
 
-
   if (loading) {
     return (
       <CenterView>
