@@ -65,6 +65,8 @@ const StudentsHomeworks = ({ route }) => {
       }
     }
   };
+  const [score, setScore] = useState()
+  const numbers = ['1','2','3','4','5','6','7','8','9','10']
 
   const [score, setScore] = useState();
   const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -149,7 +151,11 @@ const StudentsHomeworks = ({ route }) => {
             );
           })
         ) : (
-          <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
+          <View>
+            <CenterView>
+              <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
+            </CenterView>
+          </View>
         )}
       </View>
     );
