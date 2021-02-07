@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -38,7 +37,7 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
-const StudentsHomeworks = ({ navigation, route }) => {
+const StudentsHomeworks = ({ route }) => {
   const { _id } = route.params;
 
   const {
@@ -56,15 +55,15 @@ const StudentsHomeworks = ({ navigation, route }) => {
   } = useQuery(GET_STUDENTS);
 
   const handleFilePress = (dni) => {
-    for(let i = 0; i < dataStudent.students.length; i++) {
-      if(dni == dataStudent.students[i].dni) {
+    let dniSplitted = dni.split(".")[0];
+    for (let i = 0; i < dataStudent.students.length; i++) {
+      if (dniSplitted == dataStudent.students[i].dni) {
         return WebBrowser.openBrowserAsync(
-          `http://${LOCAL_IP}:4000/download/students/${_id}/${dni}.pdf`
+          `http://${LOCAL_IP}:4000/download/students/${_id}/${dni}`
         );
       }
     }
   };
-
 
   if (dataClassLoading || loadingStudent) {
     return (
@@ -100,33 +99,32 @@ const StudentsHomeworks = ({ navigation, route }) => {
       <View>
         <Text style={styles.name}>Tareas de los Alumnos</Text>
         {homeworkList.length ? (
-          <FlatList
-            data={(estudiante)}
-            renderItem={({ item }) => {
-              return (
-                <Card style={styles.card} >
-                  <View style={styles.cardIn}>
-                    <TouchableOpacity 
-                      onPress={() => handleFilePress(item.dni)}>
-                      <Text style={styles.cardText} >
-                        {item.name} {item.lastname} {item.dni}.pdf
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </Card>
-              );
-            }}
-            
-            keyExtractor={({index}) => index}
-          />
+          homeworkList.map((el, i) => {
+            return (
+              <Card style={styles.card} key={i}>
+                <View style={styles.cardIn}>
+                  <TouchableOpacity onPress={() => handleFilePress(el)}>
+                    {estudiante.map((_el) => {
+                      if (_el.dni === el.split(".")[0]) {
+                        return (
+                          <Text style={styles.cardText}>
+                            {_el.name} {_el.lastname} {el}
+                          </Text>
+                        );
+                      }
+                    })}
+                  </TouchableOpacity>
+                </View>
+              </Card>
+            );
+          })
         ) : (
-          <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
+          <Text style={styles.name}>Al parecer tus alumnos son un poco irresponsables...</Text>
         )}
       </View>
     );
   }
 };
-
 
 const styles = StyleSheet.create({
   cont: {
