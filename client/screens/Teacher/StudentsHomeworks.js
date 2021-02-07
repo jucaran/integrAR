@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import { useQuery, gql } from "@apollo/client";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
 import { Card } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 
 export const GET_STUDENTS = gql`
   {
@@ -64,6 +65,8 @@ const StudentsHomeworks = ({ navigation, route }) => {
       }
     }
   };
+  const [score, setScore] = useState()
+  const numbers = ['1','2','3','4','5','6','7','8','9','10']
 
 
   if (dataClassLoading || loadingStudent) {
@@ -96,6 +99,12 @@ const StudentsHomeworks = ({ navigation, route }) => {
       }
     });
 
+    //Borrar setCorrection y usar la screen TeacherCorrections cuando se pueda
+    const setCorrection = (correction) => {
+      setScore(correction)
+      alert(`La nota es ${correction}`)
+    }
+
     return (
       <View>
         <Text style={styles.name}>Tareas de los Alumnos</Text>
@@ -108,10 +117,20 @@ const StudentsHomeworks = ({ navigation, route }) => {
                   <View style={styles.cardIn}>
                     <TouchableOpacity 
                       onPress={() => handleFilePress(item.dni)}>
-                      <Text style={styles.cardText} >
+                      <Text style={{color: 'white', fontSize: 15}} >
                         {item.name} {item.lastname} {item.dni}.pdf
                       </Text>
                     </TouchableOpacity>
+                    <Text style={{paddingHorizontal: 10, color: 'white', fontSize: 15}} >Nota</Text>
+                    <Picker 
+                    selectedValue={score}
+                    style={{ height: 25, width: 75, color: 'white'}}
+                    onValueChange={(value) => setCorrection(value)}
+                    >
+                      {numbers.map((item, index) => {
+                        return (<Picker.Item label={item} value={item} key={index}/>) 
+                    })}
+                    </Picker>
                   </View>
                 </Card>
               );
@@ -120,7 +139,11 @@ const StudentsHomeworks = ({ navigation, route }) => {
             keyExtractor={({index}) => index}
           />
         ) : (
-          <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
+          <View>
+            <CenterView>
+              <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
+            </CenterView>
+          </View>
         )}
       </View>
     );
