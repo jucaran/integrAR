@@ -4,33 +4,14 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Image,
-  Alert,
-  TouchableHighlight,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
 import { Card } from "react-native-paper";
-
-// const GET_STUDENTS_BY_COURSE = gql`
-//   query GetSubjectById($_id: ID) {
-//     courses(_id: $_id) {
-//       _id
-//       name
-//       students {
-//         _id
-//         name
-//         lastname
-//         dni
-//       }
-//     }
-//   }
-// `;
-
 
 export const GET_STUDENTS = gql`
   {
@@ -47,7 +28,6 @@ export const GET_STUDENTS = gql`
   }
 `;
 
-
 export const GET_CLASS_BY_ID = gql`
   query GetClassById($_id: ID) {
     classes(_id: $_id) {
@@ -57,8 +37,6 @@ export const GET_CLASS_BY_ID = gql`
     }
   }
 `;
-
-// string.split(".")[0]   -> esto sirve para sacar el .pdf
 
 const StudentsHomeworks = ({ navigation, route }) => {
   const { _id } = route.params;
@@ -71,42 +49,23 @@ const StudentsHomeworks = ({ navigation, route }) => {
     variables: { _id },
   });
 
-  const dniFromData = dataClass?.classes[0].deliveries.map(
-    (el) => el.split(".")[0]
-  );
-
-  // dniFromData = ["583691", "369147", "836914"] de los pdf subidos
-
-
   const {
     data: dataStudent,
     loading: loadingStudent,
     error: errorStudent,
   } = useQuery(GET_STUDENTS);
 
-  const allStudents = dataStudent?.students
+  const handleFilePress = (dni) => {
+    for(let i = 0; i < dataStudent.students.length; i++) {
+      if(dni == dataStudent.students[i].dni) {
+        return WebBrowser.openBrowserAsync(
+          `http://${LOCAL_IP}:4000/download/students/${_id}/${dni}.pdf`
+        );
+      }
+    }
+  };
 
-  // console.log("dataStudent.students: ", allStudents);
 
-  
-  
-  // dniFromStudents = ["258369", "583691", "836914", "369147", "691472", "914725"]  son los dni de todos los estudiantes
-
-  // const handleFilePress = () => {
-  //   WebBrowser.openBrowserAsync(
-  //     `http://${LOCAL_IP}:4000/download/students/${_id}/${dni}`
-  //   );
-  // };
-
-  // dataStudent.student.filter(student => 
-  // student.dni === dniFromData
-  //   return (
-  //       <Text>{student.name}</Text>
-  //   )
-
-  //)
-
-              
   if (dataClassLoading) {
     return (
       <CenterView>
@@ -126,35 +85,23 @@ const StudentsHomeworks = ({ navigation, route }) => {
 
   if (dataClass) {
     const homeworkList = dataClass.classes[0].deliveries;
-    const dniFromData = dataClass?.classes[0].deliveries.map(
-      (el) => el.split(".")[0]
-    );
 
     return (
       <View>
         <Text style={styles.name}>Tareas de los Alumnos</Text>
         {homeworkList.length ? (
           <FlatList
-          data={homeworkList}
-          renderItem={({ item, index }) => {
-            
-            // dniFromData = ["583691", "369147", "836914"] de los pdf subidos
-            // dataStudent.student
-            
-            // const matchDni = dniFromData.filter(value => dniFromStudents.includes(value));
-            const student = allStudents.find(student => dniFromdata.includes(student.dni));
-
-
-
-             // const student = allStudents.dni.find(value => dniFromData.value)
-              console.log("student: ",student)
+            data={homeworkList}
+            renderItem={({ item, index }) => {
               return (
                 <Card key={index} style={styles.card}>
                   <View style={styles.cardIn}>
                     <TouchableOpacity
-                    // onPress={() => handleFilePress()}
+                      onPress={() => handleFilePress(item.split(".")[0])}
                     >
-                      <Text style={styles.cardText}>{student?.name} {item}</Text>
+                      <Text style={styles.cardText}>
+                        {}{item}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </Card>
