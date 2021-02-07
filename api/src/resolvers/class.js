@@ -28,6 +28,7 @@ export const editClass = async (_, { _id, input }) => {
   }
 
   await _class.save();
+  return _class
 };
 
 export const deleteClass = async (_, { _id }) =>
