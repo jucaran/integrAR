@@ -43,7 +43,6 @@ app.get("/download/teachers/:classId/:name", function (req, res) {
 });
 
 app.get("/download/students/:classId/:name", function (req, res) {
-  console.log(req);
   const { classId, name } = req.params;
   res.download(path.join(__dirname, "uploads", "students", classId, name));
 });

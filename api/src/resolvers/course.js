@@ -32,7 +32,6 @@ export const editCourse = async (_, args, ctx) => {
       if (studentId) {
         let student = await Student.findById(studentId);
         let studentExist = course.students.find((el) => el.dni === student.dni);
-        console.log(studentExist);
         if (!studentExist) {
           try {
             course.students.push(studentId);
@@ -47,7 +46,6 @@ export const editCourse = async (_, args, ctx) => {
       if (teacherId) {
         let teacher = await Teacher.findById(teacherId);
         let teacherExist = course.teachers.find((el) => el.dni === teacher.dni);
-        console.log(teacherExist);
         if (!teacherExist) {
           try {
             course.teachers.push(teacherId);

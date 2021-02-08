@@ -14,8 +14,6 @@ import CenterView from "../../utils/CenterView";
 import { GET_STUDENTS } from "./SuperAdminListStudents";
 import { Picker } from "@react-native-picker/picker";
 
-//Falta hacer la query para traer la info del alumno a editar
-// 
 const EDIT_STUDENT = gql`
   mutation AddStudent(
     $_id: ID
@@ -164,27 +162,6 @@ function EditStudentScreen({ route, navigation }) {
       ],
       { cancelable: false }
     );
-    // try {
-    //     dni = parseInt(dni);
-    //     // falta agregar el ID para que funque
-    //     await editStudent({
-    //         variables: {
-    //             name,
-    //             dni,
-    //             email,
-    //             whatsapp,
-    //             address,
-    //             picture
-    //         },
-    //     })
-    //     if(error) {
-    //         console.log(error)
-    //         return false;
-    //     }
-    //     return alert(`El alumno ${name} fue actualizado exitosamente!`);
-    // } catch (err) {
-    //     console.error('soy el catch', err);
-    // }
   };
 
   if (queryLoading || loading || loadingGet)
@@ -203,8 +180,7 @@ function EditStudentScreen({ route, navigation }) {
       </CenterView>
     );
 
-  if (data || dataGet) {    
-    console.log(data.students);
+  if (data || dataGet) {
     const [
       { name, lastname, email, whatsapp, address, picture, course },
     ] = data.students;

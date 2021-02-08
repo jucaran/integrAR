@@ -8,6 +8,7 @@ export const classTypes = gql`
     deliveries: [String]
     subject: Subject
     module: Module
+    correction: String
     homework: String
   }
 
@@ -18,6 +19,7 @@ export const classTypes = gql`
     deliveries: [String]
     subject: ID
     module: ID
+    correction: String
     homework: String
   }
 `;

@@ -28,6 +28,7 @@ export const editClass = async (_, { _id, input }) => {
   }
 
   await _class.save();
+  return _class
 };
 
 export const deleteClass = async (_, { _id }) =>
@@ -126,7 +127,7 @@ export const uploadHomework = async (_, { file, classId }) => {
 
   await new Promise((res) =>
     createReadStream()
-      .pipe(fs.createWriteStream(path.join(fileDir, classId, filename)))
+      .pipe(fs.createWriteStream(path.join(fileDir, filename)))
       .on("error", function (err) {
         console.log(err);
       })
