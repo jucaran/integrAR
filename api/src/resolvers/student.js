@@ -51,13 +51,6 @@ export const createStudent = async (_, args) => {
 };
 
 export const editStudent = async (_, args) => {
-  // return await Student.findByIdAndUpdate(
-  //   args._id,
-  //   { $push: args.input },
-  //   { new: true }
-  // );
-  //TODO: cuando se le agregue un estudiante a un curso, se le agregue ese curso al estudiante puto ese
-
   let student = await Student.findById(args._id);
 
   let inputs = args.input;
