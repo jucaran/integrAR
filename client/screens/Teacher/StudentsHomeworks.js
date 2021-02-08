@@ -65,8 +65,6 @@ const StudentsHomeworks = ({ route }) => {
       }
     }
   };
-  const [score, setScore] = useState()
-  const numbers = ['1','2','3','4','5','6','7','8','9','10']
 
   const [score, setScore] = useState();
   const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -206,7 +204,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     color: "white",
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });
 export default StudentsHomeworks;
