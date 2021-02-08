@@ -122,7 +122,11 @@ function EditTeacherScreen({ route }) {
             onChangeText={(value) => handleChange("lastname", value)}
           />
 
-          {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
+          <TextInput
+            style={styles.input}
+            placeholder="DNI"
+            onChangeText={(value) => handleChange("dni", value)}
+          />
 
           <TextInput
             style={styles.input}
@@ -148,12 +152,6 @@ function EditTeacherScreen({ route }) {
             style={styles.input}
             placeholder="Foto"
             onChangeText={(value) => handleChange("picture", value)}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="DNI"
-            onChangeText={(value) => handleChange("dni", value)}
           />
         </View>
         <View>

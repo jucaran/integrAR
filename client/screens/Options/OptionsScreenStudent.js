@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import UserAvatar from "react-native-user-avatar";
 import { AuthContext } from "../../providers/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
@@ -25,24 +25,66 @@ export const GET_STUDENT_BY_DNI = gql`
       whatsapp
       address
       birthday
-      picture
+      picture 
     }
   }
 `;
-const OptionsStudent = ({ navigation, route }) => {
+
+const EDIT_STUDENT = gql`
+  mutation AddStudent(
+    $_id: ID
+    $picture: String
+  ) {
+    editStudent(
+      _id: $_id
+      input: {
+        picture: $picture
+      }
+    ) {
+      name
+    }
+  }
+`;
+
+const OptionsStudent = ({ navigation }) => {
   const { user, logout } = useContext(AuthContext);
   const dni = user.dni;
+  
+  
+  //-----------------------------------------------------
+  
+  // const [student, setStudent] = useState({ picture: "" });
+  // const [editStudent, { loading: loadStudent, error: errorStudent }] = useMutation(EDIT_STUDENT);
+  // const handleChange = (prop, value) => {
+  //   setStudent({ ...student, [prop]: value });
+  // };
+  
+  // const handleOnPress = async ({ picture }) => {
+  //   try{
+  //     await editStudent({
+  //       variables: {
+  //         picture
+  //       }
+  //     })
+  //   } catch(err){
+  //     console.log("Soy el catch: ", err)
+  //   }
+  // }
+
+  //-----------------------------------------------------
+
+
 
   const { data, loading, error } = useQuery(GET_STUDENT_BY_DNI, {
     variables: { dni },
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log("selectedImage: ", selectedImage?.localUri);
+
   let openImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert("Se requiere acceso a la cámara");
+      alert("Se requiere acceso al Almacenamiento Interno");
       return;
     }
     const pickerResult = await ImagePicker.launchImageLibraryAsync();
@@ -50,8 +92,10 @@ const OptionsStudent = ({ navigation, route }) => {
       return;
     }
     setSelectedImage({ localUri: pickerResult.uri });
-    console.log(pickerResult);
+    setStudent({})
   };
+  console.log("selectedImage?.localUri: ", selectedImage?.localUri)
+
 
   if (loading) {
     return (
@@ -78,13 +122,16 @@ const OptionsStudent = ({ navigation, route }) => {
         <View style={styles.card}>
           <ScrollView>
             <View>
-              <TouchableHighlight onPress={openImage}>
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={openImage}
+              >
                 {selectedImage ? (
                   <Image
                     style={styles.user}
                     source={{
-                      uri:
-                      `${selectedImage?.localUri}`,
+                      uri: `${selectedImage?.localUri}`,
                     }}
                   />
                 ) : (
@@ -92,7 +139,6 @@ const OptionsStudent = ({ navigation, route }) => {
                     size={100}
                     name={`${student.name} ${student.lastname}`}
                     style={styles.user}
-                    src={`${student?.image}`}
                   />
                 )}
               </TouchableHighlight>
