@@ -24,7 +24,11 @@ export const editClass = async (_, { _id, input }) => {
   if (!_class) return false;
 
   for (const key in input) {
-    key ? (_class[key] = input[key]) : null;
+    if (key == "corrections") {
+      _class[key].push(input[key]);
+    } else {
+      key ? (_class[key] = input[key]) : null;
+    }
   }
 
   await _class.save();
@@ -141,3 +145,5 @@ export const uploadHomework = async (_, { file, classId }) => {
     status: true,
   };
 };
+
+//TODO: agregar un resolver para modificar la correction de una clase y poder modificar la nota de un alumno o el feedback

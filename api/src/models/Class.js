@@ -14,7 +14,7 @@ const classSchema = new Schema({
   files: [{ type: String }],
   homework: { type: String },
   deliveries: [{ type: String }],
-  correction: [
+  corrections: [
     {
       student: {
         type: Schema.Types.ObjectId,

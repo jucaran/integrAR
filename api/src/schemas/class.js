@@ -8,7 +8,7 @@ export const classTypes = gql`
     deliveries: [String]
     subject: Subject
     module: Module
-    correction: String
+    corrections: [Correction]
     homework: String
   }
 
@@ -19,7 +19,19 @@ export const classTypes = gql`
     deliveries: [String]
     subject: ID
     module: ID
-    correction: String
+    corrections: InputCorrection
     homework: String
+  }
+
+  type Correction {
+    student: Student
+    score: String
+    feedback: String
+  }
+
+  input InputCorrection {
+    student: ID!
+    score: String!
+    feedback: String
   }
 `;
