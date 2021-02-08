@@ -109,6 +109,9 @@ const LoginScreen = ({ navigation }) => {
           source={require("../../assets/login_splash.png")}
           style={styles.landingImg}
         />
+        {/* <Text style={{ color: "black" }}>
+          Bienvenido a integrAr
+        </Text> */}
         <Text style={{ color: "red" }}>
           {error?.dni && "No encontramos un usuario asociado a ese DNI"}
         </Text>

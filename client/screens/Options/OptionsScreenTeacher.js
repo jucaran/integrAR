@@ -15,8 +15,8 @@ import UserAvatar from "react-native-user-avatar";
 import { AuthContext } from "../../providers/AuthProvider";
 
 export const GET_TEACHER_BY_DNI = gql`
-  query GetTeacherById($_id: ID) {
-    teachers(_id: $_id) {
+  query GetTeacherById($dni: String) {
+    teachers(dni: $dni) {
       _id
       name
       lastname
@@ -41,6 +41,7 @@ export const GET_TEACHER_BY_DNI = gql`
 const OptionsTeacher = ({ navigation, route }) => {
   const { user, logout } = useContext(AuthContext);
   const dni = user.dni;
+
   const { data, loading, error } = useQuery(GET_TEACHER_BY_DNI, {
     variables: { dni },
   });
