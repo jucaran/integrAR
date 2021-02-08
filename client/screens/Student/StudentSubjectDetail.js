@@ -63,8 +63,8 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
               </Text>
               <Text style={styles.sTitle}>
               Profesor:{" "}
-              {data.subjects[0].teacher.name}{" "}
-              {data.subjects[0].teacher.lastname}
+              {data.subjects[0].teacher?.name}{" "}
+              {data.subjects[0].teacher?.lastname}
             </Text>
           <Card>
             <Card.Title>Unidades</Card.Title>

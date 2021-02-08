@@ -10,12 +10,21 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
+  //TODO: se tiene que poder eliminar files, homework y deliveries de los archivos por Id
   files: [{ type: String }],
   homework: { type: String },
   deliveries: [{ type: String }],
-  correction: {
-    type: String,
-  },
+  corrections: [
+    {
+      student: {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+        autopopulate: true,
+      },
+      score: { type: String },
+      feedback: { type: String },
+    },
+  ],
   test: {
     type: String,
   },
