@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -6,13 +6,15 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
+  TouchableHighlight,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
-import { Card } from "react-native-paper";
 import UserAvatar from "react-native-user-avatar";
 
-export const GET_TEACHER_BY_ID = gql`
+import { AuthContext } from "../../providers/AuthProvider";
+
+export const GET_TEACHER_BY_DNI = gql`
   query GetTeacherById($_id: ID) {
     teachers(_id: $_id) {
       _id
@@ -36,11 +38,13 @@ export const GET_TEACHER_BY_ID = gql`
   }
 `;
 
-function TeacherDetail({ route }) {
-  const { _id } = route.params;
-  const { data, loading, error } = useQuery(GET_TEACHER_BY_ID, {
-    variables: { _id },
+const OptionsTeacher = ({ navigation, route }) => {
+  const { user, logout } = useContext(AuthContext);
+  const dni = user.dni;
+  const { data, loading, error } = useQuery(GET_TEACHER_BY_DNI, {
+    variables: { dni },
   });
+
 
   if (loading) {
     return (
@@ -51,7 +55,7 @@ function TeacherDetail({ route }) {
     );
   }
 
-  if (error) {
+  if (error ) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -63,20 +67,47 @@ function TeacherDetail({ route }) {
     const teacher = data.teachers[0];
 
     return (
-      // <ScrollView>
       <CenterView>
-        <View style={styles.centerView}>
-          <View style={styles.card}>
+        <View style={styles.card}>
+          <ScrollView>
             <UserAvatar
               size={100}
               name={`${teacher.name} ${teacher.lastname}`}
               style={styles.user}
-              src={`${teacher.picture}`}
+              src={`${teacher.picture}` }
             />
             <Text style={styles.textName}>
               {`${teacher.name} ${teacher.lastname}`}
             </Text>
             <Text style={styles.textRole}>Profesor</Text>
+
+            <View style={styles.link}>
+              <TouchableHighlight
+                style={styles.touch}
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={() => navigation.navigate("EditProfile")}
+              >
+                <Text style={styles.touchText}>EDITAR PERFIL</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.touch}
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={() => navigation.navigate("ResetPass")}
+              >
+                <Text style={styles.touchText}>EDITAR CLAVE</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.touch}
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={logout}
+              >
+                <Text style={styles.touchText}>CERRAR SESIÓN</Text>
+              </TouchableHighlight>
+            </View>
+
             <View style={styles.input}>
               <Text style={styles.touch}>Correo: {`${teacher.email}`}</Text>
             </View>
@@ -88,11 +119,11 @@ function TeacherDetail({ route }) {
                 Dirección: {`${teacher.address}`}
               </Text>
             </View>
-            
+
             <View style={styles.input}>
               <Text style={styles.touch}>Fecha: {`${teacher.birthday}`}</Text>
             </View>
-            <View style={styles.input}>
+            <View style={[styles.input, styles.inputMateria]}>
               <Text style={styles.touch}>
                 Materias:{" "}
                 {teacher.subjects?.length > 0 ? (
@@ -100,22 +131,21 @@ function TeacherDetail({ route }) {
                     return (
                       <Text key={i} style={styles.description}>
                         {subject.name}: {subject.course.name}
-                        {"  "} 
+                        {"  "}
                       </Text>
                     );
                   })
-                ) : (
-                  <></>
-                )}
+                  ) : (
+                    <></>
+                    )}
               </Text>
-            </View>
-          </View>
+            </View> 
+          </ScrollView>
         </View>
       </CenterView>
-      // </ScrollView>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   centerView: {
@@ -130,8 +160,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10,
     fontSize: 16,
-    alignItems: "flex-start",
     color: "#2290CD",
+    width: 90,
+    textAlign: "center",
+    fontSize: 14,
   },
   touch: {
     justifyContent: "flex-start",
@@ -140,11 +172,14 @@ const styles = StyleSheet.create({
   },
   card: {
     width: `100%`,
-    height: 150,
+    height: `100%`,
     margin: 5,
     alignItems: "center",
     flexDirection: "column",
     padding: 10,
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "white",
   },
   cardcount: {
     width: `100%`,
@@ -165,16 +200,19 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 100,
     marginTop: 20,
+    alignSelf: "center",
   },
   textName: {
     fontSize: 25,
     fontWeight: "bold",
     padding: 10,
+    alignSelf: "center",
   },
   textRole: {
     fontSize: 15,
     fontWeight: "bold",
     color: "grey",
+    alignSelf: "center",
   },
   input: {
     alignSelf: "center",
@@ -188,7 +226,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 80,
     elevation: 15,
     marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  inputMateria: {
+    marginBottom: 15,
+  },
+  link: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 
-export default TeacherDetail;
+export default OptionsTeacher;

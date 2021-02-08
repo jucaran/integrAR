@@ -6,7 +6,7 @@ import {Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
 
 const TeacherView = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-
+  
   return (
     <CenterView>
       <Text style={styles.title}>

@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
 import { Card } from "react-native-elements";
-import { WebView, Linking } from "react-native";
-//import { WebView } from 'react-native-webview';
+import { Linking } from "react-native";
 import {
   View,
   Text,

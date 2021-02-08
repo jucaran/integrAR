@@ -103,7 +103,7 @@ const LoginScreen = ({ navigation }) => {
   if (!data || data?.login?.error.password || data?.login?.error.dni) {
     const error = data?.login ? data.login.error : undefined;
     return (
-      <ScrollView>
+      //<ScrollView>
       <CenterView>
         <Image
           source={require("../../assets/login_splash.png")}
@@ -151,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Button title="Ingresar" onPress={handleSubmit} />
       </CenterView>
-      </ScrollView>
+      //</ScrollView>
     );
   }
 

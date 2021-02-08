@@ -2,7 +2,7 @@ import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
-import OptionsStack from "../../stacks/AdminStack/OptionsStack";
+import OptionsStackTeacher from "../../stacks/TeachersStack/OptionsStackTeacher";
 import TeacherHomeStack from "../../stacks/TeachersStack/TeachersHomeStack"
 import TeacherSubjectStack from "../../stacks/TeachersStack/TeacherSubjectStack"
 import TeacherCoursesStack from "../../stacks/TeachersStack/TeacherCoursesStack"
@@ -58,7 +58,7 @@ function TabTeacher() {
       />
       <Tab.Screen
         name="Opciones"
-        component={OptionsStack}
+        component={OptionsStackTeacher}
         options={{
           tabBarIcon: () => {
             return (

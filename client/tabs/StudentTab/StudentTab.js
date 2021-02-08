@@ -2,7 +2,7 @@ import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { View } from "react-native";
-import OptionsStack from "../../stacks/AdminStack/OptionsStack";
+import OptionsStackStudent from "../../stacks/StudentStack/OptionsStackStudent";
 import StudentHomeStack from "../../stacks/StudentStack/StudentHomeStack"
 import StudentSubjectStack from "../../stacks/StudentStack/StudentSubjectStack"
 import StudentProfileStack from "../../stacks/StudentStack/StudentProfileStack"
@@ -72,7 +72,7 @@ function TabStudent() {
       />
       <Tab.Screen
         name="Opciones"
-        component={OptionsStack}
+        component={OptionsStackStudent}
         options={{
           tabBarIcon: () => {
             return (
