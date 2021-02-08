@@ -1,4 +1,5 @@
 import React from "react";
+import { Linking } from "react-native";
 import {
   View,
   Text,
@@ -22,6 +23,7 @@ export const GET_STUDENTS_FROM_COURSE = gql`
         _id
         name
         lastname
+        whatsapp
       }
     }
   }
@@ -64,7 +66,7 @@ const TeacherListStudents = ({ navigation, route }) => {
           {students.length > 0 ? (
             <FlatList
               data={students}
-              renderItem={({ item: { _id, name, lastname } }) => {
+              renderItem={({ item: { _id, name, lastname, whatsapp } }) => {
                 return (
                   <Card key={_id} style={styles.card}>
                     <View style={styles.cardcont}>
@@ -82,6 +84,21 @@ const TeacherListStudents = ({ navigation, route }) => {
                           <Text
                             style={styles.name}
                           >{`${name} ${lastname}`}</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                          style={styles.button}
+                          activeOpacity={0.2}
+                          onPress={async () =>
+                            await Linking.openURL(
+                              `https://wa.me/${whatsapp}`
+                            )
+                          }
+                        >
+                          <Image
+                            key={item.students._id}
+                            source={require("../../assets/whatsapp.png")}
+                            style={styles.img}
+                          />
                         </TouchableHighlight>
                       </View>
                     </View>
@@ -146,6 +163,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     margin: 5,
     marginLeft: 12,
+  },
+  button: {
+    backgroundColor: "#00aadd",
+    padding: 8,
+    borderRadius: 13,
+    minWidth: 40,
+    minHeight: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  img: {
+    width: 30,
+    height: 30,
   },
 });
 export default TeacherListStudents;
