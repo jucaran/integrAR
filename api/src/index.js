@@ -59,7 +59,7 @@ app.get("/download/:classId/", function (req, res) {
     `${classId}.zip`
   );
 
-  if (!fs.existsSync(dirPath)) {
+  if (fs.existsSync(dirPath)) {
     const output = fs.createWriteStream(filePath);
     const archive = archiver("zip");
 
@@ -86,6 +86,8 @@ app.get("/download/:classId/", function (req, res) {
     archive.pipe(output);
     archive.directory(dirPath, false);
     archive.finalize();
+  } else {
+    return res.send(404);
   }
 });
 
