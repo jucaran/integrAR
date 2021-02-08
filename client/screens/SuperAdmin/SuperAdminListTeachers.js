@@ -82,7 +82,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         underlayColor=""
                         onPress={() => {
                           navigation.navigate("TeacherDetail", {
-                            teacherId: teacher._id,
+                            _id: teacher._id,
                           });
                         }}
                       >
@@ -143,7 +143,6 @@ const SuperAdminListTeachers = ({ navigation }) => {
                     <View style={styles.desc}>
                       {teacher.subjects?.length > 0 ? (
                         teacher.subjects.map((subject, i) => {
-                          console.log("subject: ", subject);
                           return (
                             <Text key={i} style={styles.description}>
                               {subject.name}: {subject.course.name}

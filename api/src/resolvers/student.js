@@ -7,7 +7,6 @@ import Course from "../models/Course";
 // Query
 export const allStudents = async (_, args) => {
   if (args._id) {
-    console.log("En el resolver: ", Student.find({ _id: args._id }))
     return await Student.find({ _id: args._id });
   } else if (args.dni) {
     return await Student.find({ dni: args.dni });

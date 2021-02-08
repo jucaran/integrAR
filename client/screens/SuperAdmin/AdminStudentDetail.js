@@ -9,12 +9,11 @@ import {
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
-import { Card } from "react-native-paper";
 import UserAvatar from "react-native-user-avatar";
 
-export const GET_TEACHER_BY_ID = gql`
-  query GetTeacherById($_id: ID) {
-    teachers(_id: $_id) {
+export const GET_STUDENT_BY_ID = gql`
+  query GetStudentById($_id: ID) {
+    students(_id: $_id) {
       _id
       name
       lastname
@@ -24,21 +23,13 @@ export const GET_TEACHER_BY_ID = gql`
       address
       birthday
       picture
-      subjects {
-        _id
-        name
-        course {
-          _id
-          name
-        }
-      }
     }
   }
 `;
 
-function TeacherDetail({ route }) {
+function AdminStudentDetail({ route }) {
   const { _id } = route.params;
-  const { data, loading, error } = useQuery(GET_TEACHER_BY_ID, {
+  const { data, loading, error } = useQuery(GET_STUDENT_BY_ID, {
     variables: { _id },
   });
 
@@ -60,7 +51,7 @@ function TeacherDetail({ route }) {
   }
 
   if (data) {
-    const teacher = data.teachers[0];
+    const student = data.students[0];
 
     return (
       <CenterView>
@@ -68,46 +59,29 @@ function TeacherDetail({ route }) {
           <ScrollView>
             <UserAvatar
               size={100}
-              name={`${teacher.name} ${teacher.lastname}`}
+              name={`${student.name} ${student.lastname}`}
               style={styles.user}
-              src={`${teacher.picture}` }
+              src={`${student.picture}` }
             />
             <Text style={styles.textName}>
-              {`${teacher.name} ${teacher.lastname}`}
+              {`${student.name} ${student.lastname}`}
             </Text>
-            <Text style={styles.textRole}>Profesor</Text>
+            <Text style={styles.textRole}>Estudiante</Text>
             <View style={styles.input}>
-              <Text style={styles.touch}>Correo: {`${teacher.email}`}</Text>
+              <Text style={styles.touch}>Correo: {`${student.email}`}</Text>
             </View>
             <View style={styles.input}>
-              <Text style={styles.touch}>DNI: {`${teacher.dni}`}</Text>
+              <Text style={styles.touch}>DNI: {`${student.dni}`}</Text>
             </View>
             <View style={styles.input}>
               <Text style={styles.touch}>
-                Dirección: {`${teacher.address}`}
+                Dirección: {`${student.address}`}
               </Text>
             </View>
 
-            <View style={styles.input}>
-              <Text style={styles.touch}>Fecha: {`${teacher.birthday}`}</Text>
-            </View>
             <View style={[styles.input, styles.inputMateria]}>
-              <Text style={styles.touch}>
-                Materias:{" "}
-                {teacher.subjects?.length > 0 ? (
-                  teacher.subjects.map((subject, i) => {
-                    return (
-                      <Text key={i} style={styles.description}>
-                        {subject.name}: {subject.course.name}
-                        {"  "}
-                      </Text>
-                    );
-                  })
-                  ) : (
-                    <></>
-                    )}
-              </Text>
-            </View> 
+              <Text style={styles.touch}>Fecha: {`${student.birthday}`}</Text>
+            </View>
           </ScrollView>
         </View>
       </CenterView>
@@ -172,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TeacherDetail;
+export default AdminStudentDetail;
