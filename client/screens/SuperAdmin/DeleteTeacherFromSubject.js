@@ -85,7 +85,8 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   if (loading || mutationLoading) {
     return (
       <CenterView>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
       </CenterView>
     );
   }
@@ -93,7 +94,6 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
   if (data) {
     const subject = data.subjects[0];
     //const subjects = data.courses[0].subjects;
-    console.log(subject);
     return (
         <ScrollView>
           <View >

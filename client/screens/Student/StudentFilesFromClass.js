@@ -54,7 +54,6 @@ const StudentFilesFromClass = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0];
-    // console.log(clase);
 
     return (
       <View style={styles.cont}>

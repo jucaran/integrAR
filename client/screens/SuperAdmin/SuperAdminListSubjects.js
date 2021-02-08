@@ -94,7 +94,6 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                 return (
                   <View key={subject._id} style={styles.cards}>
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    {console.log(subject)}
                     {subject.teacher ? (
                       <TouchableHighlight
                         style={styles.buttonDel}
