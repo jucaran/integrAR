@@ -59,35 +59,34 @@ app.get("/download/:classId/", function (req, res) {
     `${classId}.zip`
   );
 
-  const output = fs.createWriteStream(filePath);
-  const archive = archiver("zip");
+  if (!fs.existsSync(dirPath)) {
+    const output = fs.createWriteStream(filePath);
+    const archive = archiver("zip");
 
-  output.on("close", function () {
-    console.log(archive.pointer() + " total bytes");
-    res.download(filePath);
-  });
+    output.on("close", function () {
+      res.download(filePath);
+    });
 
-  output.on("end", function () {
-    console.log("Data has been drained");
-  });
+    output.on("end", function () {
+      console.log("Data has been drained");
+    });
 
-  archive.on("warning", function (err) {
-    if (err.code === "ENOENT") {
-      // log warning
-      console.log(err);
-    } else {
-      // throw error
+    archive.on("warning", function (err) {
+      if (err.code === "ENOENT") {
+        console.log(err);
+      } else {
+        throw err;
+      }
+    });
+
+    archive.on("error", function (err) {
       throw err;
-    }
-  });
+    });
 
-  archive.on("error", function (err) {
-    throw err;
-  });
-
-  archive.pipe(output);
-  archive.directory(dirPath, false);
-  archive.finalize();
+    archive.pipe(output);
+    archive.directory(dirPath, false);
+    archive.finalize();
+  }
 });
 
 app.set("port", PORT);
