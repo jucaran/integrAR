@@ -28,11 +28,14 @@ export const editClass = async (_, { _id, input }) => {
   }
 
   await _class.save();
-  return _class
+  return _class;
 };
 
-export const deleteClass = async (_, { _id }) =>
-  await Class.findByIdAndDelete(_id);
+export const deleteClass = async (_, { _id }) => {
+  //TODO: cuando borre una clase, borrar su modulo y borrar sus subjects
+
+  return await Class.findByIdAndDelete(_id);
+};
 
 /**
  * This resolver receives a class id and a file and uploads it to the
