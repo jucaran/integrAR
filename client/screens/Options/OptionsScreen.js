@@ -72,7 +72,7 @@ const Options = ({ navigation }) => {
 
             <View style={styles.link}>
               <TouchableHighlight
-                style={styles.touch}
+                style={styles.touchLink}
                 activeOpacity={0.6}
                 underlayColor=""
                 onPress={() => navigation.navigate("EditProfile")}
@@ -80,7 +80,7 @@ const Options = ({ navigation }) => {
                 <Text style={styles.touchText}>EDITAR PERFIL</Text>
               </TouchableHighlight>
               <TouchableHighlight
-                style={styles.touch}
+                style={styles.touchLink}
                 activeOpacity={0.6}
                 underlayColor=""
                 onPress={() => navigation.navigate("ResetPass")}
@@ -88,7 +88,7 @@ const Options = ({ navigation }) => {
                 <Text style={styles.touchText}>EDITAR CLAVE</Text>
               </TouchableHighlight>
               <TouchableHighlight
-                style={styles.touch}
+                style={styles.touchLink}
                 activeOpacity={0.6}
                 underlayColor=""
                 onPress={logout}
@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
   touchText: {
     marginTop: 15,
     marginBottom: 10,
-    fontSize: 16,
     color: "#2290CD",
     width: 90,
     textAlign: "center",
@@ -141,6 +140,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginTop: 5,
     marginBottom: 5,
+  },
+  touchLink: {
+    justifyContent: "flex-start",
+    marginTop: 5,
+    marginBottom: 5,
+    shadowOpacity: 80,
+    elevation: 10,
+    borderRadius: 15,
+    backgroundColor: "#fff",
   },
   card: {
     width: `100%`,
@@ -196,7 +204,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     shadowOpacity: 80,
-    elevation: 15,
+    elevation: 10,
     marginTop: 15,
     marginLeft: 15,
     marginRight: 15,
@@ -205,6 +213,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   link: {
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
   },
