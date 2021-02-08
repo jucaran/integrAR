@@ -14,12 +14,17 @@ const classSchema = new Schema({
   files: [{ type: String }],
   homework: { type: String },
   deliveries: [{ type: String }],
-  correction: {
-    student: [
-      { type: Schema.Types.ObjectId, ref: "Student", autopopulate: true },
-    ],
-    score: { type: String },
-  },
+  correction: [
+    {
+      student: {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+        autopopulate: true,
+      },
+      score: { type: String },
+      feedback: { type: String },
+    },
+  ],
   test: {
     type: String,
   },
