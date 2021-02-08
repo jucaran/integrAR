@@ -6,6 +6,8 @@ import typeDefs from "./schemas/index.js";
 import resolvers from "./resolvers/index.js";
 import isAuth from "./middleware/is-auth";
 import path from "path";
+import fs from "fs";
+import archiver from "archiver";
 
 const app = express();
 app.use(isAuth);
@@ -46,6 +48,47 @@ app.get("/download/students/:classId/:name", function (req, res) {
   console.log(req);
   const { classId, name } = req.params;
   res.download(path.join(__dirname, "uploads", "students", classId, name));
+});
+
+app.get("/download/:classId/", function (req, res) {
+  const { classId } = req.params;
+  const dirPath = path.join(__dirname, "uploads", "students", classId);
+  const filePath = path.join(
+    __dirname,
+    "uploads",
+    "students",
+    `${classId}.zip`
+  );
+
+  const output = fs.createWriteStream(filePath);
+  const archive = archiver("zip");
+
+  output.on("close", function () {
+    console.log(archive.pointer() + " total bytes");
+    res.download(filePath);
+  });
+
+  output.on("end", function () {
+    console.log("Data has been drained");
+  });
+
+  archive.on("warning", function (err) {
+    if (err.code === "ENOENT") {
+      // log warning
+      console.log(err);
+    } else {
+      // throw error
+      throw err;
+    }
+  });
+
+  archive.on("error", function (err) {
+    throw err;
+  });
+
+  archive.pipe(output);
+  archive.directory(dirPath, false);
+  archive.finalize();
 });
 
 app.set("port", PORT);
