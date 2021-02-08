@@ -103,12 +103,15 @@ const LoginScreen = ({ navigation }) => {
   if (!data || data?.login?.error.password || data?.login?.error.dni) {
     const error = data?.login ? data.login.error : undefined;
     return (
-      <ScrollView>
+      //<ScrollView>
       <CenterView>
         <Image
           source={require("../../assets/login_splash.png")}
           style={styles.landingImg}
         />
+        {/* <Text style={{ color: "black" }}>
+          Bienvenido a integrAr
+        </Text> */}
         <Text style={{ color: "red" }}>
           {error?.dni && "No encontramos un usuario asociado a ese DNI"}
         </Text>
@@ -151,7 +154,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Button title="Ingresar" onPress={handleSubmit} />
       </CenterView>
-      </ScrollView>
+      //</ScrollView>
     );
   }
 

@@ -9,6 +9,7 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { Card } from "react-native-paper";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
@@ -21,7 +22,7 @@ export const GET_ALL_TEACHERS = gql`
       lastname
       subjects {
         name
-        course{
+        course {
           name
           _id
         }
@@ -58,7 +59,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="ligthgrey"
+              underlayColor=""
               onPress={() => {
                 navigation.navigate("AddTeacher");
               }}
@@ -78,7 +79,24 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       </Text>
                       <TouchableHighlight
                         activeOpacity={0.6}
-                        underlayColor="ligthgrey"
+                        underlayColor=""
+                        onPress={() => {
+                          navigation.navigate("TeacherDetail", {
+                            _id: teacher._id,
+                          });
+                        }}
+                      >
+                        <Icon
+                          name="info"
+                          type="font-awesome"
+                          size={17}
+                          color={`#696969`}
+                          style={styles.img}
+                        />
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() => {
                           navigation.navigate("EditTeacher", {
                             teacherId: teacher._id,
@@ -127,8 +145,8 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         teacher.subjects.map((subject, i) => {
                           return (
                             <Text key={i} style={styles.description}>
-                            |sqsq {subject.name}
-                            {/* : {subject.course.name} | */}
+                              {subject.name}: {subject.course.name}
+                              {"  "}|
                             </Text>
                           );
                         })
@@ -182,12 +200,11 @@ const styles = StyleSheet.create({
     width: 14,
     height: 14,
     marginTop: 10,
-    marginRight: 25,
+    marginRight: 20,
   },
   name: {
     fontSize: 16,
-    width: 280,
-    // fontFamily: "roboto",
+    width: 250,
     color: "#000000",
     marginLeft: 10,
     fontWeight: "bold",

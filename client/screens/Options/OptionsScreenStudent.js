@@ -11,12 +11,11 @@ import {
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import UserAvatar from "react-native-user-avatar";
-
 import { AuthContext } from "../../providers/AuthProvider";
 
-export const GET_ADMIN = gql`
-  {
-    admin {
+export const GET_STUDENT_BY_DNI = gql`
+  query GetStudentById($_id: ID) {
+    students(_id: $_id) {
       _id
       name
       lastname
@@ -29,11 +28,13 @@ export const GET_ADMIN = gql`
     }
   }
 `;
+const OptionsStudent = ({ navigation, route }) => {
+  const { user, logout } = useContext(AuthContext);
+  const dni = user.dni;
 
-const Options = ({ navigation }) => {
-  const { logout } = useContext(AuthContext);
-  const { data, loading, error } = useQuery(GET_ADMIN);
-
+  const { data, loading, error } = useQuery(GET_STUDENT_BY_DNI, {
+    variables: { dni },
+  });
 
   if (loading) {
     return (
@@ -53,7 +54,7 @@ const Options = ({ navigation }) => {
   }
 
   if (data) {
-    const admin = data.admin[0];
+    const student = data.students[0];
 
     return (
       <CenterView>
@@ -61,14 +62,14 @@ const Options = ({ navigation }) => {
           <ScrollView>
             <UserAvatar
               size={100}
-              name={`${admin.name} ${admin.lastname}`}
+              name={`${student.name} ${student.lastname}`}
               style={styles.user}
-              src={`${admin.picture}` }
+              src={`${student.picture}`}
             />
             <Text style={styles.textName}>
-              {`${admin.name} ${admin.lastname}`}
+              {`${student.name} ${student.lastname}`}
             </Text>
-            <Text style={styles.textRole}>Preceptor</Text>
+            <Text style={styles.textRole}>Estudiante</Text>
 
             <View style={styles.link}>
               <TouchableHighlight
@@ -98,19 +99,18 @@ const Options = ({ navigation }) => {
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.touch}>Correo: {`${admin.email}`}</Text>
+              <Text style={styles.touch}>Correo: {`${student.email}`}</Text>
             </View>
             <View style={styles.input}>
-              <Text style={styles.touch}>DNI: {`${admin.dni}`}</Text>
+              <Text style={styles.touch}>DNI: {`${student.dni}`}</Text>
             </View>
             <View style={styles.input}>
               <Text style={styles.touch}>
-                Dirección: {`${admin.address}`}
+                Dirección: {`${student.address}`}
               </Text>
             </View>
-
             <View style={[styles.input, styles.inputMateria]}>
-              <Text style={styles.touch}>Fecha: {`${admin.birthday}`}</Text>
+              <Text style={styles.touch}>Fecha: {`${student.birthday}`}</Text>
             </View>
           </ScrollView>
         </View>
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     shadowOpacity: 80,
+    
     elevation: 10,
     borderRadius: 15,
     backgroundColor: "#fff",
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     shadowOpacity: 80,
-    elevation: 10,
+    elevation: 15,
     marginTop: 15,
     marginLeft: 15,
     marginRight: 15,
@@ -222,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Options;
+export default OptionsStudent;

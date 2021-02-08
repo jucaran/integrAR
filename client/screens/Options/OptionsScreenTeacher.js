@@ -14,9 +14,9 @@ import UserAvatar from "react-native-user-avatar";
 
 import { AuthContext } from "../../providers/AuthProvider";
 
-export const GET_ADMIN = gql`
-  {
-    admin {
+export const GET_TEACHER_BY_DNI = gql`
+  query GetTeacherById($dni: String) {
+    teachers(dni: $dni) {
       _id
       name
       lastname
@@ -26,13 +26,25 @@ export const GET_ADMIN = gql`
       address
       birthday
       picture
+      subjects {
+        _id
+        name
+        course {
+          _id
+          name
+        }
+      }
     }
   }
 `;
 
-const Options = ({ navigation }) => {
-  const { logout } = useContext(AuthContext);
-  const { data, loading, error } = useQuery(GET_ADMIN);
+const OptionsTeacher = ({ navigation, route }) => {
+  const { user, logout } = useContext(AuthContext);
+  const dni = user.dni;
+
+  const { data, loading, error } = useQuery(GET_TEACHER_BY_DNI, {
+    variables: { dni },
+  });
 
 
   if (loading) {
@@ -44,7 +56,7 @@ const Options = ({ navigation }) => {
     );
   }
 
-  if (error) {
+  if (error ) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -53,7 +65,7 @@ const Options = ({ navigation }) => {
   }
 
   if (data) {
-    const admin = data.admin[0];
+    const teacher = data.teachers[0];
 
     return (
       <CenterView>
@@ -61,14 +73,14 @@ const Options = ({ navigation }) => {
           <ScrollView>
             <UserAvatar
               size={100}
-              name={`${admin.name} ${admin.lastname}`}
+              name={`${teacher.name} ${teacher.lastname}`}
               style={styles.user}
-              src={`${admin.picture}` }
+              src={`${teacher.picture}` }
             />
             <Text style={styles.textName}>
-              {`${admin.name} ${admin.lastname}`}
+              {`${teacher.name} ${teacher.lastname}`}
             </Text>
-            <Text style={styles.textRole}>Preceptor</Text>
+            <Text style={styles.textRole}>Profesor</Text>
 
             <View style={styles.link}>
               <TouchableHighlight
@@ -98,20 +110,37 @@ const Options = ({ navigation }) => {
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.touch}>Correo: {`${admin.email}`}</Text>
+              <Text style={styles.touch}>Correo: {`${teacher.email}`}</Text>
             </View>
             <View style={styles.input}>
-              <Text style={styles.touch}>DNI: {`${admin.dni}`}</Text>
+              <Text style={styles.touch}>DNI: {`${teacher.dni}`}</Text>
             </View>
             <View style={styles.input}>
               <Text style={styles.touch}>
-                Dirección: {`${admin.address}`}
+                Dirección: {`${teacher.address}`}
               </Text>
             </View>
 
-            <View style={[styles.input, styles.inputMateria]}>
-              <Text style={styles.touch}>Fecha: {`${admin.birthday}`}</Text>
+            <View style={styles.input}>
+              <Text style={styles.touch}>Fecha: {`${teacher.birthday}`}</Text>
             </View>
+            <View style={[styles.input, styles.inputMateria]}>
+              <Text style={styles.touch}>
+                Materias:{" "}
+                {teacher.subjects?.length > 0 ? (
+                  teacher.subjects.map((subject, i) => {
+                    return (
+                      <Text key={i} style={styles.description}>
+                        {subject.name}: {subject.course.name}
+                        {"  "}
+                      </Text>
+                    );
+                  })
+                  ) : (
+                    <></>
+                    )}
+              </Text>
+            </View> 
           </ScrollView>
         </View>
       </CenterView>
@@ -204,7 +233,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     shadowOpacity: 80,
-    elevation: 10,
+    elevation: 15,
     marginTop: 15,
     marginLeft: 15,
     marginRight: 15,
@@ -222,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Options;
+export default OptionsTeacher;
