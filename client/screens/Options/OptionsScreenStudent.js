@@ -15,8 +15,8 @@ import { AuthContext } from "../../providers/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
 
 export const GET_STUDENT_BY_DNI = gql`
-  query GetStudentById($_id: ID) {
-    students(_id: $_id) {
+  query GetStudentById($dni: String) {
+    students(dni: $dni) {
       _id
       name
       lastname
@@ -38,7 +38,7 @@ const OptionsStudent = ({ navigation, route }) => {
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
-
+  console.log("selectedImage: ", selectedImage?.localUri);
   let openImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
@@ -77,22 +77,26 @@ const OptionsStudent = ({ navigation, route }) => {
       <CenterView>
         <View style={styles.card}>
           <ScrollView>
-            {/* ------------------------------ */}
             <View>
               <TouchableHighlight onPress={openImage}>
-              {/* {selectedImage !== null ? selectedImage.localUri : null} */}
-                <UserAvatar
-                  size={100}
-                  name={`${student.name} ${student.lastname}`}
-                  //style={styles.user}
-                  // src={{
-                  //   uri: selectedImage !== null ? selectedImage.localUri : null,
-                  // }}
-                  src={`${selectedImage?.localUri}`}
-                />
+                {selectedImage ? (
+                  <Image
+                    style={styles.user}
+                    source={{
+                      uri:
+                      `${selectedImage?.localUri}`,
+                    }}
+                  />
+                ) : (
+                  <UserAvatar
+                    size={100}
+                    name={`${student.name} ${student.lastname}`}
+                    style={styles.user}
+                    src={`${student?.image}`}
+                  />
+                )}
               </TouchableHighlight>
             </View>
-            {/* ------------------------------ */}
 
             <Text style={styles.textName}>
               {`${student.name} ${student.lastname}`}
