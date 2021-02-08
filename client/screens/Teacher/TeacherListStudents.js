@@ -95,7 +95,7 @@ const TeacherListStudents = ({ navigation, route }) => {
                           }
                         >
                           <Image
-                            key={item.students._id}
+                            key={_id}
                             source={require("../../assets/whatsapp.png")}
                             style={styles.img}
                           />
