@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     //fontFamily: 'roboto',
     fontSize: 25,
     color: "#000000",
-    marginBottom: 45,
+    marginBottom: 35,
   },
   description: {
     //fontFamily: 'roboto',
@@ -70,23 +70,9 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: "#2290CD",
     borderWidth: 2,
-    marginBottom: 60,
+    marginBottom: 50,
   },
-  button: {
-    margin: 15,
-    backgroundColor: "#006DEE",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 237,
-    height: 50,
-    padding: 7,
-    borderRadius: 7,
-  },
-  textButton: {
-    // fontFamily: 'roboto',
-    fontSize: 16,
-    color: "white",
-  },
+
 });
 
 export default AddCourseScreen;

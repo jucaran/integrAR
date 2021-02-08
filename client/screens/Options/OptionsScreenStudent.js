@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import UserAvatar from "react-native-user-avatar";
 import { AuthContext } from "../../providers/AuthProvider";
+import * as ImagePicker from "expo-image-picker";
 
 export const GET_STUDENT_BY_DNI = gql`
   query GetStudentById($_id: ID) {
@@ -35,6 +36,22 @@ const OptionsStudent = ({ navigation, route }) => {
   const { data, loading, error } = useQuery(GET_STUDENT_BY_DNI, {
     variables: { dni },
   });
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  let openImage = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Se requiere acceso a la cámara");
+      return;
+    }
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+    setSelectedImage({ localUri: pickerResult.uri });
+    console.log(pickerResult);
+  };
 
   if (loading) {
     return (
@@ -60,12 +77,23 @@ const OptionsStudent = ({ navigation, route }) => {
       <CenterView>
         <View style={styles.card}>
           <ScrollView>
-            <UserAvatar
-              size={100}
-              name={`${student.name} ${student.lastname}`}
-              style={styles.user}
-              src={`${student.picture}`}
-            />
+            {/* ------------------------------ */}
+            <View>
+              <TouchableHighlight onPress={openImage}>
+              {/* {selectedImage !== null ? selectedImage.localUri : null} */}
+                <UserAvatar
+                  size={100}
+                  name={`${student.name} ${student.lastname}`}
+                  //style={styles.user}
+                  // src={{
+                  //   uri: selectedImage !== null ? selectedImage.localUri : null,
+                  // }}
+                  src={`${selectedImage?.localUri}`}
+                />
+              </TouchableHighlight>
+            </View>
+            {/* ------------------------------ */}
+
             <Text style={styles.textName}>
               {`${student.name} ${student.lastname}`}
             </Text>
@@ -146,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     shadowOpacity: 80,
-    
+
     elevation: 10,
     borderRadius: 15,
     backgroundColor: "#fff",
