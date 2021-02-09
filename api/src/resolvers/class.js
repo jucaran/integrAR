@@ -36,9 +36,20 @@ export const editClass = async (_, { _id, input }) => {
 };
 
 export const deleteClass = async (_, { _id }) => {
-  //TODO: cuando borre una clase, borrar su modulo y borrar sus subjects
+  try {
+    const CLASS = await Class.findByIdAndDelete(_id);
+    const CLASS_MODULE = await Module.findById(CLASS.module._id);
 
-  return await Class.findByIdAndDelete(_id);
+    // Deleting de class from de module
+    CLASS_MODULE.classes = CLASS_MODULE.classes.filter(
+      (classId) => classId !== _id
+    );
+
+    return await CLASS_MODULE.save();
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
 };
 
 /**
@@ -90,7 +101,7 @@ export const deleteClassFile = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes the file from server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;
@@ -153,7 +164,7 @@ export const deleteDelivery = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes the file from the server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;
@@ -210,7 +221,7 @@ export const deleteHomework = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes file from the server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;

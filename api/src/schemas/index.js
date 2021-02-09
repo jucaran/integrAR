@@ -66,7 +66,7 @@ export default gql`
     uploadClassFile(file: Upload!, classId: ID!): File
     deleteClassFile(classId: ID!, filename: String!): Boolean
     uploadDelivery(file: Upload!, classId: ID!, dni: String!): File
-    deleteDelivery(classId: ID!, filename: String!): Boolean
+    deleteDelivery(classId: ID!, dni: String!): Boolean
     uploadHomework(file: Upload!, classId: ID!): File
     deleteHomework(classId: ID!, filename: String!): Boolean
 
