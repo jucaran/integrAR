@@ -12,6 +12,7 @@ import HomeworkFromClass from "../../screens/Teacher/HomeworkFromClass"
 import CreateStudentsCsv from "../../utils/CreateStudentsCsv"
 import TeacherDetail from "../../screens/SuperAdmin/TeacherDetail"
 import AdminStudentDetail from "../../screens/SuperAdmin/AdminStudentDetail"
+import ImageExample from "../../utils/ImageExample"
 
 
 const Stack = createStackNavigator();
@@ -43,6 +44,8 @@ export default function TeachersStack() {
       <Stack.Screen name="HomeworkFromClass" component={HomeworkFromClass} />
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
       <Stack.Screen name="AdminStudentDetail" component={AdminStudentDetail} />
+      <Stack.Screen name="ImageExample" component={ImageExample} />
+
     </Stack.Navigator>
   );
 }
