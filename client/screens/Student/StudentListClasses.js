@@ -30,6 +30,37 @@ const StudentListClasses = ({ navigation, route }) => {
     variables: { _id },
   });
 
+  const colors = [
+    "#F61E2B",
+    "#F61EA1",
+    "#1EE2F6",
+    "#1EF669",
+    "#1EA4F6",
+    "#561EF6",
+    "#1EF669",
+    "#1E56F6",
+    "#F0FB11",
+    "#3FF61E",
+    "#F9A31E",
+    "#1EA4F6",
+    "#F91E1E",
+    "#DC1EF6",
+    "#F61E49",
+    "#70CE12",
+    "#1CCC71",
+    "#CC741C",
+    "#35C8B4",
+    "#F61E2B",
+    "#F61EA1",
+    "#1EE2F6",
+    "#1EF669",
+    "#1EA4F6",
+    "#F0FB11",
+    "#3FF61E",
+    "#F9A31E",
+    "#1EA4F6",
+  ];
+
   if (loading) {
     return (
       <CenterView>
@@ -57,12 +88,20 @@ const StudentListClasses = ({ navigation, route }) => {
           {module.classes.length ? (
             <FlatList
               data={module.classes}
-              renderItem={({ item }) => {
+              renderItem={({ item, index }) => {
                 return (
                   <View style={styles.cardIn} key={item._id}>
                     <Text style={{ fontSize: 18 }}>{item.name}</Text>
                     <TouchableHighlight
-                      style={styles.button}
+                      style={{
+                        backgroundColor: colors[index],
+                        padding: 5,
+                        borderRadius: 7,
+                        minWidth: 95,
+                        minHeight: 45,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                       activeOpacity={0.6}
                       onPress={() =>
                         navigation.navigate("StudentClassDetail", {
@@ -110,15 +149,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     display: "flex",
     margin: 10,
-  },
-  button: {
-    backgroundColor: "#2290CD",
-    padding: 5,
-    borderRadius: 7,
-    minWidth: 80,
-    minHeight: 45,
-    justifyContent: "center",
-    alignItems: "center"
   },
   textHigh: {
     color: "white",

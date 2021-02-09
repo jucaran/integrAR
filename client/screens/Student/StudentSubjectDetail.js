@@ -35,6 +35,28 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
     variables: { _id },
   });
 
+  const colors = [
+    "#561EF6",
+    "#1EF669",
+    "#1E56F6",
+    "#F0FB11",
+    "#3FF61E",
+    "#F9A31E",
+    "#1EA4F6",
+    "#F61E2B",
+    "#F61EA1",
+    "#1EE2F6",
+    "#1EF669",
+    "#1EA4F6",
+    "#F91E1E",
+    "#DC1EF6",
+    "#F61E49",
+    "#70CE12",
+    "#1CCC71",
+    "#CC741C",
+    "#35C8B4",
+  ];
+
   if (loading) {
     return (
       <CenterView>
@@ -58,30 +80,35 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
     return (
       <ScrollView>
         <View style={styles.cont}>
-            <Text style={styles.title}>
-              {data.subjects[0].name} 
-              </Text>
-              <Text style={styles.sTitle}>
-              Profesor:{" "}
-              {data.subjects[0].teacher?.name}{" "}
-              {data.subjects[0].teacher?.lastname}
-            </Text>
+          <Text style={styles.title}>{data.subjects[0].name}</Text>
+          <Text style={styles.sTitle}>
+            Profesor: {data.subjects[0].teacher?.name}{" "}
+            {data.subjects[0].teacher?.lastname}
+          </Text>
           <Card>
             <Card.Title>Unidades</Card.Title>
             <Card.Divider />
             {modules.length ? (
               <FlatList
                 data={modules}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View key={item._id} style={styles.cardIn}>
                       <TouchableHighlight
-                        style={styles.button}
+                        style={{
+                          backgroundColor: colors[index],
+                          padding: 5,
+                          borderRadius: 7,
+                          minWidth: 100,
+                          minHeight: 57,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                         activeOpacity={0.6}
                         underlayColor="white"
                         onPress={() =>
                           navigation.navigate("StudentListClasses", {
-                            id: item._id
+                            id: item._id,
                           })
                         }
                       >
@@ -111,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 18,
     fontWeight: "bold",
-    color: "#272626"
+    color: "#272626",
   },
   sTitle: {
     justifyContent: "center",
@@ -120,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
     fontWeight: "bold",
-    color: "#272626"
+    color: "#272626",
   },
 
   cont: {
@@ -134,15 +161,6 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: 10,
     marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "#2290CD",
-    padding: 5,
-    borderRadius: 7,
-    minWidth: 90,
-    minHeight: 50,
-    justifyContent: "center",
-    alignItems: "center"
   },
   textHigh: {
     color: "white",
