@@ -8,7 +8,7 @@ import {
 export default function ImageExample() {
 
   return(
-    <ScrollView centerContent={true} horizontal={true} style={{backgroundColor: '#E5EFFF'}}>
+    <ScrollView centerContent={true} horizontal={true} style={{backgroundColor: '#DEE2E9'}}>
     <Image
     style={styles.imageState}
     source={require("../assets/ejemplocsv.png")}
