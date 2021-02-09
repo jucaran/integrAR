@@ -154,7 +154,7 @@ const styles = new StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#D5D2D2",
+    backgroundColor: "#DEE2E9",
     minHeight: '100%'
   },
   underline: {
