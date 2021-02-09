@@ -90,7 +90,7 @@ export const deleteClassFile = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes the file from server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;
@@ -139,13 +139,13 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
 /**
  *  Deletes a delivery of the class, also deletes the file from the server
  */
-export const deleteDelivery = async (_, { classId, filename }) => {
+export const deleteDelivery = async (_, { classId, dni }) => {
   const _class = await Class.findById(classId);
   if (!_class) return false;
 
   // Deletes the file from the mongo document
-  _class.deliveries = _classs.deliveries.filter(
-    (delivery) => delivery !== filename
+  _class.deliveries = _class.deliveries.filter(
+    (delivery) => delivery.slice(".")[0] !== dni
   );
   await _class.save();
 
@@ -153,7 +153,9 @@ export const deleteDelivery = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes the file from the server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename), (err) => {
+        return true;
+      });
     } catch (err) {
       console.log(err);
       return false;
@@ -210,7 +212,7 @@ export const deleteHomework = async (_, { classId, filename }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes file from the server
-      fs.unlink(path.join(dirPath, filename));
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;
