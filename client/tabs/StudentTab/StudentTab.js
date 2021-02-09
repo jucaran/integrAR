@@ -32,7 +32,7 @@ function TabStudent() {
         }}
       />
        <Tab.Screen
-        name="Mis Materias"
+        name="Materias"
         component={StudentSubjectStack}
         options={{
           tabBarIcon: () => {
@@ -58,7 +58,7 @@ function TabStudent() {
         }}
       />
        <Tab.Screen
-        name="Mis Profesores"
+        name="Profesores"
         component={StudentTeachersStack}
         options={{
           tabBarIcon: () => {
