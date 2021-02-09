@@ -68,7 +68,7 @@ export default gql`
     uploadDelivery(file: Upload!, classId: ID!, dni: String!): File
     deleteDelivery(classId: ID!, filename: String!): Boolean
     uploadHomework(file: Upload!, classId: ID!): File
-    deleteHomework(classId: ID!, filename: String): Boolean
+    deleteHomework(classId: ID!, filename: String!): Boolean
 
     createStudentsWithCsv(file: Upload!, courseId: ID): File
     createTeachersWithCsv(file: Upload): File
