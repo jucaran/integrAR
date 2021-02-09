@@ -72,8 +72,8 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
           }}
         >
           <TouchableHighlight
-            activeOpacity={0.6}
-            underlayColor="ligthgrey"
+            activeOpacity={1}
+            underlayColor="white"
             onPress={() =>
               navigation.navigate("SuperAdminAddSubject", {
                 params: data.courses[0]._id,
@@ -222,12 +222,18 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     justifyContent: "center",
+    minWidth: 130,
+    minHeight: 40,
+    alignItems: 'center'
   },
   buttonDel: {
     backgroundColor: "#DE2525",
     padding: 7,
     borderRadius: 7,
     justifyContent: "center",
+    minWidth: 130,
+    minHeight: 40,
+    alignItems: 'center'
   },
   buttonEx: {
     backgroundColor: "#DE2525",
@@ -235,7 +241,8 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     alignItems: "center",
     marginTop: 2,
-    width: 30,
+    width: 35,
+    height: 40,
     justifyContent: "center",
   },
   textHigh: {

@@ -181,11 +181,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   card: {
-    width: 360,
-    height: 66,
+    minWidth: 360,
+    minHeight: 70,
+    marginTop: 5,
     margin: 5,
     alignItems: "flex-start",
     flexDirection: "column",
+    justifyContent: 'center'
   },
   cardcont: {
     display: "flex",
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: 250,
     color: "#000000",
-    marginLeft: 10,
+    margin: 10,
     fontWeight: "bold",
   },
   desc: {

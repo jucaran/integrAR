@@ -181,8 +181,8 @@ const styles = StyleSheet.create({
     marginRight: 14,
   },
   card: {
-    width: 360,
-    height: 66,
+    minWidth: 360,
+    minHeight: 70,
     margin: 5,
     alignItems: "flex-start",
     flexDirection: "column",
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: 230,
     color: "#000000",
-    marginLeft: 10,
+    margin: 10,
     fontWeight: "bold",
   },
   desc: {
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 25,
+    marginTop: 5,
     width: 30,
     height: 32,
     justifyContent: "center",
