@@ -164,34 +164,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    width: 30,
-    height: 32,
+    width: 38,
+    height: 40,
     justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
   },
   img: {
     color: "white",
@@ -208,8 +183,11 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
-    borderRadius: 3,
-    //marginLeft: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 95,
+    minHeight: 40,
+    borderRadius: 7
   },
   textHigh: {
     color: "white",
