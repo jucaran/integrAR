@@ -151,22 +151,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
   },
-  button: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    marginTop: 15,
-    marginBottom: 15,
-    fontSize: 20,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
   card: {
     margin: 5,
     backgroundColor: "#00aadd",
@@ -176,13 +160,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cardSee: {
-    fontSize: 17,
-    padding: 10,
-    color: "white",
-  },
   cardText: {
-    fontSize: 20,
+    fontSize: 14,
     padding: 10,
     color: "white",
     marginLeft: 20,
