@@ -230,4 +230,34 @@ export const deleteHomework = async (_, { classId, filename }) => {
   return true;
 };
 
-//TODO: agregar un resolver para modificar la correction de una clase y poder modificar la nota de un alumno o el feedback
+export const editCorrectionFromClass = async (
+  _,
+  { classId, studentId, correctionScore, feedback }
+) => {
+  try {
+    const CLASS = await Class.findById(classId);
+
+    if (CLASS.corrections.length) {
+      CLASS.corrections = CLASS.corrections.map((student) => {
+        // Doing the corrections
+        if (student._id.toString() === studentId) {
+          correctionScore && (student.score = correctionScore);
+          feedback && (student.feedback = feedback);
+          return student;
+        }
+        return student;
+      });
+      return await CLASS.save();
+    } else {
+      CLASS.corrections.push({
+        student: studentId,
+        score: correctionScore,
+        feedback,
+      });
+      return await CLASS.save();
+    }
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
