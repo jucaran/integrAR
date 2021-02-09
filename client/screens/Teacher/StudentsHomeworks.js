@@ -122,20 +122,8 @@ const StudentsHomeworks = ({ route }) => {
 
     const studentsCorrections = dataClass.classes[0].corrections;
 
-    // console.log("scoreStudent: ", studentsCorrections)
-    // score = [{_id, dni, name, lastname, score}]
-    // const score = allStudents.map((el) => {
-    //   return {
-    //     ...el,
-    //     score: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-    //   };
-    // });
-    // console.log("soy el scoooooooooooore", score);
-
     const handleOnPress = async ({ id, idStudent, score }) => {
-      // console.log("classID: ", id); // _id:  6021f0879747b22bec83d82c
-      // console.log("idStudent: ", idStudent); // idStudent:  601d7a7c5df09228b058f9c7
-      // console.log("score: ", score); // score:  6
+      
       try {
         await editClass({
           variables: {
@@ -155,12 +143,6 @@ const StudentsHomeworks = ({ route }) => {
         return student;
       }
     });
-
-    //Borrar setCorrection y usar la screen TeacherCorrections cuando se pueda
-    // const setCorrection = (correction) => {
-    //   setScore(correction);
-    //   alert(`La nota es ${correction}`);
-    // };
 
     return (
       <View>
