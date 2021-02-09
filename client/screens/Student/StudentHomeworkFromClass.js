@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableHighlight,
+  Image
 } from "react-native";
 import { Card } from "react-native-elements";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -83,13 +84,16 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
               </TouchableHighlight>
               { t ? 
                    (
-                    <TouchableHighlight
+                     <View style={styles.hwkUp}>
+                    {/* <TouchableHighlight
                       style={styles.touch2}
                       activeOpacity={0.2}
                       onPress={() => handleFilePress2()}
-                    >
-                      <Text style={styles.cardText}>Tarea Subida</Text>
-                    </TouchableHighlight>
+                    > */}
+                      <Text style={styles.hmkUpTxt}>  TAREA SUBIDA!</Text>
+                    {/* </TouchableHighlight> */}
+                    <Image source={require("../../assets/job.gif")} style={styles.img} />
+                    </View>
                   )
                :   (
                     <TouchableHighlight
@@ -175,7 +179,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 344,
   },
   touchText: {
     marginTop: 15,
@@ -210,6 +213,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  hwkUp:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
+  },
+  hmkUpTxt:{
+    color: "darkgreen",
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  img: {
+    width: 290,
+    height: 250,
+  }
 });
 
 export default StudentHomeworkFromClass;
