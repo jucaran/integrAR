@@ -48,9 +48,8 @@ function ClassDetail({ navigation, route }) {
 
     return (
       <CenterView>
-        <View style={styles.principal}>
           <Text style={styles.name}>
-            Clase: {`${clase.name}`}
+            {`${clase.name}`}
           </Text>
           <TouchableHighlight
             style={styles.button}
@@ -74,76 +73,31 @@ function ClassDetail({ navigation, route }) {
           >
             <Text style={styles.textHigh}>Tareas</Text>
           </TouchableHighlight>
-        </View>
       </CenterView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  principal: {
-    backgroundColor: "white",
-  },
-  card: {
-    width: 360,
-    height: 66,
-    margin: 5,
-    alignItems: "flex-start",
-    flexDirection: "column",
-  },
-  cardcont: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  img: {
-    width: 14,
-    height: 14,
-    marginTop: 10,
-    marginRight: 25,
-  },
   name: {
-    fontSize: 16,
-    width: 280,
-    // fontFamily: "roboto",
-    color: "#000000",
-    marginLeft: 15,
-    marginTop: 10,
+    fontSize: 20,
+    marginBottom: 40,
+    color: "#272727",
     fontWeight: "bold",
-  },
-  desc: {
-    flexDirection: "row",
-  },
-  description: {
-    fontSize: 14,
-    // fontFamily: "roboto",
-    color: "#000000",
-    marginLeft: 10,
-  },
-  touchText: {
-    marginTop: 15,
-    marginBottom: 15,
-    // fontFamily: "roboto",
-    fontSize: 14,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
-  touch: {
-    justifyContent: "flex-start",
-    margin: 5,
-    marginLeft: 12,
   },
   button: {
     margin: 15,
-    backgroundColor: "#2290CD",
+    backgroundColor: "#00aadd",
     justifyContent: "center",
     alignItems: "center",
-    width: 237,
-    height: 50,
+    minWidth: 250,
+    minHeight: 70,
     padding: 7,
     borderRadius: 7,
   },
   textHigh: {
     color: "white",
+    fontSize: 18
   },
 });
 
