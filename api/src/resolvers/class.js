@@ -22,10 +22,19 @@ export const editClass = async (_, { _id, input }) => {
   let _class = await Class.findById(_id);
 
   if (!_class) return false;
-
   for (const key in input) {
-    if (key == "corrections") {
-      _class[key].push(input[key]);
+    if (key === "corrections") {
+      let studentExist = _class[key].find( ({ student }) => (student._id.toString() === input[key].student))
+      if(studentExist){
+        _class[key].forEach( (el , index) => {
+         if((el.student.dni === studentExist.student.dni)) {
+            _class[key][index].score = input[key].score
+          }
+        } )
+         
+      } else {
+        _class[key].push(input[key]); 
+      }
     } else {
       key ? (_class[key] = input[key]) : null;
     }
