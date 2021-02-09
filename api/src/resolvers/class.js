@@ -143,6 +143,7 @@ export const deleteDelivery = async (_, { classId, filename }) => {
   const _class = await Class.findById(classId);
   if (!_class) return false;
 
+  // Deletes the file from the mongo document
   _class.deliveries = _classs.deliveries.filter(
     (delivery) => delivery !== filename
   );
