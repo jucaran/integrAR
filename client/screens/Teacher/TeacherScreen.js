@@ -9,9 +9,13 @@ const TeacherView = ({ navigation }) => {
   
   return (
     <CenterView>
+      <Image
+          source={require("../../assets/title.png")}
+          style={styles.titleName}
+        />
       <Text style={styles.title}>
         ¡Hola {user.name}
-        {user.lastname}! Bienvenido
+        {user.lastname}, Bienvenido!
       </Text>
       <View style={styles.cont}>
         <View style={styles.materias}>
@@ -27,7 +31,7 @@ const TeacherView = ({ navigation }) => {
           >
             <View style={styles.button}>
               <Image
-                source={require("../../assets/subjects.png")}
+                source={require("../../assets/materias.jpg")}
                 style={styles.img}
               />
               <Text style={styles.touchText}>MATERIAS</Text>
@@ -47,7 +51,7 @@ const TeacherView = ({ navigation }) => {
           >
             <View style={styles.button}>
               <Image
-                source={require("../../assets/students.jpg")}
+                source={require("../../assets/cursos.jpg")}
                 style={styles.img}
               />
               <Text style={styles.touchText}>CURSOS</Text>
@@ -62,6 +66,7 @@ const TeacherView = ({ navigation }) => {
 const styles = StyleSheet.create({
   cont: {
     marginTop: 25,
+    display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -88,6 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#2290CD",
     marginTop: 25,
+    fontWeight: "bold"
   },
   touch: {
     margin: 15,
@@ -98,6 +104,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#000000",
   },
+  titleName: {
+    width: 150,
+    height: 80,
+  }
 });
 
 export default TeacherView;

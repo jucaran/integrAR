@@ -109,9 +109,11 @@ const LoginScreen = ({ navigation }) => {
           source={require("../../assets/login_splash.png")}
           style={styles.landingImg}
         />
-        {/* <Text style={{ color: "black" }}>
-          Bienvenido a integrAr
-        </Text> */}
+        <Image
+          source={require("../../assets/title.png")}
+          style={styles.title}
+        />
+        
         <Text style={{ color: "red" }}>
           {error?.dni && "No encontramos un usuario asociado a ese DNI"}
         </Text>
@@ -170,7 +172,7 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   landingImg: {
-    marginBottom: 50,
+    marginBottom: 20,
     width: 250,
     height: 250,
   },
@@ -183,6 +185,10 @@ const styles = StyleSheet.create({
   active: {
     borderBottomColor: "#2290CD",
   },
+  title: {
+    width: 150,
+    height: 80,
+  }
 });
 
 export default LoginScreen;
