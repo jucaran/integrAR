@@ -26,7 +26,7 @@ const SuperAdminView = ({ navigation }) => {
             }
           >
             <View style={styles.button}>
-              <Image source={require("../../assets/bro.png")} style={styles.img} />
+              <Image source={require("../../assets/grades.jpg")} style={styles.img} />
               <Text style={styles.touchText}>GRADOS</Text>
             </View>
           </TouchableHighlight>
@@ -44,7 +44,7 @@ const SuperAdminView = ({ navigation }) => {
           >
             <View style={styles.button}>
               <Image
-                source={require("../../assets/Character.png")}
+                source={require("../../assets/teachers.jpg")}
                 style={styles.img}
               />
               <Text style={styles.touchText}>PROFESORES</Text>
@@ -62,7 +62,7 @@ const SuperAdminView = ({ navigation }) => {
           }
         >
           <View style={styles.button}>
-            <Image source={require("../../assets/alumn.png")} style={styles.img} />
+            <Image source={require("../../assets/student.jpg")} style={styles.img} />
             <Text style={styles.touchText}>ALUMNOS</Text>
           </View>
         </TouchableHighlight>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   teachers: {
-    marginLeft: 5,
+    // marginLeft: 5,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -97,24 +97,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   img: {
-    marginTop: 10,
+    // marginTop: 10,
     width: 156,
-    height: 168,
+    height: 180,
   },
   title: {
     // fontFamily: "roboto",
     fontSize: 20,
     color: "#2290CD",
-    marginTop: 25,
+    marginTop: 30,
   },
   touch: {
-    margin: 15,
+    margin: 5,
     justifyContent: "center",
     alignItems: "flex-start",
   },
   touchText: {
-    // fontFamily: "roboto",
-    fontSize: 18,
+    //fontFamily: 'Iowan Old Style',
+    fontSize: 16,
     color: "#000000",
   },
 });

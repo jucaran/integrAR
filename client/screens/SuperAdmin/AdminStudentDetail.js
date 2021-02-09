@@ -60,7 +60,14 @@ function AdminStudentDetail({ route }) {
             <UserAvatar
               size={100}
               name={`${student.name} ${student.lastname}`}
-              style={styles.user}
+              style={{
+                backgroundColor: "#2290CD",
+                width: 140,
+                height: 140,
+                borderRadius: 100,
+                marginTop: 20,
+                alignSelf: "center",
+              }}
               src={`${student.picture}` }
             />
             <Text style={styles.textName}>
