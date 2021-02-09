@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import {
   View,
   Text,
+  Alert,
   StyleSheet,
+  ScrollView,
   ActivityIndicator,
   TouchableHighlight,
   Image
@@ -25,14 +27,26 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
+const DELETE_DELIVERY = gql`
+  mutation DeleteDelivery($classId: ID!, $filename: String!) {
+    deleteDelivery(classId: $classId, filename: $filename)
+  }
+`;
+
 const StudentHomeworkFromClass = ({ navigation, route }) => {
   const _id = route.params?._id;
+  const type = route.params?.type;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
   const { user } = useContext(AuthContext);
   const { dni } = user;
   let t = false
+  let c = false
+  const [
+    deleteDelivery,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_DELIVERY);
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
@@ -40,13 +54,13 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
     );
   };
 
-  const handleFilePress2 = () => {
+  const handleFilePress2 = (name) => {
     WebBrowser.openBrowserAsync(
-      `http://${LOCAL_IP}:4000/download/students/${_id}/${dni}`
+      `http://${LOCAL_IP}:4000/download/students/${_id}/${name}`
     );
   };
 
-  if (loading) {
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -55,7 +69,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationError) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -65,12 +79,18 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0];
+    const studentFile = dni + '.' + type
+    clase.deliveries?.forEach((student) =>
+      student === (studentFile) ? t = true : t = false)
+      if (!t){
     let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
     let studentDni = studentD.flat(Infinity)
     studentDni.forEach((student) =>
-    student === dni ? t = true : t = false)  
+    student === dni ? c = true : c = false)  }
     return (
+      <ScrollView>
       <View style={styles.cont}>
+        {console.log(type)}
         <Card>
           <Card.Title>Tarea de la {clase.name}</Card.Title>
           <Card.Divider />
@@ -83,19 +103,59 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                 <Text style={styles.cardText}>{clase.homework}</Text>
               </TouchableHighlight>
               { t ? 
-                   (
-                     <View style={styles.hwkUp}>
-                    {/* <TouchableHighlight
+                    (
+                      <View style={styles.hwkUp}>
+                       <TouchableHighlight
                       style={styles.touch2}
                       activeOpacity={0.2}
-                      onPress={() => handleFilePress2()}
-                    > */}
+                      onPress={() => handleFilePress2(studentFile)}
+                    >
                       <Text style={styles.hmkUpTxt}>  TAREA SUBIDA!</Text>
-                    {/* </TouchableHighlight> */}
+                    </TouchableHighlight>
                     <Image source={require("../../assets/job.gif")} style={styles.img} />
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      style={styles.delete}
+                      onPress={() =>
+                        Alert.alert(
+                          "Eliminar archivo",
+                          `¿Está seguro que desea eliminar esta tarea?`,
+                          [
+                            {
+                              text: "Cancelar",
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () =>
+                                deleteDelivery({
+                                  variables: {
+                                    classId: _id,
+                                    filename: studentFile,
+                                  },
+                                  refetchQueries: [
+                                    {
+                                      query: GET_CLASS_BY_ID,
+                                      variables: { _id: _id },
+                                    },
+                                  ],
+                                }),
+                            },
+                          ]
+                        )
+                      }
+                    >
+                      <Text style={styles.deleteTxt}>Eliminar</Text>
+                    </TouchableHighlight>
                     </View>
-                  )
-               :   (
+                  ) : c ?
+                  (
+                    <View style={styles.hwkUp}>
+                    <Text style={styles.hmkUpTxt2}>  TAREA SUBIDA!</Text>
+                  <Image source={require("../../assets/job.gif")} style={styles.img} />
+                  </View>
+                )
+               :  (
                     <TouchableHighlight
                       style={styles.touch}
                       activeOpacity={0.2}
@@ -118,6 +178,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
           )}
         </Card>
       </View>
+      </ScrollView>
     );
   }
 };
@@ -171,9 +232,19 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: "center",
   },
-  img: {
-    color: "white",
-    fontSize: 18,
+  delete: {
+    backgroundColor: "#DE2525",
+    padding: 7,
+    borderRadius: 7,
+    alignItems: "center",
+    marginRight: 15,
+    width: 100,
+    height: 40,
+    justifyContent: "center",
+    marginTop: 12
+  },
+  deleteTxt: {
+    color: 'white'
   },
   cardIn: {
     flexDirection: "row",
@@ -219,6 +290,11 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   hmkUpTxt:{
+    color: "white",
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  hmkUpTxt2:{
     color: "darkgreen",
     fontWeight: 'bold',
     fontSize: 16,
