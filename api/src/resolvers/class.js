@@ -41,6 +41,16 @@ export const deleteClass = async (_, { _id }) => {
   return await Class.findByIdAndDelete(_id);
 };
 
+const deleteFileFromClass = async (_, { classId, filename }) => {
+  const _class = await Class.findById(_id);
+  if (!_class) return false;
+
+  _class.files = _class.files.filter((file) => file !== filename);
+  await _class.save();
+
+  return _class;
+};
+
 /**
  * This resolver receives a class id and a file and uploads it to the
  * /uploads/teachers/:classId folder in the server
