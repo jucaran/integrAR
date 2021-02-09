@@ -1,7 +1,7 @@
 import Admin from "../models/Admin";
 import User from "../models/User";
-import bcrypt from "bcryptjs"
-import { sendMailWithPassword } from "../mail"
+import bcrypt from "bcryptjs";
+import { sendMailWithPassword } from "../mail";
 
 // Query
 export const admin = async (_, args, ctx) => {
@@ -43,11 +43,6 @@ export const editAdmin = async (_, args, ctx) => {
   await admin.save();
 
   return admin;
-
-  // return await Admin.findByIdAndUpdate(
-  //   args._id, args.input, {
-  //   new: true,
-  // });
 };
 
 export const deleteAdmin = async (_, args, ctx) => {
