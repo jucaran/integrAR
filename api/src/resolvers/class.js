@@ -36,9 +36,20 @@ export const editClass = async (_, { _id, input }) => {
 };
 
 export const deleteClass = async (_, { _id }) => {
-  //TODO: cuando borre una clase, borrar su modulo y borrar sus subjects
+  try {
+    const CLASS = await Class.findByIdAndDelete(_id);
+    const CLASS_MODULE = await Module.findById(CLASS.module._id);
 
-  return await Class.findByIdAndDelete(_id);
+    // Deleting de class from de module
+    CLASS_MODULE.classes = CLASS_MODULE.classes.filter(
+      (classId) => classId !== _id
+    );
+
+    return await CLASS_MODULE.save();
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
 };
 
 /**
