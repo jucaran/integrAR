@@ -69,7 +69,12 @@ export default gql`
     deleteDelivery(classId: ID!, dni: String!): Boolean
     uploadHomework(file: Upload!, classId: ID!): File
     deleteHomework(classId: ID!, filename: String!): Boolean
-
+    editCorrectionFromClass(
+      classId: ID!
+      studentId: ID!
+      correctionScore: String
+      feedback: String
+    ): Class
     createStudentsWithCsv(file: Upload!, courseId: ID): File
     createTeachersWithCsv(file: Upload): File
   }

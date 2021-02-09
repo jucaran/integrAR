@@ -40,6 +40,7 @@ import {
   deleteDelivery,
   uploadHomework,
   deleteHomework,
+  editCorrectionFromClass,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
@@ -114,5 +115,6 @@ export default {
     deleteDelivery,
     uploadHomework,
     deleteHomework,
+    editCorrectionFromClass,
   },
 };
