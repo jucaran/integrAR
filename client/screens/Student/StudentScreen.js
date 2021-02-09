@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   twoImages: {
+    marginLeft: 40,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -96,9 +97,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   img: {
-    marginTop: 5,
-    width: 140,
-    height: 160,
+    //marginTop: 5,
+    width: 158,
+    height: 165,
   },
   title: {
     fontSize: 20,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   touch: {
-    margin: 7,
+    //margin: 7,
     justifyContent: "center",
     alignItems: "flex-start",
   },

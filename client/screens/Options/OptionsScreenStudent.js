@@ -2,16 +2,17 @@ import React, { useContext, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  ActivityIndicator,
+  Alert,
+  StyleSheet,
   ScrollView,
+  ActivityIndicator,
   TouchableHighlight,
 } from "react-native";
-import CenterView from "../../utils/CenterView";
 import { useMutation, useQuery, gql } from "@apollo/client";
-import UserAvatar from "react-native-user-avatar";
 import { AuthContext } from "../../providers/AuthProvider";
+import CenterView from "../../utils/CenterView";
+import UserAvatar from "react-native-user-avatar";
 import * as ImagePicker from "expo-image-picker";
 
 export const GET_STUDENT_BY_DNI = gql`
@@ -84,7 +85,7 @@ const OptionsStudent = ({ navigation }) => {
   let openImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert("Se requiere acceso al Almacenamiento Interno");
+      Alert.alert("Alerta", "Se requiere acceso al Almacenamiento Interno");
       return;
     }
     const pickerResult = await ImagePicker.launchImageLibraryAsync();

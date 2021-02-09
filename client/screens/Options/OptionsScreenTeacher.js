@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  ActivityIndicator,
+  Alert,
+  StyleSheet,
   ScrollView,
+  ActivityIndicator,
   TouchableHighlight,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
@@ -51,7 +52,7 @@ const OptionsTeacher = ({ navigation, route }) => {
   let openImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert("Se requiere acceso al Almacenamiento Interno");
+      Alert.alert("Alerta", "Se requiere acceso al Almacenamiento Interno");
       return;
     }
     const pickerResult = await ImagePicker.launchImageLibraryAsync();
