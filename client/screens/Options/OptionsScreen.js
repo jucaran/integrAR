@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import UserAvatar from "react-native-user-avatar";
-
+import * as ImagePicker from "expo-image-picker";
 import { AuthContext } from "../../providers/AuthProvider";
 
 export const GET_ADMIN = gql`
@@ -34,6 +34,20 @@ const Options = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
   const { data, loading, error } = useQuery(GET_ADMIN);
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  let openImage = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Se requiere acceso al Almacenamiento Interno");
+      return;
+    }
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+    setSelectedImage({ localUri: pickerResult.uri });
+  };
 
   if (loading) {
     return (
@@ -59,12 +73,35 @@ const Options = ({ navigation }) => {
       <CenterView>
         <View style={styles.card}>
           <ScrollView>
-            <UserAvatar
-              size={100}
-              name={`${admin.name} ${admin.lastname}`}
-              style={styles.user}
-              src={`${admin.picture}` }
-            />
+          <View>
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={openImage}
+              >
+                {selectedImage ? (
+                  <Image
+                    style={styles.user}
+                    source={{
+                      uri: `${selectedImage?.localUri}`,
+                    }}
+                  />
+                ) : (
+                  <UserAvatar
+                    size={100}
+                    name={`${admin.name} ${admin.lastname}`}
+                    style={{
+                      backgroundColor: "#2290CD",
+                      width: 140,
+                      height: 140,
+                      borderRadius: 100,
+                      marginTop: 20,
+                      alignSelf: "center",
+                    }}
+                  />
+                )}
+              </TouchableHighlight>
+            </View>
             <Text style={styles.textName}>
               {`${admin.name} ${admin.lastname}`}
             </Text>
@@ -104,9 +141,7 @@ const Options = ({ navigation }) => {
               <Text style={styles.touch}>DNI: {`${admin.dni}`}</Text>
             </View>
             <View style={styles.input}>
-              <Text style={styles.touch}>
-                Dirección: {`${admin.address}`}
-              </Text>
+              <Text style={styles.touch}>Dirección: {`${admin.address}`}</Text>
             </View>
 
             <View style={[styles.input, styles.inputMateria]}>

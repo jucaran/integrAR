@@ -62,6 +62,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("StudentsHomeworks", {
                 _id: clase._id,
@@ -74,6 +75,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("UploadHomework", {
                 _id: clase._id,
@@ -108,6 +110,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           //           </TouchableOpacity>
           //           <TouchableHighlight
           //             activeOpacity={0.6}
+          //             underlayColor=""
           //             style={styles.onPress}
           //           >
           //             <Text style={styles.img}>X</Text>
@@ -134,6 +137,7 @@ const FilesFromHomework = ({ navigation, route }) => {
     //       <TouchableHighlight
     //         style={styles.button}
     //         activeOpacity={0.6}
+    //         underlayColor=""
     //         onPress={
     //           (() => navigation.navigate("UploadNomeworkFile"), { params: { _id: clase._id } })
     //         }

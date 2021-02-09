@@ -12,7 +12,7 @@ import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
 import { GET_SUBJECTS_FROM_COURSE_BY_ID } from "./SuperAdminListSubjects";
-import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers"
+import { GET_ALL_TEACHERS } from "./SuperAdminListTeachers";
 
 const GET_SUBJECT_BY_ID = gql`
   query GetSubjectById($_id: ID) {
@@ -66,10 +66,14 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
           teacher: teacherId,
           deleteMode: true,
         },
-        refetchQueries: [{ query: GET_SUBJECT_BY_ID, variables: { _id: _id } }, {query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id }}, { query: GET_ALL_TEACHERS }],
+        refetchQueries: [
+          { query: GET_SUBJECT_BY_ID, variables: { _id: _id } },
+          { query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id } },
+          { query: GET_ALL_TEACHERS },
+        ],
       });
       navigation.pop();
-    
+
       if (mutationError) {
         console.log(mutationError);
         return false;
@@ -95,33 +99,35 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
     const subject = data.subjects[0];
     //const subjects = data.courses[0].subjects;
     return (
-        <ScrollView>
-          <View >
-            <Card>
-              <Card.Title>Eliminar profesor de {subject.name}</Card.Title>
-              <Card.Divider />
-              <Card key={subject.teacher._id} style={styles.card}>
-                <Text style={styles.prof}>
-                  {subject.teacher.name} {subject.teacher.lastname}
-                </Text>
-                <TouchableHighlight
-                  style={styles.onPress}
-                  onPress={() =>
-                    handleOnPress(
-                      subject.teacher._id,
-                      _id,
-                      subject.teacher.name,
-                      subject.teacher.lastname,
-                      subject.name
-                    )
-                  }
-                >
-                  <Text style={styles.cardT}>Eliminar</Text>
-                </TouchableHighlight>
-              </Card>
+      <ScrollView>
+        <View>
+          <Card>
+            <Card.Title>Eliminar profesor de {subject.name}</Card.Title>
+            <Card.Divider />
+            <Card key={subject.teacher._id} style={styles.card}>
+              <Text style={styles.prof}>
+                {subject.teacher.name} {subject.teacher.lastname}
+              </Text>
+              <TouchableHighlight
+                activeOpacity={0.2}
+                underlayColor=""
+                style={styles.onPress}
+                onPress={() =>
+                  handleOnPress(
+                    subject.teacher._id,
+                    _id,
+                    subject.teacher.name,
+                    subject.teacher.lastname,
+                    subject.name
+                  )
+                }
+              >
+                <Text style={styles.cardT}>Eliminar</Text>
+              </TouchableHighlight>
             </Card>
-          </View>
-        </ScrollView>
+          </Card>
+        </View>
+      </ScrollView>
     );
   } else if (error || mutationError) {
     return (
@@ -133,7 +139,6 @@ export default function DeleteTeacherFromSubject({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-
   card: {
     height: 66,
     margin: 5,
@@ -150,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
     maxWidth: 300,
-    minWidth:  60,
+    minWidth: 60,
   },
   cardT: {
     color: "white",

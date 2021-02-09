@@ -96,6 +96,8 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
         <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
         <Text>Ejemplo:</Text>
         <TouchableHighlight
+          activeOpacity={0.2}
+          underlayColor=""
           onPress={() => onClick(imageState.normalSize ? false : true)}
         >
           <Image
@@ -110,6 +112,8 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
           <Text style={styles.btn}>Bajar esquema .csv</Text>
         </TouchableHighlight>
         <TouchableHighlight
+          activeOpacity={0.2}
+          underlayColor=""
           style={styles.onPress}
           onPress={
             () =>

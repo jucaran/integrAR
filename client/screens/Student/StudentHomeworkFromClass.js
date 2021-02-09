@@ -31,7 +31,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
   });
   const { user } = useContext(AuthContext);
   const { dni } = user;
-  let t = false
+  let t = false;
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
@@ -65,9 +65,10 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
   if (data) {
     const clase = data.classes[0];
     let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
-    let studentDni = studentD.flat(Infinity)
+    let studentDni = studentD.flat(Infinity);
     studentDni.forEach((student) =>
-    student === dni ? t = true : t = false)  
+      student === dni ? (t = true) : (t = false)
+    );
     return (
       <View style={styles.cont}>
         <Card>
@@ -76,36 +77,37 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
           {clase.homework ? (
             <View>
               <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor=""
                 style={styles.card}
                 onPress={() => handleFilePress(clase.homework)}
               >
                 <Text style={styles.cardText}>{clase.homework}</Text>
               </TouchableHighlight>
-              { t ? 
-                   (
-                    <TouchableHighlight
-                      style={styles.touch2}
-                      activeOpacity={0.2}
-                      onPress={() => handleFilePress2()}
-                    >
-                      <Text style={styles.cardText}>Tarea Subida</Text>
-                    </TouchableHighlight>
-                  )
-               :   (
-                    <TouchableHighlight
-                      style={styles.touch}
-                      activeOpacity={0.2}
-                      onPress={() =>
-                        navigation.navigate("UploadDelivery", {
-                          dni: dni,
-                          classId: _id,
-                        })
-                      }
-                    >
-                      <Text style={styles.cardText}>Subir Tarea</Text>
-                    </TouchableHighlight>
-                  )
-                }
+              {t ? (
+                <TouchableHighlight
+                  style={styles.touch2}
+                  activeOpacity={0.2}
+                  underlayColor=""
+                  onPress={() => handleFilePress2()}
+                >
+                  <Text style={styles.cardText}>Tarea Subida</Text>
+                </TouchableHighlight>
+              ) : (
+                <TouchableHighlight
+                  style={styles.touch}
+                  activeOpacity={0.2}
+                  underlayColor=""
+                  onPress={() =>
+                    navigation.navigate("UploadDelivery", {
+                      dni: dni,
+                      classId: _id,
+                    })
+                  }
+                >
+                  <Text style={styles.cardText}>Subir Tarea</Text>
+                </TouchableHighlight>
+              )}
             </View>
           ) : (
             <CenterView>

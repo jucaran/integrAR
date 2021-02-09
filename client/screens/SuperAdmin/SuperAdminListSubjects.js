@@ -73,7 +73,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
         >
           <TouchableHighlight
             activeOpacity={0.6}
-            underlayColor="ligthgrey"
+            underlayColor=""
             onPress={() =>
               navigation.navigate("SuperAdminAddSubject", {
                 params: data.courses[0]._id,
@@ -98,6 +98,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                       <TouchableHighlight
                         style={styles.buttonDel}
                         activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("DeleteTeacherFromSubject", {
                             params: { id: subject._id },
@@ -110,6 +111,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("AddTeacherToSubject", {
                             screen: "AddTeacherToSubject",
@@ -122,6 +124,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                     )}
                     <TouchableHighlight
                       activeOpacity={0.6}
+                      underlayColor=""
                       style={styles.buttonEx}
                       onPress={() =>
                         Alert.alert(

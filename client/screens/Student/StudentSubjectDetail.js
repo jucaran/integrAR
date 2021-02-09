@@ -78,7 +78,7 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.6}
-                        underlayColor="white"
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("StudentListClasses", {
                             id: item._id

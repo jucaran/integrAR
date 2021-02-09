@@ -89,7 +89,7 @@ const StudentsSubjects = ({ navigation }) => {
               return (
                 <TouchableHighlight
                   activeOpacity={0.6}
-                  underlayColor="white"
+                  underlayColor=""
                   key={item._id}
                   onPress={() =>
                     navigation.navigate("StudentSubjectDetail", {

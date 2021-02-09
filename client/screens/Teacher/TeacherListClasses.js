@@ -88,6 +88,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
+                      underlayColor=""
                       onPress={() =>
                         navigation.navigate("ClassDetail",
                           { id: clase._id }

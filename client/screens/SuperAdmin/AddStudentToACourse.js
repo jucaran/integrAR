@@ -150,6 +150,8 @@ export default function AddStudentToACourse({ navigation, route }) {
                         </Text>
                         <TouchableHighlight
                           style={styles.onPress}
+                          activeOpacity={0.2}
+                          underlayColor=""
                           onPress={() =>
                             handleOnPress(
                               student._id,

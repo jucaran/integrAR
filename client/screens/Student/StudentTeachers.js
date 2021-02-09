@@ -83,6 +83,7 @@ const StudentTeachers = () => {
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.2}
+                        underlayColor=""
                         onPress={async () =>
                           await Linking.openURL(
                             `https://wa.me/${item.teacher?.whatsapp}`

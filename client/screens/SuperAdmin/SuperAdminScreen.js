@@ -19,7 +19,7 @@ const SuperAdminView = ({ navigation }) => {
         <View style={styles.courses}>
           <TouchableHighlight
             activeOpacity={0.6}
-            underlayColor="ligthgrey"
+            underlayColor=""
             style={styles.touch}
             onPress={() =>
               navigation.navigate("Cursos", { screen: "GradesScreen" })
@@ -34,7 +34,7 @@ const SuperAdminView = ({ navigation }) => {
         <View style={styles.teachers}>
           <TouchableHighlight
             activeOpacity={0.6}
-            underlayColor="ligthgrey"
+            underlayColor=""
             style={styles.touch}
             onPress={() =>
               navigation.navigate("Profesores", {
@@ -55,7 +55,7 @@ const SuperAdminView = ({ navigation }) => {
       <View style={styles.alumn}>
         <TouchableHighlight
           activeOpacity={0.6}
-          underlayColor="ligthgrey"
+          underlayColor=""
           style={styles.touch}
           onPress={() =>
             navigation.navigate("Profesores", { screen: "ListStudents" })

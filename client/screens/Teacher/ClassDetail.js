@@ -55,6 +55,7 @@ function ClassDetail({ navigation, route }) {
           <TouchableHighlight
             style={styles.button}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("FilesFromClass", {
                 params: { id: clase._id },
@@ -66,6 +67,7 @@ function ClassDetail({ navigation, route }) {
           <TouchableHighlight
             style={styles.button}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("HomeworkFromClass", {
                 params: { id: clase._id },
