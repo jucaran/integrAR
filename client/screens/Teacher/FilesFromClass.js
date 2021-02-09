@@ -1,6 +1,6 @@
 import React from "react";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import {
   View,
   Text,
@@ -25,11 +25,21 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
+const DELETE_CLASS_FILE = gql`
+  mutation DeleteClassFile($classId: ID!, $filename: String!) {
+    deleteClassFile(classId: $classId, filename: $filename)
+  }
+`;
+
 const FilesFromClass = ({ navigation, route }) => {
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
+  const [
+    deleteClassFile,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_CLASS_FILE);
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
@@ -37,7 +47,7 @@ const FilesFromClass = ({ navigation, route }) => {
     );
   };
 
-  if (loading) {
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -46,7 +56,7 @@ const FilesFromClass = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationError) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -84,26 +94,34 @@ const FilesFromClass = ({ navigation, route }) => {
                     <TouchableHighlight
                       activeOpacity={0.6}
                       style={styles.onPress}
-                      // onPress={() =>
-                      //   Alert.alert(
-                      //     "Eliminar archivo",
-                      //     `¿Está seguro que desea eliminar este archivo ${item.name}?`,
-                      //     [
-                      //       {
-                      //         text: "Cancelar",
-                      //         style: "cancel",
-                      //       },
-                      //       {
-                      //         text: "OK",
-                      //         onPress: () =>
-                      //           deleteFile({
-                      //             variables: { name: item.name },
-                      //             refetchQueries: [{ query: GET_CLASS_BY_ID, variables: { _id: clase._id  }}],
-                      //           }),
-                      //       },
-                      //     ]
-                      //   )
-                      // }
+                      onPress={() =>
+                        Alert.alert(
+                          "Eliminar archivo",
+                          `¿Está seguro que desea eliminar este archivo ${item}?`,
+                          [
+                            {
+                              text: "Cancelar",
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () =>
+                                deleteClassFile({
+                                  variables: {
+                                    classId: _id,
+                                    filename: item,
+                                  },
+                                  refetchQueries: [
+                                    {
+                                      query: GET_CLASS_BY_ID,
+                                      variables: { _id: _id },
+                                    },
+                                  ],
+                                }),
+                            },
+                          ]
+                        )
+                      }
                     >
                       <Text style={styles.img}>x</Text>
                     </TouchableHighlight>
