@@ -41,16 +41,6 @@ export const deleteClass = async (_, { _id }) => {
   return await Class.findByIdAndDelete(_id);
 };
 
-const deleteFileFromClass = async (_, { classId, filename }) => {
-  const _class = await Class.findById(_id);
-  if (!_class) return false;
-
-  _class.files = _class.files.filter((file) => file !== filename);
-  await _class.save();
-
-  return _class;
-};
-
 /**
  * This resolver receives a class id and a file and uploads it to the
  * /uploads/teachers/:classId folder in the server
@@ -84,6 +74,30 @@ export const uploadClassFile = async (_, { file, classId }) => {
   return {
     status: true,
   };
+};
+
+/**
+ *  Deletes a class file of the mongo document, also deletes the file from the server
+ */
+export const deleteClassFile = async (_, { classId, filename }) => {
+  const _class = await Class.findById(classId);
+  if (!_class) return false;
+
+  _class.files = _class.files.filter((file) => file !== filename);
+  await _class.save();
+
+  const dirPath = path.join(__dirname, "..", "uploads", "teachers", classId);
+  if (fs.existsSync(dirPath)) {
+    try {
+      // Deletes the file from server
+      fs.unlink(path.join(dirPath, filename));
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
+  return true;
 };
 
 /**
@@ -122,6 +136,32 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
   };
 };
 
+/**
+ *  Deletes a delivery of the class, also deletes the file from the server
+ */
+export const deleteDelivery = async (_, { classId, filename }) => {
+  const _class = await Class.findById(classId);
+  if (!_class) return false;
+
+  _class.deliveries = _classs.deliveries.filter(
+    (delivery) => delivery !== filename
+  );
+  await _class.save();
+
+  const dirPath = path.join(__dirname, "..", "uploads", "students", classId);
+  if (fs.existsSync(dirPath)) {
+    try {
+      // Deletes the file from the server
+      fs.unlink(path.join(dirPath, filename));
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
+  return true;
+};
+
 /* This resolver receives a class id and a file and uploads it to the
  * /uploads/teachers/:classId folder in the server
  * also it adds the file name to the "homework" atribute of Class model
@@ -132,7 +172,6 @@ export const uploadHomework = async (_, { file, classId }) => {
   const fileDir = path.join(__dirname, "../uploads", "teachers", classId);
 
   const _class = await Class.findById(classId);
-
   if (!_class) return { status: false };
 
   _class.homework = filename;
@@ -154,6 +193,29 @@ export const uploadHomework = async (_, { file, classId }) => {
   return {
     status: true,
   };
+};
+
+/**
+ *  Deletes a homework of the class, also deletes the homework file from the server
+ */
+export const deleteHomework = async (_, { classId, filename }) => {
+  const _class = await Class.findById(classId);
+  if (!_class) return false;
+
+  _class.homework = null;
+  await _class.save();
+
+  const dirPath = path.join(__dirname, "..", "uploads", "teachers", classId);
+  if (fs.existsSync(dirPath)) {
+    try {
+      // Deletes file from the server
+      fs.unlink(path.join(dirPath, filename));
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+  return true;
 };
 
 //TODO: agregar un resolver para modificar la correction de una clase y poder modificar la nota de un alumno o el feedback

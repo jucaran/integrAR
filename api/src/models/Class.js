@@ -10,7 +10,6 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  //TODO: se tiene que poder eliminar files, homework y deliveries de los archivos por Id
   files: [{ type: String }],
   homework: { type: String },
   deliveries: [{ type: String }],

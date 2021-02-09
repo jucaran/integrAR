@@ -64,8 +64,11 @@ export default gql`
     editClass(_id: ID, input: ClassInput): Class
     deleteClass(_id: ID): Module
     uploadClassFile(file: Upload!, classId: ID!): File
+    deleteClassFile(classId: ID!, filename: String!): Boolean
     uploadDelivery(file: Upload!, classId: ID!, dni: String!): File
+    deleteDelivery(classId: ID!, filename: String!): Boolean
     uploadHomework(file: Upload!, classId: ID!): File
+    deleteHomework(classId: ID!, filename: String): Boolean
 
     createStudentsWithCsv(file: Upload!, courseId: ID): File
     createTeachersWithCsv(file: Upload): File

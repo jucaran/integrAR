@@ -35,8 +35,11 @@ import {
   editClass,
   deleteClass,
   uploadClassFile,
+  deleteClassFile,
   uploadDelivery,
+  deleteDelivery,
   uploadHomework,
+  deleteHomework,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
@@ -106,7 +109,10 @@ export default {
     editClass,
     deleteClass,
     uploadClassFile,
+    deleteClass,
     uploadDelivery,
+    deleteDelivery,
     uploadHomework,
+    deleteHomework,
   },
 };
