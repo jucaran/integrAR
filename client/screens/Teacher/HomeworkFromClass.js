@@ -1,9 +1,10 @@
 import React from "react";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import {
   View,
   Text,
+  Alert,
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
@@ -23,11 +24,22 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
+
+const DELETE_HOMEWORK = gql`
+  mutation DeleteHomework($classId: ID!, $filename: String!) {
+    deleteHomework(classId: $classId, filename: $filename)
+  }
+`;
+
 const FilesFromHomework = ({ navigation, route }) => {
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
+  const [
+    deleteHomework,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_HOMEWORK);
 
   const handleFilePress = (name) => {
     WebBrowser.openBrowserAsync(
@@ -35,7 +47,7 @@ const FilesFromHomework = ({ navigation, route }) => {
     );
   };
 
-  if (loading) {
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -44,7 +56,7 @@ const FilesFromHomework = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationError) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -84,65 +96,55 @@ const FilesFromHomework = ({ navigation, route }) => {
           </TouchableHighlight>
         )}
         <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
-        {clase.homework?.length ? (
+        {clase.homework ? (
           <Card style={styles.card}>
             <View style={styles.cardIn}>
               <TouchableOpacity onPress={() => handleFilePress(homework)}>
                 <Text style={styles.cardText}>{homework}</Text>
               </TouchableOpacity>
-              <TouchableHighlight activeOpacity={0.6} style={styles.onPress}>
-                <Text style={styles.img}>X</Text>
-              </TouchableHighlight>
+              <TouchableHighlight
+                      activeOpacity={0.6}
+                      style={styles.onPress}
+                      onPress={() =>
+                        Alert.alert(
+                          "Eliminar archivo",
+                          `¿Está seguro que desea eliminar esta tarea ${homework}?`,
+                          [
+                            {
+                              text: "Cancelar",
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () =>
+                                deleteHomework({
+                                  variables: {
+                                    classId: _id,
+                                    filename: homework,
+                                  },
+                                  refetchQueries: [
+                                    {
+                                      query: GET_CLASS_BY_ID,
+                                      variables: { _id: _id },
+                                    },
+                                  ],
+                                }),
+                            },
+                          ]
+                        )
+                      }
+                    >
+                      <Text style={styles.img}>X</Text>
+                    </TouchableHighlight>
             </View>
           </Card>
         ) : (
-          // <FlatList
-          //   data={clase.homework}
-          //   renderItem={({ item, index }) => {
-          //     {console.log("item: ", item)}
-          //     return (
-          //       <Card key={index} style={styles.card}>
-          //         <View style={styles.cardIn}>
-          //           <TouchableOpacity onPress={() => handleFilePress(item)}>
-          //             <Text style={styles.cardText}>{item}</Text>
-          //           </TouchableOpacity>
-          //           <TouchableHighlight
-          //             activeOpacity={0.6}
-          //             style={styles.onPress}
-          //           >
-          //             <Text style={styles.img}>X</Text>
-          //           </TouchableHighlight>
-          //         </View>
-          //       </Card>
-          //     );
-          //   }}
-          // keyExtractor={(index) => index}
-          // />
           <CenterView>
             <Text>No hay tareas agregadas para esta clase</Text>
           </CenterView>
         )}
       </View>
     );
-    // return (
-    //   <View style={styles.cont}>
-
-    //     <Text>Tarea</Text>
-    //     {clase.homework ? (
-    //       <Text>{clase.homework}</Text>
-    //     ) : (
-    //       <TouchableHighlight
-    //         style={styles.button}
-    //         activeOpacity={0.6}
-    //         onPress={
-    //           (() => navigation.navigate("UploadNomeworkFile"), { params: { _id: clase._id } })
-    //         }
-    //       >
-    //         <Text style={styles.buttonText}>Agregar Tarea</Text>
-    //       </TouchableHighlight>
-    //     )}
-    //   </View>
-    // );
   }
 };
 
