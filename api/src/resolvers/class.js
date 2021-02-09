@@ -139,13 +139,13 @@ export const uploadDelivery = async (_, { file, classId, dni }) => {
 /**
  *  Deletes a delivery of the class, also deletes the file from the server
  */
-export const deleteDelivery = async (_, { classId, dni }) => {
+export const deleteDelivery = async (_, { classId, filename }) => {
   const _class = await Class.findById(classId);
   if (!_class) return false;
 
   // Deletes the file from the mongo document
   _class.deliveries = _class.deliveries.filter(
-    (delivery) => delivery.slice(".")[0] !== dni
+    (delivery) => delivery !== filename
   );
   await _class.save();
 
@@ -153,9 +153,7 @@ export const deleteDelivery = async (_, { classId, dni }) => {
   if (fs.existsSync(dirPath)) {
     try {
       // Deletes the file from the server
-      fs.unlinkSync(path.join(dirPath, filename), (err) => {
-        return true;
-      });
+      fs.unlinkSync(path.join(dirPath, filename));
     } catch (err) {
       console.log(err);
       return false;
