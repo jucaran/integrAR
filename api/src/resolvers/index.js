@@ -109,7 +109,7 @@ export default {
     editClass,
     deleteClass,
     uploadClassFile,
-    deleteClass,
+    deleteClassFile,
     uploadDelivery,
     deleteDelivery,
     uploadHomework,
