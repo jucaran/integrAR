@@ -33,8 +33,6 @@ const colors = [
   "#70CE12",
   "#35C8B4",
   "#1EA4F6",
-  "#F0FB11",
-  "#CC741C",
   "#F91E1E",
   "#F61EA1",
   "#DC1EF6",
@@ -50,6 +48,7 @@ const colors = [
   "#1EF669",
   "#3FF61E",
   "#1EF669",
+  "#CC741C",
 ];
 
 const StudentsSubjects = ({ navigation }) => {
