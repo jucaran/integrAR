@@ -21,7 +21,6 @@ const ADD_STUDENT = gql`
     $email: String!
     $lastname: String!
     $whatsapp: String!
-    $picture: String
     $address: String
     $course: ID
   ) {
@@ -32,7 +31,6 @@ const ADD_STUDENT = gql`
         lastname: $lastname
         email: $email
         whatsapp: $whatsapp
-        picture: $picture
         address: $address
         course: $course
       }
@@ -63,7 +61,6 @@ function AddStudentScreen({ navigation }) {
     whatsapp: "",
     address: "",
     birthday: "",
-    picture: "",
     course: "",
   });
 
@@ -80,7 +77,6 @@ function AddStudentScreen({ navigation }) {
     email,
     whatsapp,
     address,
-    picture,
     course
   }) => {
     try {
@@ -90,7 +86,6 @@ function AddStudentScreen({ navigation }) {
         email,
         whatsapp,
         address,
-        picture,
         course)
       if (course){
       await createStudent({
@@ -101,7 +96,6 @@ function AddStudentScreen({ navigation }) {
           email,
           whatsapp,
           address,
-          picture,
           course
         },
         refetchQueries: [{ query: GET_STUDENTS }],
@@ -115,7 +109,6 @@ function AddStudentScreen({ navigation }) {
             email,
             whatsapp,
             address,
-            picture,
           },
           refetchQueries: [{ query: GET_STUDENTS }],
         })
@@ -169,8 +162,6 @@ function AddStudentScreen({ navigation }) {
               onChangeText={(value) => handleChange("lastname", value)}
             />
 
-            {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
-
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -190,12 +181,6 @@ function AddStudentScreen({ navigation }) {
             />
 
             {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthday', value)}/> */}
-
-            <TextInput
-              style={styles.input}
-              placeholder="Foto"
-              onChangeText={(value) => handleChange("picture", value)}
-            />
 
             <TextInput
               style={styles.input}
