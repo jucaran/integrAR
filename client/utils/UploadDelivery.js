@@ -30,6 +30,7 @@ export default function UploadDelivery({ navigation, route }) {
     }
   };
 
+
   if (loading)
     return (
       <View style={styles.center}>
@@ -74,14 +75,15 @@ export default function UploadDelivery({ navigation, route }) {
       <TouchableOpacity
         style={styles.btnUp}
         onPress={() => {
+          const type = file.name.split('.', 2)[1]
           try {
             sendFile({
               variables: { file, classId, dni },
               refetchQueries: [
-                { query: GET_CLASS_BY_ID, variables: { _id: classId } },
+                { query: GET_CLASS_BY_ID, variables: { _id: classId }},
               ],
             });
-            navigation.pop();
+            navigation.navigate('StudentHomeworkFromClass', {type: type});
           } catch (err) {
             console.log(err);
           }
