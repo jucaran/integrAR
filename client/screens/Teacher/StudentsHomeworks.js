@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
 import { Card } from "react-native-paper";
@@ -38,6 +38,28 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
+export const SET_CORRECTION = gql`
+mutation setCorrection($classID: ID!, $studentID: ID!, $score: String!) {
+  editClass(
+    _id: $classID
+    input: {
+      corrections: {
+        student: $studentID
+        score: $score
+      }
+    }
+  ) {
+    corrections {
+      student {
+        _id
+        name
+      }
+      score
+    }
+  }
+}
+`
+
 const StudentsHomeworks = ({ route }) => {
   const { _id } = route.params;
 
@@ -55,6 +77,12 @@ const StudentsHomeworks = ({ route }) => {
     error: errorStudent,
   } = useQuery(GET_STUDENTS);
 
+  const {
+    data: dataCorrection,
+    loading: loadingCorrection,
+    error: errorCorrection,
+  } = useMutation(SET_CORRECTION);
+
   const handleFilePress = (dni) => {
     let dniSplitted = dni.split(".")[0];
     for (let i = 0; i < dataStudent.students.length; i++) {
@@ -66,8 +94,7 @@ const StudentsHomeworks = ({ route }) => {
     }
   };
 
-  const [score, setScore] = useState();
-  const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  // const [score, setScore] = useState();
 
   if (dataClassLoading || loadingStudent) {
     return (
@@ -92,6 +119,15 @@ const StudentsHomeworks = ({ route }) => {
     const dniFromData = dataClass?.classes[0].deliveries.map(
       (el) => el.split(".")[0]
     );
+    // score = [{_id, dni, name, lastname, score}]
+    const score = allStudents.map( el => {
+      return {
+        ...el,
+        score: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+      }
+    })
+    console.log('soy el scoooooooooooore', score)
+
 
     const estudiante = allStudents.filter((student) => {
       if (dniFromData.includes(student.dni)) {
@@ -100,10 +136,10 @@ const StudentsHomeworks = ({ route }) => {
     });
 
     //Borrar setCorrection y usar la screen TeacherCorrections cuando se pueda
-    const setCorrection = (correction) => {
-      setScore(correction);
-      alert(`La nota es ${correction}`);
-    };
+    // const setCorrection = (correction) => {
+    //   setScore(correction);
+    //   alert(`La nota es ${correction}`);
+    // };
 
     return (
       <View>
@@ -133,17 +169,17 @@ const StudentsHomeworks = ({ route }) => {
                   >
                     Nota
                   </Text>
-                  <Picker
-                    selectedValue={score}
+                  {/* <Picker
+                    selectedValue={data.classes.corrections[i].score}
                     style={{ height: 25, width: 75, color: "white" }}
-                    onValueChange={(value) => setCorrection(value)}
+                    onValueChange={(item) => setCorrection(item)}
                   >
                     {numbers.map((item, index) => {
                       return (
                         <Picker.Item label={item} value={item} key={index} />
                       );
                     })}
-                  </Picker>
+                  </Picker> */}
                 </View>
               </Card>
             );
