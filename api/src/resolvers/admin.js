@@ -10,7 +10,13 @@ export const admin = async (_, args, ctx) => {
 
 // Mutations
 export const createAdmin = async (_, { input }, ctx) => {
-  const newAdmin = await new Admin(input).save();
+  let newAdmin;
+  try {
+    newAdmin = await new Admin(input).save();
+  } catch (err) {
+    console.log(err);
+    return { status: false, error: JSON.stringify(err) };
+  }
 
   const password = Math.floor(100000 + Math.random() * 900000).toString();
   const hash = await bcrypt.hash(password, 12);

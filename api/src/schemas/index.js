@@ -75,8 +75,8 @@ export default gql`
       correctionScore: String
       feedback: String
     ): Class
-    createStudentsWithCsv(file: Upload!, courseId: ID): File | Error
-    createTeachersWithCsv(file: Upload): File | Error
+    createStudentsWithCsv(file: Upload!, courseId: ID): File
+    createTeachersWithCsv(file: Upload): File
   }
 
   # ---------------------------
@@ -84,10 +84,6 @@ export default gql`
   ${moduleTypes}
   ${fileTypes}
 
-  type Error {
-    status: Boolean,
-    error: String
-  }
   # ---------------------------
   type Admin {
     _id: ID
