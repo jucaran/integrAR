@@ -11,7 +11,7 @@ import {
 import CenterView from "../../utils/CenterView";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Card } from "react-native-elements";
-import {GET_SUBJECTS_FROM_COURSE_BY_ID} from "./SuperAdminListSubjects"
+import { GET_SUBJECTS_FROM_COURSE_BY_ID } from "./SuperAdminListSubjects";
 
 const GET_ALL_TEACHERS = gql`
   {
@@ -40,8 +40,8 @@ const EDIT_SUBJECT = gql`
         name
         lastname
         courses {
-        name
-      }
+          name
+        }
       }
     }
   }
@@ -49,7 +49,7 @@ const EDIT_SUBJECT = gql`
 
 export default function AddTeacherToSubject({ navigation, route }) {
   const _id = route.params.params.id;
-  const subjectName = route.params.params.name
+  const subjectName = route.params.params.name;
   const { data, loading, error } = useQuery(GET_ALL_TEACHERS);
   const [
     editSubject,
@@ -61,11 +61,14 @@ export default function AddTeacherToSubject({ navigation, route }) {
       await editSubject({
         variables: {
           _id: _id,
-          teacher: teacherId
+          teacher: teacherId,
         },
-        refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id}}, {query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id }}],
+        refetchQueries: [
+          { query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id } },
+          { query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id: _id } },
+        ],
       });
-      navigation.pop()
+      navigation.pop();
 
       // if (mutationLoading) {
       //   return (
@@ -99,34 +102,36 @@ export default function AddTeacherToSubject({ navigation, route }) {
     const { teachers } = data;
     return (
       <ScrollView>
-          <View>
-            <Card>
-              <Card.Title>Agregar profesor a {subjectName}</Card.Title>
-              <Card.Divider />
-              {teachers.map((teacher, i) => {
-                return (
-                  <Card key={teacher._id} style={styles.card}>
-                    <Text style={styles.prof}>
-                      {teacher.name} {teacher.lastname}
-                    </Text>
-                    <TouchableHighlight
-                      style={styles.onPress}
-                      onPress={() =>
-                        handleOnPress(
-                          teacher._id,
-                          _id,
-                          teacher.name,
-                          teacher.lastname
-                        )
-                      }
-                    >
-                      <Text style={styles.cardT}>Agregar</Text>
-                    </TouchableHighlight>
-                  </Card>
-                );
-              })}
-            </Card>
-          </View>
+        <View>
+          <Card>
+            <Card.Title>Agregar profesor a {subjectName}</Card.Title>
+            <Card.Divider />
+            {teachers.map((teacher, i) => {
+              return (
+                <Card key={teacher._id} style={styles.card}>
+                  <Text style={styles.prof}>
+                    {teacher.name} {teacher.lastname}
+                  </Text>
+                  <TouchableHighlight
+                    activeOpacity={0.2}
+                    underlayColor=""
+                    style={styles.onPress}
+                    onPress={() =>
+                      handleOnPress(
+                        teacher._id,
+                        _id,
+                        teacher.name,
+                        teacher.lastname
+                      )
+                    }
+                  >
+                    <Text style={styles.cardT}>Agregar</Text>
+                  </TouchableHighlight>
+                </Card>
+              );
+            })}
+          </Card>
+        </View>
       </ScrollView>
     );
   } else if (error || mutationError) {

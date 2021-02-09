@@ -56,7 +56,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         <TouchableHighlight
           activeOpacity={0.6}
           style={styles.touch}
-          underlayColor="ligthgrey"
+          underlayColor=""
           onPress={() =>
             navigation.navigate("SuperAdminAddCourse", {
               screen: "SuperAdminAddCourse",
@@ -68,7 +68,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
         </TouchableHighlight>
         {/* <TouchableHighlight
           activeOpacity={0.6}
-          underlayColor="ligthgrey"
+          underlayColor=""
           style={styles.touch}
           onPress={() => navigation.navigate("SuperAdminAddSubject")}
         >
@@ -100,7 +100,7 @@ const SuperAdminListCourses = ({ navigation, route }) => {
                     </Text>
                     <TouchableHighlight
                       activeOpacity={0.6}
-                      underlayColor="ligthgrey"
+                      underlayColor=""
                       style={styles.onPress}
                       onPress={() =>
                         Alert.alert(

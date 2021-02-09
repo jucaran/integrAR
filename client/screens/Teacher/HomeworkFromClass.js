@@ -24,7 +24,6 @@ export const GET_CLASS_BY_ID = gql`
   }
 `;
 
-
 const DELETE_HOMEWORK = gql`
   mutation DeleteHomework($classId: ID!, $filename: String!) {
     deleteHomework(classId: $classId, filename: $filename)
@@ -74,6 +73,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("StudentsHomeworks", {
                 _id: clase._id,
@@ -86,6 +86,7 @@ const FilesFromHomework = ({ navigation, route }) => {
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
+            underlayColor=""
             onPress={() =>
               navigation.navigate("UploadHomework", {
                 _id: clase._id,
@@ -103,39 +104,39 @@ const FilesFromHomework = ({ navigation, route }) => {
                 <Text style={styles.cardText}>{homework}</Text>
               </TouchableOpacity>
               <TouchableHighlight
-                      activeOpacity={0.6}
-                      style={styles.onPress}
-                      onPress={() =>
-                        Alert.alert(
-                          "Eliminar archivo",
-                          `¿Está seguro que desea eliminar esta tarea ${homework}?`,
-                          [
-                            {
-                              text: "Cancelar",
-                              style: "cancel",
+                activeOpacity={0.6}
+                style={styles.onPress}
+                onPress={() =>
+                  Alert.alert(
+                    "Eliminar archivo",
+                    `¿Está seguro que desea eliminar esta tarea ${homework}?`,
+                    [
+                      {
+                        text: "Cancelar",
+                        style: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        onPress: () =>
+                          deleteHomework({
+                            variables: {
+                              classId: _id,
+                              filename: homework,
                             },
-                            {
-                              text: "OK",
-                              onPress: () =>
-                                deleteHomework({
-                                  variables: {
-                                    classId: _id,
-                                    filename: homework,
-                                  },
-                                  refetchQueries: [
-                                    {
-                                      query: GET_CLASS_BY_ID,
-                                      variables: { _id: _id },
-                                    },
-                                  ],
-                                }),
-                            },
-                          ]
-                        )
-                      }
-                    >
-                      <Text style={styles.img}>X</Text>
-                    </TouchableHighlight>
+                            refetchQueries: [
+                              {
+                                query: GET_CLASS_BY_ID,
+                                variables: { _id: _id },
+                              },
+                            ],
+                          }),
+                      },
+                    ]
+                  )
+                }
+              >
+                <Text style={styles.img}>X</Text>
+              </TouchableHighlight>
             </View>
           </Card>
         ) : (

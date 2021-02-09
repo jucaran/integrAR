@@ -110,7 +110,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       </TouchableHighlight>
                       <TouchableHighlight
                         activeOpacity={0.6}
-                        underlayColor="ligthgrey"
+                        underlayColor=""
                         onPress={() =>
                           Alert.alert(
                             "Eliminar usuario",

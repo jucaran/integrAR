@@ -49,6 +49,7 @@ const StudentClassDetail = ({ navigation, route }) => {
         <TouchableHighlight
           style={styles.button}
           activeOpacity={0.6}
+          underlayColor=""
           onPress={() =>
             navigation.navigate("StudentFilesFromClass", {
               _id: clase._id
@@ -59,6 +60,7 @@ const StudentClassDetail = ({ navigation, route }) => {
         </TouchableHighlight>
         <TouchableHighlight
           activeOpacity={0.6}
+          underlayColor=""
           style={styles.button}
           onPress={() =>
             navigation.navigate("StudentHomeworkFromClass", {

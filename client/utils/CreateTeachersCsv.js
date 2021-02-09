@@ -95,6 +95,8 @@ export default function CreateTeachersWithCsv() {
         <Text style={styles.title}>Subir profesores con archivo .CSV</Text>
         <Text>Ejemplo:</Text>
         <TouchableHighlight
+          activeOpacity={0.2}
+          underlayColor=""
           onPress={() => onClick(imageState.normalSize ? false : true)}
         >
           <Image
@@ -109,6 +111,8 @@ export default function CreateTeachersWithCsv() {
           <Text style={styles.btn}>Bajar esquema .csv</Text>
         </TouchableHighlight>
         <TouchableHighlight
+          activeOpacity={0.2}
+          underlayColor=""
           style={styles.onPress}
           onPress={() =>
             // First we check that we have a correct file and then we send it

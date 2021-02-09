@@ -64,7 +64,7 @@ function SuperAdminListStudents({ navigation }) {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="#E8E8E8"
+              underlayColor=""
               style={{ width: 180 }}
               onPress={() => navigation.navigate("AddStudent")}
             >
@@ -74,7 +74,7 @@ function SuperAdminListStudents({ navigation }) {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="#E8E8E8"
+              underlayColor=""
               style={{ width: 230 }}
               onPress={() => navigation.navigate("CreateStudentsCsv")}
             >
@@ -108,6 +108,7 @@ function SuperAdminListStudents({ navigation }) {
 
                     <TouchableHighlight
                       activeOpacity={0.6}
+                      underlayColor=""
                       style={styles.imgCont}
                       onPress={() => {
                         navigation.navigate("EditStudent", {
@@ -122,6 +123,7 @@ function SuperAdminListStudents({ navigation }) {
                     </TouchableHighlight>
                     <TouchableHighlight
                       activeOpacity={0.6}
+                      underlayColor=""
                       style={styles.onPress}
                       onPress={() =>
                         Alert.alert(

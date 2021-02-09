@@ -84,9 +84,10 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
       student === (studentFile) ? t = true : t = false)
       if (!t){
     let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
-    let studentDni = studentD.flat(Infinity)
+    let studentDni = studentD.flat(Infinity);
     studentDni.forEach((student) =>
-    student === dni ? c = true : c = false)  }
+      student === dni ? (t = true) : (t = false)
+    );
     return (
       <ScrollView>
       <View style={styles.cont}>
@@ -97,6 +98,8 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
           {clase.homework ? (
             <View>
               <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor=""
                 style={styles.card}
                 onPress={() => handleFilePress(clase.homework)}
               >

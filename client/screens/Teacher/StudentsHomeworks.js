@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
 import { Card } from "react-native-paper";
@@ -34,6 +34,30 @@ export const GET_CLASS_BY_ID = gql`
       _id
       name
       deliveries
+      corrections {
+        student {
+          _id
+          name
+        }
+        score
+      }
+    }
+  }
+`;
+
+export const SET_CORRECTION = gql`
+  mutation setCorrection($classID: ID!, $studentID: ID!, $score: String!) {
+    editClass(
+      _id: $classID
+      input: { corrections: { student: $studentID, score: $score } }
+    ) {
+      corrections {
+        student {
+          _id
+          name
+        }
+        score
+      }
     }
   }
 `;
@@ -55,6 +79,11 @@ const StudentsHomeworks = ({ route }) => {
     error: errorStudent,
   } = useQuery(GET_STUDENTS);
 
+  const [
+    editClass,
+    { data: dataMutation, error: errorMutation, loading: loadingMutation },
+  ] = useMutation(SET_CORRECTION);
+
   const handleFilePress = (dni) => {
     let dniSplitted = dni.split(".")[0];
     for (let i = 0; i < dataStudent.students.length; i++) {
@@ -66,10 +95,7 @@ const StudentsHomeworks = ({ route }) => {
     }
   };
 
-  const [score, setScore] = useState();
-  const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-
-  if (dataClassLoading || loadingStudent) {
+  if (dataClassLoading || loadingStudent || loadingMutation) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -78,7 +104,7 @@ const StudentsHomeworks = ({ route }) => {
     );
   }
 
-  if (dataClassError || errorStudent) {
+  if (dataClassError || errorStudent || errorMutation) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -86,24 +112,37 @@ const StudentsHomeworks = ({ route }) => {
     );
   }
 
-  if (dataClass || dataStudent) {
+  if (dataClass || dataStudent || dataMutation) {
     const homeworkList = dataClass.classes[0].deliveries;
     const allStudents = dataStudent?.students;
     const dniFromData = dataClass?.classes[0].deliveries.map(
       (el) => el.split(".")[0]
     );
+    let scores = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    const studentsCorrections = dataClass.classes[0].corrections;
+
+    const handleOnPress = async ({ id, idStudent, score }) => {
+      
+      try {
+        await editClass({
+          variables: {
+            classID: id,
+            studentID: idStudent,
+            score: score,
+          },
+          refetchQueries: [{ query: GET_CLASS_BY_ID }],
+        });
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    };
 
     const estudiante = allStudents.filter((student) => {
       if (dniFromData.includes(student.dni)) {
         return student;
       }
     });
-
-    //Borrar setCorrection y usar la screen TeacherCorrections cuando se pueda
-    const setCorrection = (correction) => {
-      setScore(correction);
-      alert(`La nota es ${correction}`);
-    };
 
     return (
       <View>
@@ -113,37 +152,62 @@ const StudentsHomeworks = ({ route }) => {
             return (
               <Card style={styles.card} key={i}>
                 <View style={styles.cardIn}>
-                  <TouchableOpacity onPress={() => handleFilePress(el)}>
-                    {estudiante.map((_el) => {
-                      if (_el.dni === el.split(".")[0]) {
-                        return (
-                          <Text style={styles.cardText}>
-                            {_el.name} {_el.lastname} {el}
-                          </Text>
-                        );
-                      }
-                    })}
-                  </TouchableOpacity>
-                  <Text
-                    style={{
-                      paddingHorizontal: 10,
-                      color: "white",
-                      fontSize: 15,
-                    }}
-                  >
-                    Nota
-                  </Text>
-                  <Picker
-                    selectedValue={score}
-                    style={{ height: 25, width: 75, color: "white" }}
-                    onValueChange={(value) => setCorrection(value)}
-                  >
-                    {numbers.map((item, index) => {
+                  {estudiante.map((_el, i) => {
+                    if (_el.dni === el.split(".")[0]) {
                       return (
-                        <Picker.Item label={item} value={item} key={index} />
+                        <View key={i}>
+                          <Text style={styles.cardText}>
+                            {_el.name} {_el.lastname}
+                          </Text>
+                          <TouchableOpacity onPress={() => handleFilePress(el)}>
+                            <Text>{el}</Text>
+                          </TouchableOpacity>
+                          <Text
+                            style={{
+                              paddingHorizontal: 10,
+                              color: "white",
+                              fontSize: 15,
+                            }}
+                          >
+                            <Picker
+                              selectedValue={"1"}
+                              style={{
+                                height: 25,
+                                width: 75,
+                                color: "white",
+                              }}
+                              onValueChange={(item) =>
+                                handleOnPress({
+                                  id: _id,
+                                  idStudent: _el._id,
+                                  score: item,
+                                })
+                              }
+                            >
+                              {scores.map((item, index) => {
+                                return (
+                                  <Picker.Item
+                                    label={item}
+                                    value={item}
+                                    key={index}
+                                  />
+                                );
+                              })}
+                            </Picker>
+                            {studentsCorrections.map((studentScore, index2) => {
+                              if (_el._id === studentScore.student._id) {
+                                return (
+                                  <View key={index2}>
+                                    <Text>Nota: {studentScore.score}</Text>
+                                  </View>
+                                );
+                              }
+                            })}
+                          </Text>
+                        </View>
                       );
-                    })}
-                  </Picker>
+                    }
+                  })}
                 </View>
               </Card>
             );
@@ -175,11 +239,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardIn: {
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
     justifyContent: "space-between",
-    display: "flex",
     margin: 10,
   },
   button: {

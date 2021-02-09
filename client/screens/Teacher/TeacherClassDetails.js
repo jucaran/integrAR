@@ -50,6 +50,7 @@ const TeacherClassDetails = ({ navigation, route }) => {
         <TouchableHighlight
           style={styles.button}
           activeOpacity={0.6}
+          underlayColor=""
           onPress={() =>
             navigation.navigate("FilesFromClass", { _id: clase._id })
           }
@@ -58,6 +59,7 @@ const TeacherClassDetails = ({ navigation, route }) => {
         </TouchableHighlight>
         <TouchableHighlight
           activeOpacity={0.6}
+          underlayColor=""
           style={styles.button}
           onPress={() =>
             navigation.navigate("HomeworkFromClass", { _id: clase._id })

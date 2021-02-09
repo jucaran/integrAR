@@ -1,21 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  ActivityIndicator,
+  Alert,
+  StyleSheet,
   ScrollView,
+  ActivityIndicator,
   TouchableHighlight,
 } from "react-native";
-import CenterView from "../../utils/CenterView";
-import { useQuery, gql } from "@apollo/client";
-import UserAvatar from "react-native-user-avatar";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { AuthContext } from "../../providers/AuthProvider";
+import CenterView from "../../utils/CenterView";
+import UserAvatar from "react-native-user-avatar";
+import * as ImagePicker from "expo-image-picker";
 
 export const GET_STUDENT_BY_DNI = gql`
-  query GetStudentById($_id: ID) {
-    students(_id: $_id) {
+  query GetStudentById($dni: String) {
+    students(dni: $dni) {
       _id
       name
       lastname
@@ -24,17 +26,76 @@ export const GET_STUDENT_BY_DNI = gql`
       whatsapp
       address
       birthday
-      picture
+      picture 
     }
   }
 `;
-const OptionsStudent = ({ navigation, route }) => {
+
+const EDIT_STUDENT = gql`
+  mutation AddStudent(
+    $_id: ID
+    $picture: String
+  ) {
+    editStudent(
+      _id: $_id
+      input: {
+        picture: $picture
+      }
+    ) {
+      name
+    }
+  }
+`;
+
+const OptionsStudent = ({ navigation }) => {
   const { user, logout } = useContext(AuthContext);
   const dni = user.dni;
+  
+  
+  //-----------------------------------------------------
+  
+  // const [student, setStudent] = useState({ picture: "" });
+  // const [editStudent, { loading: loadStudent, error: errorStudent }] = useMutation(EDIT_STUDENT);
+  // const handleChange = (prop, value) => {
+  //   setStudent({ ...student, [prop]: value });
+  // };
+  
+  // const handleOnPress = async ({ picture }) => {
+  //   try{
+  //     await editStudent({
+  //       variables: {
+  //         picture
+  //       }
+  //     })
+  //   } catch(err){
+  //     console.log("Soy el catch: ", err)
+  //   }
+  // }
+
+  //-----------------------------------------------------
+
+
 
   const { data, loading, error } = useQuery(GET_STUDENT_BY_DNI, {
     variables: { dni },
   });
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  let openImage = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      Alert.alert("Alerta", "Se requiere acceso al Almacenamiento Interno");
+      return;
+    }
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+    setSelectedImage({ localUri: pickerResult.uri });
+  };
+  //console.log("selectedImage?.localUri: ", selectedImage?.localUri)
+
 
   if (loading) {
     return (
@@ -60,12 +121,36 @@ const OptionsStudent = ({ navigation, route }) => {
       <CenterView>
         <View style={styles.card}>
           <ScrollView>
-            <UserAvatar
-              size={100}
-              name={`${student.name} ${student.lastname}`}
-              style={styles.user}
-              src={`${student.picture}`}
-            />
+            <View>
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor=""
+                onPress={openImage}
+              >
+                {selectedImage ? (
+                  <Image
+                    style={styles.user}
+                    source={{
+                      uri: `${selectedImage?.localUri}`,
+                    }}
+                  />
+                ) : (
+                  <UserAvatar
+                    size={100}
+                    name={`${student.name} ${student.lastname}`}
+                    style={{
+                      backgroundColor: "#2290CD",
+                      width: 140,
+                      height: 140,
+                      borderRadius: 100,
+                      marginTop: 20,
+                      alignSelf: "center",
+                    }}
+                  />
+                )}
+              </TouchableHighlight>
+            </View>
+
             <Text style={styles.textName}>
               {`${student.name} ${student.lastname}`}
             </Text>
@@ -146,7 +231,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     shadowOpacity: 80,
-    
+
     elevation: 10,
     borderRadius: 15,
     backgroundColor: "#fff",

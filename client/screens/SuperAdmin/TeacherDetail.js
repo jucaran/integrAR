@@ -69,7 +69,14 @@ function TeacherDetail({ route }) {
             <UserAvatar
               size={100}
               name={`${teacher.name} ${teacher.lastname}`}
-              style={styles.user}
+              style={{
+                backgroundColor: "#2290CD",
+                width: 140,
+                height: 140,
+                borderRadius: 100,
+                marginTop: 20,
+                alignSelf: "center",
+              }}
               src={`${teacher.picture}` }
             />
             <Text style={styles.textName}>

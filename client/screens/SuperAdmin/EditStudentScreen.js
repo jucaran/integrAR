@@ -16,7 +16,8 @@ import { Picker } from "@react-native-picker/picker";
 
 const EDIT_STUDENT = gql`
   mutation AddStudent(
-    $_id: ID
+    $_id: ID!
+    $dni: String
     $name: String
     $lastname: String
     $email: String
@@ -28,6 +29,7 @@ const EDIT_STUDENT = gql`
     editStudent(
       _id: $_id
       input: {
+        dni: $dni
         name: $name
         lastname: $lastname
         email: $email
@@ -55,6 +57,7 @@ const GET_STUDENT = gql`
   query Students($_id: ID) {
     students(_id: $_id) {
       _id
+      dni
       name
       lastname
       email
@@ -72,6 +75,7 @@ const GET_STUDENT = gql`
 function EditStudentScreen({ route, navigation }) {
   const { studentId } = route.params;
   const [student, setStudent] = useState({
+    dni: "",
     name: "",
     lastname: "",
     email: "",
@@ -81,9 +85,8 @@ function EditStudentScreen({ route, navigation }) {
     birthday: "",
     picture: "",
     course: "",
-    
   });
-  
+
   const { data: dataGet, loading: loadingGet, error: errorGet } = useQuery(
     GET_ALL_COURSES
   );
@@ -103,6 +106,7 @@ function EditStudentScreen({ route, navigation }) {
   };
 
   const handleOnPress = ({
+    dni,
     name,
     lastname,
     email,
@@ -128,13 +132,14 @@ function EditStudentScreen({ route, navigation }) {
               await editStudent({
                 variables: {
                   _id: studentId,
-                  lastname,
+                  dni,
                   name,
+                  lastname,
                   email,
                   whatsapp,
                   address,
                   picture,
-                  course
+                  course,
                 },
                 refetchQueries: [{ query: GET_STUDENTS }],
               });
@@ -182,7 +187,7 @@ function EditStudentScreen({ route, navigation }) {
 
   if (data || dataGet) {
     const [
-      { name, lastname, email, whatsapp, address, picture, course },
+      { name, lastname, dni, email, whatsapp, address, picture, course },
     ] = data.students;
     const courses = dataGet.courses;
 
@@ -206,7 +211,11 @@ function EditStudentScreen({ route, navigation }) {
               onChangeText={(value) => handleChange("lastname", value)}
             />
 
-            {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
+            <TextInput
+              style={styles.input}
+              placeholder={dni ? `DNI: ${dni}` : "Agregar DNI..."}
+              onChangeText={(value) => handleChange("dni", value)}
+            />
 
             <TextInput
               style={styles.input}
@@ -237,7 +246,6 @@ function EditStudentScreen({ route, navigation }) {
               placeholder={picture ? `Foto: ${picture}` : "Agregar foto..."}
               onChangeText={(value) => handleChange("picture", value)}
             />
-
           </View>
           <View>
             <Picker
@@ -245,11 +253,16 @@ function EditStudentScreen({ route, navigation }) {
               style={{ height: 200, width: 150 }}
               onValueChange={(value) => handleChange("course", value)}
             >
-              <Picker.Item label="" value='null' />
+              <Picker.Item label="" value="null" />
               {courses.length ? (
                 courses.map((course) => {
                   return (
-                  <Picker.Item key={course._id} label={course.name} value={course._id} />);
+                    <Picker.Item
+                      key={course._id}
+                      label={course.name}
+                      value={course._id}
+                    />
+                  );
                 })
               ) : (
                 <CenterView>

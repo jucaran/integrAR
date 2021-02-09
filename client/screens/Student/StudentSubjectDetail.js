@@ -105,7 +105,7 @@ const SutudentSubjectDetail = ({ navigation, route }) => {
                           alignItems: "center",
                         }}
                         activeOpacity={0.6}
-                        underlayColor="white"
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("StudentListClasses", {
                             id: item._id,

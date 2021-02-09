@@ -103,6 +103,7 @@ const StudentListClasses = ({ navigation, route }) => {
                         alignItems: "center",
                       }}
                       activeOpacity={0.6}
+                      underlayColor=""
                       onPress={() =>
                         navigation.navigate("StudentClassDetail", {
                           screen: "StudentClassDetail",

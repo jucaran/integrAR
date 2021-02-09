@@ -72,6 +72,7 @@ const FilesFromClass = ({ navigation, route }) => {
         <TouchableHighlight
           style={styles.touch}
           activeOpacity={0.6}
+          underlayColor=""
           onPress={() =>
             navigation.navigate("UploadClassFile", {
               _id: clase._id,
@@ -93,6 +94,7 @@ const FilesFromClass = ({ navigation, route }) => {
                     </TouchableOpacity>
                     <TouchableHighlight
                       activeOpacity={0.6}
+                      underlayColor=""
                       style={styles.onPress}
                       onPress={() =>
                         Alert.alert(
