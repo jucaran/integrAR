@@ -24,6 +24,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
 
     // Returns a promise for each student in the .csv file
     const studentPromises = rows.map((row) => {
+      row = row.replace(/;/g, ",");
       // We grab the elements in order and add them as atribute to create each student
       const [
         name,
