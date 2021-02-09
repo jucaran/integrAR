@@ -9,7 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableHighlight,
-  Image
+  Image,
 } from "react-native";
 import { Card } from "react-native-elements";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -41,8 +41,8 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
   });
   const { user } = useContext(AuthContext);
   const { dni } = user;
-  let t = false
-  let c = false
+  let typeExist = false;
+  let noType = false;
   const [
     deleteDelivery,
     { data: mutationData, loading: mutationLoading, error: mutationError },
@@ -79,43 +79,47 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
 
   if (data) {
     const clase = data.classes[0];
-    const studentFile = dni + '.' + type
+    const studentFile = dni + "." + type;
     clase.deliveries?.forEach((student) =>
-      student === (studentFile) ? t = true : t = false)
-      if (!t){
-    let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
-    let studentDni = studentD.flat(Infinity);
-    studentDni.forEach((student) =>
-      student === dni ? (t = true) : (t = false)
+      student === studentFile ? (typeExist = true) : (typeExist = false)
     );
+    if (!typeExist) {
+      let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
+      let studentDni = studentD.flat(Infinity);
+      studentDni.forEach((student) =>
+        student === dni ? (noType = true) : (noType = false)
+      );
+    }
     return (
       <ScrollView>
-      <View style={styles.cont}>
-        {console.log(type)}
-        <Card>
-          <Card.Title>Tarea de la {clase.name}</Card.Title>
-          <Card.Divider />
-          {clase.homework ? (
-            <View>
-              <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor=""
-                style={styles.card}
-                onPress={() => handleFilePress(clase.homework)}
-              >
-                <Text style={styles.cardText}>{clase.homework}</Text>
-              </TouchableHighlight>
-              { t ? 
-                    (
-                      <View style={styles.hwkUp}>
-                       <TouchableHighlight
+        <View style={styles.cont}>
+          {console.log(type)}
+          <Card>
+            <Card.Title>Tarea de la {clase.name}</Card.Title>
+            <Card.Divider />
+            {clase.homework ? (
+              <View>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor=""
+                  style={styles.card}
+                  onPress={() => handleFilePress(clase.homework)}
+                >
+                  <Text style={styles.cardText}>{clase.homework}</Text>
+                </TouchableHighlight>
+                {typeExist ? (
+                  <View style={styles.hwkUp}>
+                    <TouchableHighlight
                       style={styles.touch2}
                       activeOpacity={0.2}
                       onPress={() => handleFilePress2(studentFile)}
                     >
-                      <Text style={styles.hmkUpTxt}>  TAREA SUBIDA!</Text>
+                      <Text style={styles.hmkUpTxt}> TAREA SUBIDA!</Text>
                     </TouchableHighlight>
-                    <Image source={require("../../assets/job.gif")} style={styles.img} />
+                    <Image
+                      source={require("../../assets/job.gif")}
+                      style={styles.img}
+                    />
                     <TouchableHighlight
                       activeOpacity={0.6}
                       style={styles.delete}
@@ -150,37 +154,37 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                     >
                       <Text style={styles.deleteTxt}>Eliminar</Text>
                     </TouchableHighlight>
-                    </View>
-                  ) : c ?
-                  (
-                    <View style={styles.hwkUp}>
-                    <Text style={styles.hmkUpTxt2}>  TAREA SUBIDA!</Text>
-                  <Image source={require("../../assets/job.gif")} style={styles.img} />
                   </View>
-                )
-               :  (
-                    <TouchableHighlight
-                      style={styles.touch}
-                      activeOpacity={0.2}
-                      onPress={() =>
-                        navigation.navigate("UploadDelivery", {
-                          dni: dni,
-                          classId: _id,
-                        })
-                      }
-                    >
-                      <Text style={styles.cardText}>Subir Tarea</Text>
-                    </TouchableHighlight>
-                  )
-                }
-            </View>
-          ) : (
-            <CenterView>
-              <Text>No hay tarea para esta clase</Text>
-            </CenterView>
-          )}
-        </Card>
-      </View>
+                ) : noType ? (
+                  <View style={styles.hwkUp}>
+                    <Text style={styles.hmkUpTxt2}> TAREA SUBIDA!</Text>
+                    <Image
+                      source={require("../../assets/job.gif")}
+                      style={styles.img}
+                    />
+                  </View>
+                ) : (
+                  <TouchableHighlight
+                    style={styles.touch}
+                    activeOpacity={0.2}
+                    onPress={() =>
+                      navigation.navigate("UploadDelivery", {
+                        dni: dni,
+                        classId: _id,
+                      })
+                    }
+                  >
+                    <Text style={styles.cardText}>Subir Tarea</Text>
+                  </TouchableHighlight>
+                )}
+              </View>
+            ) : (
+              <CenterView>
+                <Text>No hay tarea para esta clase</Text>
+              </CenterView>
+            )}
+          </Card>
+        </View>
       </ScrollView>
     );
   }
@@ -244,10 +248,10 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     justifyContent: "center",
-    marginTop: 12
+    marginTop: 12,
   },
   deleteTxt: {
-    color: 'white'
+    color: "white",
   },
   cardIn: {
     flexDirection: "row",
@@ -287,25 +291,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  hwkUp:{
-    justifyContent: 'center',
-    alignItems: 'center',
+  hwkUp: {
+    justifyContent: "center",
+    alignItems: "center",
     margin: 20,
   },
-  hmkUpTxt:{
+  hmkUpTxt: {
     color: "white",
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
-  hmkUpTxt2:{
+  hmkUpTxt2: {
     color: "darkgreen",
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   img: {
     width: 290,
     height: 250,
-  }
+  },
 });
 
 export default StudentHomeworkFromClass;
