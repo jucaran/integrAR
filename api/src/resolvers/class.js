@@ -26,9 +26,9 @@ export const editClass = async (_, { _id, input }) => {
     if (key === "corrections") {
       let studentExist = _class[key].find( ({ student }) => (student._id.toString() === input[key].student))
       if(studentExist){
-        _class[key].forEach( (el , index) => {
-         if((el.student.dni === studentExist.student.dni)) {
-            _class[key][index].score = input[key].score
+        _class[key].forEach( el => {
+         if(el.student.dni === studentExist.student.dni) {
+            el.score = input[key].score
           }
         } )
          
