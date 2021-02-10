@@ -31,6 +31,7 @@ const DELETE_HOMEWORK = gql`
 `;
 
 const FilesFromHomework = ({ navigation, route }) => {
+  // TODO: hacer un boton para descargar todas las tareas
   const _id = route.params.params.id;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
@@ -81,6 +82,9 @@ const FilesFromHomework = ({ navigation, route }) => {
             }
           >
             <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
+            <Text style={styles.touchText}>
+              Descargar .rar de las tareas de los alumnos
+            </Text>
           </TouchableHighlight>
         ) : (
           <TouchableHighlight
