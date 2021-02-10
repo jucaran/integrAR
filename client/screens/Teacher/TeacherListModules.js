@@ -37,7 +37,7 @@ const DELETE_MODULE_BY_ID = gql`
 `;
 
 const TeacherListModules = ({ navigation, route }) => {
-  const { _id } = route.params.params;
+  const { _id, courseId } = route.params.params;
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
@@ -72,7 +72,7 @@ const TeacherListModules = ({ navigation, route }) => {
             underlayColor=""
             activeOpacity={0.6}
             onPress={() =>
-              navigation.navigate("AddModuleToSubject", { _id: _id } )
+              navigation.navigate("AddModuleToSubject", { _id: _id })
             }
           >
             <Text style={styles.touchText}>Agregar Unidad</Text>
@@ -92,7 +92,9 @@ const TeacherListModules = ({ navigation, route }) => {
                       underlayColor=""
                       onPress={() =>
                         navigation.navigate("TeacherListClasses", {
-                           id: module._id})
+                          _id: module._id,
+                          courseId,
+                        })
                       }
                     >
                       <Text style={styles.textHigh}>Clases</Text>
@@ -115,7 +117,7 @@ const TeacherListModules = ({ navigation, route }) => {
                                 text: "OK",
                                 onPress: async () =>
                                   await deleteModule({
-                                    variables: { _id: module._id }, 
+                                    variables: { _id: module._id },
                                     refetchQueries: [
                                       { query: GET_ALL_MODULES_SUBJECT },
                                     ],
@@ -184,16 +186,14 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     minWidth: 95,
     minHeight: 40,
-    borderRadius: 7
+    borderRadius: 7,
   },
   textHigh: {
     color: "white",
   },
 });
 export default TeacherListModules;
-
-

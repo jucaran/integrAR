@@ -19,7 +19,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const TeacherClassDetails = ({ navigation, route }) => {
-  const { _id: _id } = route.params;
+  const { _id } = route.params;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });

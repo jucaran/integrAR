@@ -7,13 +7,11 @@ import {
   ScrollView,
   Button,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
-import { GET_ALL_CLASSES_MODULES } from "./TeacherListClasses"
-import CenterView from "../../utils/CenterView"
-
-
+import { GET_ALL_CLASSES_MODULES } from "./TeacherListClasses";
+import CenterView from "../../utils/CenterView";
 
 const ADD_CLASS = gql`
   mutation CreateClass($input: ClassInput) {
@@ -21,54 +19,49 @@ const ADD_CLASS = gql`
       _id
       name
       module {
-        _id 
+        _id
         name
       }
     }
-  },
-`
+  }
+`;
 
 function AddClassToModule({ navigation, route }) {
-  const  _id  = route.params?.id;
-  const [createClass, {error, loading, data}] = useMutation(ADD_CLASS);
+  const _id = route.params?.id;
+  const [createClass, { error, loading, data }] = useMutation(ADD_CLASS);
   const [clase, setClase] = useState({
     name: "",
   });
-    
+
   const handleChange = (prop, value) => {
-    setClase({ ...clase, [prop]: value});
+    setClase({ ...clase, [prop]: value });
   };
-  
-  const handleOnPress = async ({
-    name,
-  }) => {
+
+  const handleOnPress = async ({ name }) => {
     try {
       await createClass({
         variables: {
-          input:{
+          input: {
             name,
-            module: _id
-          }
+            module: _id,
+          },
         },
-        refetchQueries: [{ query: GET_ALL_CLASSES_MODULES, variables: {_id: _id} }]
-      })
-      
+        refetchQueries: [
+          { query: GET_ALL_CLASSES_MODULES, variables: { _id: _id } },
+        ],
+      });
 
-      Alert.alert(
-        "Excelente!",
-        `La clase ${name} fue agregada exitosamente!`,
-        [
-          {
-            text: "Ok",
-            onPress: () => navigation.navigate("TeacherListClasses")
-          }
-        ]
-      )
+      Alert.alert("Excelente!", `La clase ${name} fue agregada exitosamente!`, [
+        {
+          text: "Ok",
+          onPress: () => navigation.navigate("TeacherListClasses"),
+        },
+      ]);
     } catch (err) {
       console.error(err);
     }
-  }
- 
+  };
+
   if (loading) {
     return (
       <CenterView>
@@ -80,7 +73,11 @@ function AddClassToModule({ navigation, route }) {
 
   if (error) {
     console.log(error);
-    return <View><Text>{JSON.stringify(error)}</Text></View>;
+    return (
+      <View>
+        <Text>{JSON.stringify(error)}</Text>
+      </View>
+    );
   }
 
   return (
@@ -104,8 +101,7 @@ function AddClassToModule({ navigation, route }) {
         </View>
       </View>
     </ScrollView>
-
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -131,6 +127,5 @@ const styles = StyleSheet.create({
     backgroundColor: "skyblue",
   },
 });
-
 
 export default AddClassToModule;

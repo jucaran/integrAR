@@ -31,7 +31,7 @@ const DELETE_HOMEWORK = gql`
 `;
 
 const FilesFromHomework = ({ navigation, route }) => {
-  const _id = route.params.params.id;
+  const {_id, courseId} = route.params.params;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -77,6 +77,7 @@ const FilesFromHomework = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("StudentsHomeworks", {
                 _id: clase._id,
+                courseId
               })
             }
           >

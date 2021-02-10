@@ -35,7 +35,7 @@ const DELETE_CLASS = gql`
 `;
 
 const TeacherListClasses = ({ navigation, route }) => {
-  const _id = route.params?.id; // aca llega id de subjects
+  const { _id, courseId } = route.params;
   const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
     variables: { _id },
   });
@@ -91,7 +91,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                       underlayColor=""
                       onPress={() =>
                         navigation.navigate("ClassDetail",
-                          { id: clase._id }
+                          { _id: clase._id, courseId }
                         )
                       }
                     >
