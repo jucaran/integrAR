@@ -101,7 +101,8 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                 >
                   <Text style={styles.cardText}>{clase.homework}</Text>
                 </TouchableHighlight>
-           {typeExist ? (
+                {typeExist ? (
+                  
                   <View style={styles.hwkUp}>
                     <TouchableHighlight
                       style={styles.touch2}
@@ -149,44 +150,48 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                       <Text style={styles.deleteTxt}>Eliminar</Text>
                     </TouchableHighlight>
                   </View>
-                ) : (           
-          clase.deliveries?.map((el) => {
-            if (el.split(".", 1)[0] === dni) {
-              {console.log(el)}
-              return (
-              <View style={styles.hwkUp}>
-                    <TouchableHighlight
-                      style={styles.touch2}
-                      activeOpacity={0.2}
-                      onPress={() => handleFilePress2(el)}
-                    >
-                      <Text style={styles.hmkUpTxt}> TAREA SUBIDA!</Text>
-                    </TouchableHighlight>
-                    <Image
-                      source={require("../../assets/job.gif")}
-                      style={styles.img}
-                    />
-                  </View>)}
-            
-                  else {
-                  <TouchableHighlight
-                    style={styles.touch}
-                    activeOpacity={0.2}
-                    onPress={() =>
-                      navigation.navigate("UploadDelivery", {
-                        dni: dni,
-                        classId: _id,
-                      })
+                ) : (
+                  clase.deliveries?.map((el) => {
+                    if (el.split(".", 1)[0] === dni) {
+                      {
+                        console.log(el);
+                      }
+                      return (
+                        <View style={styles.hwkUp}>
+                          <TouchableHighlight
+                            style={styles.touch2}
+                            activeOpacity={0.2}
+                            onPress={() => handleFilePress2(el)}
+                          >
+                            <Text style={styles.hmkUpTxt}> TAREA SUBIDA!</Text>
+                          </TouchableHighlight>
+                          <Image
+                            source={require("../../assets/job.gif")}
+                            style={styles.img}
+                          />
+                        </View>
+                      );
+                    } else {
+                      return (
+
+                      <TouchableHighlight
+                        style={styles.touch}
+                        activeOpacity={0.2}
+                        onPress={() =>
+                          navigation.navigate("UploadDelivery", {
+                            dni: dni,
+                            classId: _id,
+                          })
+                        }
+                      >
+                        <Text style={styles.cardText}>Subir Tarea</Text>
+                      </TouchableHighlight>
+                      )
                     }
-                  >
-                    <Text style={styles.cardText}>Subir Tarea</Text>
-                  </TouchableHighlight>
-              }
-              })
-              )}
-             </View>
-            )
-            : (
+                  })
+                )}
+              </View>
+            ) : (
               <CenterView>
                 <Text>No hay tarea para esta clase</Text>
               </CenterView>
