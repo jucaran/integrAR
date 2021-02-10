@@ -112,7 +112,7 @@ const StudentTeachers = () => {
                               { 
                                 text: 'Ver Materias', 
                                 onPress: () => {
-                                  let subjects = data.students[0].course.subjects.map(el => {
+                                  let subjects = teachers.map(el => {
                                     if(el.teacher?._id === item.teacher._id) return el.name;
                                   }).join(`\n`)
                                   alert(`${subjects}`) 
