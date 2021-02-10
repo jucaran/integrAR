@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
             await AsyncStorage.removeItem("token");
             await AsyncStorage.removeItem("user");
+            await AsyncStorage.removeItem("teachers");
           } catch (err) {
             console.log(err);
           }

@@ -13,9 +13,9 @@ import { useMutation } from "@apollo/client";
 import { CREATE_TEACHERS_WITH_CSV } from "./graphql";
 import { Card } from "react-native-paper";
 import { GET_ALL_TEACHERS } from "../screens/SuperAdmin/SuperAdminListTeachers";
-import CenterView from "./CenterView"
+import CenterView from "./CenterView";
 
-export default function CreateTeachersWithCsv() {
+export default function CreateTeachersWithCsv({ navigation }) {
   const [sendFile, { data, loading, error }] = useMutation(
     CREATE_TEACHERS_WITH_CSV
   );
@@ -71,71 +71,71 @@ export default function CreateTeachersWithCsv() {
     );
 
   return (
-      <View style={styles.center}>
-        {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
+    <View style={styles.center}>
+      {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
-        <Text style={styles.title}>Subir Profesores con archivo .CSV</Text>
-        <Text>Ejemplo:</Text>
-        <TouchableHighlight onPress={() => navigation.navigate("ImageExample")}>
-          <Image
-            style={styles.normalSize}
-            source={require("../assets/ejemplocsv.png")}
-          />
-        </TouchableHighlight>
-        <View style={styles.exampleVw}>
-          <Card style={styles.box}>
-            <View style={styles.instructionBox}>
-              <Text style={styles.underline}>Instrucciones:</Text>
-              {/* <Card.Divider /> */}
-              <Text style={styles.intruction}>El archivo debe ser .csv</Text>
-              <Text style={styles.intruction}>
-                La primera fila debe contener solo los titulos de los campos
-              </Text>
-              <Text style={styles.intruction}>
-                Deben estar acomodados en el orden propuesto y sin usar comas
-              </Text>
-            </View>
-          </Card>
-        </View>
-
-        {/* If the file is not .csv we show a error message */}
-        {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        {file ? (
-          <></>
-        ) : (
-          <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
-            <Text style={styles.btnPickTxt}>Subir archivo .csv</Text>
-          </TouchableHighlight>
-        )}
-        {file ? (
-          <View style={styles.file}>
-            <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
-            <Text style={styles.fileTxt}>{file.name}</Text>
-            <Image source={require("../assets/tenor.gif")} style={styles.img} />
+      <Text style={styles.title}>Subir Profesores con archivo .CSV</Text>
+      <Text>Ejemplo:</Text>
+      <TouchableHighlight onPress={() => navigation.navigate("ImageExample")}>
+        <Image
+          style={styles.normalSize}
+          source={require("../assets/ejemplocsv.png")}
+        />
+      </TouchableHighlight>
+      <View style={styles.exampleVw}>
+        <Card style={styles.box}>
+          <View style={styles.instructionBox}>
+            <Text style={styles.underline}>Instrucciones:</Text>
+            {/* <Card.Divider /> */}
+            <Text style={styles.intruction}>El archivo debe ser .csv</Text>
+            <Text style={styles.intruction}>
+              La primera fila debe contener solo los titulos de los campos
+            </Text>
+            <Text style={styles.intruction}>
+              Deben estar acomodados en el orden propuesto y sin usar comas
+            </Text>
           </View>
-        ) : (
-          <></>
-        )}
-        {file ? (
-          <TouchableHighlight
-            activeOpacity={0.2}
-            underlayColor=""
-            style={styles.btnUp}
-            onPress={() =>
-              // First we check that we have a correct file and then we send it
-              file &&
-              sendFile({
-                variables: { file },
-                refetchQueries: [{ query: GET_ALL_TEACHERS }],
-              })
-            }
-          >
-            <Text style={styles.btnUpTxt}>Enviar archivo .csv</Text>
-          </TouchableHighlight>
-        ) : (
-          <></>
-        )}
+        </Card>
       </View>
+
+      {/* If the file is not .csv we show a error message */}
+      {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
+      {file ? (
+        <></>
+      ) : (
+        <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
+          <Text style={styles.btnPickTxt}>Subir archivo .csv</Text>
+        </TouchableHighlight>
+      )}
+      {file ? (
+        <View style={styles.file}>
+          <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
+          <Text style={styles.fileTxt}>{file.name}</Text>
+          <Image source={require("../assets/tenor.gif")} style={styles.img} />
+        </View>
+      ) : (
+        <></>
+      )}
+      {file ? (
+        <TouchableHighlight
+          activeOpacity={0.2}
+          underlayColor=""
+          style={styles.btnUp}
+          onPress={() =>
+            // First we check that we have a correct file and then we send it
+            file &&
+            sendFile({
+              variables: { file },
+              refetchQueries: [{ query: GET_ALL_TEACHERS }],
+            })
+          }
+        >
+          <Text style={styles.btnUpTxt}>Enviar archivo .csv</Text>
+        </TouchableHighlight>
+      ) : (
+        <></>
+      )}
+    </View>
   );
 }
 
