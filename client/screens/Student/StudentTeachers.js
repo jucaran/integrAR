@@ -86,7 +86,7 @@ const StudentTeachers = () => {
             <FlatList
               data={teachers}
               key={teachers._id}
-              renderItem={({ item }) => {
+              renderItem={({ item, index }) => {
                 if (item.teacher && !profes[item.teacher._id]) {
                   profes[item.teacher._id] = true
                   return (
@@ -133,7 +133,7 @@ const StudentTeachers = () => {
                   );
                 } 
               }}
-              keyExtractor={({ _id }) => _id}
+              keyExtractor={({ index }) => index}
             />
           ) : (
             <CenterView>

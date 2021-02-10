@@ -1,4 +1,4 @@
-import React, { useContext }  from "react";
+import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql } from "@apollo/client";
 import {
@@ -16,17 +16,17 @@ export const GET_CLASS_BY_ID = gql`
     classes(_id: $_id) {
       _id
       name
-      corrections{
-    student{
-      _id
-      name
-      dni
+      corrections {
+        student {
+          _id
+          name
+          dni
+        }
+        score
+        feedback
+      }
     }
-    score
-    feedback
   }
-}
-}
 `;
 
 const StudentCorrectionFromClass = ({ navigation, route }) => {
@@ -38,17 +38,18 @@ const StudentCorrectionFromClass = ({ navigation, route }) => {
   });
 
   const colors = [
-    '#FA2103',
-    '#F4381E',
-    '#F65D11',
-    '#F6AA11',
-    '#F3F611',
-    '#C5F611',
-    '#9CF611',
-    '#7DF611',
-    '#61F611',
-    '#18F611',
-  ]
+    "",
+    "#FA2103",
+    "#F4381E",
+    "#F65D11",
+    "#F6AA11",
+    "#F3F611",
+    "#C5F611",
+    "#9CF611",
+    "#7DF611",
+    "#61F611",
+    "#18F611",
+  ];
 
   if (loading) {
     return (
@@ -73,35 +74,41 @@ const StudentCorrectionFromClass = ({ navigation, route }) => {
 
     return (
       <View style={styles.cont}>
-         <Card >
+        <Card>
           <Card.Title>Corrección {clase.name}</Card.Title>
           <Card.Divider />
-        {corrections.length ? (
-         corrections.map((student, i) => {
-           console.log(student)
-          if (student.student.dni === dni){
-          return (
-            <View key={i} style={styles.card}>
-          <Text style={styles.cardText}>Nota</Text>
-          <TouchableHighlight style={{
-            backgroundColor: colors[student.score],
-            width: 45,
-            height: 45,
-            borderRadius: 4,
-            justifyContent: 'center',
-            alignItems: 'center',
-            margin: 20
-          }}>
-          <Text style={styles.cardTextScore}>{student.score}</Text>
-          </TouchableHighlight>
-          </View>
-          )} else { return (<Text> No hay correcciones en esta clase </Text>)}
-          })
-        ) : (
-          <CenterView>
-            <Text>No hay correcciones para esta clase</Text>
-          </CenterView>
-        )}
+          {corrections.length ? (
+            corrections.map((student, i) => {
+              console.log(student);
+              if (student.student.dni === dni) {
+                return (
+                  <View key={i} style={styles.card}>
+                    <Text style={styles.cardText}>Nota</Text>
+                    <TouchableHighlight
+                      style={{
+                        backgroundColor: colors[student.score],
+                        width: 45,
+                        height: 45,
+                        borderRadius: 4,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: 20,
+                      }}
+                    >
+                      <Text style={styles.cardTextScore}>{student.score}</Text>
+                    </TouchableHighlight>
+                  </View>
+                );
+              }
+              //  else {
+              //   return <Text> No hay correcciones en esta clase </Text>;
+              // }
+            })
+          ) : (
+            <CenterView>
+              <Text>No hay correcciones para esta clase</Text>
+            </CenterView>
+          )}
         </Card>
       </View>
     );
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     color: "#272727",
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
   },
   cardTextScore: {
     fontSize: 20,
