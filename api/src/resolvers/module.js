@@ -1,3 +1,4 @@
+import Class from "../models/Class";
 import Module from "../models/Module";
 import Subject from "../models/Subject";
 
@@ -33,8 +34,22 @@ export const editModule = async (_, { _id, input }) => {
   return newModule;
 };
 
-export const deleteModule = async (_, args, ctx) => {
-  //TODO: cuando borre un modulo, borrar sus clases y borrar sus subjects y viceversa
+export const deleteModule = async (_, { _id }) => {
+  //COMPLETED: cuando borre un modulo, borrar sus clases y borrar sus subjects y viceversa
+  const MODULE = await Module.findById(_id);
 
-  return await Module.findByIdAndDelete(args._id);
+  if (MODULE.classes.length) {
+    // Deleting all the classes of the module from the db
+    let classes = MODULE.classes.map((_class) =>
+      Class.findByIdAndDelete(_class._id)
+    );
+    await Promise.all(classes);
+  }
+
+  // Deleting the module from the subject
+  const SUBJECT = await Subject.findById(MODULE.subject._id);
+  SUBJECT.modules = SUBJECT.modules.filter((module) => module._id !== _id);
+  await SUBJECT.save();
+
+  return MODULE;
 };

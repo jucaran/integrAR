@@ -35,7 +35,7 @@ const StudentScreen = ({ navigation }) => {
     variables: { dni },
   });
 if (data){
-  AsyncStorage.setItem("teachers", JSON.stringify(data.students[0].course.subjects));
+  // AsyncStorage.setItem("teachers", JSON.stringify(data?.students[0].course?.subjects));
 }
   return (
     <CenterView>
