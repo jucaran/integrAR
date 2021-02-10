@@ -1,7 +1,7 @@
 import Admin from "../models/Admin";
 import User from "../models/User";
-import bcrypt from "bcryptjs"
-import { sendMailWithPassword } from "../mail"
+import bcrypt from "bcryptjs";
+import { sendMailWithPassword } from "../mail";
 
 // Query
 export const admin = async (_, args, ctx) => {
@@ -10,7 +10,13 @@ export const admin = async (_, args, ctx) => {
 
 // Mutations
 export const createAdmin = async (_, { input }, ctx) => {
-  const newAdmin = await new Admin(input).save();
+  let newAdmin;
+  try {
+    newAdmin = await new Admin(input).save();
+  } catch (err) {
+    console.log(err);
+    return { status: false, error: JSON.stringify(err) };
+  }
 
   const password = Math.floor(100000 + Math.random() * 900000).toString();
   const hash = await bcrypt.hash(password, 12);
@@ -43,11 +49,6 @@ export const editAdmin = async (_, args, ctx) => {
   await admin.save();
 
   return admin;
-
-  // return await Admin.findByIdAndUpdate(
-  //   args._id, args.input, {
-  //   new: true,
-  // });
 };
 
 export const deleteAdmin = async (_, args, ctx) => {
