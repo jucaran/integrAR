@@ -67,6 +67,17 @@ const SuperAdminListTeachers = ({ navigation }) => {
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
             </TouchableHighlight>
           </View>
+          <View style={styles.touch}>
+            <TouchableHighlight
+              activeOpacity={0.6}
+              underlayColor=""
+              onPress={() => {
+                navigation.navigate("CreateTeachersCsv");
+              }}
+            >
+              <Text style={styles.touchText}>AGREGAR PROFESORES CON CSV</Text>
+            </TouchableHighlight>
+          </View>
           <FlatList
             data={teachers}
             renderItem={({ item: teacher }) => {
@@ -221,8 +232,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   touchText: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 5,
+    marginBottom: 5,
     // fontFamily: "roboto",
     fontSize: 14,
     alignItems: "flex-start",
