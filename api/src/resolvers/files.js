@@ -25,7 +25,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
 
     // Returns a promise for each student in the .csv file
     const studentPromises = rows
-      .map((row, i) => {
+      .map((row) => {
         row = row.replace(/;/g, ",");
         let fields = row.split(",");
         fields.length % 7 ? fields.pop() : null; // Gets rid of the last line break
@@ -95,11 +95,9 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
       return { status: false };
     }
 
-    const mailPromises =
-      users &&
-      users.map(async (user, i) => {
-        return await sendMailWithPassword(user, passwords[i]);
-      });
+    const mailPromises = users.map(async (user, i) => {
+      return await sendMailWithPassword(user, passwords[i]);
+    });
 
     try {
       const results = await Promise.all(mailPromises);
@@ -134,31 +132,34 @@ export const createTeachersWithCsv = async (_, { file }) => {
     // Puts together the array of "chunks", parces it as a string and cuts it in rows
     const rows = Buffer.concat(fileBuffer)
       .toString("utf8")
-      .split("\r\n")
-      .slice(1);
+      .replace(/(\r\n|\r)/g, "\n")
+      .split("\n")
+      .slice(1); //Gets rid of the titles
 
     // Returns a promise for each student in the .csv file
-    const teacherPromises = rows.map((row) => {
-      // We grab the elements in order and add them as atribute to create each student
-      const [
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-      ] = row.split(",");
-      return new Teacher({
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-      }).save();
-    });
+    const teacherPromises = rows
+      .map((row) => {
+        row = row.replace(/;/g, ",");
+        let fields = row.split(",");
+        fields.length % 7 ? fields.pop() : null; // Gets rid of the last line break
+
+        // We grab the elements in order and add them to create the mongo document
+        if (fields.length) {
+          const input = {
+            name: fields[0],
+            lastname: fields[1],
+            dni: fields[2],
+            email: fields[3],
+            whatsapp: fields[4],
+            address: fields[5],
+            birthday: fields[6],
+            course: courseId ? courseId : null,
+          };
+          // Returns a promise
+          return new Teacher(input).save();
+        }
+      })
+      .filter((promise) => promise);
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
@@ -182,21 +183,30 @@ export const createTeachersWithCsv = async (_, { file }) => {
       }).save();
     });
 
-    const users = await Promise.all(usersPromises);
+    let users;
+    try {
+      users = await Promise.all(usersPromises);
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
-    users.forEach(async (user, i) => {
-      const [isMailSent, error] = await sendMailWithPassword(
-        user,
-        passwords[i]
-      );
-
-      if (!isMailSent) {
-        console.log(error);
-        return {
-          status: false,
-        };
-      }
+    const mailPromises = users.map(async (user, i) => {
+      return await sendMailWithPassword(user, passwords[i]);
     });
+
+    try {
+      const results = await Promise.all(mailPromises);
+      results.forEach(([isMailSent, error]) => {
+        if (!isMailSent) {
+          console.log(error);
+          return { status: false };
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
     return {
       status: true,
