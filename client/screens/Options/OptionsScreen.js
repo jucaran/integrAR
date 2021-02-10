@@ -71,86 +71,82 @@ const Options = ({ navigation }) => {
     const admin = data.admin[0];
 
     return (
-      <CenterView>
-        <View style={styles.card}>
-          <ScrollView>
-          <View>
-              <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor=""
-                onPress={openImage}
-              >
-                {selectedImage ? (
-                  <Image
-                    style={styles.user}
-                    source={{
-                      uri: `${selectedImage?.localUri}`,
-                    }}
-                  />
-                ) : (
-                  <UserAvatar
-                    size={100}
-                    name={`${admin.name} ${admin.lastname}`}
-                    style={{
-                      backgroundColor: "#2290CD",
-                      width: 140,
-                      height: 140,
-                      borderRadius: 100,
-                      marginTop: 20,
-                      alignSelf: "center",
-                    }}
-                  />
-                )}
-              </TouchableHighlight>
-            </View>
-            <Text style={styles.textName}>
-              {`${admin.name} ${admin.lastname}`}
-            </Text>
-            <Text style={styles.textRole}>Preceptor</Text>
-
-            <View style={styles.link}>
-              <TouchableHighlight
-                style={styles.touchLink}
-                activeOpacity={0.6}
-                underlayColor=""
-                onPress={() => navigation.navigate("EditProfile")}
-              >
-                <Text style={styles.touchText}>EDITAR PERFIL</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={styles.touchLink}
-                activeOpacity={0.6}
-                underlayColor=""
-                onPress={() => navigation.navigate("ResetPass")}
-              >
-                <Text style={styles.touchText}>EDITAR CLAVE</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={styles.touchLink}
-                activeOpacity={0.6}
-                underlayColor=""
-                onPress={logout}
-              >
-                <Text style={styles.touchText}>CERRAR SESIÓN</Text>
-              </TouchableHighlight>
-            </View>
-
-            <View style={styles.input}>
-              <Text style={styles.touch}>Correo: {`${admin.email}`}</Text>
-            </View>
-            <View style={styles.input}>
-              <Text style={styles.touch}>DNI: {`${admin.dni}`}</Text>
-            </View>
-            <View style={styles.input}>
-              <Text style={styles.touch}>Dirección: {`${admin.address}`}</Text>
-            </View>
-
-            <View style={[styles.input, styles.inputMateria]}>
-              <Text style={styles.touch}>Fecha: {`${admin.birthday}`}</Text>
-            </View>
-          </ScrollView>
+      // <CenterView>
+      // <View style={styles.card}>
+      <CenterView style={styles.card}>
+        <View>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor=""
+            onPress={openImage}
+          >
+            {selectedImage ? (
+              <Image
+                style={styles.user}
+                source={{
+                  uri: `${selectedImage?.localUri}`,
+                }}
+              />
+            ) : (
+              <UserAvatar
+                size={100}
+                name={`${admin.name} ${admin.lastname}`}
+                style={{
+                  backgroundColor: "#2290CD",
+                  width: 140,
+                  height: 140,
+                  borderRadius: 100,
+                  marginTop: 20,
+                  alignSelf: "center",
+                }}
+              />
+            )}
+          </TouchableHighlight>
         </View>
+        <Text style={styles.textName}>{`${admin.name} ${admin.lastname}`}</Text>
+        <Text style={styles.textRole}>Preceptor</Text>
+
+        <View style={styles.link}>
+          <TouchableHighlight
+            style={styles.touchLink}
+            activeOpacity={0.6}
+            underlayColor=""
+            onPress={() => navigation.navigate("EditProfile")}
+          >
+            <Text style={styles.touchText}>EDITAR PERFIL</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.touchLink}
+            activeOpacity={0.6}
+            underlayColor=""
+            onPress={() => navigation.navigate("ResetPass")}
+          >
+            <Text style={styles.touchText}>EDITAR CLAVE</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.touchLink}
+            activeOpacity={0.6}
+            underlayColor=""
+            onPress={logout}
+          >
+            <Text style={styles.touchText}>CERRAR SESIÓN</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.input}>
+          <Text style={styles.touch}>Correo: {`${admin.email}`}</Text>
+        </View>
+        <View style={styles.input}>
+          <Text style={styles.touch}>DNI: {`${admin.dni}`}</Text>
+        </View>
+        <View style={styles.input}>
+          <Text style={styles.touch}>Dirección: {`${admin.address}`}</Text>
+        </View>
+        {/* <View style={[styles.input, styles.inputMateria]}>
+              <Text style={styles.touch}>Fecha: {`${admin?.birthday}`}</Text>
+            </View> */}
       </CenterView>
+      // </View>
+      // </CenterView>
     );
   }
 };
@@ -160,6 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
+    justifyContent: "space-around",
   },
   principal: {
     backgroundColor: "white",
@@ -185,16 +182,11 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderRadius: 15,
     backgroundColor: "#fff",
+    marginHorizontal: 7,
   },
   card: {
-    width: `100%`,
-    height: `100%`,
-    margin: 5,
-    alignItems: "center",
-    flexDirection: "column",
     padding: 10,
     flex: 1,
-    alignItems: "center",
     backgroundColor: "white",
   },
   cardcount: {

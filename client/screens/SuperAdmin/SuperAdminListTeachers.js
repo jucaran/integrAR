@@ -156,7 +156,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                         teacher.subjects.map((subject, i) => {
                           return (
                             <Text key={i} style={styles.description}>
-                              {subject.name}: {subject.course.name}
+                              {subject.name}: {subject.course?.name}
                               {"  "}|
                             </Text>
                           );

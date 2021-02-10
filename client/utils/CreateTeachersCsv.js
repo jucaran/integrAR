@@ -179,7 +179,7 @@ const styles = new StyleSheet.create({
     color: "#F5EFEA",
   },
   btnUp: {
-    backgroundColor: "#DF2411",
+    backgroundColor: "green",
     width: 300,
     height: 70,
     justifyContent: "center",
