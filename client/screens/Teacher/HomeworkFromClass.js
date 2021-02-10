@@ -31,7 +31,8 @@ const DELETE_HOMEWORK = gql`
 `;
 
 const FilesFromHomework = ({ navigation, route }) => {
-  const {_id, courseId} = route.params.params;
+  // TODO: hacer un boton para descargar todas las tareas
+  const { _id, courseId } = route.params.params;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -77,11 +78,14 @@ const FilesFromHomework = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("StudentsHomeworks", {
                 _id: clase._id,
-                courseId
+                courseId,
               })
             }
           >
             <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
+            <Text style={styles.touchText}>
+              Descargar .rar de las tareas de los alumnos
+            </Text>
           </TouchableHighlight>
         ) : (
           <TouchableHighlight
