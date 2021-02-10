@@ -19,29 +19,34 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
     // Puts together the array of "chunks", parces it as a string and cuts it in csv rows
     const rows = Buffer.concat(fileBuffer)
       .toString("utf8")
-      .split("\r\n")
+      .replace(/(\r\n|\r)/g, "\n")
+      .split("\n")
       .slice(1); //Gets rid of the titles
 
     // Returns a promise for each student in the .csv file
-    const studentPromises = rows.map((row) => {
-      row = row.replace(/;/g, ",");
-      fields = row.split(",");
-      fields.length % 7 ? (row = row.pop()) : null; // Gets rid of the last line break
+    const studentPromises = rows
+      .map((row, i) => {
+        row = row.replace(/;/g, ",");
+        let fields = row.split(",");
+        fields.length % 7 ? fields.pop() : null; // Gets rid of the last line break
 
-      // We grab the elements in order and add them to create the mongo document
-      const input = {
-        name: fields[0],
-        lastname: fields[1],
-        dni: fields[2],
-        email: fields[3],
-        whatsapp: fields[4],
-        address: fields[5],
-        birthday: fields[6],
-        course: courseId ? courseId : null,
-      };
-      // Returns a promise
-      return new Student(input).save();
-    });
+        // We grab the elements in order and add them to create the mongo document
+        if (fields.length) {
+          const input = {
+            name: fields[0],
+            lastname: fields[1],
+            dni: fields[2],
+            email: fields[3],
+            whatsapp: fields[4],
+            address: fields[5],
+            birthday: fields[6],
+            course: courseId ? courseId : null,
+          };
+          // Returns a promise
+          return new Student(input).save();
+        }
+      })
+      .filter((promise) => promise);
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
@@ -50,7 +55,7 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
       students = await Promise.all(studentPromises);
     } catch (err) {
       console.log(err);
-      return { status: false, error: JSON.stringify(err) };
+      return { status: false };
     }
 
     // Once the Promise all is finished we add each student to the course given by args
@@ -66,23 +71,21 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
 
     const passwords = [];
     // Creating the users for each student
-    const usersPromises =
-      students && // No pude usar el ?. :@
-      students.map(async ({ dni, name, email }) => {
-        const password = Math.floor(100000 + Math.random() * 900000).toString();
-        passwords.push(password);
-        const hash = await bcrypt.hash(password, 12);
+    const usersPromises = students.map(async ({ dni, name, email }) => {
+      const password = Math.floor(100000 + Math.random() * 900000).toString();
+      passwords.push(password);
+      const hash = await bcrypt.hash(password, 12);
 
-        console.log(`The password for dni ${dni} (Student) is: `, password);
+      console.log(`The password for dni ${dni} (Student) is: `, password);
 
-        return new User({
-          dni,
-          name,
-          email,
-          password: hash,
-          role: "Student",
-        }).save();
-      });
+      return new User({
+        dni,
+        name,
+        email,
+        password: hash,
+        role: "Student",
+      }).save();
+    });
 
     let users;
     try {
@@ -92,19 +95,24 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
       return { status: false };
     }
 
-    users.forEach(async (user, i) => {
-      const [isMailSent, error] = await sendMailWithPassword(
-        user,
-        passwords[i]
-      );
+    const mailPromises =
+      users &&
+      users.map(async (user, i) => {
+        return await sendMailWithPassword(user, passwords[i]);
+      });
 
-      if (!isMailSent) {
-        console.log(error);
-        return {
-          status: false,
-        };
-      }
-    });
+    try {
+      const results = await Promise.all(mailPromises);
+      results.forEach(([isMailSent, error]) => {
+        if (!isMailSent) {
+          console.log(error);
+          return { status: false };
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
     return {
       status: true,
