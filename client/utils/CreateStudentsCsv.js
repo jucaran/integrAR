@@ -79,7 +79,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
     );
 
   return (
-    <ScrollView>
+    <CenterView>
       <View style={styles.center}>
         {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
@@ -109,10 +109,13 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
 
         {/* If the file is not .csv we show a error message */}
         {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        { file ? <></> :
+        {file ? (
+          <></>
+        ) : (
           <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
-          <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
-        </TouchableHighlight>}
+            <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
+          </TouchableHighlight>
+        )}
         {file ? (
           <View style={styles.file}>
             <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
@@ -122,23 +125,26 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
         ) : (
           <></>
         )}
-        {file ? 
-        <TouchableHighlight
-          style={styles.btnUp}
-          onPress={
-            () =>
-              // First we check that we have a correct file and then we send it
-              file &&
-              sendFile({
-                variables: { file, courseId: id ? id : null },
-                refetchQueries: [{ query: GET_STUDENTS }],
-              }) //.navigation.pop()
-          }
-        >
-          <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
-        </TouchableHighlight> : <></>}
+        {file ? (
+          <TouchableHighlight
+            style={styles.btnUp}
+            onPress={
+              () =>
+                // First we check that we have a correct file and then we send it
+                file &&
+                sendFile({
+                  variables: { file, courseId: id ? id : null },
+                  refetchQueries: [{ query: GET_STUDENTS }],
+                }) //.navigation.pop()
+            }
+          >
+            <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
+          </TouchableHighlight>
+        ) : (
+          <></>
+        )}
       </View>
-    </ScrollView>
+    </CenterView>
   );
 }
 

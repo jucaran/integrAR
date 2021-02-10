@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -10,7 +11,8 @@ import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import * as WebBrowser from "expo-web-browser";
 import { LOCAL_IP } from "@env";
-import { Card } from "react-native-paper";
+// import { Card } from "react-native-paper";
+import { Card } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 
 export const GET_STUDENTS = gql`
@@ -116,7 +118,7 @@ const StudentsHomeworks = ({ route }) => {
     const homeworkList = dataClass.classes[0].deliveries;
     const allStudents = dataStudent?.students;
     const dniFromData = dataClass?.classes[0].deliveries.map(
-      (el) => el.split(".")[0]
+      (dni) => dni.split(".")[0]
     );
     let scores = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const studentsCorrections = dataClass.classes[0].corrections;
@@ -147,140 +149,160 @@ const StudentsHomeworks = ({ route }) => {
       }
     };
 
-    const estudiante = allStudents.filter((student) => {
+    const studentsWithHomework = allStudents.filter((student) => {
       if (dniFromData.includes(student.dni)) {
         return student;
       }
     });
 
     return (
-      <View>
-        <Text style={styles.name}>Tareas de los Alumnos</Text>
-        <Text style={styles.name}>
-          Participación de alumnos: {percentageStudentsWithHomework}%
-        </Text>
-        {homeworkList.length ? (
-          homeworkList.map((el, i) => {
-            return (
-              <Card style={styles.card} key={i}>
-                <View style={styles.cardIn}>
-                  {estudiante.map((_el, i) => {
-                    if (_el.dni === el.split(".")[0]) {
-                      return (
-                        <View key={i}>
-                          <Text style={styles.cardText}>
-                            {_el.name} {_el.lastname}
-                          </Text>
-                          <TouchableOpacity onPress={() => handleFilePress(el)}>
-                            <Text>{el}</Text>
-                          </TouchableOpacity>
-                          <Text
-                            style={{
-                              paddingHorizontal: 10,
-                              color: "white",
-                              fontSize: 15,
-                            }}
-                          >
-                            <Picker
-                              selectedValue={"1"}
-                              style={{
-                                height: 25,
-                                width: 75,
-                                color: "white",
-                              }}
-                              onValueChange={(item) =>
-                                handleOnPress({
-                                  id: _id,
-                                  idStudent: _el._id,
-                                  score: item,
-                                })
-                              }
-                            >
-                              {scores.map((item, index) => {
-                                return (
-                                  <Picker.Item
-                                    label={item}
-                                    value={item}
-                                    key={index}
-                                  />
-                                );
-                              })}
-                            </Picker>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.name}>
+            Participación de alumnos: {percentageStudentsWithHomework}%
+          </Text>
+          <Card>
+            <Card.Title>Tareas Recibidas</Card.Title>
+            <Card.Divider />
+            {homeworkList.length ? (
+              homeworkList.map((studentFile, i) => {
+                return (
+                  <View style={styles.cardIn} key={i}>
+                    {studentsWithHomework.map((oneStudent, i) => {
+                      if (oneStudent.dni === studentFile.split(".")[0]) {
+                        return (
+                          <View key={i} style={styles.cont}>
+                            <Text style={styles.text}>
+                              {oneStudent.name} {oneStudent.lastname}
+                            </Text>
+                            {/* ------------------------------- Ver Nota ---------------------- */}
                             {studentsCorrections.map((studentScore, index2) => {
-                              if (_el._id === studentScore.student._id) {
+                              if (oneStudent._id === studentScore.student._id) {
                                 return (
                                   <View key={index2}>
-                                    <Text>Nota: {studentScore.score}</Text>
+                                    <Text style={styles.textNote}>
+                                      {" "}
+                                      NOTA: {studentScore.score}
+                                    </Text>
                                   </View>
                                 );
                               }
                             })}
-                          </Text>
-                        </View>
-                      );
-                    }
-                  })}
-                </View>
-              </Card>
-            );
-          })
-        ) : (
-          <View>
-            <CenterView>
-              <Text>Al parecer tus alumnos son un poco irresponsables...</Text>
-            </CenterView>
-          </View>
-        )}
-      </View>
+                            {/* ------------------------------ Seleccionar Nota----------------------- */}
+
+                            <View style={styles.pickerView}>
+                              <Picker
+                                style={styles.picker}
+                                onValueChange={(item) =>
+                                  handleOnPress({
+                                    id: _id,
+                                    idStudent: oneStudent._id,
+                                    score: item,
+                                  })
+                                }
+                              >
+                                <Picker.Item label="PTOS" value="null" />
+                                {scores.map((item, index) => {
+                                  return (
+                                    <Picker.Item
+                                      label={item}
+                                      value={item}
+                                      key={index}
+                                    />
+                                  );
+                                })}
+                              </Picker>
+                            </View>
+                            {/* -------------------------- Ver Archivo --------------------------- */}
+
+                            <TouchableOpacity
+                              style={styles.button}
+                              activeOpacity={0.6}
+                              underlayColor=""
+                              onPress={() => handleFilePress(studentFile)}
+                            >
+                              <Text style={styles.textHigh}>VER</Text>
+                            </TouchableOpacity>
+                          </View>
+                        );
+                      }
+                    })}
+                  </View>
+                );
+              })
+            ) : (
+              <View>
+                <CenterView>
+                  <Text>
+                    Al parecer tus alumnos son un poco irresponsables...
+                  </Text>
+                </CenterView>
+              </View>
+            )}
+          </Card>
+        </View>
+      </ScrollView>
     );
   }
 };
 
 const styles = StyleSheet.create({
-  cont: {
+  container: {
     flex: 1,
     padding: 5,
   },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
+  cont: {
+    justifyContent: "space-evenly",
     alignItems: "center",
-  },
-  cardIn: {
     display: "flex",
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5,
+    maxWidth: 900,
+  },
+
+  cardIn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
     justifyContent: "space-between",
+    display: "flex",
     margin: 10,
   },
+
   button: {
-    backgroundColor: "#00aadd",
-    padding: 8,
-    borderRadius: 13,
-    minWidth: 40,
-    minHeight: 40,
+    backgroundColor: "#2290CD",
     justifyContent: "center",
     alignItems: "center",
+    minWidth: 40,
+    minHeight: 30,
+    borderRadius: 7,
+    marginLeft: 30,
   },
-  img: {
-    width: 30,
-    height: 30,
-  },
-  name: {
-    marginBottom: 5,
-    marginLeft: 12,
-    fontWeight: "bold",
-    fontSize: 15,
-    alignItems: "flex-start",
-  },
-  cardText: {
+  textHigh: {
     color: "white",
-    fontSize: 15,
+  },
+  text: {
+    marginRight: 5,
+    fontSize: 16,
+  },
+  textNote: {
+    fontSize: 14,
+    color: "black",
+    marginLeft: 20,
+    marginRight: 30,
+    alignSelf: "center",
+  },
+  pickerView: {
+    fontSize: 5,
+    backgroundColor: `#d8bfd8`,
+    borderRadius: 8,
+  },
+  picker: {
+    color: "white",
+    maxHeight: 30,
+    minHeight: 30,
+    minWidth: 60,
   },
 });
 export default StudentsHomeworks;
