@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
+  Alert
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import { FlatList } from "react-native-gesture-handler";
@@ -52,7 +53,7 @@ const StudentTeachers = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(storageTeachers, "soy storage");
+  // console.log(storageTeachers, "soy storage");
 
   if (loading) {
     return (
@@ -72,9 +73,10 @@ const StudentTeachers = () => {
   }
 
   if (data || storageTeachers) {
-    console.log(data.students[0].course.subjects, "soy data");
+    // console.log(data.students[0].course.subjects, "soy data");
     const teachers = data ? data.students[0].course.subjects : storageTeachers;
-
+    let profes = {};
+    
     return (
       <View style={styles.cont}>
         <Card style={styles.card}>
@@ -85,40 +87,51 @@ const StudentTeachers = () => {
               data={teachers}
               key={teachers._id}
               renderItem={({ item }) => {
-                if (item.teacher) {
+                if (item.teacher && !profes[item.teacher._id]) {
+                  profes[item.teacher._id] = true
                   return (
                     <View style={styles.cardIn} key={item._id}>
-                      <Text style={{ fontSize: 18 }}>{item.name}</Text>
+                      {/* <Text style={{ fontSize: 18 }}>{item.name}</Text> */}
                       <Text style={{ fontSize: 18 }}>
                         {item.teacher?.name} {item.teacher?.lastname}
                       </Text>
-
+                      
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.2}
                         underlayColor=""
-                        onPress={async () =>
-                          await Linking.openURL(
-                            `https://wa.me/${item.teacher?.whatsapp}`
+                        onPress={ () => {
+                          Alert.alert(
+                            `Profesor: ${item.teacher.name} ${item.teacher.lastname}`,
+                            `Numero de celular: ${item.teacher.whatsapp}`,
+                            [
+                              {
+                                text: 'Cancelar',
+                                style: 'cancel'
+                              },
+                              { 
+                                text: 'Ver Materias', 
+                                onPress: () => {
+                                  let subjects = data.students[0].course.subjects.map(el => {
+                                    if(el.teacher?._id === item.teacher._id) return el.name;
+                                  }).join(`\n`)
+                                  alert(`${subjects}`) 
+                                }
+                              },
+                              { 
+                                text: 'Ir a Whatsapp', 
+                                onPress: async () =>  await Linking.openURL(`https://wa.me/${item.teacher?.whatsapp}`) 
+                              }
+                            ],
                           )
                         }
+                        }
                       >
-                        <Image
-                          key={item.teacher._id}
-                          source={require("../../assets/whatsapp.png")}
-                          style={styles.img}
-                        />
+                       <Text style={{color: 'white'}} >OPCIONES</Text> 
                       </TouchableHighlight>
                     </View>
                   );
-                } else {
-                  return (
-                    <View style={styles.cardIn} key={item._id}>
-                      <Text style={{ fontSize: 18 }}>{item.name}</Text>
-                      <Text>materia sin profesor</Text>
-                    </View>
-                  );
-                }
+                } 
               }}
               keyExtractor={({ _id }) => _id}
             />
