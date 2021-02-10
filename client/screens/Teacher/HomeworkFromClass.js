@@ -83,9 +83,6 @@ const FilesFromHomework = ({ navigation, route }) => {
             }
           >
             <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
-            <Text style={styles.touchText}>
-              Descargar .rar de las tareas de los alumnos
-            </Text>
           </TouchableHighlight>
         ) : (
           <TouchableHighlight
