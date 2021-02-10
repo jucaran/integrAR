@@ -24,31 +24,6 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
       .slice(1); //Gets rid of the titles
 
     // Returns a promise for each student in the .csv file
-<<<<<<< HEAD
-    const studentPromises = rows.map((row) => {
-      row = row.replace(/;/g, ",");
-      // We grab the elements in order and add them as atribute to create each student
-      const [
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-      ] = row.split(",");
-      return new Student({
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-        course: courseId ? courseId : null,
-      }).save();
-    });
-=======
     const studentPromises = rows
       .map((row) => {
         row = row.replace(/;/g, ",");
@@ -72,7 +47,6 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
         }
       })
       .filter((promise) => promise);
->>>>>>> 17f4d7f20dea4775907da891a82fe5a900110407
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
