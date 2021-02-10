@@ -46,6 +46,13 @@ const FilesFromHomework = ({ navigation, route }) => {
     );
   };
 
+  const handleRar = (classId) => {
+    WebBrowser.openBrowserAsync(
+      `http://${LOCAL_IP}:4000/download/${classId}`
+    );
+  };
+
+
   if (loading || mutationLoading) {
     return (
       <CenterView>
@@ -70,6 +77,7 @@ const FilesFromHomework = ({ navigation, route }) => {
     return (
       <View style={styles.cont}>
         {homework ? (
+          <View>
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
@@ -83,6 +91,15 @@ const FilesFromHomework = ({ navigation, route }) => {
           >
             <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
           </TouchableHighlight>
+          <TouchableHighlight
+          style={styles.touch}
+          activeOpacity={0.6}
+          underlayColor=""
+          onPress={() => handleRar(clase._id)}
+        >
+          <Text style={styles.touchText}>Descargar .rar con tareas de Alumnos</Text>
+        </TouchableHighlight>
+        </View>
         ) : (
           <TouchableHighlight
             style={styles.touch}
@@ -97,6 +114,7 @@ const FilesFromHomework = ({ navigation, route }) => {
             <Text style={styles.touchText}>Agregar Tareas</Text>
           </TouchableHighlight>
         )}
+
         <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
         {clase.homework ? (
           <Card style={styles.card}>
