@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
 import { Card } from "react-native-paper";
-import CenterView from "./CenterView"
+import CenterView from "./CenterView";
 
 export default function CreateStudentsWithCsv({ navigation, route }) {
   const id = route.params?.id;
@@ -50,7 +50,6 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
     }
   };
 
-
   if (loading)
     return (
       <View style={styles.center}>
@@ -74,35 +73,33 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
     );
 
   return (
-    <ScrollView>
+    <CenterView>
       <View style={styles.center}>
         {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
         <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
         <Text>Ejemplo:</Text>
-        <TouchableHighlight
-          onPress={()=>navigation.navigate("ImageExample")}
-        >
+        <TouchableHighlight onPress={() => navigation.navigate("ImageExample")}>
           <Image
             style={styles.normalSize}
             source={require("../assets/ejemplocsv.png")}
           />
         </TouchableHighlight>
-              <View style={styles.exampleVw}>
-                <Card style={styles.box}>
-                  <View style={styles.instructionBox}>
-                    <Text style={styles.underline}>Instrucciones:</Text>
-                    {/* <Card.Divider /> */}
-                    <Text style={styles.intruction}>El archivo debe ser .csv</Text>
-                    <Text style={styles.intruction}>
-                      La primera fila debe contener solo los titulos de los campos
-                    </Text>
-                    <Text style={styles.intruction}>
-                      Deben estar acomodados en el orden propuesto y sin usar comas
-                    </Text>
-                  </View>
-                </Card>
-              </View>
+        <View style={styles.exampleVw}>
+          <Card style={styles.box}>
+            <View style={styles.instructionBox}>
+              <Text style={styles.underline}>Instrucciones:</Text>
+              {/* <Card.Divider /> */}
+              <Text style={styles.intruction}>El archivo debe ser .csv</Text>
+              <Text style={styles.intruction}>
+                La primera fila debe contener solo los titulos de los campos
+              </Text>
+              <Text style={styles.intruction}>
+                Deben estar acomodados en el orden propuesto y sin usar comas
+              </Text>
+            </View>
+          </Card>
+        </View>
 
         {/* If the file is not .csv we show a error message */}
         {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
@@ -110,14 +107,14 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
           <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
         </TouchableHighlight>
         {file ? (
-        <View style={styles.file}>
-          <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
-          <Text style={styles.fileTxt}>{file.name}</Text>
-          <Image source={require("../assets/tenor.gif")} style={styles.img} />
-        </View>
-      ) : (
-        <></>
-      )}
+          <View style={styles.file}>
+            <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
+            <Text style={styles.fileTxt}>{file.name}</Text>
+            <Image source={require("../assets/tenor.gif")} style={styles.img} />
+          </View>
+        ) : (
+          <></>
+        )}
 
         <TouchableHighlight
           style={styles.btnUp}
@@ -134,7 +131,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
           <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
         </TouchableHighlight>
       </View>
-      </ScrollView>
+    </CenterView>
   );
 }
 
@@ -155,7 +152,7 @@ const styles = new StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#DEE2E9",
-    minHeight: '100%'
+    minHeight: "100%",
   },
   underline: {
     color: "black",
@@ -218,7 +215,7 @@ const styles = new StyleSheet.create({
     marginBottom: 10,
   },
   instructionBox: {
-  padding: 10
+    padding: 10,
   },
   intruction: {
     marginBottom: 10,
