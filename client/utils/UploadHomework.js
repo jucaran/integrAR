@@ -62,9 +62,13 @@ export default function UploadClassFile({ navigation, route }) {
         </Text>
         <Text style={styles.instructions}>3) Sube el archivo</Text>
       </View>
-      <TouchableOpacity onPress={pickFile} style={styles.btnPick}>
-        <Text style={styles.btnPickTxt}>Elegir archivo para subir</Text>
-      </TouchableOpacity>
+      {file ? (
+        <></>
+      ) : (
+        <TouchableOpacity onPress={pickFile} style={styles.btnPick}>
+          <Text style={styles.btnPickTxt}>Elegir archivo para subir</Text>
+        </TouchableOpacity>
+      )}
       {file ? (
         <View style={styles.file}>
           <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
@@ -74,24 +78,28 @@ export default function UploadClassFile({ navigation, route }) {
       ) : (
         <></>
       )}
-      <TouchableOpacity
-        style={styles.btnUp}
-        onPress={() => {
-          try {
-            sendFile({
-              variables: { file, classId },
-              refetchQueries: [
-                { query: GET_CLASS_BY_ID, variables: { _id: classId } },
-              ],
-            });
-            navigation.pop();
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-      >
-        <Text style={styles.btnUpTxt}>SUBIR ARCHIVO</Text>
-      </TouchableOpacity>
+      {file ? (
+        <TouchableOpacity
+          style={styles.btnUp}
+          onPress={() => {
+            try {
+              sendFile({
+                variables: { file, classId },
+                refetchQueries: [
+                  { query: GET_CLASS_BY_ID, variables: { _id: classId } },
+                ],
+              });
+              navigation.pop();
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+        >
+          <Text style={styles.btnUpTxt}>SUBIR ARCHIVO</Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </View>
   );
 }

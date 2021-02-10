@@ -109,9 +109,10 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
 
         {/* If the file is not .csv we show a error message */}
         {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
+        { file ? <></> :
+          <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
           <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
-        </TouchableHighlight>
+        </TouchableHighlight>}
         {file ? (
           <View style={styles.file}>
             <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
@@ -121,7 +122,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
         ) : (
           <></>
         )}
-
+        {file ? 
         <TouchableHighlight
           style={styles.btnUp}
           onPress={
@@ -135,7 +136,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
           }
         >
           <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
-        </TouchableHighlight>
+        </TouchableHighlight> : <></>}
       </View>
     </ScrollView>
   );
@@ -158,7 +159,7 @@ const styles = new StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#DEE2E9",
-    minHeight: "100%",
+    //minHeight: "100%",
   },
   underline: {
     color: "black",
