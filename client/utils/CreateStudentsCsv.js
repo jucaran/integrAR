@@ -8,13 +8,15 @@ import {
   ScrollView,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
+import * as WebBrowser from "expo-web-browser";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useMutation } from "@apollo/client";
 import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
 import { Card } from "react-native-paper";
 import CenterView from "./CenterView";
-import { GET_STUDENTS_BY_COURSE } from "../screens/SuperAdmin/ListStudentsByCourse"
+import { GET_STUDENTS_BY_COURSE } from "../screens/SuperAdmin/ListStudentsByCourse";
+import { LOCAL_IP } from "@env";
 
 export default function CreateStudentsWithCsv({ navigation, route }) {
   const id = route.params?.params.id;
@@ -81,72 +83,79 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
     );
 
   return (
-    <CenterView>
-      <View style={styles.center}>
-        {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
+    <View style={styles.center}>
+      {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
-        <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
-        <Text>Ejemplo:</Text>
-        <TouchableHighlight onPress={() => navigation.navigate("ImageExample")}>
-          <Image
-            style={styles.normalSize}
-            source={require("../assets/ejemplocsv.png")}
-          />
-        </TouchableHighlight>
-        <View style={styles.exampleVw}>
-          <Card style={styles.box}>
-            <View style={styles.instructionBox}>
-              <Text style={styles.underline}>Instrucciones:</Text>
-              {/* <Card.Divider /> */}
-              <Text style={styles.intruction}>El archivo debe ser .csv</Text>
-              <Text style={styles.intruction}>
-                La primera fila debe contener solo los titulos de los campos
-              </Text>
-              <Text style={styles.intruction}>
-                Deben estar acomodados en el orden propuesto y sin usar comas
-              </Text>
-            </View>
-          </Card>
-        </View>
-
-        {/* If the file is not .csv we show a error message */}
-        {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        {file ? (
-          <></>
-        ) : (
-          <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
-            <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
-          </TouchableHighlight>
-        )}
-        {file ? (
-          <View style={styles.file}>
-            <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
-            <Text style={styles.fileTxt}>{file.name}</Text>
-            <Image source={require("../assets/tenor.gif")} style={styles.img} />
+      <Text style={styles.title}>Subir Alumnos con archivo .CSV</Text>
+      <Text>Ejemplo:</Text>
+      <TouchableHighlight
+        onPress={() =>
+          WebBrowser.openBrowserAsync(
+            `http://${LOCAL_IP}:4000/download/CSVtemplate`
+          )
+        }
+      >
+        <Image
+          style={styles.normalSize}
+          source={require("../assets/ejemplocsv.png")}
+        />
+      </TouchableHighlight>
+      <View style={styles.exampleVw}>
+        <Card style={styles.box}>
+          <View style={styles.instructionBox}>
+            <Text style={styles.underline}>Instrucciones:</Text>
+            {/* <Card.Divider /> */}
+            <Text style={styles.intruction}>El archivo debe ser .csv</Text>
+            <Text style={styles.intruction}>
+              La primera fila debe contener solo los titulos de los campos
+            </Text>
+            <Text style={styles.intruction}>
+              Deben estar acomodados en el orden propuesto y sin usar comas
+            </Text>
           </View>
-        ) : (
-          <></>
-        )}
-        {file ? (
-          <TouchableHighlight
-            style={styles.btnUp}
-            onPress={
-              () =>
-                // First we check that we have a correct file and then we send it
-                file &&
-                sendFile({
-                  variables: { file, courseId: id ? id : null },
-                  refetchQueries: [{ query: GET_STUDENTS }, { query: GET_STUDENTS_BY_COURSE, variables: { _id: id }}],
-                }) //.navigation.pop()
-            }
-          >
-            <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
-          </TouchableHighlight>
-        ) : (
-          <></>
-        )}
+        </Card>
       </View>
-    </CenterView>
+
+      {/* If the file is not .csv we show a error message */}
+      {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
+      {file ? (
+        <></>
+      ) : (
+        <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
+          <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
+        </TouchableHighlight>
+      )}
+      {file ? (
+        <View style={styles.file}>
+          <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
+          <Text style={styles.fileTxt}>{file.name}</Text>
+          <Image source={require("../assets/tenor.gif")} style={styles.img} />
+        </View>
+      ) : (
+        <></>
+      )}
+      {file ? (
+        <TouchableHighlight
+          style={styles.btnUp}
+          onPress={
+            () =>
+              // First we check that we have a correct file and then we send it
+              file &&
+              sendFile({
+                variables: { file, courseId: id ? id : null },
+                refetchQueries: [
+                  { query: GET_STUDENTS },
+                  { query: GET_STUDENTS_BY_COURSE, variables: { _id: id } },
+                ],
+              }) //.navigation.pop()
+          }
+        >
+          <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
+        </TouchableHighlight>
+      ) : (
+        <></>
+      )}
+    </View>
   );
 }
 
@@ -190,7 +199,7 @@ const styles = new StyleSheet.create({
     color: "#F5EFEA",
   },
   btnUp: {
-    backgroundColor: "green",
+    backgroundColor: "darkgreen",
     width: 300,
     height: 70,
     justifyContent: "center",

@@ -39,6 +39,10 @@ SERVER.applyMiddleware({
   app,
 });
 
+app.get("/download/CSVtemplate", function (req, res) {
+  res.download(path.join(__dirname, "uploads", "modelo.csv"));
+});
+
 app.get("/download/teachers/:classId/:name", function (req, res) {
   const { name, classId } = req.params;
   res.download(path.join(__dirname, "uploads", "teachers", classId, name));
