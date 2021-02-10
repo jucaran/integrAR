@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import CenterView from "../../utils/CenterView";
 import { Card } from "react-native-elements";
 import { Linking } from "react-native";
@@ -9,11 +9,11 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
-  Alert,
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import { FlatList } from "react-native-gesture-handler";
 import { AuthContext } from "../../providers/AuthProvider";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export const GET_TEACHERS_FROM_STUDENT = gql`
   query GetTeachersFromStudent($dni: String) {
@@ -42,6 +42,17 @@ const StudentTeachers = () => {
   const { data, loading, error } = useQuery(GET_TEACHERS_FROM_STUDENT, {
     variables: { dni },
   });
+  const [storageTeachers, setStorageTeachers] = useState();
+
+  useEffect(() => {
+    AsyncStorage.getItem("teachers")
+      .then((value) => {
+        setStorageTeachers(JSON.parse(value));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(storageTeachers, "soy storage");
 
   if (loading) {
     return (
@@ -60,8 +71,10 @@ const StudentTeachers = () => {
     );
   }
 
-  if (data) {
-    const teachers = data.students[0].course.subjects;
+  if (data || storageTeachers) {
+    console.log(data.students[0].course.subjects, "soy data");
+    const teachers = data ? data.students[0].course.subjects : storageTeachers;
+
     return (
       <View style={styles.cont}>
         <Card style={styles.card}>
