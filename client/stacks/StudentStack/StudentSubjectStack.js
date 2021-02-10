@@ -7,6 +7,7 @@ import StudentClassDetail from "../../screens/Student/StudentClassDetail"
 import StudentFilesFromClass from "../../screens/Student/StudentFilesFromClass"
 import StudentHomeworkFromClass from "../../screens/Student/StudentHomeworkFromClass"
 import UploadDelivery from "../../utils/UploadDelivery"
+import StudentCorrectionFromClass from "../../screens/Student/StudentCorrectionFromClass"
 
 const Stack = createStackNavigator();
 export default function StudentSubjectsStack() {
@@ -32,6 +33,7 @@ export default function StudentSubjectsStack() {
       <Stack.Screen name = "StudentFilesFromClass" component = {StudentFilesFromClass} />
       <Stack.Screen name = "StudentHomeworkFromClass" component = {StudentHomeworkFromClass} />
       <Stack.Screen name = "UploadDelivery" component = {UploadDelivery} />
+      <Stack.Screen name = "StudentCorrectionFromClass" component = {StudentCorrectionFromClass} />
     </Stack.Navigator>
   );
 }

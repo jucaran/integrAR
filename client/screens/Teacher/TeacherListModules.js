@@ -80,7 +80,7 @@ const TeacherListModules = ({ navigation, route }) => {
 
           {modules.length ? (
             <Card>
-              <Card.Title>Unidades de {modules[0].name}</Card.Title>
+              <Card.Title>Unidades de {data.subjects[0].name}</Card.Title>
               <Card.Divider />
               {modules.map((module, i) => {
                 return (
