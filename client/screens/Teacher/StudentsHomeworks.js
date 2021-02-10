@@ -304,5 +304,15 @@ const styles = StyleSheet.create({
     minHeight: 30,
     minWidth: 60,
   },
+  name: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 20,
+    alignItems: "flex-start",
+    color: "#2290CD",
+
+  }
 });
 export default StudentsHomeworks;

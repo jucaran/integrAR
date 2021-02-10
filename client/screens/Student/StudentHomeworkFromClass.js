@@ -104,7 +104,8 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                 >
                   <Text style={styles.cardText}>{clase.homework}</Text>
                 </TouchableHighlight>
-           {typeExist ? (
+                {typeExist ? (
+                  
                   <View style={styles.hwkUp}>
                     <TouchableHighlight
                       style={styles.touch2}

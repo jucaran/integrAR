@@ -75,16 +75,15 @@ const GET_STUDENT = gql`
 function EditStudentScreen({ route, navigation }) {
   const { studentId } = route.params;
   const [student, setStudent] = useState({
-    dni: "",
+    // dni: "",
     name: "",
     lastname: "",
     email: "",
     whatsapp: "",
-    course: "",
     address: "",
     birthday: "",
     picture: "",
-    course: "",
+    // course: "",
   });
 
   const { data: dataGet, loading: loadingGet, error: errorGet } = useQuery(
@@ -227,11 +226,11 @@ function EditStudentScreen({ route, navigation }) {
               onChangeText={(value) => handleChange("lastname", value)}
             />
 
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder={dni ? `DNI: ${dni}` : "Agregar DNI..."}
               onChangeText={(value) => handleChange("dni", value)}
-            />
+            /> */}
 
             <TextInput
               style={styles.input}
@@ -263,7 +262,7 @@ function EditStudentScreen({ route, navigation }) {
               onChangeText={(value) => handleChange("picture", value)}
             />
           </View>
-          <View>
+          {/* <View>
             <Picker
               selectedValue={course}
               style={{ height: 200, width: 150 }}
@@ -286,7 +285,7 @@ function EditStudentScreen({ route, navigation }) {
                 </CenterView>
               )}
             </Picker>
-          </View>
+          </View> */}
           <View>
             <Button
               style={styles.button}
