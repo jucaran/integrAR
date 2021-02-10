@@ -70,15 +70,7 @@ function StudentDetail({ route }) {
 
   if (data) {
     const student = data.students[0];
-    console.log("Curso: ", student.course)
-    console.log("Materias: ", student.course.subjects[0])
-    console.log("Unidades: ", student.course.subjects[0].modules[0])
-    console.log("Clases: ", student.course.subjects[0].modules[0].classes[0])
-    console.log("Entregas: ", student.course.subjects[0].modules[0].classes[0].deliveries)
-    
-    
-    
-    
+
     return (
       <CenterView>
         <View style={styles.card}>
@@ -107,24 +99,69 @@ function StudentDetail({ route }) {
               <View style={styles.cardcount}>
                 <Text style={styles.count}>Calificaciones</Text>
               </View>
+              {/* ------------------------------------------------- */}
               <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>
-                  Actividad Puntos Evaluación
-                </Text>
+                <Text style={styles.touchScore}>Unidad</Text>
+                <Text style={styles.touchScore}>%</Text>
+                <Text style={styles.touchScore}>Estado{"         "}</Text>
               </View>
-              <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>Tarea 1 7 Bien</Text>
-              </View>
-              <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>Tarea 2 9 Muy Bien</Text>
-              </View>
-              <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>Tarea 3 6 Bien</Text>
-              </View>
+              {/* -------------------- Percentage ----------------------------- */}
 
-              <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>Quiz 4 - --------</Text>
-              </View>
+              {student.course.subjects[0].modules?.map((unity, index) => {
+                const deliveriesPerModule = unity.classes?.map(
+                  (classes, index) => {
+                    let count = 0;
+                    classes.deliveries?.map((el) => {
+                      if (el.split(".", 1)[0] === student.dni) {
+                        count += 1;
+                      } else {
+                        count;
+                      }
+                      return count;
+                    });
+                    return count;
+                  }
+                );
+                const reducer = deliveriesPerModule?.reduce(
+                  (acc, currentValue) => {
+                    acc += currentValue;
+                    return acc;
+                  },
+                  0
+                );
+                const percentage = Math.floor(
+                  (reducer / unity.classes.length) * 100
+                );
+
+                return (
+                  <View key={index} style={styles.inputScore}>
+                    <Text style={styles.touchScore}>{unity.name}</Text>
+                    <Text style={styles.touchScore}>
+                      {isNaN(percentage) ? <>---</> : percentage + "%"}
+                    </Text>
+                    {percentage === 100 ? (
+                      <Text style={styles.touchScore}>Excelente</Text>
+                    ) : percentage >= 85 ? (
+                      <Text style={styles.touchScore}>Muy Bueno</Text>
+                    ) : percentage >= 70 ? (
+                      <Text style={styles.touchScore}>Bueno</Text>
+                    ) : percentage >= 60 ? (
+                      <Text style={styles.touchScore}>Aprobado</Text>
+                    ) : percentage >= 45 ? (
+                      <Text style={styles.touchScore}>Desaprobado</Text>
+                    ) : percentage >= 30 ? (
+                      <Text style={styles.touchScore}>Bajo desempeño</Text>
+                    ) : percentage >= 10 ? (
+                      <Text style={styles.touchScore}>Muy bajo desempeño</Text>
+                    ) : isNaN(percentage)  ? (
+                      <Text style={styles.touchScore}>Sin estado{"       "}</Text>
+                    ) : (
+                      <Text style={styles.touchScore}>Alumno en riesgo</Text>
+                    )}
+                  </View>
+                );
+              })}
+              {/* ------------------------------------------------- */}
             </View>
 
             {/* -------------------------------------------------------------- */}
@@ -247,8 +284,7 @@ const styles = StyleSheet.create({
   inputScore: {
     alignSelf: "auto",
     flexDirection: "row",
-    justifyContent: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     width: 300,
     borderRadius: 10,
@@ -258,9 +294,8 @@ const styles = StyleSheet.create({
   },
   touchScore: {
     justifyContent: "flex-start",
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 20,
+    marginVertical: 5,
+    marginHorizontal: 20,
   },
   inputMateria: {
     marginBottom: 15,
