@@ -6,7 +6,7 @@ import { sendMailWithPassword } from "../mail";
 import Teacher from "../models/Teacher";
 
 export const createStudentsWithCsv = async (_, { file, courseId }) => {
-  const { createReadStream, filename, mimetype, encoding } = await file;
+  const { createReadStream } = await file;
   const stream = createReadStream();
   let fileBuffer = [];
 
@@ -16,13 +16,15 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
   });
 
   stream.on("end", async function () {
-    // Puts together the array of "chunks", parces it as a string and cuts it in rows
+    // Puts together the array of "chunks", parces it as a string and cuts it in csv rows
     const rows = Buffer.concat(fileBuffer)
       .toString("utf8")
-      .split("\r\n")
-      .slice(1);
+      .replace(/(\r\n|\r)/g, "\n")
+      .split("\n")
+      .slice(1); //Gets rid of the titles
 
     // Returns a promise for each student in the .csv file
+<<<<<<< HEAD
     const studentPromises = rows.map((row) => {
       row = row.replace(/;/g, ",");
       // We grab the elements in order and add them as atribute to create each student
@@ -46,13 +48,44 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
         course: courseId ? courseId : null,
       }).save();
     });
+=======
+    const studentPromises = rows
+      .map((row) => {
+        row = row.replace(/;/g, ",");
+        let fields = row.split(",");
+        fields.length % 7 ? fields.pop() : null; // Gets rid of the last line break
+
+        // We grab the elements in order and add them to create the mongo document
+        if (fields.length) {
+          const input = {
+            name: fields[0],
+            lastname: fields[1],
+            dni: fields[2],
+            email: fields[3],
+            whatsapp: fields[4],
+            address: fields[5],
+            birthday: fields[6],
+            course: courseId ? courseId : null,
+          };
+          // Returns a promise
+          return new Student(input).save();
+        }
+      })
+      .filter((promise) => promise);
+>>>>>>> 17f4d7f20dea4775907da891a82fe5a900110407
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
-    const students = await Promise.all(studentPromises);
+    let students;
+    try {
+      students = await Promise.all(studentPromises);
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
     // Once the Promise all is finished we add each student to the course given by args
-    if (courseId) {
+    if (courseId && students) {
       const course = await Course.findById(courseId);
       if (course) {
         students.forEach(async (student) => {
@@ -80,21 +113,30 @@ export const createStudentsWithCsv = async (_, { file, courseId }) => {
       }).save();
     });
 
-    const users = await Promise.all(usersPromises);
+    let users;
+    try {
+      users = await Promise.all(usersPromises);
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
-    users.forEach(async (user, i) => {
-      const [isMailSent, error] = await sendMailWithPassword(
-        user,
-        passwords[i]
-      );
-
-      if (!isMailSent) {
-        console.log(error);
-        return {
-          status: false,
-        };
-      }
+    const mailPromises = users.map(async (user, i) => {
+      return await sendMailWithPassword(user, passwords[i]);
     });
+
+    try {
+      const results = await Promise.all(mailPromises);
+      results.forEach(([isMailSent, error]) => {
+        if (!isMailSent) {
+          console.log(error);
+          return { status: false };
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
     return {
       status: true,
@@ -116,31 +158,34 @@ export const createTeachersWithCsv = async (_, { file }) => {
     // Puts together the array of "chunks", parces it as a string and cuts it in rows
     const rows = Buffer.concat(fileBuffer)
       .toString("utf8")
-      .split("\r\n")
-      .slice(1);
+      .replace(/(\r\n|\r)/g, "\n")
+      .split("\n")
+      .slice(1); //Gets rid of the titles
 
     // Returns a promise for each student in the .csv file
-    const teacherPromises = rows.map((row) => {
-      // We grab the elements in order and add them as atribute to create each student
-      const [
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-      ] = row.split(",");
-      return new Teacher({
-        name,
-        lastname,
-        dni,
-        email,
-        whatsapp,
-        address,
-        birthday,
-      }).save();
-    });
+    const teacherPromises = rows
+      .map((row) => {
+        row = row.replace(/;/g, ",");
+        let fields = row.split(",");
+        fields.length % 7 ? fields.pop() : null; // Gets rid of the last line break
+
+        // We grab the elements in order and add them to create the mongo document
+        if (fields.length) {
+          const input = {
+            name: fields[0],
+            lastname: fields[1],
+            dni: fields[2],
+            email: fields[3],
+            whatsapp: fields[4],
+            address: fields[5],
+            birthday: fields[6],
+            course: courseId ? courseId : null,
+          };
+          // Returns a promise
+          return new Teacher(input).save();
+        }
+      })
+      .filter((promise) => promise);
 
     // If any of the promises is rejected the hole Promise.all will be
     // If none is rejected it returns an array with all the students created
@@ -164,21 +209,30 @@ export const createTeachersWithCsv = async (_, { file }) => {
       }).save();
     });
 
-    const users = await Promise.all(usersPromises);
+    let users;
+    try {
+      users = await Promise.all(usersPromises);
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
-    users.forEach(async (user, i) => {
-      const [isMailSent, error] = await sendMailWithPassword(
-        user,
-        passwords[i]
-      );
-
-      if (!isMailSent) {
-        console.log(error);
-        return {
-          status: false,
-        };
-      }
+    const mailPromises = users.map(async (user, i) => {
+      return await sendMailWithPassword(user, passwords[i]);
     });
+
+    try {
+      const results = await Promise.all(mailPromises);
+      results.forEach(([isMailSent, error]) => {
+        if (!isMailSent) {
+          console.log(error);
+          return { status: false };
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      return { status: false };
+    }
 
     return {
       status: true,

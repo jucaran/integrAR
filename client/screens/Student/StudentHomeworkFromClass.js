@@ -42,7 +42,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
   const { user } = useContext(AuthContext);
   const { dni } = user;
   let typeExist = false;
-  let noType = false;
+
   const [
     deleteDelivery,
     { data: mutationData, loading: mutationLoading, error: mutationError },
@@ -83,17 +83,11 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
     clase.deliveries?.forEach((student) =>
       student === studentFile ? (typeExist = true) : (typeExist = false)
     );
-    if (!typeExist) {
-      let studentD = clase.deliveries?.map((dni) => dni.split(".", 1));
-      let studentDni = studentD.flat(Infinity);
-      studentDni.forEach((student) =>
-        student === dni ? (noType = true) : (noType = false)
-      );
-    }
+
     return (
       <ScrollView>
         <View style={styles.cont}>
-          {console.log(type)}
+          {console.log(clase)}
           <Card>
             <Card.Title>Tarea de la {clase.name}</Card.Title>
             <Card.Divider />
@@ -107,7 +101,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                 >
                   <Text style={styles.cardText}>{clase.homework}</Text>
                 </TouchableHighlight>
-                {typeExist ? (
+           {typeExist ? (
                   <View style={styles.hwkUp}>
                     <TouchableHighlight
                       style={styles.touch2}
@@ -155,15 +149,26 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                       <Text style={styles.deleteTxt}>Eliminar</Text>
                     </TouchableHighlight>
                   </View>
-                ) : noType ? (
-                  <View style={styles.hwkUp}>
-                    <Text style={styles.hmkUpTxt2}> TAREA SUBIDA!</Text>
+                ) : (           
+          clase.deliveries?.map((el) => {
+            if (el.split(".", 1)[0] === dni) {
+              {console.log(el)}
+              return (
+              <View style={styles.hwkUp}>
+                    <TouchableHighlight
+                      style={styles.touch2}
+                      activeOpacity={0.2}
+                      onPress={() => handleFilePress2(el)}
+                    >
+                      <Text style={styles.hmkUpTxt}> TAREA SUBIDA!</Text>
+                    </TouchableHighlight>
                     <Image
                       source={require("../../assets/job.gif")}
                       style={styles.img}
                     />
-                  </View>
-                ) : (
+                  </View>)}
+            
+                  else {
                   <TouchableHighlight
                     style={styles.touch}
                     activeOpacity={0.2}
@@ -176,9 +181,12 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                   >
                     <Text style={styles.cardText}>Subir Tarea</Text>
                   </TouchableHighlight>
-                )}
-              </View>
-            ) : (
+              }
+              })
+              )}
+             </View>
+            )
+            : (
               <CenterView>
                 <Text>No hay tarea para esta clase</Text>
               </CenterView>

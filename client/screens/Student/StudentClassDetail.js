@@ -70,6 +70,18 @@ const StudentClassDetail = ({ navigation, route }) => {
         >
           <Text style={styles.buttonText}>Tareas</Text>
         </TouchableHighlight>
+        <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor=""
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate("StudentCorrectionFromClass", {
+              _id: clase._id
+            })
+          }
+        >
+          <Text style={styles.buttonText}>Correcciones</Text>
+        </TouchableHighlight>
       </CenterView>
     );
   }
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 20,
     margin: 15,
-    marginBottom: 65,
+    marginBottom: 40,
     fontWeight: "bold",
     color: "#272626",
   },
