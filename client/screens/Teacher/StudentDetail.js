@@ -24,6 +24,23 @@ export const GET_STUDENTS_BY_ID = gql`
       address
       birthday
       picture
+      course {
+        _id
+        name
+        subjects {
+          _id
+          name
+          modules {
+            _id
+            name
+            classes {
+              _id
+              name
+              deliveries
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -53,7 +70,15 @@ function StudentDetail({ route }) {
 
   if (data) {
     const student = data.students[0];
-
+    console.log("Curso: ", student.course)
+    console.log("Materias: ", student.course.subjects[0])
+    console.log("Unidades: ", student.course.subjects[0].modules[0])
+    console.log("Clases: ", student.course.subjects[0].modules[0].classes[0])
+    console.log("Entregas: ", student.course.subjects[0].modules[0].classes[0].deliveries)
+    
+    
+    
+    
     return (
       <CenterView>
         <View style={styles.card}>
@@ -84,36 +109,28 @@ function StudentDetail({ route }) {
               </View>
               <View style={styles.inputScore}>
                 <Text style={styles.touchScore}>
-                  Actividad        Puntos             Evaluación
+                  Actividad Puntos Evaluación
                 </Text>
               </View>
               <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>
-                  Tarea 1                7                    Bien 
-                </Text>
+                <Text style={styles.touchScore}>Tarea 1 7 Bien</Text>
               </View>
               <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>
-                  Tarea 2                9                    Muy Bien 
-                </Text>
+                <Text style={styles.touchScore}>Tarea 2 9 Muy Bien</Text>
               </View>
               <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>
-                  Tarea 3                6                    Bien
-                </Text>
+                <Text style={styles.touchScore}>Tarea 3 6 Bien</Text>
               </View>
 
               <View style={styles.inputScore}>
-                <Text style={styles.touchScore}>
-                  Quiz 4                  -                    --------
-                </Text>
+                <Text style={styles.touchScore}>Quiz 4 - --------</Text>
               </View>
             </View>
 
             {/* -------------------------------------------------------------- */}
             <View style={styles.cardcount}>
-                <Text style={styles.count}>Datos Personales</Text>
-              </View>
+              <Text style={styles.count}>Datos Personales</Text>
+            </View>
 
             <View style={styles.input}>
               <Text style={styles.touch}>Correo: {`${student.email}`}</Text>
