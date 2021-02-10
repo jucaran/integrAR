@@ -42,6 +42,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
   const { user } = useContext(AuthContext);
   const { dni } = user;
   let typeExist = false;
+  let mapExist = false
 
   const [
     deleteDelivery,
@@ -83,6 +84,8 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
     clase.deliveries?.forEach((student) =>
       student === studentFile ? (typeExist = true) : (typeExist = false)
     );
+    clase.deliveries?.map((el) => {
+      if (el.split(".", 1)[0] === dni) mapExist=true })
 
     return (
       <ScrollView>
@@ -149,11 +152,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                       <Text style={styles.deleteTxt}>Eliminar</Text>
                     </TouchableHighlight>
                   </View>
-                ) : (           
-          clase.deliveries?.map((el) => {
-            if (el.split(".", 1)[0] === dni) {
-              {console.log(el)}
-              return (
+                ) : mapExist ? (
               <View style={styles.hwkUp}>
                     <TouchableHighlight
                       style={styles.touch2}
@@ -166,9 +165,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                       source={require("../../assets/job.gif")}
                       style={styles.img}
                     />
-                  </View>)}
-            
-                  else {
+                  </View>) : (
                   <TouchableHighlight
                     style={styles.touch}
                     activeOpacity={0.2}
@@ -181,9 +178,7 @@ const StudentHomeworkFromClass = ({ navigation, route }) => {
                   >
                     <Text style={styles.cardText}>Subir Tarea</Text>
                   </TouchableHighlight>
-              }
-              })
-              )}
+                )}
              </View>
             )
             : (

@@ -14,9 +14,11 @@ import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
 import { Card } from "react-native-paper";
 import CenterView from "./CenterView";
+import { GET_STUDENTS_BY_COURSE } from "../screens/SuperAdmin/ListStudentsByCourse"
 
 export default function CreateStudentsWithCsv({ navigation, route }) {
-  const id = route.params?.id;
+  const id = route.params?.params.id;
+  // console.log("route.params: ", route.params)
   const [sendFile, { data, loading, error }] = useMutation(
     CREATE_STUDENTS_WITH_CSV
   );
@@ -134,7 +136,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
                 file &&
                 sendFile({
                   variables: { file, courseId: id ? id : null },
-                  refetchQueries: [{ query: GET_STUDENTS }],
+                  refetchQueries: [{ query: GET_STUDENTS }, { query: GET_STUDENTS_BY_COURSE, variables: { _id: id }}],
                 }) //.navigation.pop()
             }
           >

@@ -31,7 +31,8 @@ const DELETE_HOMEWORK = gql`
 `;
 
 const FilesFromHomework = ({ navigation, route }) => {
-  const {_id, courseId} = route.params.params;
+  // TODO: hacer un boton para descargar todas las tareas
+  const { _id, courseId } = route.params.params;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -45,6 +46,13 @@ const FilesFromHomework = ({ navigation, route }) => {
       `http://${LOCAL_IP}:4000/download/teachers/${_id}/${name}`
     );
   };
+
+  const handleRar = (classId) => {
+    WebBrowser.openBrowserAsync(
+      `http://${LOCAL_IP}:4000/download/${classId}`
+    );
+  };
+
 
   if (loading || mutationLoading) {
     return (
@@ -70,6 +78,7 @@ const FilesFromHomework = ({ navigation, route }) => {
     return (
       <View style={styles.cont}>
         {homework ? (
+          <View>
           <TouchableHighlight
             style={styles.touch}
             activeOpacity={0.6}
@@ -77,12 +86,21 @@ const FilesFromHomework = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("StudentsHomeworks", {
                 _id: clase._id,
-                courseId
+                courseId,
               })
             }
           >
             <Text style={styles.touchText}>Ver tareas de Alumnos</Text>
           </TouchableHighlight>
+          <TouchableHighlight
+          style={styles.touch}
+          activeOpacity={0.6}
+          underlayColor=""
+          onPress={() => handleRar(clase._id)}
+        >
+          <Text style={styles.touchText}>Descargar .rar con tareas de Alumnos</Text>
+        </TouchableHighlight>
+        </View>
         ) : (
           <TouchableHighlight
             style={styles.touch}
@@ -97,6 +115,7 @@ const FilesFromHomework = ({ navigation, route }) => {
             <Text style={styles.touchText}>Agregar Tareas</Text>
           </TouchableHighlight>
         )}
+
         <Text style={styles.name}>Tarea de la clase: {clase.name}</Text>
         {clase.homework ? (
           <Card style={styles.card}>

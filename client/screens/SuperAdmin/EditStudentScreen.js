@@ -129,6 +129,7 @@ function EditStudentScreen({ route, navigation }) {
           onPress: async () => {
             try {
               // falta agregar el ID para que funque
+              if (course){
               await editStudent({
                 variables: {
                   _id: studentId,
@@ -142,7 +143,22 @@ function EditStudentScreen({ route, navigation }) {
                   course,
                 },
                 refetchQueries: [{ query: GET_STUDENTS }],
-              });
+              })}
+              else {
+                await editStudent({
+                  variables: {
+                    _id: studentId,
+                    dni,
+                    name,
+                    lastname,
+                    email,
+                    whatsapp,
+                    address,
+                    picture,
+                  },
+                  refetchQueries: [{ query: GET_STUDENTS }],
+                }) 
+              }
               if (error) {
                 console.log(error);
                 return false;
