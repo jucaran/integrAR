@@ -153,7 +153,7 @@ export const createTeachersWithCsv = async (_, { file }) => {
             whatsapp: fields[4],
             address: fields[5],
             birthday: fields[6],
-            course: courseId ? courseId : null,
+           // course: courseId ? courseId : null,
           };
           // Returns a promise
           return new Teacher(input).save();
