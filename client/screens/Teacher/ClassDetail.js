@@ -21,7 +21,7 @@ export const GET_CLASSES_BY_ID = gql`
 `;
 
 function ClassDetail({ navigation, route }) {
-  const _id = route.params.id;
+  const { _id, courseId } = route.params;
   const { data, loading, error } = useQuery(GET_CLASSES_BY_ID, {
     variables: { _id },
   });
@@ -48,33 +48,31 @@ function ClassDetail({ navigation, route }) {
 
     return (
       <CenterView>
-          <Text style={styles.name}>
-            {`${clase.name}`}
-          </Text>
-          <TouchableHighlight
-            style={styles.button}
-            activeOpacity={0.6}
-            underlayColor=""
-            onPress={() =>
-              navigation.navigate("FilesFromClass", {
-                params: { id: clase._id },
-              })
-            }
-            >
-            <Text style={styles.textHigh}>Archivos</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.button}
-            activeOpacity={0.6}
-            underlayColor=""
-            onPress={() =>
-              navigation.navigate("HomeworkFromClass", {
-                params: { id: clase._id },
-              })
-            }
-          >
-            <Text style={styles.textHigh}>Tareas</Text>
-          </TouchableHighlight>
+        <Text style={styles.name}>{`${clase.name}`}</Text>
+        <TouchableHighlight
+          style={styles.button}
+          activeOpacity={0.6}
+          underlayColor=""
+          onPress={() =>
+            navigation.navigate("FilesFromClass", {
+              params: { id: clase._id },
+            })
+          }
+        >
+          <Text style={styles.textHigh}>Archivos</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          activeOpacity={0.6}
+          underlayColor=""
+          onPress={() =>
+            navigation.navigate("HomeworkFromClass", {
+              params: { _id: clase._id, courseId },
+            })
+          }
+        >
+          <Text style={styles.textHigh}>Tareas</Text>
+        </TouchableHighlight>
       </CenterView>
     );
   }
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
   },
   textHigh: {
     color: "white",
-    fontSize: 18
+    fontSize: 18,
   },
 });
 

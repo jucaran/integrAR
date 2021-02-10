@@ -13,7 +13,7 @@ import CreateStudentsCsv from "../../utils/CreateStudentsCsv"
 import TeacherDetail from "../../screens/SuperAdmin/TeacherDetail"
 import AdminStudentDetail from "../../screens/SuperAdmin/AdminStudentDetail"
 import ImageExample from "../../utils/ImageExample"
-
+import CreateTeachersCsv from "../../utils/CreateTeachersCsv"
 
 const Stack = createStackNavigator();
 //Combinado temporalmente student y teacher en un solo stack
@@ -45,6 +45,8 @@ export default function TeachersStack() {
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
       <Stack.Screen name="AdminStudentDetail" component={AdminStudentDetail} />
       <Stack.Screen name="ImageExample" component={ImageExample} />
+      <Stack.Screen name="CreateTeachersCsv" component={CreateTeachersCsv} />
+      
 
     </Stack.Navigator>
   );

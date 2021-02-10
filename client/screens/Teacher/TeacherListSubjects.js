@@ -86,7 +86,7 @@ const TeacherListSubjects = ({ navigation }) => {
                       onPress={() =>
                         navigation.navigate("TeacherListModules", {
                           screen: "TeacherListModules",
-                          params: { _id: subject._id },
+                          params: { _id: subject._id, courseId: subject.course._id },
                         })
                       }
                     >

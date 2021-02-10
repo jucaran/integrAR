@@ -13,27 +13,14 @@ import { useMutation } from "@apollo/client";
 import { CREATE_TEACHERS_WITH_CSV } from "./graphql";
 import { Card } from "react-native-paper";
 import { GET_ALL_TEACHERS } from "../screens/SuperAdmin/SuperAdminListTeachers";
+import CenterView from "./CenterView";
 
-export default function CreateTeachersWithCsv() {
+export default function CreateTeachersWithCsv({ navigation }) {
   const [sendFile, { data, loading, error }] = useMutation(
     CREATE_TEACHERS_WITH_CSV
   );
-
-  let bigSize = {
-    marginBottom: 20,
-    width: 600,
-    height: 180,
-    resizeMode: "center",
-  };
-  let normalSize = {
-    marginBottom: 20,
-    width: 300,
-    height: 60,
-    resizeMode: "center",
-  };
   const [file, setFile] = useState();
   const [typeError, setTypeError] = useState();
-  const [imageState, setImageState] = useState(normalSize);
 
   // The courseId should be received by route params
   const pickFile = async () => {
@@ -61,10 +48,6 @@ export default function CreateTeachersWithCsv() {
     }
   };
 
-  const onClick = (a) => {
-    setImageState(a ? bigSize : normalSize);
-  };
-
   if (loading)
     return (
       <View style={styles.center}>
@@ -88,32 +71,56 @@ export default function CreateTeachersWithCsv() {
     );
 
   return (
-    <ScrollView centerContent={true} horizontal={true} vertical={true}>
-      <View style={styles.center}>
-        {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
+    <View style={styles.center}>
+      {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
-        <Text style={styles.title}>Subir profesores con archivo .CSV</Text>
-        <Text>Ejemplo:</Text>
+      <Text style={styles.title}>Subir Profesores con archivo .CSV</Text>
+      <Text>Ejemplo:</Text>
+      <TouchableHighlight onPress={() => navigation.navigate("ImageExample")}>
+        <Image
+          style={styles.normalSize}
+          source={require("../assets/ejemplocsv.png")}
+        />
+      </TouchableHighlight>
+      <View style={styles.exampleVw}>
+        <Card style={styles.box}>
+          <View style={styles.instructionBox}>
+            <Text style={styles.underline}>Instrucciones:</Text>
+            {/* <Card.Divider /> */}
+            <Text style={styles.intruction}>El archivo debe ser .csv</Text>
+            <Text style={styles.intruction}>
+              La primera fila debe contener solo los titulos de los campos
+            </Text>
+            <Text style={styles.intruction}>
+              Deben estar acomodados en el orden propuesto y sin usar comas
+            </Text>
+          </View>
+        </Card>
+      </View>
+
+      {/* If the file is not .csv we show a error message */}
+      {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
+      {file ? (
+        <></>
+      ) : (
+        <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
+          <Text style={styles.btnPickTxt}>Subir archivo .csv</Text>
+        </TouchableHighlight>
+      )}
+      {file ? (
+        <View style={styles.file}>
+          <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
+          <Text style={styles.fileTxt}>{file.name}</Text>
+          <Image source={require("../assets/tenor.gif")} style={styles.img} />
+        </View>
+      ) : (
+        <></>
+      )}
+      {file ? (
         <TouchableHighlight
           activeOpacity={0.2}
           underlayColor=""
-          onPress={() => onClick(imageState.normalSize ? false : true)}
-        >
-          <Image
-            style={imageState}
-            source={require("../assets/ejemplocsv.png")}
-          />
-        </TouchableHighlight>
-
-        {/* If the file is not .csv we show a error message */}
-        {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        <TouchableHighlight onPress={pickFile} style={styles.onPress}>
-          <Text style={styles.btn}>Bajar esquema .csv</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          activeOpacity={0.2}
-          underlayColor=""
-          style={styles.onPress}
+          style={styles.btnUp}
           onPress={() =>
             // First we check that we have a correct file and then we send it
             file &&
@@ -123,31 +130,24 @@ export default function CreateTeachersWithCsv() {
             })
           }
         >
-          <Text style={styles.btn}>Enviar archivo .csv</Text>
+          <Text style={styles.btnUpTxt}>Enviar archivo .csv</Text>
         </TouchableHighlight>
-        <View style={styles.exampleVw}>
-          <Card style={styles.box}>
-            <View style={styles.instructionBox}>
-              <Text style={styles.underline}>Instrucciones:</Text>
-              {/* <Card.Divider /> */}
-              <Text style={styles.intruction}>El archivo debe ser .csv</Text>
-              <Text style={styles.intruction}>
-                La primera fila debe contener solo los titulos de los campos
-              </Text>
-              <Text style={styles.intruction}>
-                Deben estar acomodados en el orden propuesto y sin usar comas
-              </Text>
-            </View>
-          </Card>
-        </View>
-      </View>
-    </ScrollView>
+      ) : (
+        <></>
+      )}
+    </View>
   );
 }
 
 const styles = new StyleSheet.create({
+  normalSize: {
+    marginBottom: 20,
+    width: 300,
+    height: 60,
+    resizeMode: "center",
+  },
   title: {
-    marginBottom: 30,
+    marginBottom: 10,
     textDecorationLine: "underline",
     fontSize: 20,
   },
@@ -155,8 +155,8 @@ const styles = new StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#D5D2D2",
-    minWidth: 365,
+    backgroundColor: "#DEE2E9",
+    //minHeight: "100%",
   },
   underline: {
     color: "black",
@@ -165,21 +165,45 @@ const styles = new StyleSheet.create({
     fontSize: 18,
     marginBottom: 6,
   },
-  onPress: {
-    backgroundColor: "#2290CD",
-    padding: 7,
-    borderRadius: 7,
-    alignItems: "center",
-    marginRight: 15,
-    width: 200,
-    height: 52,
+  btnPick: {
+    backgroundColor: "#E97820",
+    width: 300,
+    height: 70,
     justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 7,
     margin: 10,
   },
-  btn: {
+  btnPickTxt: {
     fontSize: 16,
-    alignItems: "flex-start",
-    color: "white",
+    color: "#F5EFEA",
+  },
+  btnUp: {
+    backgroundColor: "#DF2411",
+    width: 300,
+    height: 70,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 7,
+    margin: 10,
+  },
+  btnUpTxt: {
+    fontSize: 16,
+    color: "#F5EFEA",
+  },
+  img: {
+    width: 60,
+    height: 60,
+    margin: 20,
+  },
+  file: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fileTxt: {
+    color: "#272727",
+    fontSize: 15,
+    margin: 2,
   },
 
   exampleImg: {
@@ -192,13 +216,10 @@ const styles = new StyleSheet.create({
     width: 300,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 25,
+    marginBottom: 10,
   },
   instructionBox: {
-    marginTop: 20,
-    marginRight: "auto",
-    marginLeft: "auto",
-    width: 240,
+    padding: 10,
   },
   intruction: {
     marginBottom: 10,

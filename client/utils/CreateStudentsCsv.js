@@ -14,6 +14,7 @@ import { CREATE_STUDENTS_WITH_CSV } from "./graphql";
 import { GET_STUDENTS } from "../screens/SuperAdmin/SuperAdminListStudents";
 import { Card } from "react-native-paper";
 import CenterView from "./CenterView";
+import { GET_STUDENTS_BY_COURSE } from "../screens/SuperAdmin/ListStudentsByCourse"
 
 export default function CreateStudentsWithCsv({ navigation, route }) {
   const id = route.params?.id;
@@ -79,7 +80,7 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
     );
 
   return (
-    <ScrollView>
+    <CenterView>
       <View style={styles.center}>
         {/* This img should be clicable and opened in a modal pero ni idea como hacer eso :( */}
 
@@ -109,9 +110,13 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
 
         {/* If the file is not .csv we show a error message */}
         {typeError && <Text style={{ color: "red" }}>{typeError}</Text>}
-        <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
-          <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
-        </TouchableHighlight>
+        {file ? (
+          <></>
+        ) : (
+          <TouchableHighlight onPress={pickFile} style={styles.btnPick}>
+            <Text style={styles.btnPickTxt}>Seleccionar .csv a subir</Text>
+          </TouchableHighlight>
+        )}
         {file ? (
           <View style={styles.file}>
             <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
@@ -121,23 +126,26 @@ export default function CreateStudentsWithCsv({ navigation, route }) {
         ) : (
           <></>
         )}
-
-        <TouchableHighlight
-          style={styles.btnUp}
-          onPress={
-            () =>
-              // First we check that we have a correct file and then we send it
-              file &&
-              sendFile({
-                variables: { file, courseId: id ? id : null },
-                refetchQueries: [{ query: GET_STUDENTS }],
-              }) //.navigation.pop()
-          }
-        >
-          <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
-        </TouchableHighlight>
+        {file ? (
+          <TouchableHighlight
+            style={styles.btnUp}
+            onPress={
+              () =>
+                // First we check that we have a correct file and then we send it
+                file &&
+                sendFile({
+                  variables: { file, courseId: id ? id : null },
+                  refetchQueries: [{ query: GET_STUDENTS }, { query: GET_STUDENTS_BY_COURSE, variables: { id }}],
+                }) //.navigation.pop()
+            }
+          >
+            <Text style={styles.btnUpTxt}>SUBIR .CSV</Text>
+          </TouchableHighlight>
+        ) : (
+          <></>
+        )}
       </View>
-    </ScrollView>
+    </CenterView>
   );
 }
 
@@ -158,7 +166,7 @@ const styles = new StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#DEE2E9",
-    minHeight: "100%",
+    //minHeight: "100%",
   },
   underline: {
     color: "black",

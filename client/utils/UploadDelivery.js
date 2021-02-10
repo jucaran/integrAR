@@ -30,7 +30,6 @@ export default function UploadDelivery({ navigation, route }) {
     }
   };
 
-
   if (loading)
     return (
       <View style={styles.center}>
@@ -55,14 +54,22 @@ export default function UploadDelivery({ navigation, route }) {
 
   return (
     <View style={styles.center}>
-      <View style={styles.indicationsCont}><Text style={styles.instructionsT}>Instrucciones</Text>
-      <Text style={styles.instructions}>1) Elije un archivo para subir</Text>
-      <Text style={styles.instructions}>2) Cuando aparezca el tilde, confirma el nombre del archivo seleccionado</Text>
-      <Text style={styles.instructions}>3) Sube el archivo</Text>
+      <View style={styles.indicationsCont}>
+        <Text style={styles.instructionsT}>Instrucciones</Text>
+        <Text style={styles.instructions}>1) Elije un archivo para subir</Text>
+        <Text style={styles.instructions}>
+          2) Cuando aparezca el tilde, confirma el nombre del archivo
+          seleccionado
+        </Text>
+        <Text style={styles.instructions}>3) Sube el archivo</Text>
       </View>
-      <TouchableOpacity onPress={pickFile} style={styles.btnPick}>
-        <Text style={styles.btnPickTxt}>Elegir archivo para subir</Text>
-      </TouchableOpacity>
+      {file ? (
+        <></>
+      ) : (
+        <TouchableOpacity onPress={pickFile} style={styles.btnPick}>
+          <Text style={styles.btnPickTxt}>Elegir archivo para subir</Text>
+        </TouchableOpacity>
+      )}
       {file ? (
         <View style={styles.file}>
           <Text style={styles.fileTxt}>Archivo seleccionado:</Text>
@@ -72,25 +79,29 @@ export default function UploadDelivery({ navigation, route }) {
       ) : (
         <></>
       )}
-      <TouchableOpacity
-        style={styles.btnUp}
-        onPress={() => {
-          const type = file.name.split('.', 2)[1]
-          try {
-            sendFile({
-              variables: { file, classId, dni },
-              refetchQueries: [
-                { query: GET_CLASS_BY_ID, variables: { _id: classId }},
-              ],
-            });
-            navigation.navigate('StudentHomeworkFromClass', {type: type});
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-      >
-        <Text style={styles.btnUpTxt}>SUBIR ARCHIVO</Text>
-      </TouchableOpacity>
+      {file ? (
+        <TouchableOpacity
+          style={styles.btnUp}
+          onPress={() => {
+            const type = file.name.split(".", 2)[1];
+            try {
+              sendFile({
+                variables: { file, classId, dni },
+                refetchQueries: [
+                  { query: GET_CLASS_BY_ID, variables: { _id: classId } },
+                ],
+              });
+              navigation.navigate("StudentHomeworkFromClass", { type: type });
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+        >
+          <Text style={styles.btnUpTxt}>SUBIR ARCHIVO</Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </View>
   );
 }
@@ -100,7 +111,7 @@ const styles = new StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   btnPick: {
     backgroundColor: "#E97820",
@@ -134,27 +145,26 @@ const styles = new StyleSheet.create({
     margin: 20,
   },
   file: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   fileTxt: {
-    color: '#272727',
+    color: "#272727",
     fontSize: 15,
     margin: 2,
   },
   indicationsCont: {
-    backgroundColor: '#D0DFF9',
+    backgroundColor: "#D0DFF9",
     padding: 12,
     borderRadius: 3,
-    marginTop: 15
+    marginTop: 15,
   },
   instructionsT: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#272727'
+    fontWeight: "bold",
+    color: "#272727",
   },
   instructions: {
-    color: '#272727'
+    color: "#272727",
   },
-
 });

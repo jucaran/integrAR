@@ -2,11 +2,41 @@ import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../providers/AuthProvider";
 import {Text, View, TouchableHighlight, StyleSheet, Image } from "react-native";
+import { gql, useQuery } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
+
+const GET_TEACHERS_FROM_STUDENT = gql`
+  query GetTeachersFromStudent($dni: String) {
+    students(dni: $dni) {
+      _id
+      name
+      course {
+        name
+        subjects {
+          name
+          teacher {
+            name
+            _id
+            lastname
+            whatsapp
+          }
+        }
+      }
+    }
+  }
+`;
+
 
 
 const StudentScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-
+  const { dni } = user
+  const { data, loading, error } = useQuery(GET_TEACHERS_FROM_STUDENT, {
+    variables: { dni },
+  });
+if (data){
+  AsyncStorage.setItem("teachers", JSON.stringify(data.students[0].course.subjects));
+}
   return (
     <CenterView>
       <Text style={styles.title}>
