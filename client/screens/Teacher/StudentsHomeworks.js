@@ -63,7 +63,7 @@ export const SET_CORRECTION = gql`
 `;
 
 const StudentsHomeworks = ({ route }) => {
-  const { _id } = route.params;
+  const { _id, courseId } = route.params;
 
   const {
     data: dataClass,
@@ -119,11 +119,20 @@ const StudentsHomeworks = ({ route }) => {
       (el) => el.split(".")[0]
     );
     let scores = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-
     const studentsCorrections = dataClass.classes[0].corrections;
+    const studentsInCourse = allStudents.filter((_student) => {
+      if (_student.course?._id === courseId) {
+        return _student;
+      }
+    });
+
+    const totalStudents = studentsInCourse.map((el) => el);
+
+    const percentageStudentsWithHomework = Math.floor(
+      (homeworkList.length / totalStudents.length) * 100
+    );
 
     const handleOnPress = async ({ id, idStudent, score }) => {
-      
       try {
         await editClass({
           variables: {
@@ -147,6 +156,9 @@ const StudentsHomeworks = ({ route }) => {
     return (
       <View>
         <Text style={styles.name}>Tareas de los Alumnos</Text>
+        <Text style={styles.name}>
+          Participación de alumnos: {percentageStudentsWithHomework}%
+        </Text>
         {homeworkList.length ? (
           homeworkList.map((el, i) => {
             return (
