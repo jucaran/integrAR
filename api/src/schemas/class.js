@@ -32,7 +32,7 @@ export const classResolvers = `
 
     deleteDelivery(
       classId: ID!, 
-      dni: String!
+      filename: String!
     ): Boolean
 
     uploadHomework(
