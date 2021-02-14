@@ -7,7 +7,7 @@ import { AuthContext } from "./providers/AuthProvider";
 import MyTabs from "./tabs/AdminTabs/Tab";
 import TabTeacher from "./tabs/TeachersTabs/TeachersTab";
 import AuthStack from "./stacks/AuthStack/AuthStack";
-//import TeacherScreen from "./screens/Teacher/TeacherScreen";
+import TabStudent from "./tabs/StudentTab/StudentTab";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -45,7 +45,7 @@ const Routes = () => {
       ) : user.role === "Teacher" ? (
         <TabTeacher role={user.role} />
       ) : user.role === "Student" ? (
-        <MyTabs role={user.role} />
+        <TabStudent role={user.role} />
       ) : (
         <AuthStack />
       )}

@@ -10,15 +10,20 @@ const classSchema = new Schema({
     ref: "Subject",
     autopopulate: true,
   },
-  files: [
-    { type: String }
+  files: [{ type: String }],
+  homework: { type: String },
+  deliveries: [{ type: String }],
+  corrections: [
+    {
+      student: {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+        autopopulate: true,
+      },
+      score: { type: String },
+      feedback: { type: String },
+    },
   ],
-  homework: {
-    type: String,
-  },
-  correction: {
-    type: String,
-  },
   test: {
     type: String,
   },

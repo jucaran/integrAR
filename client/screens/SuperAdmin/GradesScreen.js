@@ -48,7 +48,7 @@ const GradesScreen = ({ navigation }) => {
         <TouchableHighlight
           style={styles.touch}
           activeOpacity={0.6}
-          underlayColor="ligthgrey"
+          underlayColor=""
           onPress={() => navigation.navigate("SuperAdminAddGrade")}
         >
           <Text style={styles.touchText}>Agregar Grado</Text>
@@ -61,7 +61,7 @@ const GradesScreen = ({ navigation }) => {
                 <View style={styles.cardIn}>
                   <TouchableHighlight
                     activeOpacity={0.6}
-                    underlayColor="ligthgrey"
+                    underlayColor=""
                     onPress={() =>
                       navigation.navigate("SuperAdminListCourses", {
                         screen: "SuperAdminListCourses",
@@ -73,7 +73,7 @@ const GradesScreen = ({ navigation }) => {
                   </TouchableHighlight>
                   <TouchableHighlight
                     activeOpacity={0.6}
-                    underlayColor="ligthgrey"
+                    underlayColor=""
                     style={styles.onPress}
                     onPress={() =>
                       Alert.alert(

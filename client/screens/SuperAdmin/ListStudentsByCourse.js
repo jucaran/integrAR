@@ -76,29 +76,28 @@ const ListStudentsByCourse = ({ navigation, route }) => {
 
   if (data) {
     const course = data.courses[0];
-    console.log(course);
     return (
       <View>
         <TouchableHighlight
           activeOpacity={0.6}
-          underlayColor="white"
+          underlayColor=""
           onPress={() =>
             navigation.navigate("AddStudentToACourse", {
               params: { id: _id, name: course.name },
             })
           }
         >
-          <Text style={styles.touchText}>Agregar alumno</Text>
+          <Text style={styles.touchText}>Agregar Alumno</Text>
         </TouchableHighlight>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="#white"
+              underlayColor=""
               style={{width: 230}}
               onPress={() => navigation.navigate("CreateStudentsCsv", {
                 params: { id: _id }
               })}
             >
-              <Text style={styles.touchText}>Agregar alumnos con CSV</Text>
+              <Text style={styles.touchText}>Agregar Alumnos con CSV</Text>
             </TouchableHighlight>
         <Card>
           <Card.Title>Alumnos de {course.name}</Card.Title>
@@ -116,11 +115,10 @@ const ListStudentsByCourse = ({ navigation, route }) => {
                       <Text style={styles.cardText}>
                        DNI: {item.dni}
                       </Text>
-                      {console.log('_id', _id)}
-                      {console.log('item_id', item._id)}
                       <TouchableHighlight
                         style={styles.onPress}
                         activeOpacity={0.6}
+                        underlayColor=""
                         onPress={ () =>
                           Alert.alert(
                             "Eliminar curso",

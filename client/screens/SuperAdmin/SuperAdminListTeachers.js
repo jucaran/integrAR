@@ -9,6 +9,7 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { Card } from "react-native-paper";
 import CenterView from "../../utils/CenterView";
 import { useQuery, gql, useMutation } from "@apollo/client";
@@ -21,7 +22,7 @@ export const GET_ALL_TEACHERS = gql`
       lastname
       subjects {
         name
-        course{
+        course {
           name
           _id
         }
@@ -58,12 +59,23 @@ const SuperAdminListTeachers = ({ navigation }) => {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="ligthgrey"
+              underlayColor=""
               onPress={() => {
                 navigation.navigate("AddTeacher");
               }}
             >
               <Text style={styles.touchText}>AGREGAR PROFESOR</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.touch}>
+            <TouchableHighlight
+              activeOpacity={0.6}
+              underlayColor=""
+              onPress={() => {
+                navigation.navigate("CreateTeachersCsv");
+              }}
+            >
+              <Text style={styles.touchText}>AGREGAR PROFESORES CON CSV</Text>
             </TouchableHighlight>
           </View>
           <FlatList
@@ -78,7 +90,24 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       </Text>
                       <TouchableHighlight
                         activeOpacity={0.6}
-                        underlayColor="ligthgrey"
+                        underlayColor=""
+                        onPress={() => {
+                          navigation.navigate("TeacherDetail", {
+                            _id: teacher._id,
+                          });
+                        }}
+                      >
+                        <Icon
+                          name="info"
+                          type="font-awesome"
+                          size={17}
+                          color={`#696969`}
+                          style={styles.img}
+                        />
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() => {
                           navigation.navigate("EditTeacher", {
                             teacherId: teacher._id,
@@ -92,7 +121,7 @@ const SuperAdminListTeachers = ({ navigation }) => {
                       </TouchableHighlight>
                       <TouchableHighlight
                         activeOpacity={0.6}
-                        underlayColor="ligthgrey"
+                        underlayColor=""
                         onPress={() =>
                           Alert.alert(
                             "Eliminar usuario",
@@ -125,11 +154,10 @@ const SuperAdminListTeachers = ({ navigation }) => {
                     <View style={styles.desc}>
                       {teacher.subjects?.length > 0 ? (
                         teacher.subjects.map((subject, i) => {
-                          console.log("subject: ", subject)
                           return (
                             <Text key={i} style={styles.description}>
-                            |sqsq {subject.name}
-                            {/* : {subject.course.name} | */}
+                              {subject.name}: {subject.course?.name}
+                              {"  "}|
                             </Text>
                           );
                         })
@@ -164,11 +192,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   card: {
-    width: 360,
-    height: 66,
+    minWidth: 360,
+    minHeight: 70,
+    marginTop: 5,
     margin: 5,
     alignItems: "flex-start",
     flexDirection: "column",
+    justifyContent: 'center'
   },
   cardcont: {
     display: "flex",
@@ -183,14 +213,13 @@ const styles = StyleSheet.create({
     width: 14,
     height: 14,
     marginTop: 10,
-    marginRight: 25,
+    marginRight: 20,
   },
   name: {
     fontSize: 16,
-    width: 280,
-    // fontFamily: "roboto",
+    width: 250,
     color: "#000000",
-    marginLeft: 10,
+    margin: 10,
     fontWeight: "bold",
   },
   desc: {
@@ -203,8 +232,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   touchText: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 5,
+    marginBottom: 5,
     // fontFamily: "roboto",
     fontSize: 14,
     alignItems: "flex-start",

@@ -53,10 +53,11 @@ const AddSubjectScreen = ({ navigation, route }) => {
       if (materia.length) {
         await addSubject({
           variables: { name: materia, course: _id },
-          refetchQueries: [{ query: GET_SUBJECTS_FROM_COURSE_BY_ID }],
+          refetchQueries: [
+            { query: GET_SUBJECTS_FROM_COURSE_BY_ID, variables: { _id } },
+          ],
         });
         alert(`La asignatura ${materia} fue agregada exitosamente!`);
-        console.log("SUCCEDEED");
         navigation.pop();
       }
     } catch (err) {

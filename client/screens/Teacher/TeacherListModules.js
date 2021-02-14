@@ -37,13 +37,11 @@ const DELETE_MODULE_BY_ID = gql`
 `;
 
 const TeacherListModules = ({ navigation, route }) => {
-  const { _id } = route.params.params;
-
+  const { _id, courseId } = route.params.params;
   const { data, loading, error } = useQuery(GET_ALL_MODULES_SUBJECT, {
     variables: { _id },
   });
-  // console.log("data en unidades ", data)
-  // console.log("data.subjects: ", data.subjects[0].modules); // Este es un array vacio
+
   const [deleteModule, mutationData] = useMutation(DELETE_MODULE_BY_ID);
 
   if (loading || mutationData.loading) {
@@ -74,7 +72,7 @@ const TeacherListModules = ({ navigation, route }) => {
             underlayColor=""
             activeOpacity={0.6}
             onPress={() =>
-              navigation.navigate("AddModuleToSubject", { params: { _id } })
+              navigation.navigate("AddModuleToSubject", { _id: _id })
             }
           >
             <Text style={styles.touchText}>Agregar Unidad</Text>
@@ -82,7 +80,7 @@ const TeacherListModules = ({ navigation, route }) => {
 
           {modules.length ? (
             <Card>
-              <Card.Title>Unidades de {modules[0].name}</Card.Title>
+              <Card.Title>Unidades de {data.subjects[0].name}</Card.Title>
               <Card.Divider />
               {modules.map((module, i) => {
                 return (
@@ -91,10 +89,11 @@ const TeacherListModules = ({ navigation, route }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
+                      underlayColor=""
                       onPress={() =>
                         navigation.navigate("TeacherListClasses", {
-                          screen: "TeacherListClasses",
-                          params: { id: module._id },
+                          _id: module._id,
+                          courseId,
                         })
                       }
                     >
@@ -106,34 +105,26 @@ const TeacherListModules = ({ navigation, route }) => {
                         underlayColor=""
                         style={styles.onPress}
                         onPress={async () =>
-                          await deleteModule({
-                            variables: { _id: module._id }, 
-                            refetchQueries: [
-                              { query: GET_ALL_MODULES_SUBJECT },
-                            ],
-                          })
-
-                          // Alert.alert(
-                          //   "Eliminar Unidad",
-                          //   `¿Está seguro que desea eliminar la unidad:
-                          //    "${module.name}"?`,
-                          //   [
-                          //     {
-                          //       text: "Cancelar",
-                          //       style: "cancel",
-                          //     },
-                          //     {
-                          //       text: "OK",
-                          //       onPress: async () =>
-                          //         await deleteModule({
-                          //           variables: { _id: module._id }, 
-                          //           refetchQueries: [
-                          //             { query: GET_ALL_MODULES_SUBJECT },
-                          //           ],
-                          //         }),
-                          //     },
-                          //   ]
-                          // )
+                          await Alert.alert(
+                            "Eliminar Unidad",
+                            `¿Está seguro que desea eliminar la unidad: "${module.name}"?`,
+                            [
+                              {
+                                text: "Cancelar",
+                                style: "cancel",
+                              },
+                              {
+                                text: "OK",
+                                onPress: async () =>
+                                  await deleteModule({
+                                    variables: { _id: module._id },
+                                    refetchQueries: [
+                                      { query: GET_ALL_MODULES_SUBJECT },
+                                    ],
+                                  }),
+                              },
+                            ]
+                          )
                         }
                       >
                         <Text style={styles.img}>X</Text>
@@ -176,35 +167,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
-    width: 30,
-    height: 32,
+    width: 38,
+    height: 40,
     justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
   },
   img: {
     color: "white",
@@ -213,7 +178,6 @@ const styles = StyleSheet.create({
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
-    width: 334,
     justifyContent: "space-between",
     display: "flex",
     marginTop: 10,
@@ -222,13 +186,14 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
-    borderRadius: 3,
-    //marginLeft: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 95,
+    minHeight: 40,
+    borderRadius: 7,
   },
   textHigh: {
     color: "white",
   },
 });
 export default TeacherListModules;
-
-

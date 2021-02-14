@@ -6,7 +6,7 @@ import StudentDetail from "../../screens/Teacher/StudentDetail"
 
 
 const Stack = createStackNavigator();
-export default function TechersHomeStack() {
+export default function TechersCoursesStack() {
   return (
     <Stack.Navigator
       screenOptions={{

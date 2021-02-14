@@ -73,7 +73,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
         >
           <TouchableHighlight
             activeOpacity={0.6}
-            underlayColor="ligthgrey"
+            underlayColor=""
             onPress={() =>
               navigation.navigate("SuperAdminAddSubject", {
                 params: data.courses[0]._id,
@@ -94,11 +94,11 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                 return (
                   <View key={subject._id} style={styles.cards}>
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
-                    {console.log(subject)}
                     {subject.teacher ? (
                       <TouchableHighlight
                         style={styles.buttonDel}
                         activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("DeleteTeacherFromSubject", {
                             params: { id: subject._id },
@@ -111,6 +111,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                       <TouchableHighlight
                         style={styles.button}
                         activeOpacity={0.6}
+                        underlayColor=""
                         onPress={() =>
                           navigation.navigate("AddTeacherToSubject", {
                             screen: "AddTeacherToSubject",
@@ -123,6 +124,7 @@ const SuperAdminListSubjects = ({ navigation, route }) => {
                     )}
                     <TouchableHighlight
                       activeOpacity={0.6}
+                      underlayColor=""
                       style={styles.buttonEx}
                       onPress={() =>
                         Alert.alert(
@@ -223,12 +225,18 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     justifyContent: "center",
+    minWidth: 130,
+    minHeight: 40,
+    alignItems: 'center'
   },
   buttonDel: {
     backgroundColor: "#DE2525",
     padding: 7,
     borderRadius: 7,
     justifyContent: "center",
+    minWidth: 130,
+    minHeight: 40,
+    alignItems: 'center'
   },
   buttonEx: {
     backgroundColor: "#DE2525",
@@ -236,7 +244,8 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     alignItems: "center",
     marginTop: 2,
-    width: 30,
+    width: 35,
+    height: 40,
     justifyContent: "center",
   },
   textHigh: {

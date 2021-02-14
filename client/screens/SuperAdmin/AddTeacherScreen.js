@@ -18,7 +18,6 @@ const ADD_TEACHER = gql`
     $lastname: String!
     $email: String!
     $whatsapp: String!
-    $picture: String
     $address: String
   ) {
     createTeacher(
@@ -28,7 +27,6 @@ const ADD_TEACHER = gql`
         lastname: $lastname
         email: $email
         whatsapp: $whatsapp
-        picture: $picture
         address: $address
       }
     ) {
@@ -39,7 +37,6 @@ const ADD_TEACHER = gql`
 
 function AddTeacherScreen({ navigation }) {
   const [teacher, setTeacher] = useState({
-    picture: "",
     name: "",
     lastname: "",
     address: "",
@@ -63,7 +60,6 @@ function AddTeacherScreen({ navigation }) {
     email,
     whatsapp,
     address,
-    picture,
   }) => {
     try {
       await createTeacher({
@@ -74,7 +70,6 @@ function AddTeacherScreen({ navigation }) {
           email,
           whatsapp,
           address,
-          picture,
         },
         refetchQueries: [{ query: GET_ALL_TEACHERS }],
       });
@@ -115,8 +110,6 @@ function AddTeacherScreen({ navigation }) {
             onChangeText={(value) => handleChange("lastname", value)}
           />
 
-          {/* <TextInput style={styles.input} placeholder="Curso" onChangeText={(value) => handleChange('course', value)}/> */}
-
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -136,12 +129,6 @@ function AddTeacherScreen({ navigation }) {
           />
 
           {/* <TextInput style={styles.input} placeholder="Fecha de Nacimiento" onChangeText={(value) => handleChange('birthdate', valuepicture */}
-
-          <TextInput
-            style={styles.input}
-            placeholder="Foto"
-            onChangeText={(value) => handleChange("picture", value)}
-          />
 
           <TextInput
             style={styles.input}

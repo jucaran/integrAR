@@ -5,7 +5,7 @@ import { sendMailWithPassword } from "../mail";
 import Course from "../models/Course";
 
 // Query
-export const allStudents = async (_, args, ctx) => {
+export const allStudents = async (_, args) => {
   if (args._id) {
     return await Student.find({ _id: args._id });
   } else if (args.dni) {
@@ -16,7 +16,7 @@ export const allStudents = async (_, args, ctx) => {
 };
 
 // Mutations
-export const createStudent = async (_, args, ctx) => {
+export const createStudent = async (_, args) => {
   let newStudent = await new Student(args.input).save();
   const CourseId = args.input.course;
 
@@ -50,26 +50,20 @@ export const createStudent = async (_, args, ctx) => {
   return newStudent;
 };
 
-export const editStudent = async (_, args, ctx) => {
-  // return await Student.findByIdAndUpdate(
-  //   args._id,
-  //   { $push: args.input },
-  //   { new: true }
-  // );
-  //TODO: cuando se le agregue un estudiante a un curso, se le agregue ese curso al estudiante puto ese
-
+export const editStudent = async (_, args) => {
   let student = await Student.findById(args._id);
 
   let inputs = args.input;
   for (const key in inputs) {
     key ? (student[key] = inputs[key]) : student[key];
   }
-
-  await student.save();
-
-  return student;
+  return await student.save();
 };
 
 export const deleteStudent = async (_, args, ctx) => {
   return await Student.findByIdAndDelete(args._id);
+};
+
+export const getStudentsWithoutCourse = async (_) => {
+  return await Student.find({ course: { $exists: false } });
 };

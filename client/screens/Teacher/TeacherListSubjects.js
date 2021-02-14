@@ -1,4 +1,4 @@
-import React, { useContext }  from "react";
+import React, { useContext } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { AuthContext } from "../../providers/AuthProvider";
 import {
@@ -22,6 +22,10 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
       subjects {
         _id
         name
+        course {
+          name
+          _id
+        }
       }
     }
   }
@@ -29,7 +33,7 @@ export const GET_ALL_SUBJECTS_TEACHER = gql`
 
 const TeacherListSubjects = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  const { dni } = user
+  const { dni } = user;
   const { data, loading, error } = useQuery(GET_ALL_SUBJECTS_TEACHER, {
     variables: { dni },
   });
@@ -63,22 +67,18 @@ const TeacherListSubjects = ({ navigation }) => {
         >
           {subjects.length ? (
             <Card>
-              <Card.Title>MATERIAS DE {data.teachers[0].name.toUpperCase()}</Card.Title>
+              <Card.Title>
+                MATERIAS DE {data.teachers[0].name.toUpperCase()}
+              </Card.Title>
               <Card.Divider />
               {subjects.map((subject, i) => {
                 return (
                   <View
                     key={subject._id}
-                    style={{
-                      justifyContent: "space-between",
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 20,
-                      marginBottom: 20,
-                      maxWidth: 900,
-                    }}
+                    style={styles.cont}
                   >
                     <Text style={{ fontSize: 18 }}>{subject.name}</Text>
+                    <Text style={{ fontSize: 16 }}>{subject.course?.name}</Text>
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
@@ -86,7 +86,7 @@ const TeacherListSubjects = ({ navigation }) => {
                       onPress={() =>
                         navigation.navigate("TeacherListModules", {
                           screen: "TeacherListModules",
-                          params: { _id: subject._id },
+                          params: { _id: subject._id, courseId: subject.course._id },
                         })
                       }
                     >
@@ -109,71 +109,23 @@ const TeacherListSubjects = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   cont: {
-    flex: 1,
-    padding: 5,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  touchText: {
-    marginTop: 5,
-    marginBottom: 15,
-    // fontFamily: "roboto",
-    fontSize: 16,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
-  touch: {
-    justifyContent: "flex-start",
-    // marginLeft: 12,
-  },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  img: {
-    color: "white",
-    fontSize: 15,
-  },
-  cardIn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    //width: 334,
+      justifyContent: "space-between",
+      alignItems: 'center',
+      display: "flex",
+      flexDirection: "row",
+      marginTop: 20,
+      marginBottom: 20,
+      maxWidth: 900,
   },
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
     borderRadius: 3,
-  },
-  buttonDel: {
-    backgroundColor: "red",
-    padding: 5,
-    borderRadius: 3,
-  },
-  buttonEx: {
-    backgroundColor: "#2290CD",
-    padding: 7,
-    borderRadius: 3,
-    width: 24,
+    minWidth: 95,
+    minHeight: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 7
   },
   textHigh: {
     color: "white",

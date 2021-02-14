@@ -7,9 +7,11 @@ import {
   ScrollView,
   Button,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { useMutation, gql } from "@apollo/client";
 import { GET_ALL_MODULES_SUBJECT } from "./TeacherListModules"
+import CenterView from "../../utils/CenterView"
 
 
 
@@ -26,8 +28,8 @@ const ADD_MODULE = gql`
 `
 
 function AddModuleToSubject({ navigation, route }) {
-  const { _id } = route.params.params;
-  const [createModule, {error}] = useMutation(ADD_MODULE);
+  const { _id } = route.params;
+  const [createModule, {error, loading, data}] = useMutation(ADD_MODULE);
   const [unit, setUnit] = useState({
     name: "",
   });
@@ -45,7 +47,7 @@ function AddModuleToSubject({ navigation, route }) {
         variables: {
           input:{
             name,
-            subject:_id
+            subject: _id
           }
         },
         refetchQueries: [{ query: GET_ALL_MODULES_SUBJECT }]
@@ -70,6 +72,15 @@ function AddModuleToSubject({ navigation, route }) {
   if (error) {
     console.log(error);
     return <View><Text>{JSON.stringify(error)}</Text></View>;
+  }
+
+  if (loading) {
+    return (
+      <CenterView>
+        <ActivityIndicator size="large" color="#2290CD" />
+        <Text>Cargando...</Text>
+      </CenterView>
+    );
   }
 
   return (

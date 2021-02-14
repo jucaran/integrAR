@@ -19,8 +19,7 @@ export const GET_CLASS_BY_ID = gql`
 `;
 
 const TeacherClassDetails = ({ navigation, route }) => {
-  console.log("Ruta classDetails: ", route);
-  const { _id: _id } = route.params;
+  const { _id } = route.params;
   const { data, loading, error } = useQuery(GET_CLASS_BY_ID, {
     variables: { _id },
   });
@@ -43,7 +42,7 @@ const TeacherClassDetails = ({ navigation, route }) => {
   }
 
   if (data) {
-    const clase = data.classes[0]
+    const clase = data.classes[0];
 
     return (
       <View style={styles.cont}>
@@ -51,16 +50,22 @@ const TeacherClassDetails = ({ navigation, route }) => {
         <TouchableHighlight
           style={styles.button}
           activeOpacity={0.6}
-          onPress={() => navigation.navigate("FilesFromClass", {params: {_id: clase._id}})}
+          underlayColor=""
+          onPress={() =>
+            navigation.navigate("FilesFromClass", { _id: clase._id })
+          }
         >
-          <Text  style={styles.buttonText}>Archivos</Text>
+          <Text style={styles.buttonText}>Archivos</Text>
         </TouchableHighlight>
         <TouchableHighlight
           activeOpacity={0.6}
+          underlayColor=""
           style={styles.button}
-          onPress={() => navigation.navigate("HomeworkFromClass", {params: {_id: clase._id}})}
+          onPress={() =>
+            navigation.navigate("HomeworkFromClass", { _id: clase._id })
+          }
         >
-          <Text  style={styles.buttonText}>Tareas</Text>
+          <Text style={styles.buttonText}>Tareas</Text>
         </TouchableHighlight>
       </View>
     );

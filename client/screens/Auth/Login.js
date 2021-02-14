@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView
 } from "react-native";
 import CenterView from "../../utils/CenterView";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -102,11 +103,17 @@ const LoginScreen = ({ navigation }) => {
   if (!data || data?.login?.error.password || data?.login?.error.dni) {
     const error = data?.login ? data.login.error : undefined;
     return (
+      //<ScrollView>
       <CenterView>
         <Image
           source={require("../../assets/login_splash.png")}
           style={styles.landingImg}
         />
+        <Image
+          source={require("../../assets/title.png")}
+          style={styles.title}
+        />
+        
         <Text style={{ color: "red" }}>
           {error?.dni && "No encontramos un usuario asociado a ese DNI"}
         </Text>
@@ -149,6 +156,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Button title="Ingresar" onPress={handleSubmit} />
       </CenterView>
+      //</ScrollView>
     );
   }
 
@@ -164,7 +172,7 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   landingImg: {
-    marginBottom: 50,
+    marginBottom: 20,
     width: 250,
     height: 250,
   },
@@ -177,6 +185,10 @@ const styles = StyleSheet.create({
   active: {
     borderBottomColor: "#2290CD",
   },
+  title: {
+    width: 150,
+    height: 80,
+  }
 });
 
 export default LoginScreen;

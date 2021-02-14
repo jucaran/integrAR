@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import CenterView from "../../utils/CenterView";
+import { Icon } from "react-native-elements";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { Card } from "react-native-paper";
 
@@ -63,8 +64,8 @@ function SuperAdminListStudents({ navigation }) {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="#E8E8E8"
-              style={{width: 180}}
+              underlayColor=""
+              style={{ width: 180 }}
               onPress={() => navigation.navigate("AddStudent")}
             >
               <Text style={styles.touchText}>AGREGAR ALUMNO</Text>
@@ -73,8 +74,8 @@ function SuperAdminListStudents({ navigation }) {
           <View style={styles.touch}>
             <TouchableHighlight
               activeOpacity={0.6}
-              underlayColor="#E8E8E8"
-              style={{width: 230}}
+              underlayColor=""
+              style={{ width: 230 }}
               onPress={() => navigation.navigate("CreateStudentsCsv")}
             >
               <Text style={styles.touchText2}>AGREGAR ALUMNOS CON CSV</Text>
@@ -85,58 +86,78 @@ function SuperAdminListStudents({ navigation }) {
             renderItem={({ item: { _id, name, lastname, dni, course } }) => {
               return (
                 <Card key={_id} style={styles.card}>
-                      <View style={styles.first}>
-                        <Text style={styles.name}>{`${name} ${lastname}`}</Text>
-                        <TouchableHighlight
-                          activeOpacity={0.6}
-                          style={styles.imgCont}
-                          onPress={() => {
-                            navigation.navigate("EditStudent", {
-                              studentId: _id,
-                            });
-                          }}
-                        >
-                          <Image
-                            source={require("../../assets/edit.png")}
-                            style={styles.img}
-                          />
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                          activeOpacity={0.6}
-                          style={styles.onPress}
-                          onPress={() =>
-                            Alert.alert(
-                              "Eliminar usuario",
-                              `¿Está seguro que desea eliminar al alumno ${name}?`,
-                              [
-                                {
-                                  text: "Cancelar",
-                                  style: "cancel",
-                                },
-                                {
-                                  text: "OK",
-                                  onPress: () =>
-                                    deleteStudent({
-                                      variables: { _id },
-                                      refetchQueries: [{ query: GET_STUDENTS }],
-                                    }),
-                                },
-                              ]
-                            )
-                          }
-                        >
-                          <Text style={styles.img2}>X</Text>
-                        </TouchableHighlight>
-                      </View>
-                      <View style={styles.desc}>
-                        {course?.name ? (
-                          <Text>
-                            DNI: {dni} | Curso: {course.name}
-                          </Text>
-                        ) : (
-                          <Text>DNI: {dni}</Text>
-                        )}
-                      </View>
+                  <View style={styles.first}>
+                    <Text style={styles.name}>{`${name} ${lastname}`}</Text>
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      underlayColor=""
+                      onPress={() => {
+                        navigation.navigate("AdminStudentDetail", {
+                          _id: _id,
+                        });
+                      }}
+                    >
+                      <Icon
+                        name="info"
+                        type="font-awesome"
+                        size={17}
+                        color={`#696969`}
+                        style={styles.img}
+                      />
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      underlayColor=""
+                      style={styles.imgCont}
+                      onPress={() => {
+                        navigation.navigate("EditStudent", {
+                          studentId: _id,
+                        });
+                      }}
+                    >
+                      <Image
+                        source={require("../../assets/edit.png")}
+                        style={styles.img}
+                      />
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      underlayColor=""
+                      style={styles.onPress}
+                      onPress={() =>
+                        Alert.alert(
+                          "Eliminar usuario",
+                          `¿Está seguro que desea eliminar al alumno ${name}?`,
+                          [
+                            {
+                              text: "Cancelar",
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () =>
+                                deleteStudent({
+                                  variables: { _id },
+                                  refetchQueries: [{ query: GET_STUDENTS }],
+                                }),
+                            },
+                          ]
+                        )
+                      }
+                    >
+                      <Text style={styles.img2}>X</Text>
+                    </TouchableHighlight>
+                  </View>
+                  <View style={styles.desc}>
+                    {course?.name ? (
+                      <Text>
+                        DNI: {dni} | Curso: {course.name}
+                      </Text>
+                    ) : (
+                      <Text>DNI: {dni}</Text>
+                    )}
+                  </View>
                 </Card>
               );
             }}
@@ -158,12 +179,12 @@ const styles = StyleSheet.create({
   },
   first: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginRight: 20,
+    justifyContent: "space-between",
+    marginRight: 14,
   },
   card: {
-    width: 360,
-    height: 66,
+    minWidth: 360,
+    minHeight: 70,
     margin: 5,
     alignItems: "flex-start",
     flexDirection: "column",
@@ -174,17 +195,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 25,
   },
-  
+
   img2: {
     color: "white",
     fontSize: 18,
   },
   name: {
     fontSize: 16,
-    width: 280,
-    // fontFamily: "roboto",
+    width: 230,
     color: "#000000",
-    marginLeft: 10,
+    margin: 10,
     fontWeight: "bold",
   },
   desc: {
@@ -193,7 +213,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    // fontFamily: "roboto",
+
     color: "#000000",
     marginLeft: 10,
   },
@@ -218,7 +238,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 25,
+    marginTop: 5,
     width: 30,
     height: 32,
     justifyContent: "center",

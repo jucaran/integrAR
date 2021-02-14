@@ -29,3 +29,19 @@ export const UPLOAD_CLASS_FILE = gql`
     }
   }
 `;
+
+export const UPLOAD_HOMEWORK = gql`
+  mutation UploadHomework($file: Upload!, $classId: ID!) {
+    uploadHomework(file: $file, classId: $classId) {
+      status
+    }
+  }
+`;
+
+export const UPLOAD_DELIVERY = gql`
+  mutation UploadDelivery($file: Upload!, $classId: ID!, $dni: String!) {
+    uploadDelivery(file: $file, classId: $classId, dni: $dni) {
+      status
+    }
+  }
+`;

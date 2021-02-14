@@ -1,6 +1,6 @@
-import React, { useContext }  from "react";
-import { AuthContext } from "../../providers/AuthProvider";
+import React, { useContext } from "react";
 import CenterView from "../../utils/CenterView";
+import { AuthContext } from "../../providers/AuthProvider";
 import { useQuery, gql } from "@apollo/client";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "react-native-paper";
@@ -10,7 +10,6 @@ import {
   StyleSheet,
   TouchableHighlight,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 
 export const GET_ALL_COURSES_TEACHER = gql`
@@ -36,11 +35,10 @@ export const GET_ALL_COURSES_TEACHER = gql`
 
 const TeacherListCourses = ({ navigation }) => {
   const { user } = useContext(AuthContext);
-  const { dni } = user
+  const { dni } = user;
   const { data, loading, error } = useQuery(GET_ALL_COURSES_TEACHER, {
     variables: { dni },
   });
-  // console.log("data: ", data)
 
   if (loading) {
     return (
@@ -60,15 +58,19 @@ const TeacherListCourses = ({ navigation }) => {
   }
 
   if (data) {
-    const courses = data.teachers[0].subjects[0].course; // OPCIÓN DESDE MATERIA 
-    //const courses = data.teachers[0].courses[0]; // OPCIÓN DESDE CURSO
-    // console.log("Dtaaaaa", data)
-    // console.log("Cursos ", courses)
-    // console.log("Cursos largo", courses._typename)
+    if (!data.teachers[0].subjects[0]) {
+      return (
+        <View style={styles.cont}>
+          <CenterView>
+            <Text>No tienes Cursos asignados</Text>
+          </CenterView>
+        </View>
+      );
+    } else {
+      const courses = data.teachers[0].subjects[0].course; 
 
-    return (
-      <View style={styles.cont}>
-        {courses? (
+      return (
+        <View style={styles.cont}>
           <FlatList
             data={[courses]}
             renderItem={({ item }) => {
@@ -92,13 +94,9 @@ const TeacherListCourses = ({ navigation }) => {
             }}
             keyExtractor={({ _id }) => _id}
           />
-        ) : (
-          <CenterView>
-            <Text>No tienes Cursos asignados</Text>
-          </CenterView>
-        )}
-      </View>
-    );
+        </View>
+      );
+    }
   }
 };
 
@@ -106,24 +104,6 @@ const styles = StyleSheet.create({
   cont: {
     flex: 1,
     padding: 5,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  touchText: {
-    marginTop: 5,
-    marginBottom: 15,
-    // fontFamily: "roboto",
-    fontSize: 16,
-    alignItems: "flex-start",
-    color: "#2290CD",
-  },
-  touch: {
-    justifyContent: "flex-start",
-    marginLeft: 12,
   },
   card: {
     margin: 5,
@@ -134,25 +114,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cardSee: {
-    fontSize: 17,
-    padding: 10,
-    color: "white",
-  },
   cardText: {
     fontSize: 20,
     padding: 10,
     color: "white",
   },
-  img: {
-    color: "white",
-    fontSize: 15,
-  },
   cardIn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 344,
+    width: 325,
   },
 });
 

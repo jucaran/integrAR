@@ -9,6 +9,7 @@ import {
   createStudent,
   editStudent,
   deleteStudent,
+  getStudentsWithoutCourse,
 } from "./student";
 import { allCourses, createCourse, editCourse, deleteCourse } from "./course";
 import { allGrades, createGrade, editGrade, deleteGrade } from "./grade";
@@ -30,10 +31,16 @@ import {
 import { getModules, createModule, editModule, deleteModule } from "./module";
 import {
   getClasses,
-  uploadClassFile,
   createClass,
   editClass,
   deleteClass,
+  uploadClassFile,
+  deleteClassFile,
+  uploadDelivery,
+  deleteDelivery,
+  uploadHomework,
+  deleteHomework,
+  editCorrectionFromClass,
 } from "./class";
 import { createStudentsWithCsv, createTeachersWithCsv } from "./files";
 
@@ -76,6 +83,7 @@ export default {
     editStudent,
     deleteStudent,
     createStudentsWithCsv,
+    getStudentsWithoutCourse,
 
     // GRADOS
     createGrade,
@@ -102,5 +110,11 @@ export default {
     editClass,
     deleteClass,
     uploadClassFile,
+    deleteClassFile,
+    uploadDelivery,
+    deleteDelivery,
+    uploadHomework,
+    deleteHomework,
+    editCorrectionFromClass,
   },
 };

@@ -21,30 +21,31 @@ export const GET_ALL_CLASSES_MODULES = gql`
       classes {
         _id
         name
-      } 
+      }
     }
   }
 `;
 const DELETE_CLASS = gql`
   mutation DeleteClass($_id: ID) {
     deleteClass(_id: $_id) {
+      _id
       name
     }
   }
 `;
 
-
 const TeacherListClasses = ({ navigation, route }) => {
-  console.log("Data ruta ", route);
-
-  const _id = route.params.params.id; // aca llega id de subjects
+  const { _id, courseId } = route.params;
   const { data, loading, error } = useQuery(GET_ALL_CLASSES_MODULES, {
     variables: { _id },
   });
 
-  const [deleteClass, mutationData] = useMutation(DELETE_CLASS);
+  const [
+    deleteClass,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_CLASS);
 
-  if (loading || mutationData.loading) {
+  if (loading || mutationLoading) {
     return (
       <CenterView>
         <ActivityIndicator size="large" color="#2290CD" />
@@ -53,7 +54,7 @@ const TeacherListClasses = ({ navigation, route }) => {
     );
   }
 
-  if (error) {
+  if (error || mutationError) {
     return (
       <CenterView>
         <Text>ERROR</Text>
@@ -62,8 +63,7 @@ const TeacherListClasses = ({ navigation, route }) => {
   }
 
   if (data) {
-    // console.log('soy data',data)
-    const  classes  = data.modules[0];
+    const classes = data.modules[0];
 
     return (
       <ScrollView>
@@ -72,7 +72,7 @@ const TeacherListClasses = ({ navigation, route }) => {
             style={styles.touch}
             activeOpacity={0.6}
             underlayColor=""
-            onPress={() => navigation.navigate("AddClassToModule", {params: { id:_id}})}
+            onPress={() => navigation.navigate("AddClassToModule", { id: _id })}
           >
             <Text style={styles.touchText}>Agregar Clase</Text>
           </TouchableHighlight>
@@ -88,11 +88,11 @@ const TeacherListClasses = ({ navigation, route }) => {
                     <TouchableHighlight
                       style={styles.button}
                       activeOpacity={0.6}
+                      underlayColor=""
                       onPress={() =>
-                        navigation.navigate("ClassDetail", {
-                          screen: "ClassDetail",
-                          params: { id: clase._id },
-                        })
+                        navigation.navigate("ClassDetail",
+                          { _id: clase._id, courseId }
+                        )
                       }
                     >
                       <Text style={styles.textHigh}>Detalle</Text>
@@ -100,11 +100,12 @@ const TeacherListClasses = ({ navigation, route }) => {
                     <View>
                       <TouchableHighlight
                         activeOpacity={0.6}
+                        underlayColor=""
                         style={styles.onPress}
-                        onPress={() =>
-                          Alert.alert(
+                        onPress={async () =>
+                          await Alert.alert(
                             "Eliminar Clase",
-                            `¿Está seguro que desea eliminar la clase ${clase.name}?`,
+                            `¿Está seguro que desea eliminar la clase: ${clase.name}?`,
                             [
                               {
                                 text: "Cancelar",
@@ -116,7 +117,7 @@ const TeacherListClasses = ({ navigation, route }) => {
                                   deleteClass({
                                     variables: { _id: clase._id },
                                     refetchQueries: [
-                                      { query: GET_ALL_CLASSESS_MODULES },
+                                      { query: GET_ALL_CLASSES_MODULES },
                                     ],
                                   }),
                               },
@@ -164,35 +165,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 7,
     alignItems: "center",
-    marginRight: 15,
-    width: 30,
-    height: 30,
+    width: 38,
+    height: 40,
     justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  card: {
-    margin: 5,
-    backgroundColor: "#00aadd",
-    borderRadius: 10,
-    padding: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
-  },
-  cardText: {
-    fontSize: 20,
-    padding: 10,
-    color: "white",
   },
   img: {
     color: "white",
@@ -202,29 +177,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    width: 334,
     justifyContent: "space-between",
     display: "flex",
-    
-    // marginTop: 20,
-    // marginBottom: 20,
-    // maxWidth: 900,
+    margin: 10,
   },
   button: {
     backgroundColor: "#2290CD",
     padding: 5,
-    borderRadius: 3,
-  },
-  buttonDel: {
-    backgroundColor: "red",
-    padding: 5,
-    borderRadius: 3,
-  },
-  buttonEx: {
-    backgroundColor: "#2290CD",
-    padding: 7,
-    borderRadius: 3,
-    width: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 95,
+    minHeight: 40,
+    borderRadius: 7
   },
   textHigh: {
     color: "white",
