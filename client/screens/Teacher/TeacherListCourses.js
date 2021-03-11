@@ -8,7 +8,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
   ActivityIndicator,
 } from "react-native";
 
@@ -67,12 +66,14 @@ const TeacherListCourses = ({ navigation }) => {
         </View>
       );
     } else {
-      const courses = data.teachers[0].subjects[0].course; 
-
+      const allCourses = data.teachers[0].subjects.map(subject =>  subject.course)
+      const courses = allCourses.filter((course, index)=>{
+        return allCourses.indexOf(course) === index;
+      })
       return (
         <View style={styles.cont}>
           <FlatList
-            data={[courses]}
+            data={courses}
             renderItem={({ item }) => {
               return (
                 <Card key={item._id} style={styles.card}>
